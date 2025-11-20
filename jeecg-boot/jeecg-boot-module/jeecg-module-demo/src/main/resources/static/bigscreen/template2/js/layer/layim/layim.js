@@ -1,0 +1,630 @@
+/*
+
+ @Name: layui WebIM 1.0.0
+ @Author：virtuous heart
+ @Date: 2014-04-25
+ @Blog: http://sentsin.com
+
+ */
+
+;!function(win, undefined){
+
+var config = {
+    msgurl: 'mailbox.html?msg=',
+    chatlogurl: 'mailbox.html?user=',
+    aniTime: 200,
+    right: -232,
+    api: {
+        friend: 'js/plugins/layer/layim/data/friend.json', //Friends list interface
+        group: 'js/plugins/layer/layim/data/group.json', //Group list interface
+        chatlog: 'js/plugins/layer/layim/data/chatlog.json', //Chat history interface
+        groups: 'js/plugins/layer/layim/data/groups.json', //Group member interface
+        sendurl: '' //Send message interface
+    },
+    user: { //Current user information
+        name: 'tourists',
+        face: 'img/a1.jpg'
+    },
+
+    //Automatic reply with built-in copy，Database configuration can also be read dynamically
+    autoReplay: [
+        'Hello，I'm not here for something right now，Will contact you later。',
+        'Did you pronounce it correctly?？',
+        'in bath，do not disturb，Peeping please buy tickets，individual forty，20% off for groups，Booking phone number：I don’t tell ordinary people！',
+        'Hello，I am the master’s beautiful secretary，If you have anything, just tell me，I will tell him when he comes back.。',
+        'I'm grinding，Can't greet you，Because our donkey went to the Animal Welfare Association to sue me.，Say I deprive her of her right to take maternity leave。',
+        '<（@￣︶￣@）>',
+        'you want to talk to me？do you really want to talk to me？Are you sure you want to say it?？Do you have to say it?？Then you say it，This is an automatic reply。',
+        'The owner is powering on self-test，I took advantage of the opportunity to go out and cool down with my keyboard and mouse.，I am his refrigerator，I type slowly，Speak slowly，Don't worry……',
+        '(*^__^*) whee，是virtuous heart吗？'
+    ],
+
+
+    chating: {},
+    hosts: (function(){
+        var dk = location.href.match(/\:\d+/);
+        dk = dk ? dk[0] : '';
+        return 'http://' + document.domain + dk + '/';
+    })(),
+    json: function(url, data, callback, error){
+        return $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            dataType: 'json',
+            success: callback,
+            error: error
+        });
+    },
+    stopMP: function(e){
+        e ? e.stopPropagation() : e.cancelBubble = true;
+    }
+}, dom = [$(window), $(document), $('html'), $('body')], xxim = {};
+
+//Main interfacetab
+xxim.tabs = function(index){
+    var node = xxim.node;
+    node.tabs.eq(index).addClass('xxim_tabnow').siblings().removeClass('xxim_tabnow');
+    node.list.eq(index).show().siblings('.xxim_list').hide();
+    if(node.list.eq(index).find('li').length === 0){
+        xxim.getDates(index);
+    }
+};
+
+//node
+xxim.renode = function(){
+    var node = xxim.node = {
+        tabs: $('#xxim_tabs>span'),
+        list: $('.xxim_list'),
+        online: $('.xxim_online'),
+        setonline: $('.xxim_setonline'),
+        onlinetex: $('#xxim_onlinetex'),
+        xximon: $('#xxim_on'),
+        layimFooter: $('#xxim_bottom'),
+        xximHide: $('#xxim_hide'),
+        xximSearch: $('#xxim_searchkey'),
+        searchMian: $('#xxim_searchmain'),
+        closeSearch: $('#xxim_closesearch'),
+        layimMin: $('#layim_min')
+    };
+};
+
+//Main interface缩放
+xxim.expend = function(){
+    var node = xxim.node;
+    if(xxim.layimNode.attr('state') !== '1'){
+        xxim.layimNode.stop().animate({right: config.right}, config.aniTime, function(){
+            node.xximon.addClass('xxim_off');
+            try{
+                localStorage.layimState = 1;
+            }catch(e){}
+            xxim.layimNode.attr({state: 1});
+            node.layimFooter.addClass('xxim_expend').stop().animate({marginLeft: config.right}, config.aniTime/2);
+            node.xximHide.addClass('xxim_show');
+        });
+    } else {
+        xxim.layimNode.stop().animate({right: 1}, config.aniTime, function(){
+            node.xximon.removeClass('xxim_off');
+            try{
+                localStorage.layimState = 2;
+            }catch(e){}
+            xxim.layimNode.removeAttr('state');
+            node.layimFooter.removeClass('xxim_expend');
+            node.xximHide.removeClass('xxim_show');
+        });
+        node.layimFooter.stop().animate({marginLeft: 0}, config.aniTime);
+    }
+};
+
+//Initialize window layout
+xxim.layinit = function(){
+    var node = xxim.node;
+
+    //Main interface
+    try{
+        /*
+        if(!localStorage.layimState){
+            config.aniTime = 0;
+            localStorage.layimState = 1;
+        }
+        */
+        if(localStorage.layimState === '1'){
+            xxim.layimNode.attr({state: 1}).css({right: config.right});
+            node.xximon.addClass('xxim_off');
+            node.layimFooter.addClass('xxim_expend').css({marginLeft: config.right});
+            node.xximHide.addClass('xxim_show');
+        }
+    }catch(e){
+        //layer.msg(e.message, 5, -1);
+    }
+};
+
+//chat window
+xxim.popchat = function(param){
+    var node = xxim.node, log = {};
+
+    log.success = function(layero){
+        layer.setMove();
+
+        xxim.chatbox = layero.find('#layim_chatbox');
+        log.chatlist = xxim.chatbox.find('.layim_chatmore>ul');
+
+        log.chatlist.html('<li data-id="'+ param.id +'" type="'+ param.type +'"  id="layim_user'+ param.type + param.id +'"><span>'+ param.name +'</span><em>×</em></li>')
+        xxim.tabchat(param, xxim.chatbox);
+
+        //Minimize chat window
+        xxim.chatbox.find('.layer_setmin').on('click', function(){
+            var indexs = layero.attr('times');
+            layero.hide();
+            node.layimMin.text(xxim.nowchat.name).show();
+        });
+
+        //close window
+        xxim.chatbox.find('.layim_close').on('click', function(){
+            var indexs = layero.attr('times');
+            layer.close(indexs);
+            xxim.chatbox = null;
+            config.chating = {};
+            config.chatings = 0;
+        });
+
+        //Close a chat
+        log.chatlist.on('mouseenter', 'li', function(){
+            $(this).find('em').show();
+        }).on('mouseleave', 'li', function(){
+            $(this).find('em').hide();
+        });
+        log.chatlist.on('click', 'li em', function(e){
+            var parents = $(this).parent(), dataType = parents.attr('type');
+            var dataId = parents.attr('data-id'), index = parents.index();
+            var chatlist = log.chatlist.find('li'), indexs;
+
+            config.stopMP(e);
+
+            delete config.chating[dataType + dataId];
+            config.chatings--;
+
+            parents.remove();
+            $('#layim_area'+ dataType + dataId).remove();
+            if(dataType === 'group'){
+                $('#layim_group'+ dataType + dataId).remove();
+            }
+
+            if(parents.hasClass('layim_chatnow')){
+                if(index === config.chatings){
+                    indexs = index - 1;
+                } else {
+                    indexs = index + 1;
+                }
+                xxim.tabchat(config.chating[chatlist.eq(indexs).attr('type') + chatlist.eq(indexs).attr('data-id')]);
+            }
+
+            if(log.chatlist.find('li').length === 1){
+                log.chatlist.parent().hide();
+            }
+        });
+
+        //chat tab
+        log.chatlist.on('click', 'li', function(){
+            var othis = $(this), dataType = othis.attr('type'), dataId = othis.attr('data-id');
+            xxim.tabchat(config.chating[dataType + dataId]);
+        });
+
+        //Send hotkey toggle
+        log.sendType = $('#layim_sendtype'), log.sendTypes = log.sendType.find('span');
+        $('#layim_enter').on('click', function(e){
+            config.stopMP(e);
+            log.sendType.show();
+        });
+        log.sendTypes.on('click', function(){
+            log.sendTypes.find('i').text('')
+            $(this).find('i').text('√');
+        });
+
+        xxim.transmit();
+    };
+
+    log.html = '<div class="layim_chatbox" id="layim_chatbox">'
+            +'<h6>'
+            +'<span class="layim_move"></span>'
+            +'    <a href="'+ param.url +'" class="layim_face" target="_blank"><img src="'+ param.face +'" ></a>'
+            +'    <a href="'+ param.url +'" class="layim_names" target="_blank">'+ param.name +'</a>'
+            +'    <span class="layim_rightbtn">'
+            +'        <i class="layer_setmin">—</i>'
+            +'        <i class="layim_close">&times;</i>'
+            +'    </span>'
+            +'</h6>'
+            +'<div class="layim_chatmore" id="layim_chatmore">'
+            +'    <ul class="layim_chatlist"></ul>'
+            +'</div>'
+            +'<div class="layim_groups" id="layim_groups"></div>'
+            +'<div class="layim_chat">'
+            +'    <div class="layim_chatarea" id="layim_chatarea">'
+            +'        <ul class="layim_chatview layim_chatthis"  id="layim_area'+ param.type + param.id +'"></ul>'
+            +'    </div>'
+            +'    <div class="layim_tool">'
+            +'        <i class="layim_addface fa fa-meh-o" title="Send emoticon"></i>'
+            +'        <a href="javascript:;"><i class="layim_addimage fa fa-picture-o" title="Upload pictures"></i></a>'
+            +'        <a href="javascript:;"><i class="layim_addfile fa fa-paperclip" title="Upload attachment"></i></a>'
+            +'        <a href="" target="_blank" class="layim_seechatlog"><i class="fa fa-comment-o"></i>Chat history</a>'
+            +'    </div>'
+            +'    <textarea class="layim_write" id="layim_write"></textarea>'
+            +'    <div class="layim_send">'
+            +'        <div class="layim_sendbtn" id="layim_sendbtn">send<span class="layim_enter" id="layim_enter"><em class="layim_zero"></em></span></div>'
+            +'        <div class="layim_sendtype" id="layim_sendtype">'
+            +'            <span><i>√</i>according toEnter键send</span>'
+            +'            <span><i></i>according toCtrl+Enter键send</span>'
+            +'        </div>'
+            +'    </div>'
+            +'</div>'
+            +'</div>';
+
+    if(config.chatings < 1){
+        $.layer({
+            type: 1,
+            border: [0],
+            title: false,
+            shade: [0],
+            area: ['620px', '493px'],
+            move: '.layim_chatbox .layim_move',
+            moveType: 1,
+            closeBtn: false,
+            offset: [(($(window).height() - 493)/2)+'px', ''],
+            page: {
+                html: log.html
+            }, success: function(layero){
+                log.success(layero);
+            }
+        })
+    } else {
+        log.chatmore = xxim.chatbox.find('#layim_chatmore');
+        log.chatarea = xxim.chatbox.find('#layim_chatarea');
+
+        log.chatmore.show();
+
+        log.chatmore.find('ul>li').removeClass('layim_chatnow');
+        log.chatmore.find('ul').append('<li data-id="'+ param.id +'" type="'+ param.type +'" id="layim_user'+ param.type + param.id +'" class="layim_chatnow"><span>'+ param.name +'</span><em>×</em></li>');
+
+        log.chatarea.find('.layim_chatview').removeClass('layim_chatthis');
+        log.chatarea.append('<ul class="layim_chatview layim_chatthis" id="layim_area'+ param.type + param.id +'"></ul>');
+
+        xxim.tabchat(param);
+    }
+
+    //group
+    log.chatgroup = xxim.chatbox.find('#layim_groups');
+    if(param.type === 'group'){
+        log.chatgroup.find('ul').removeClass('layim_groupthis');
+        log.chatgroup.append('<ul class="layim_groupthis" id="layim_group'+ param.type + param.id +'"></ul>');
+        xxim.getGroups(param);
+    }
+    //Click on a group member to switch chat windows
+    log.chatgroup.on('click', 'ul>li', function(){
+        xxim.popchatbox($(this));
+    });
+};
+
+//Target a chat queue
+xxim.tabchat = function(param){
+    var node = xxim.node, log = {}, keys = param.type + param.id;
+    xxim.nowchat = param;
+
+    xxim.chatbox.find('#layim_user'+ keys).addClass('layim_chatnow').siblings().removeClass('layim_chatnow');
+    xxim.chatbox.find('#layim_area'+ keys).addClass('layim_chatthis').siblings().removeClass('layim_chatthis');
+    xxim.chatbox.find('#layim_group'+ keys).addClass('layim_groupthis').siblings().removeClass('layim_groupthis');
+
+    xxim.chatbox.find('.layim_face>img').attr('src', param.face);
+    xxim.chatbox.find('.layim_face, .layim_names').attr('href', param.href);
+    xxim.chatbox.find('.layim_names').text(param.name);
+
+    xxim.chatbox.find('.layim_seechatlog').attr('href', config.chatlogurl + param.id);
+
+    log.groups = xxim.chatbox.find('.layim_groups');
+    if(param.type === 'group'){
+        log.groups.show();
+    } else {
+        log.groups.hide();
+    }
+
+    $('#layim_write').focus();
+
+};
+
+//Pop up chat window
+xxim.popchatbox = function(othis){
+    var node = xxim.node, dataId = othis.attr('data-id'), param = {
+        id: dataId, //userID
+        type: othis.attr('type'),
+        name: othis.find('.xxim_onename').text(),  //user名
+        face: othis.find('.xxim_oneface').attr('src'),  //user头像
+        href: 'profile.html?user=' + dataId //user主页
+    }, key = param.type + dataId;
+    if(!config.chating[key]){
+        xxim.popchat(param);
+        config.chatings++;
+    } else {
+        xxim.tabchat(param);
+    }
+    config.chating[key] = param;
+
+    var chatbox = $('#layim_chatbox');
+    if(chatbox[0]){
+        node.layimMin.hide();
+        chatbox.parents('.xubox_layer').show();
+    }
+};
+
+//Request group members
+xxim.getGroups = function(param){
+    var keys = param.type + param.id, str = '',
+    groupss = xxim.chatbox.find('#layim_group'+ keys);
+    groupss.addClass('loading');
+    config.json(config.api.groups, {}, function(datas){
+        if(datas.status === 1){
+            var ii = 0, lens = datas.data.length;
+            if(lens > 0){
+                for(; ii < lens; ii++){
+                    str += '<li data-id="'+ datas.data[ii].id +'" type="one"><img src="'+ datas.data[ii].face +'" class="xxim_oneface"><span class="xxim_onename">'+ datas.data[ii].name +'</span></li>';
+                }
+            } else {
+                str = '<li class="layim_errors">No group members</li>';
+            }
+
+        } else {
+            str = '<li class="layim_errors">'+ datas.msg +'</li>';
+        }
+        groupss.removeClass('loading');
+        groupss.html(str);
+    }, function(){
+        groupss.removeClass('loading');
+        groupss.html('<li class="layim_errors">Request exception</li>');
+    });
+};
+
+//message transmission
+xxim.transmit = function(){
+    var node = xxim.node, log = {};
+    node.sendbtn = $('#layim_sendbtn');
+    node.imwrite = $('#layim_write');
+
+    //send
+    log.send = function(){
+        var data = {
+            content: node.imwrite.val(),
+            id: xxim.nowchat.id,
+            sign_key: '', //Key
+            _: +new Date
+        };
+
+        if(data.content.replace(/\s/g, '') === ''){
+            layer.tips('Say something！', '#layim_write', 2);
+            node.imwrite.focus();
+        } else {
+            //All here are simulations
+            var keys = xxim.nowchat.type + xxim.nowchat.id;
+
+            //Chat template
+            log.html = function(param, type){
+                return '<li class="'+ (type === 'me' ? 'layim_chateme' : '') +'">'
+                    +'<div class="layim_chatuser">'
+                        + function(){
+                            if(type === 'me'){
+                                return '<span class="layim_chattime">'+ param.time +'</span>'
+                                       +'<span class="layim_chatname">'+ param.name +'</span>'
+                                       +'<img src="'+ param.face +'" >';
+                            } else {
+                                return '<img src="'+ param.face +'" >'
+                                       +'<span class="layim_chatname">'+ param.name +'</span>'
+                                       +'<span class="layim_chattime">'+ param.time +'</span>';
+                            }
+                        }()
+                    +'</div>'
+                    +'<div class="layim_chatsay">'+ param.content +'<em class="layim_zero"></em></div>'
+                +'</li>';
+            };
+
+            log.imarea = xxim.chatbox.find('#layim_area'+ keys);
+
+            log.imarea.append(log.html({
+                time: '2014-04-26 0:37',
+                name: config.user.name,
+                face: config.user.face,
+                content: data.content
+            }, 'me'));
+            node.imwrite.val('').focus();
+            log.imarea.scrollTop(log.imarea[0].scrollHeight);
+
+            setTimeout(function(){
+                log.imarea.append(log.html({
+                    time: '2014-04-26 0:38',
+                    name: xxim.nowchat.name,
+                    face: xxim.nowchat.face,
+                    content: config.autoReplay[(Math.random()*config.autoReplay.length) | 0]
+                }));
+                log.imarea.scrollTop(log.imarea[0].scrollHeight);
+            }, 500);
+
+            /*
+            that.json(config.api.sendurl, data, function(datas){
+
+            });
+            */
+        }
+
+    };
+    node.sendbtn.on('click', log.send);
+
+    node.imwrite.keyup(function(e){
+        if(e.keyCode === 13){
+            log.send();
+        }
+    });
+};
+
+//event
+xxim.event = function(){
+    var node = xxim.node;
+
+    //Main interfacetab
+    node.tabs.eq(0).addClass('xxim_tabnow');
+    node.tabs.on('click', function(){
+        var othis = $(this), index = othis.index();
+        xxim.tabs(index);
+    });
+
+    //List expansion
+    node.list.on('click', 'h5', function(){
+        var othis = $(this), chat = othis.siblings('.xxim_chatlist'), parentss = othis.find("i");
+        if(parentss.hasClass('fa-caret-down')){
+            chat.hide();
+            parentss.attr('class','fa fa-caret-right');
+        } else {
+            chat.show();
+            parentss.attr('class','fa fa-caret-down');
+        }
+    });
+
+    //Set up online invisibility
+    node.online.on('click', function(e){
+        config.stopMP(e);
+        node.setonline.show();
+    });
+    node.setonline.find('span').on('click', function(e){
+        var index = $(this).index();
+        config.stopMP(e);
+        if(index === 0){
+            node.onlinetex.html('online');
+            node.online.removeClass('xxim_offline');
+        } else if(index === 1) {
+            node.onlinetex.html('Stealth');
+            node.online.addClass('xxim_offline');
+        }
+        node.setonline.hide();
+    });
+
+    node.xximon.on('click', xxim.expend);
+    node.xximHide.on('click', xxim.expend);
+
+    //search
+    node.xximSearch.keyup(function(){
+        var val = $(this).val().replace(/\s/g, '');
+        if(val !== ''){
+            node.searchMian.show();
+            node.closeSearch.show();
+            //此处的searchajaxrefer toxxim.getDates
+            node.list.eq(3).html('<li class="xxim_errormsg">No matching results</li>');
+        } else {
+            node.searchMian.hide();
+            node.closeSearch.hide();
+        }
+    });
+    node.closeSearch.on('click', function(){
+        $(this).hide();
+        node.searchMian.hide();
+        node.xximSearch.val('').focus();
+    });
+
+    //Pop up chat window
+    config.chatings = 0;
+    node.list.on('click', '.xxim_childnode', function(){
+        var othis = $(this);
+        xxim.popchatbox(othis);
+    });
+
+    //Click on the minimize bar
+    node.layimMin.on('click', function(){
+        $(this).hide();
+        $('#layim_chatbox').parents('.xubox_layer').show();
+    });
+
+
+    //documentevent
+    dom[1].on('click', function(){
+        node.setonline.hide();
+        $('#layim_sendtype').hide();
+    });
+};
+
+//Request list data
+xxim.getDates = function(index){
+    var api = [config.api.friend, config.api.group, config.api.chatlog],
+        node = xxim.node, myf = node.list.eq(index);
+    myf.addClass('loading');
+    config.json(api[index], {}, function(datas){
+        if(datas.status === 1){
+            var i = 0, myflen = datas.data.length, str = '', item;
+            if(myflen > 1){
+                if(index !== 2){
+                    for(; i < myflen; i++){
+                        str += '<li data-id="'+ datas.data[i].id +'" class="xxim_parentnode">'
+                            +'<h5><i class="fa fa-caret-right"></i><span class="xxim_parentname">'+ datas.data[i].name +'</span><em class="xxim_nums">（'+ datas.data[i].nums +'）</em></h5>'
+                            +'<ul class="xxim_chatlist">';
+                        item = datas.data[i].item;
+                        for(var j = 0; j < item.length; j++){
+                            str += '<li data-id="'+ item[j].id +'" class="xxim_childnode" type="'+ (index === 0 ? 'one' : 'group') +'"><img src="'+ item[j].face +'" class="xxim_oneface"><span class="xxim_onename">'+ item[j].name +'</span></li>';
+                        }
+                        str += '</ul></li>';
+                    }
+                } else {
+                    str += '<li class="xxim_liston">'
+                        +'<ul class="xxim_chatlist">';
+                    for(; i < myflen; i++){
+                        str += '<li data-id="'+ datas.data[i].id +'" class="xxim_childnode" type="one"><img src="'+ datas.data[i].face +'"  class="xxim_oneface"><span  class="xxim_onename">'+ datas.data[i].name +'</span><em class="xxim_time">'+ datas.data[i].time +'</em></li>';
+                    }
+                    str += '</ul></li>';
+                }
+                myf.html(str);
+            } else {
+                myf.html('<li class="xxim_errormsg">no data</li>');
+            }
+            myf.removeClass('loading');
+        } else {
+            myf.html('<li class="xxim_errormsg">'+ datas.msg +'</li>');
+        }
+    }, function(){
+        myf.html('<li class="xxim_errormsg">Request failed</li>');
+        myf.removeClass('loading');
+    });
+};
+
+//Render skeleton
+xxim.view = (function(){
+    var xximNode = xxim.layimNode = $('<div id="xximmm" class="xxim_main">'
+            +'<div class="xxim_top" id="xxim_top">'
+            +'  <div class="xxim_search"><i class="fa fa-search"></i><input id="xxim_searchkey" /><span id="xxim_closesearch">×</span></div>'
+            +'  <div class="xxim_tabs" id="xxim_tabs"><span class="xxim_tabfriend" title="friends"><i class="fa fa-user"></i></span><span class="xxim_tabgroup" title="group"><i class="fa fa-users"></i></span><span class="xxim_latechat"  title="recent chat"><i class="fa fa-clock-o"></i></span></div>'
+            +'  <ul class="xxim_list" style="display:block"></ul>'
+            +'  <ul class="xxim_list"></ul>'
+            +'  <ul class="xxim_list"></ul>'
+            +'  <ul class="xxim_list xxim_searchmain" id="xxim_searchmain"></ul>'
+            +'</div>'
+            +'<ul class="xxim_bottom" id="xxim_bottom">'
+            +'<li class="xxim_online" id="xxim_online">'
+                +'<i class="xxim_nowstate fa fa-check-circle"></i><span id="xxim_onlinetex">online</span>'
+                +'<div class="xxim_setonline">'
+                    +'<span><i class="fa fa-check-circle"></i>online</span>'
+                    +'<span class="xxim_setoffline"><i class="fa fa-check-circle"></i>Stealth</span>'
+                +'</div>'
+            +'</li>'
+            +'<li class="xxim_mymsg" id="xxim_mymsg" title="my private message"><i class="fa fa-comment"></i><a href="'+ config.msgurl +'" target="_blank"></a></li>'
+            +'<li class="xxim_seter" id="xxim_seter" title="set up">'
+                +'<i class="fa fa-gear"></i>'
+                +'<div>'
+
+                +'</div>'
+            +'</li>'
+            +'<li class="xxim_hide" id="xxim_hide"><i class="fa fa-exchange"></i></li>'
+            +'<li id="xxim_on" class="xxim_icon xxim_on fa fa-ellipsis-v"></li>'
+            +'<div class="layim_min" id="layim_min"></div>'
+        +'</ul>'
+    +'</div>');
+    dom[3].append(xximNode);
+
+    xxim.renode();
+    xxim.getDates(0);
+    xxim.event();
+    xxim.layinit();
+}());
+
+}(window);
+

@@ -1,0 +1,148 @@
+{
+  "data": [
+    {
+      "title": "DeepSeek",
+      "value": "DEEPSEEK",
+      "LLM": [
+        {"label": "deepseek-reasoner", "value": "deepseek-reasoner","descr": "[Official Model] DeepSeek's newly launched reasoning model R1 full version\nGlobally popular.\nSupports 64k context, with 8k maximum reply.","type": "text"},
+        {"label":"deepseek-chat", "value": "deepseek-chat","descr": "The strongest open-source MoE model DeepSeek-V3, the world's first model to compete with GPT-4-Turbo in coding and math capabilities, ranking second globally in multiple coding and math benchmarks;","type": "text"}
+      ],
+      "type": ["LLM"],
+      "baseUrl": "https://api.deepseek.com/v1",
+      "LLMDefaultValue": "deepseek-chat"
+    },
+    {
+      "title": "Ollama",
+      "value": "OLLAMA",
+      "LLM": [
+        {"label": "llama2", "value": "llama2"},
+        {"label": "llama2:13b", "value": "llama2:13b"},
+        {"label": "llama2:70b", "value": "llama2:70b"},
+        {"label": "llama2-chinese:13b", "value": "llama2-chinese:13b"},
+        {"label": "llama3:8b", "value": "llama3:8b"},
+        {"label": "llama3:70b", "value": "llama3:70b"},
+        {"label": "qwen:0.5b", "value": "qwen:0.5b"},
+        {"label": "qwen:1.8b", "value": "qwen:1.8b"},
+        {"label": "qwen:4b", "value": "qwen:4b"},
+        {"label": "qwen:7b", "value": "qwen:7b"},
+        {"label": "qwen:14b", "value": "qwen:14b"},
+        {"label": "qwen:32b", "value": "qwen:32b"},
+        {"label": "qwen:72b", "value": "qwen:72b"},
+        {"label": "qwen:110b", "value": "qwen:110b"},
+        {"label": "qwen2:72b-instruct", "value": "qwen2:72b-instruct"},
+        {"label": "qwen2:57b-a14b-instruct", "value": "qwen2:57b-a14b-instruct"},
+        {"label": "qwen2:7b-instruct", "value": "qwen2:7b-instruct"},
+        {"label": "qwen2.5:72b-instruct", "value": "qwen2.5:72b-instruct"},
+        {"label": "qwen2.5:32b-instruct", "value": "qwen2.5:32b-instruct"},
+        {"label": "qwen2.5:14b-instruct", "value": "qwen2.5:14b-instruct"},
+        {"label": "qwen2.5:7b-instruct", "value": "qwen2.5:7b-instruct"},
+        {"label": "qwen2.5:1.5b-instruct", "value": "qwen2.5:1.5b-instruct"},
+        {"label": "qwen2.5:0.5b-instruct", "value": "qwen2.5:0.5b-instruct"},
+        {"label": "qwen2.5:3b-instruct", "value": "qwen2.5:3b-instruct"},
+        {"label": "phi3", "value": "phi3"}
+      ],
+      "EMBED": [
+        {"label": "nomic-embed-text", "value": "nomic-embed-text"}
+      ],
+      "type": ["LLM", "EMBED"],
+      "baseUrl": "http://localhost:11434",
+      "LLMDefaultValue": "llama2",
+      "EMBEDDefaultValue": "nomic-embed-text"
+    },
+    {
+      "title": "OpenAI",
+      "value": "OPENAI",
+      "LLM": [
+        {"label": "gpt-3.5-turbo", "value": "gpt-3.5-turbo","descr": "Pure official high-speed GPT3.5 series, currently pointing to gpt-35-turbo-0125 model, maximum reply less than 4k.\nStrong comprehensive capabilities, the most widely used text model in the past.", "type": "text"
+        },
+        {"label": "gpt-4", "value": "gpt-4","descr": "Pure official GPT4 series. Knowledge base updated in 2021, moderately priced, with medium parameters, slightly stronger than the gpt-4turbo series.","type": "text"},
+        {"label": "gpt-4o", "value": "gpt-4o","descr": "GPT-4o, is OpenAI's new flagship model, supporting text and image analysis.\n\nIt's a step towards more natural human-computer interaction—it accepts any combination of text and images as input and generates any combination of text and image outputs.","type": "text,image"},
+        {"label": "gpt-4o-mini", "value": "gpt-4o-mini","descr": "GPT-4o mini is currently the most cost-effective small-parameter model, with performance between GPT3.5~GPT4o.\n\nCost is over 60% cheaper than GPT-3.5 Turbo, supporting 50 different languages, used to replace the GPT-3.5 version model.\n\n4o-mini's image analysis price is similar to 4o, if you have image analysis needs, 4o is still somewhat better.\n\nCurrently pointing to gpt-4o-mini-2024-07-18","type": "text,image"},
+        {"label": "gpt-4-turbo", "value": "gpt-4-turbo","descr": "Pure official GPT4 series, supporting text and image analysis, maximum reply 4k, newly added by OpenAI on 2024-4-9, knowledge base updated in December 2023. Improved writing, math, logical reasoning and coding capabilities. Currently pointing to gpt-4-turbo-2024-04-09","type": "text,image"},
+        {"label": "gpt-4-turbo-preview", "value": "gpt-4-turbo-preview","descr": "Pure official GPT4 series, maximum reply 4k, knowledge base updated in April 2023. Currently pointing to gpt-4-0125-preview","type": "text"},
+        {"label": "gpt-3.5-turbo-0125", "value": "gpt-3.5-turbo-0125","descr": "GPT-3.5 model updated by OpenAI on January 25, 2024, maximum reply 4k.\n\nStrong comprehensive capabilities, the most widely used text model in the past.","type": "text"},
+        {"label": "gpt-3.5-turbo-1106", "value": "gpt-3.5-turbo-1106","descr": "GPT-3.5 model updated by OpenAI on November 6, 2023, maximum reply 4k. Belongs to a model that will soon be deprecated.\n\nRecommend using gpt-3.5-turbo or gpt-4o-mini","type": "text"},
+        {"label": "gpt-3.5-turbo-0613", "value": "gpt-3.5-turbo-0613","descr": "After fine-tuning, it can more accurately follow user instructions, generating more concise and targeted output. It can not only be used for text generation, but also integrate with other systems and APIs through function calling capabilities, achieving more complex task automation","type": "text"},
+        {"label": "gpt-4o-2024-05-13", "value": "gpt-4o-2024-05-13","descr": "GPT-4o, is OpenAI's new flagship model, supporting text and image analysis.\n\nIt's a step towards more natural human-computer interaction—it accepts any combination of text and images as input and generates any combination of text and image outputs.\n\nThis model is the first generation 4o model","type": "text,image"},
+        {"label": "gpt-4-turbo-2024-04-09", "value": "gpt-4-turbo-2024-04-09","descr": "Pure official GPT4 series, supporting text and image analysis, maximum reply 4k, newly added by OpenAI on 2024-4-9, improved writing, math, logical reasoning and coding capabilities. Knowledge base updated in December 2023.","type": "text,image"},
+        {"label": "gpt-4-0125-preview", "value": "gpt-4-0125-preview","descr": "Pure official GPT4 series, maximum reply 4k, knowledge base updated in April 2023. Currently the same model as gpt-4-turbo-preview","type": "text"},
+        {"label": "gpt-4-1106-preview", "value": "gpt-4-1106-preview","descr": "Pure official GPT4 series, maximum reply 4k, knowledge base updated in April 2023. Gradually being replaced by new models gpt-4-turbo and gpt-4-turbo-preview.","type": "text"}
+      ],
+      "EMBED": [
+        {"label": "text-embedding-ada-002", "value": "text-embedding-ada-002","descr": "Model for generating text embeddings. Text embedding is the process of converting text into numerical form (usually vectors) so it can be used by machine learning models.","type": "vector,embeddings"},
+        {"label": "text-embedding-3-small", "value": "text-embedding-3-small","descr": "Used to generate text embedding representations, with a smaller network structure and lower computational resource requirements. Although it may not be as precise as the \"large\" version, it is more suitable for resource-constrained environments or tasks requiring faster processing.","type": "vector,embeddings"},
+        {"label": "text-embedding-3-large", "value": "text-embedding-3-large","descr": "Used to generate text embedding representations, converting text to points in high-dimensional space, where the distance between these points can represent the similarity between texts. It has a larger network structure, capable of capturing richer language features, suitable for scenarios requiring high-quality text similarity or classification tasks.","type": "vector,embeddings"}
+      ],
+      "type": ["LLM", "EMBED"],
+      "baseUrl": "https://api.openai.com/v1/",
+      "LLMDefaultValue": "gpt-4o-mini",
+      "EMBEDDefaultValue": "text-embedding-ada-002"
+    },
+    {
+      "title": "Tongyi Qianwen",
+      "value": "QWEN",
+      "LLM": [
+        {"label": "qwen-turbo", "value": "qwen-turbo","descr": "Tongyi Qianwen large-scale language model, supporting Chinese, English and other language inputs. Suitable for text creation, text processing, programming assistance, translation services, and dialogue simulation.","type": "text"},
+        {"label": "qwen-plus", "value": "qwen-plus","descr": "Tongyi Qianwen large-scale language model, supporting Chinese, English and other language inputs. Suitable for text creation, text processing, programming assistance, translation services, and dialogue simulation.","type": "text"},
+        {"label": "qwen-max", "value": "qwen-max","descr": "No description available!","type": "text"}
+      ],
+      "EMBED": [
+        {"label": "text-embedding-v2", "value": "text-embedding-v2","descr": "A technology for converting text data into vectors, embedding semantic information of text into high-dimensional vector space through deep learning models. These vectors can not only express text content but also capture similarities and relationships between texts, enabling computers to efficiently perform text retrieval, classification, clustering and other tasks.","type": "vector"}
+      ],
+      "type": ["LLM", "EMBED"],
+      "baseUrl": "https://dashscope.aliyuncs.com/api/v1/services/",
+      "LLMDefaultValue": "qwen-plus",
+      "EMBEDDefaultValue": "text-embedding-v2"
+    },
+    {
+      "title": "Qianfan Large Model",
+      "value": "QIANFAN",
+      "LLM": [
+        {"label": "ERNIE-Bot", "value": "ERNIE-Bot","descr": "A knowledge-enhanced large language model launched by Baidu, mainly used for human dialogue interaction, answering questions, assisting creation, helping people efficiently and conveniently obtain information, knowledge and inspiration","type": "text"},
+        {"label": "ERNIE-Bot 4.0", "value": "ERNIE-Bot 4.0","descr": "Baidu's self-developed Wenxin industry-grade knowledge-enhanced large language model 4.0 version\n\nAchieves comprehensive upgrades to the base model, with significant improvements in understanding, generation, logic and memory capabilities compared to ERNIE 3.5, supporting 5K input + 2K output.","type": "text"},
+        {"label": "ERNIE-Bot-8K", "value": "ERNIE-Bot-8K","descr": "Mainly used for data analysis scenarios, especially performing excellently in enterprise data analysis. ERNIE-Bot-8K is a version of Baidu's Wenxin large model, with unique advantages such as optimized model effects, strong generation capabilities, and low application barriers.","type": "text"},
+        {"label": "ERNIE-Bot-turbo", "value": "ERNIE-Bot-turbo","descr": "A large language model mainly used for dialogue Q&A, content creation generation and other tasks. It is a large language model independently developed by Baidu, covering massive Chinese data, with stronger dialogue Q&A and content creation generation capabilities","type": "text"},
+        {"label": "ERNIE-Speed-128K", "value": "ERNIE-Speed-128K","descr": "A lightweight language model based on Transformer structure, designed to meet the needs of real-time data processing. It has the characteristics of high efficiency, low latency and high accuracy, and is widely used in natural language processing, information retrieval and text classification fields","type": "text"},
+        {"label": "EB-turbo-AppBuilder", "value": "EB-turbo-AppBuilder","descr": "Mainly used for enterprise-level application scenarios, such as intelligent customer service, content creation and knowledge Q&A tasks. It is built based on the high-performance Wenxin large language model ERNIE-Bot-turbo, with deep scenario effect optimization and output format customization for specific enterprise needs, thus having higher flexibility and practicality in meeting specific enterprise requirements","type": "text"},
+        {"label": "Yi-34B-Chat", "value": "Yi-34B-Chat","descr": "Yi-34B-Chat is a generative pre-trained language model based on Transformer architecture, with 34 billion parameters, making it exhibit powerful capabilities when processing natural language tasks.","type": "text"},
+        {"label": "BLOOMZ-7B", "value": "BLOOMZ-7B","descr": "An autoregressive model for generating text sequences, capable of multilingual processing, supporting 46 languages and 13 programming languages. BLOOMZ-7B is a fine-tuned version of the BLOOM model, with more excellent generalization and zero-shot learning capabilities, suitable for various tasks and scenarios","type": "text"},
+        {"label": "Qianfan-BLOOMZ-7B-compressed", "value": "Qianfan-BLOOMZ-7B-compressed","descr": "A compressed version of the Qianfan team based on BLOOMZ-7B, integrating quantization, sparsification and other technologies, reducing memory usage by over 30%.","type": "text"},
+        {"label": "Mixtral-8x7B-Instruct", "value": "Mixtral-8x7B-Instruct","descr": "The first high-quality sparse expert mixture model (MOE) released by Mistral AI, composed of 8 expert models with 7 billion parameters each, performing better than Llama-2-70B and GPT3.5 in multiple benchmark tests, capable of processing 32K context, particularly excellent in code generation tasks.","type": "text"},
+        {"label": "Llama-2-7b-chat", "value": "Llama-2-7b-chat","descr": "Developed and open-sourced by Meta AI, performing excellently in scenarios such as coding, reasoning and knowledge applications. Llama-2-7b-chat is a high-performance native open-source version, suitable for dialogue scenarios.","type": "text"},
+        {"label": "Llama-2-13b-chat", "value": "Llama-2-13b-chat","descr": "Developed and open-sourced by Meta AI, performing excellently in scenarios such as coding, reasoning and knowledge applications. Llama-2-13b-chat is a native open-source version with balanced performance and effects, suitable for dialogue scenarios.","type": "text"},
+        {"label": "Llama-2-70b-chat", "value": "Llama-2-70b-chat","descr": "Developed and open-sourced by Meta AI, performing excellently in scenarios such as coding, reasoning and knowledge applications. Llama-2-70b-chat is a high-precision effect native open-source version.","type": "text"},
+        {"label": "Qianfan-Chinese-Llama-2-7B", "value": "Qianfan-Chinese-Llama-2-7B","descr": "A Chinese enhanced version of the Qianfan team based on Llama-2-7b, performing excellently on Chinese datasets such as CMMLU and C-EVAL.","type": "text"},
+        {"label": "ChatGLM2-6B-32K", "value": "ChatGLM2-6B-32K","descr": "Further strengthens the ability to understand long texts based on ChatGLM2-6B, capable of better handling contexts up to 32K in length.","type": "text"},
+        {"label": "AquilaChat-7B", "value": "AquilaChat-7B","descr": "Developed by Zhiyuan Research Institute, a dialogue model trained based on Aquila-7B, supporting smooth text dialogue and various language generation tasks, achieving AquilaChat's calls to other models and tools through definable and extensible special instruction specifications, and is easy to extend.","type": "text"}
+      ],
+      "EMBED": [
+        {"label": "Embedding-V1", "value": "Embedding-V1","descr": "Mainly used to map discrete objects (such as text, images, etc.) to continuous numerical vectors, facilitating computer processing and training and use of machine learning models","type": "vector,embeddings"},
+        {"label": "tao-8k", "value": "tao-8k","descr": "A long text vector representation model developed and open-sourced by Huggingface developer amu, supporting 8k context length, with model performance ranking among the top on C-MTEB, one of the current optimal Chinese long text embeddings models","type": "vector"},
+        {"label": "bge-large-zh", "value": "bge-large-zh","descr": "A Chinese version text representation model developed by Zhiyuan Research Institute, capable of mapping any text to low-dimensional dense vectors, used for retrieval, classification, clustering or semantic matching tasks, and can support large models in calling external knowledge.","type": "vector"},
+        {"label": "bge-large-en", "value": "bge-large-en","descr": "An English version text representation model developed by Zhiyuan Research Institute, capable of mapping any text to low-dimensional dense vectors, used for retrieval, classification, clustering or semantic matching tasks, and can support large models in calling external knowledge.","type": "vector"}
+      ],
+      "type": ["LLM", "EMBED"],
+      "baseUrl": "https://aip.baidubce.com",
+      "LLMDefaultValue": "Yi-34B-Chat",
+      "EMBEDDefaultValue": "Embedding-V1"
+    },
+    {
+      "title": "Zhipu AI",
+      "value": "ZHIPU",
+      "LLM": [
+        {"label": "glm-4", "value": "glm-4","descr": "A multimodal large language model mainly used for processing complex instructions and tasks, supporting long text processing, multimodal understanding and text-to-image generation functions","type": "text,image"},
+        {"label": "glm-4v", "value": "glm-4v","descr": "Zhipu: Multimodal model\n\nBetter Chinese visual understanding, text-to-image and other multimodal model capabilities. Accurately understand language descriptions and instructions for various task scenarios, more precisely complete multimodal understanding tasks, or generate high-quality images, videos and other multimodal content.","type": "text,image"},
+        {"label": "glm-4-flash", "value": "glm-4-flash","descr": "This model is officially free, mainly used for processing various natural language processing tasks, including intelligent dialogue assistants, assisting paper translation, PPT and meeting content production, intelligent web search, data generation and extraction, web page parsing, intelligent planning and decision-making, assisting scientific research and other scenarios","type": "text"},
+        {"label": "glm-3-turbo", "value": "glm-3-turbo","descr": "A language model based on transformer structure, launched by Zhipu AI. Its main features include using a three-layer transformer structure, adopting Turbo mechanism to generate text in real time, process long text input and have powerful language understanding capabilities","type": "text"}
+      ],
+      "EMBED": [
+        {"label": "Embedding-3", "value": "Embedding-3","descr": "Mainly used for text search, clustering, recommendation and other tasks. It maps text to low-dimensional vector space, allowing semantic relationships between texts to be measured by the distance or similarity between vectors, thus supporting various vector-based applications.","type": "vector"},
+        {"label": "Embedding-2", "value": "Embedding-2","descr": "Used to map high-dimensional discrete data to low-dimensional continuous numerical vectors, enabling machine learning models to better process and understand this data","type": "vector"}
+      ],
+      "type": ["LLM", "EMBED"],
+      "baseUrl": "https://open.bigmodel.cn",
+      "LLMDefaultValue": "glm-4-flash",
+      "EMBEDDefaultValue": "Embedding-2"
+    }
+  ]
+}

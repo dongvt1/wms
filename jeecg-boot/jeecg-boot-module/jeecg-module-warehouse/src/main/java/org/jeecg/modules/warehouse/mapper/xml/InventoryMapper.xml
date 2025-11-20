@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.InventoryMapper">
+
+    <!-- Result Map -->
+    <resultMap id="InventoryResultMap" type="org.jeecg.modules.warehouse.entity.Inventory">
+        <id property="id" column="id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="sysOrgCode" column="sys_org_code"/>
+        <result property="productId" column="product_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="reservedQuantity" column="reserved_quantity"/>
+        <result property="availableQuantity" column="available_quantity"/>
+        <result property="lastUpdated" column="last_updated"/>
+        <result property="updatedBy" column="updated_by"/>
+    </resultMap>
+
+    <!-- Inventory with product info result map -->
+    <resultMap id="InventoryWithProductResultMap" type="org.jeecg.modules.warehouse.entity.Inventory" extends="InventoryResultMap">
+        <result property="productName" column="product_name"/>
+        <result property="productCode" column="product_code"/>
+        <result property="minStockLevel" column="min_stock_level"/>
+        <result property="price" column="price"/>
+        <result property="totalValue" column="total_value"/>
+    </resultMap>
+
+    <!-- Get inventory by product ID -->
+    <select id="getByProductId" parameterType="java.lang.String" resultMap="InventoryResultMap">
+        SELECT * FROM inventory WHERE product_id = #{productId}
+    </select>
+
+    <!-- Update inventory quantity -->
+    <update id="updateQuantity" parameterType="map">
+        UPDATE inventory 
+        SET quantity = #{quantity}, 
+            reserved_quantity = #{reservedQuantity}, 
+            available_quantity = #{availableQuantity}, 
+            last_updated = NOW(), 
+            updated_by = #{updatedBy} 
+        WHERE product_id = #{productId}
+    </update>
+
+    <!-- Get products with low stock -->
+    <select id="getLowStockProducts" resultMap="InventoryWithProductResultMap">
+        SELECT i.*, 
+               p.name as product_name, 
+               p.code as product_code,
+               p.min_stock_level 
+        FROM inventory i 
+        JOIN product p ON i.product_id = p.id 
+        WHERE i.available_quantity <= p.min_stock_level AND p.status = 1
+    </select>
+
+    <!-- Get inventory value report -->
+    <select id="getInventoryValueReport" resultMap="InventoryWithProductResultMap">
+        SELECT i.*, 
+               p.name as product_name, 
+               p.code as product_code,
+               p.price, 
+               (i.quantity * p.price) as total_value 
+        FROM inventory i 
+        JOIN product p ON i.product_id = p.id 
+        WHERE p.status = 1
+    </select>
+
+</mapper>

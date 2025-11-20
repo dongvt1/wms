@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.WarehouseShelfMapper">
+
+    <!-- Lấy danh sách kệ theo khu vực -->
+    <select id="selectByAreaId" resultType="org.jeecg.modules.warehouse.entity.WarehouseShelf">
+        SELECT * FROM warehouse_shelf WHERE area_id = #{areaId} ORDER BY create_time DESC
+    </select>
+
+    <!-- Lấy danh sách kệ theo trạng thái -->
+    <select id="selectByStatus" resultType="org.jeecg.modules.warehouse.entity.WarehouseShelf">
+        SELECT * FROM warehouse_shelf WHERE status = #{status} ORDER BY create_time DESC
+    </select>
+
+    <!-- Lấy danh sách kệ với thông tin khu vực -->
+    <select id="selectWithAreaInfo" resultType="org.jeecg.modules.warehouse.entity.WarehouseShelf">
+        SELECT 
+            s.*, 
+            a.area_name as areaName
+        FROM 
+            warehouse_shelf s
+        LEFT JOIN 
+            warehouse_area a ON s.area_id = a.id
+        ORDER BY 
+            s.create_time DESC
+    </select>
+
+    <!-- Cập nhật số vị trí đã sử dụng -->
+    <update id="updateUsedCapacity">
+        UPDATE warehouse_shelf SET used_capacity = #{usedCapacity} WHERE id = #{id}
+    </update>
+
+</mapper>

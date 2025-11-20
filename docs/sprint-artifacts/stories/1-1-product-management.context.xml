@@ -1,0 +1,230 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1</storyId>
+    <title>Quản lý thông tin sản phẩm</title>
+    <status>Done</status>
+    <generatedAt>2025-11-20T03:49:00.000Z</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/stories/1-1-product-management.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>người quản lý kho</asA>
+    <iWant>quản lý thông tin sản phẩm trong hệ thống</iWant>
+    <soThat>để có thể theo dõi và kiểm soát hàng tồn kho một cách hiệu quả</soThat>
+    <tasks>### Task 1: Thiết kế cơ sở dữ liệu sản phẩm
+- [ ] Tạo bảng products với các trường: id, code, name, description, price, categoryId, minStockLevel, image, status, createdAt, updatedAt
+- [ ] Tạo bảng categories với các trường: id, name, description, parentId, status, createdAt, updatedAt
+- [ ] Tạo bảng product_history với các trường: id, productId, action, oldData, newData, userId, createdAt
+- [ ] Thiết kế quan hệ khóa ngoại giữa products và categories
+- [ ] Thiết kế quan hệ khóa ngoại giữa products và product_history
+- [ ] Tạo index cho trường code trong bảng products để tối ưu tìm kiếm
+
+### Task 2: Xây dựng API quản lý sản phẩm
+- [ ] API tạo sản phẩm mới (POST /api/products)
+- [ ] API cập nhật thông tin sản phẩm (PUT /api/products/:id)
+- [ ] API xóa sản phẩm (DELETE /api/products/:id)
+- [ ] API lấy danh sách sản phẩm (GET /api/products) với phân trang và tìm kiếm
+- [ ] API lấy chi tiết sản phẩm (GET /api/products/:id)
+- [ ] API tìm kiếm sản phẩm (GET /api/products/search)
+- [ ] API quản lý danh mục sản phẩm (CRUD)
+- [ ] API tải lên hình ảnh sản phẩm (POST /api/products/:id/upload-image)
+- [ ] API lấy lịch sử thay đổi sản phẩm (GET /api/products/:id/history)
+
+### Task 3: Xây dựng giao diện quản lý sản phẩm
+- [ ] Trang danh sách sản phẩm với bảng hiển thị thông tin cơ bản
+- [ ] Form tạo/chỉnh sửa sản phẩm với validation
+- [ ] Dialog xác nhận xóa sản phẩm
+- [ ] Component tìm kiếm và lọc sản phẩm
+- [ ] Component phân trang cho danh sách sản phẩm
+- [ ] Modal xem chi tiết sản phẩm
+- [ ] Component quản lý danh mục sản phẩm
+- [ ] Component tải lên và xem hình ảnh sản phẩm
+- [ ] Component hiển thị lịch sử thay đổi sản phẩm
+
+### Task 4: Tích hợp với các module khác
+- [ ] Tích hợp với module quản lý tồn kho để hiển thị số lượng tồn kho hiện tại
+- [ ] Tích hợp với module quản lý vị trí kho để hiển thị vị trí của sản phẩm
+- [ ] Tích hợp với module quản lý đơn hàng để hiển thị thông tin sản phẩm trong đơn hàng
+- [ ] Tích hợp với module báo cáo để cung cấp dữ liệu sản phẩm</tasks>
+  </story>
+
+  <acceptanceCriteria>- [ ] Người dùng có thể thêm sản phẩm mới với các trường: tên, mã, mô tả, giá, danh mục, ngưỡng tồn kho tối thiểu
+- [ ] Người dùng có thể chỉnh sửa thông tin sản phẩm đã tồn tại
+- [ ] Người dùng có thể xóa sản phẩm khỏi hệ thống với xác nhận
+- [ ] Hệ thống hiển thị danh sách sản phẩm với thông tin cơ bản và phân trang
+- [ ] Người dùng có thể tìm kiếm sản phẩm theo tên hoặc mã sản phẩm
+- [ ] Người dùng có thể lọc sản phẩm theo danh mục
+- [ ] Hệ thống hiển thị lịch sử thay đổi thông tin sản phẩm
+- [ ] Người dùng có thể quản lý danh mục sản phẩm (thêm, sửa, xóa)
+- [ ] Hệ thống hỗ trợ tải lên và hiển thị hình ảnh sản phẩm
+- [ ] Mã sản phẩm phải là duy nhất trong hệ thống
+- [ ] Giá sản phẩm phải là số dương
+- [ ] Ngưỡng tồn kho tối thiểu phải là số không âm</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <item>
+        <path>docs/prd.md</path>
+        <title>Warehouse Management System - Product Requirements Document</title>
+        <section>Functional Requirements - Quản lý sản phẩm</section>
+        <snippet>FR1: Người dùng có thể thêm sản phẩm mới với thông tin cơ bản (tên, mã, mô tả, giá)
+FR2: Người dùng có thể chỉnh sửa thông tin sản phẩm đã tồn tại
+FR3: Người dùng có thể xóa sản phẩm khỏi hệ thống
+FR4: Người dùng có thể tìm kiếm sản phẩm theo tên hoặc mã sản phẩm
+FR5: Người dùng có thể lọc sản phẩm theo danh mục hoặc trạng thái
+FR6: Người dùng có thể xem lịch sử thay đổi thông tin sản phẩm
+FR7: Người dùng có thể quản lý danh mục sản phẩm (thêm, sửa, xóa)
+FR8: Hệ thống hiển thị hình ảnh sản phẩm (nếu có)</snippet>
+      </item>
+      <item>
+        <path>docs/epic-1.md</path>
+        <title>Epic 1: Quản lý sản phẩm và tồn kho</title>
+        <section>Story 1.1: Quản lý thông tin sản phẩm</section>
+        <snippet>Story 1.1: Quản lý thông tin sản phẩm
+Mô tả: Người dùng có thể thêm, sửa, xóa và xem thông tin cơ bản của sản phẩm trong hệ thống.
+Tiêu chí chấp nhận:
+- Form thêm sản phẩm với các trường: tên, mã, mô tả, giá, danh mục
+- Form chỉnh sửa thông tin sản phẩm
+- Xác nhận trước khi xóa sản phẩm
+- Hiển thị danh sách sản phẩm với thông tin cơ bản
+- Tìm kiếm sản phẩm theo tên hoặc mã</snippet>
+      </item>
+    </docs>
+    <code>
+      <item>
+        <path>jeecgboot-vue3/src/views/warehouse/area/WarehouseAreaList.vue</path>
+        <kind>component</kind>
+        <symbol>WarehouseAreaList</symbol>
+        <lines>1-110</lines>
+        <reason>Existing warehouse area management component that can be referenced for product management implementation patterns</reason>
+      </item>
+      <item>
+        <path>jeecgboot-vue3/src/views/warehouse/shelf/WarehouseShelfList.vue</path>
+        <kind>component</kind>
+        <symbol>WarehouseShelfList</symbol>
+        <lines>1-110</lines>
+        <reason>Existing warehouse shelf management component that can be referenced for product management implementation patterns</reason>
+      </item>
+    </code>
+    <dependencies>
+      <ecosystem name="frontend">
+        <package name="vue" version="^3.5.13" />
+        <package name="ant-design-vue" version="^4.2.6" />
+        <package name="axios" version="^1.7.9" />
+        <package name="vue-router" version="^4.5.0" />
+        <package name="pinia" version="2.1.7" />
+        <package name="typescript" version="^4.9.5" />
+      </ecosystem>
+    </dependencies>
+  </artifacts>
+
+  <constraints>- Sử dụng JEECG framework conventions cho backend development
+- Sử dụng Vue.js 3 với Composition API cho frontend development
+- Sử dụng Ant Design Vue cho UI components
+- Sử dụng Spring Boot với JPA/Hibernate cho backend
+- Sử dụng MySQL cho cơ sở dữ liệu
+- Sử dụng JWT cho authentication và authorization
+- Sử dụng Swagger cho API documentation
+- Sử dụng JUnit cho unit testing
+- Sử dụng Vue Test Utils cho frontend testing</constraints>
+  <interfaces>
+    <interface>
+      <name>Product API</name>
+      <kind>REST endpoints</kind>
+      <signature>POST /api/products - Create new product
+PUT /api/products/:id - Update product
+DELETE /api/products/:id - Delete product
+GET /api/products - List products with pagination and search
+GET /api/products/:id - Get product details
+GET /api/products/search - Search products
+POST /api/products/:id/upload-image - Upload product image
+GET /api/products/:id/history - Get product change history</signature>
+      <path>backend/src/main/java/com/jeecg/wms/controller/ProductController.java</path>
+    </interface>
+    <interface>
+      <name>Category API</name>
+      <kind>REST endpoints</kind>
+      <signature>POST /api/categories - Create new category
+PUT /api/categories/:id - Update category
+DELETE /api/categories/:id - Delete category
+GET /api/categories - List categories
+GET /api/categories/:id - Get category details</signature>
+      <path>backend/src/main/java/com/jeecg/wms/controller/CategoryController.java</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Use JUnit for backend unit testing and Vue Test Utils for frontend testing. Follow JEECG framework testing conventions. Ensure all acceptance criteria have corresponding test cases.</standards>
+    <locations>backend/src/test/java/ for backend tests
+frontend/src/tests/ for frontend tests</locations>
+    <ideas>Test product creation with all required fields
+Test product code uniqueness validation
+Test product price positive number validation
+Test product min stock level non-negative validation
+Test product search functionality
+Test product filtering by category
+Test product image upload
+Test product history tracking
+Test category CRUD operations</ideas>
+  </tests>
+</story-context>
+### Completion Notes
+- Task 1: Thiết kế cơ sở dữ liệu sản phẩm - COMPLETED
+  - Đã tạo bảng products, product_category, và product_history với các trường cần thiết
+  - Đã thiết lập quan hệ khóa ngoại và index để tối ưu hiệu suất
+- Task 2: Xây dựng API quản lý sản phẩm - COMPLETED
+  - Đã tạo đầy đủ các API endpoint cho CRUD operations
+  - Đã tích hợp tính năng upload hình ảnh và tracking lịch sử thay đổi
+  - Đã thêm validation cho product code uniqueness và price positivity
+- Task 3: Xây dựng giao diện quản lý sản phẩm - COMPLETED
+  - Đã tạo ProductList.vue với đầy đủ tính năng tìm kiếm, lọc, và phân trang
+  - Đã tạo ProductModal.vue với form validation và image upload
+  - Đã tạo ProductHistoryModal.vue để hiển thị lịch sử thay đổi
+- Task 4: Tích hợp với các module khác - COMPLETED
+  - Đã tạo các API endpoint để tích hợp với module quản lý tồn kho
+  - Đã tạo các API endpoint để tích hợp với module quản lý vị trí kho
+  - Đã tạo các API endpoint để tích hợp với module quản lý đơn hàng
+  - Đã tạo các API endpoint để tích hợp với module báo cáo
+
+### Technical Implementation Details
+- Frontend: Vue.js 3 với Composition API và Ant Design Vue components
+- Backend: Spring Boot với JPA/Hibernate và MyBatis Plus
+- Database: MySQL với các bảng được tối ưu hóa với index
+- Testing: JUnit cho backend và Vue Test Utils cho frontend
+- Image Upload: Hỗ trợ upload hình ảnh với validation file type và size
+- History Tracking: Ghi lại tất cả các thay đổi với format JSON
+- Validation: Product code uniqueness, price positivity, và min stock non-negativity
+
+### Files Created
+Frontend:
+- jeecgboot-vue3/src/views/warehouse/product/ProductList.vue
+- jeecgboot-vue3/src/views/warehouse/product/ProductModal.vue
+- jeecgboot-vue3/src/views/warehouse/product/ProductHistoryModal.vue
+- jeecgboot-vue3/src/views/warehouse/product/CategoryList.vue
+- jeecgboot-vue3/src/views/warehouse/product/CategoryModal.vue
+- jeecgboot-vue3/src/views/warehouse/product/product.api.ts
+- jeecgboot-vue3/src/views/warehouse/product/category.api.ts
+- jeecgboot-vue3/src/views/warehouse/product/product.data.ts
+- jeecgboot-vue3/src/views/warehouse/product/category.data.ts
+
+Backend:
+- jeecg-boot/db/product_tables.sql
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/entity/Product.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/entity/ProductCategory.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/entity/ProductHistory.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/mapper/ProductMapper.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/mapper/ProductCategoryMapper.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/mapper/ProductHistoryMapper.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/mapper/xml/ProductMapper.xml
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/mapper/xml/ProductCategoryMapper.xml
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/mapper/xml/ProductHistoryMapper.xml
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/IProductService.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/IProductCategoryService.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/IProductHistoryService.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/impl/ProductServiceImpl.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/impl/ProductCategoryServiceImpl.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/impl/ProductHistoryServiceImpl.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/controller/ProductController.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/controller/ProductCategoryController.java
+- jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/test/java/org/jeecg/modules/warehouse/ProductManagementTest.java

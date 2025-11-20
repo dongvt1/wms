@@ -1,0 +1,24 @@
+appId: 'com.jeecg.boot3'
+# Product name
+productName: 'jeecgboot'
+files:
+  # Only include all files in the dist directory
+  - 'dist/**/*'
+  # Specifically exclude node_modules directory
+  - '!node_modules'
+directories:
+  # Output directory
+  output: 'dist-electron'
+win:
+  # Windows exe program icon
+  icon: 'electron/icons/app.ico'
+  artifactName: 'jeecgboot-setup-${version}.exe'
+# Installation package configuration
+nsis:
+  oneClick: false
+  # Whether to allow users to select installation directory
+  allowToChangeInstallationDirectory: true
+  # Whether to create desktop shortcut
+  createDesktopShortcut: true
+  # Installation program icon
+  installerIcon: 'electron/icons/installer.ico'

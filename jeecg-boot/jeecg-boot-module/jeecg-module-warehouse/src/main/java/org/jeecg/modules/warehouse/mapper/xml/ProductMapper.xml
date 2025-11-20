@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.ProductMapper">
+
+    <!-- Get products by category ID -->
+    <select id="selectByCategoryId" resultType="org.jeecg.modules.warehouse.entity.Product">
+        SELECT * FROM product WHERE category_id = #{categoryId} AND status = #{status} ORDER BY create_time ASC
+    </select>
+
+    <!-- Get products by status -->
+    <select id="selectByStatus" resultType="org.jeecg.modules.warehouse.entity.Product">
+        SELECT * FROM product WHERE status = #{status} ORDER BY create_time ASC
+    </select>
+
+    <!-- Search products by code or name -->
+    <select id="searchProducts" resultType="org.jeecg.modules.warehouse.entity.Product">
+        SELECT * FROM product 
+        WHERE (code LIKE CONCAT('%', #{keyword}, '%') OR name LIKE CONCAT('%', #{keyword}, '%'))
+        AND status = 1
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- Get products with low stock -->
+    <select id="selectLowStockProducts" resultType="org.jeecg.modules.warehouse.entity.Product">
+        SELECT * FROM product 
+        WHERE current_stock < min_stock_level 
+        AND status = 1
+        ORDER BY current_stock ASC
+    </select>
+
+    <!-- Update current stock -->
+    <update id="updateCurrentStock">
+        UPDATE product SET current_stock = #{currentStock} WHERE id = #{id}
+    </update>
+
+</mapper>

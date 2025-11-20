@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.StockTransactionItemMapper">
+
+    <!-- Result Map -->
+    <resultMap id="StockTransactionItemResultMap" type="org.jeecg.modules.warehouse.entity.StockTransactionItem">
+        <id property="id" column="id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="sysOrgCode" column="sys_org_code"/>
+        <result property="transactionId" column="transaction_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="totalPrice" column="total_price"/>
+        <result property="fromLocationId" column="from_location_id"/>
+        <result property="toLocationId" column="to_location_id"/>
+        <result property="batchNumber" column="batch_number"/>
+        <result property="expiryDate" column="expiry_date"/>
+    </resultMap>
+
+    <!-- Transaction item with product info result map -->
+    <resultMap id="StockTransactionItemWithProductResultMap" type="org.jeecg.modules.warehouse.entity.StockTransactionItem" extends="StockTransactionItemResultMap">
+        <result property="productName" column="product_name"/>
+        <result property="productCode" column="product_code"/>
+    </resultMap>
+
+    <!-- Get items by transaction ID -->
+    <select id="getByTransactionId" parameterType="java.lang.String" resultMap="StockTransactionItemResultMap">
+        SELECT * FROM stock_transaction_items 
+        WHERE transaction_id = #{transactionId}
+    </select>
+
+    <!-- Get items by product ID -->
+    <select id="getByProductId" parameterType="java.lang.String" resultMap="StockTransactionItemResultMap">
+        SELECT * FROM stock_transaction_items 
+        WHERE product_id = #{productId} 
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- Get items with product info -->
+    <select id="getItemsWithProductInfo" resultMap="StockTransactionItemWithProductResultMap">
+        SELECT sti.*, p.name as product_name, p.code as product_code 
+        FROM stock_transaction_items sti 
+        JOIN product p ON sti.product_id = p.id 
+        ORDER BY sti.create_time DESC
+    </select>
+
+</mapper>

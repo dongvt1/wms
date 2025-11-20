@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.InventoryAdjustmentMapper">
+
+    <!-- Result Map -->
+    <resultMap id="InventoryAdjustmentResultMap" type="org.jeecg.modules.warehouse.entity.InventoryAdjustment">
+        <id property="id" column="id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="sysOrgCode" column="sys_org_code"/>
+        <result property="productId" column="product_id"/>
+        <result property="oldQuantity" column="old_quantity"/>
+        <result property="newQuantity" column="new_quantity"/>
+        <result property="adjustmentReason" column="adjustment_reason"/>
+        <result property="userId" column="user_id"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <!-- Adjustment with product info result map -->
+    <resultMap id="AdjustmentWithProductResultMap" type="org.jeecg.modules.warehouse.entity.InventoryAdjustment" extends="InventoryAdjustmentResultMap">
+        <result property="productName" column="product_name"/>
+        <result property="productCode" column="product_code"/>
+    </resultMap>
+
+    <!-- Get adjustments by product ID -->
+    <select id="getByProductId" parameterType="java.lang.String" resultMap="InventoryAdjustmentResultMap">
+        SELECT * FROM inventory_adjustments WHERE product_id = #{productId} ORDER BY created_at DESC
+    </select>
+
+    <!-- Get adjustments by date range -->
+    <select id="getByDateRange" resultMap="InventoryAdjustmentResultMap">
+        SELECT * FROM inventory_adjustments 
+        WHERE created_at BETWEEN #{startDate} AND #{endDate} 
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- Get adjustments by product ID and date range -->
+    <select id="getByProductIdAndDateRange" resultMap="InventoryAdjustmentResultMap">
+        SELECT * FROM inventory_adjustments 
+        WHERE product_id = #{productId} 
+        AND created_at BETWEEN #{startDate} AND #{endDate} 
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- Get adjustment summary report -->
+    <select id="getAdjustmentSummary" resultMap="AdjustmentWithProductResultMap">
+        SELECT ia.*, 
+               p.name as product_name, 
+               p.code as product_code 
+        FROM inventory_adjustments ia 
+        JOIN product p ON ia.product_id = p.id 
+        ORDER BY ia.created_at DESC
+    </select>
+
+</mapper>

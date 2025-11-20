@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.WarehouseAreaMapper">
+
+    <!-- Get list of areas by status -->
+    <select id="selectByStatus" resultType="org.jeecg.modules.warehouse.entity.WarehouseArea">
+        SELECT * FROM warehouse_area WHERE status = #{status} ORDER BY create_time DESC
+    </select>
+
+    <!-- Update used capacity -->
+    <update id="updateUsedCapacity">
+        UPDATE warehouse_area SET used_capacity = #{usedCapacity} WHERE id = #{id}
+    </update>
+
+</mapper>

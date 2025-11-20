@@ -1,0 +1,85 @@
+package org.jeecg.common.util;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
+import org.jeecg.common.constant.SymbolConstant;
+import org.jeecg.common.handler.IFillRuleHandler;
+import org.jeecg.common.system.query.QueryGenerator;
+
+
+
+/**
+ * Rule value automatic generation tool class
+ *
+ * @author qinfeng
+ * @Example： Automatically generate order number；Automatically generate current date
+ */
+@Slf4j
+public class FillRuleUtil {
+
+    /**
+     * @param ruleCode ruleCode
+     * @return
+     */
+    @SuppressWarnings("unchecked")
+    public static Object executeRule(String ruleCode, JSONObject formData) {
+        if (!StringUtils.isEmpty(ruleCode)) {
+            try {
+                // Get Service
+                ServiceImpl impl = (ServiceImpl) SpringContextUtils.getBean("sysFillRuleServiceImpl");
+                // according to ruleCode Query out the entity
+                QueryWrapper queryWrapper = new QueryWrapper();
+                queryWrapper.eq("rule_code", ruleCode);
+                JSONObject entity = JSON.parseObject(JSON.toJSONString(impl.getOne(queryWrapper)));
+                if (entity == null) {
+                    log.warn("Filling rules：" + ruleCode + " does not exist");
+                    return null;
+                }
+                // Get必要的参数
+                String ruleClass = entity.getString("ruleClass");
+                JSONObject params = entity.getJSONObject("ruleParams");
+                if (params == null) {
+                    params = new JSONObject();
+                }
+
+                HttpServletRequest request = SpringContextUtils.getHttpServletRequest();
+
+                // parse params variables in
+                // priority：queryString > system variables > default value
+                for (String key : params.keySet()) {
+                    // 1. judge queryString Does this parameter exist in，If there is one, take priority
+                    //noinspection ConstantValue
+                    if (request != null) {
+                        String parameter = request.getParameter(key);
+                        if (oConvertUtils.isNotEmpty(parameter)) {
+                            params.put(key, parameter);
+                            continue;
+                        }
+                    }
+
+                    String value = params.getString(key);
+                    // 2. used to replace system variables的值 #{sys_user_code}
+                    if (value != null && value.contains(SymbolConstant.SYS_VAR_PREFIX)) {
+                        value = QueryGenerator.getSqlRuleValue(value);
+                        params.put(key, value);
+                    }
+                }
+
+                if (formData == null) {
+                    formData = new JSONObject();
+                }
+                // Execute methods in configured classes through reflection
+                IFillRuleHandler ruleHandler = (IFillRuleHandler) Class.forName(ruleClass).newInstance();
+                return ruleHandler.execute(params, formData);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+}

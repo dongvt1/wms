@@ -1,0 +1,67 @@
+package org.jeecg.modules.system.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.TableField;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.jeecgframework.poi.excel.annotation.Excel;
+
+/**
+ * @Description: Department role permissions
+ * @Author: jeecg-boot
+ * @Date:   2020-02-12
+ * @Version: V1.0
+ */
+@Data
+@TableName("sys_depart_role_permission")
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
+@Schema(description="Department role permissions")
+public class SysDepartRolePermission {
+    
+	/**id*/
+	@TableId(type = IdType.ASSIGN_ID)
+    @Schema(description = "id")
+	private java.lang.String id;
+	/**departmentid*/
+	@Excel(name = "departmentid", width = 15)
+    @Schema(description = "departmentid")
+	private java.lang.String departId;
+	/**Roleid*/
+	@Excel(name = "Roleid", width = 15)
+    @Schema(description = "Roleid")
+	private java.lang.String roleId;
+	/**Permissionsid*/
+	@Excel(name = "Permissionsid", width = 15)
+    @Schema(description = "Permissionsid")
+	private java.lang.String permissionId;
+	/**dataRuleIds*/
+	@Excel(name = "dataRuleIds", width = 15)
+    @Schema(description = "dataRuleIds")
+	private java.lang.String dataRuleIds;
+	/** Operating time */
+	@Excel(name = "Operating time", width = 20, format = "yyyy-MM-dd HH:mm:ss")
+	@JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@Schema(description = "Operating time")
+	private java.util.Date operateDate;
+	/** operateip */
+	private java.lang.String operateIp;
+
+	public SysDepartRolePermission() {
+	}
+
+	public SysDepartRolePermission(String roleId, String permissionId) {
+		this.roleId = roleId;
+		this.permissionId = permissionId;
+	}
+}

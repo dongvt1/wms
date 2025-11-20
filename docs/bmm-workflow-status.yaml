@@ -1,0 +1,71 @@
+# BMad Workflow Status
+project_name: Warehouse Management System
+generated: 2025-11-17T09:36:01.838Z
+field_type: greenfield
+user_description: Xây dựng hệ thống quản lý kho bãi hoàn chỉnh từ đầu với các tính năng theo dõi hàng tồn kho, quản lý đơn hàng và báo cáo
+selected_track: quick-flow
+brainstorm_requested: true
+research_requested: false
+product_brief_requested: false
+
+# Workflow Path Configuration
+method_name: "BMad Quick Flow"
+track: "quick-flow"
+field_type: "greenfield"
+description: "Fast tech-spec based implementation for greenfield projects"
+
+# Workflow Items
+workflow_items:
+  - phase: 0
+    name: "Discovery (Optional)"
+    optional: true
+    note: "User-selected during workflow-init"
+    workflows:
+      - id: "brainstorm-project"
+        optional: true
+        agent: "analyst"
+        command: "brainstorm-project"
+        included_by: "user_choice"
+        status: "pending"
+        
+      - id: "research"
+        optional: true
+        agent: "analyst"
+        command: "research"
+        included_by: "user_choice"
+        status: "skipped"
+        
+  - phase: 1
+    name: "Planning"
+    required: true
+    workflows:
+      - id: "prd"
+        required: true
+        agent: "pm"
+        command: "create-prd"
+        output: "Product Requirements Document"
+        note: "Comprehensive requirements planning"
+        status: "completed"
+      - id: "tech-spec"
+        required: true
+        agent: "pm"
+        command: "tech-spec"
+        output: "Technical Specification with stories (auto-detects epic if 2+ stories)"
+        note: "Quick Spec Flow - implementation-focused planning"
+        status: "pending"
+        
+  - phase: 2
+    name: "Implementation"
+    required: true
+    workflows:
+      - id: "sprint-planning"
+        required: true
+        agent: "sm"
+        command: "sprint-planning"
+        note: "Creates sprint plan with all stories - subsequent work tracked in sprint plan output, not workflow-status"
+        status: "completed"
+
+# Next Steps
+next_workflow_name: "Development"
+next_agent: "dev"
+next_workflow_id: "development"

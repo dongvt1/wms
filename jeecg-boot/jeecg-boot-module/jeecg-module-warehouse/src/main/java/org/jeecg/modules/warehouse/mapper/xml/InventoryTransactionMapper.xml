@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.InventoryTransactionMapper">
+
+    <!-- Result Map -->
+    <resultMap id="InventoryTransactionResultMap" type="org.jeecg.modules.warehouse.entity.InventoryTransaction">
+        <id property="id" column="id"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="sysOrgCode" column="sys_org_code"/>
+        <result property="productId" column="product_id"/>
+        <result property="transactionType" column="transaction_type"/>
+        <result property="quantity" column="quantity"/>
+        <result property="referenceId" column="reference_id"/>
+        <result property="reason" column="reason"/>
+        <result property="userId" column="user_id"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <!-- Transaction with product info result map -->
+    <resultMap id="TransactionWithProductResultMap" type="org.jeecg.modules.warehouse.entity.InventoryTransaction" extends="InventoryTransactionResultMap">
+        <result property="productName" column="product_name"/>
+        <result property="productCode" column="product_code"/>
+    </resultMap>
+
+    <!-- Get transactions by product ID -->
+    <select id="getByProductId" parameterType="java.lang.String" resultMap="InventoryTransactionResultMap">
+        SELECT * FROM inventory_transactions WHERE product_id = #{productId} ORDER BY created_at DESC
+    </select>
+
+    <!-- Get transactions by date range -->
+    <select id="getByDateRange" resultMap="InventoryTransactionResultMap">
+        SELECT * FROM inventory_transactions 
+        WHERE created_at BETWEEN #{startDate} AND #{endDate} 
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- Get transactions by product ID and date range -->
+    <select id="getByProductIdAndDateRange" resultMap="InventoryTransactionResultMap">
+        SELECT * FROM inventory_transactions 
+        WHERE product_id = #{productId} 
+        AND created_at BETWEEN #{startDate} AND #{endDate} 
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- Get transactions by type -->
+    <select id="getByTransactionType" parameterType="java.lang.String" resultMap="InventoryTransactionResultMap">
+        SELECT * FROM inventory_transactions 
+        WHERE transaction_type = #{transactionType} 
+        ORDER BY created_at DESC
+    </select>
+
+    <!-- Get transaction summary report -->
+    <select id="getTransactionSummary" resultMap="TransactionWithProductResultMap">
+        SELECT it.*, 
+               p.name as product_name, 
+               p.code as product_code 
+        FROM inventory_transactions it 
+        JOIN product p ON it.product_id = p.id 
+        ORDER BY it.created_at DESC
+    </select>
+
+</mapper>

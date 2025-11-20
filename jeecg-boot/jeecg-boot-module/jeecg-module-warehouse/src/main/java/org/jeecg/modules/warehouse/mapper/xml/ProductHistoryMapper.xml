@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.ProductHistoryMapper">
+
+    <!-- Get product history by product ID -->
+    <select id="selectByProductId" resultType="org.jeecg.modules.warehouse.entity.ProductHistory">
+        SELECT * FROM product_history WHERE product_id = #{productId} ORDER BY create_time DESC
+    </select>
+
+    <!-- Get product history by user ID -->
+    <select id="selectByUserId" resultType="org.jeecg.modules.warehouse.entity.ProductHistory">
+        SELECT * FROM product_history WHERE user_id = #{userId} ORDER BY create_time DESC
+    </select>
+
+    <!-- Get product history by action -->
+    <select id="selectByAction" resultType="org.jeecg.modules.warehouse.entity.ProductHistory">
+        SELECT * FROM product_history WHERE action = #{action} ORDER BY create_time DESC
+    </select>
+
+</mapper>

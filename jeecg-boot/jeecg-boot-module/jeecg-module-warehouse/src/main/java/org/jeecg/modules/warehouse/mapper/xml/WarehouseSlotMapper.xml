@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.WarehouseSlotMapper">
+
+    <!-- Get list of slots by shelf -->
+    <select id="selectByShelfId" resultType="org.jeecg.modules.warehouse.entity.WarehouseSlot">
+        SELECT * FROM warehouse_slot WHERE shelf_id = #{shelfId} ORDER BY create_time DESC
+    </select>
+
+    <!-- Get list of slots by status -->
+    <select id="selectByStatus" resultType="org.jeecg.modules.warehouse.entity.WarehouseSlot">
+        SELECT * FROM warehouse_slot WHERE status = #{status} ORDER BY create_time DESC
+    </select>
+
+    <!-- Get list of slots with shelf and area information -->
+    <select id="selectWithShelfAndAreaInfo" resultType="org.jeecg.modules.warehouse.entity.WarehouseSlot">
+        SELECT 
+            sl.*, 
+            s.shelf_name as shelfName,
+            a.area_name as areaName
+        FROM 
+            warehouse_slot sl
+        LEFT JOIN 
+            warehouse_shelf s ON sl.shelf_id = s.id
+        LEFT JOIN 
+            warehouse_area a ON s.area_id = a.id
+        ORDER BY 
+            sl.create_time DESC
+    </select>
+
+    <!-- Get list of empty slots -->
+    <select id="selectEmptySlots" resultType="org.jeecg.modules.warehouse.entity.WarehouseSlot">
+        SELECT * FROM warehouse_slot WHERE status = 0 ORDER BY create_time DESC
+    </select>
+
+    <!-- Assign product to slot -->
+    <update id="assignProduct">
+        UPDATE warehouse_slot 
+        SET product_code = #{productCode}, status = #{status}, used_capacity = 1 
+        WHERE id = #{id}
+    </update>
+
+    <!-- Remove product from slot -->
+    <update id="removeProduct">
+        UPDATE warehouse_slot 
+        SET product_code = NULL, status = 0, used_capacity = 0 
+        WHERE id = #{id}
+    </update>
+
+    <!-- Move product between slots -->
+    <update id="moveProduct">
+        UPDATE warehouse_slot 
+        SET product_code = (SELECT product_code FROM warehouse_slot WHERE id = #{fromId}),
+            status = (SELECT status FROM warehouse_slot WHERE id = #{fromId}),
+            used_capacity = (SELECT used_capacity FROM warehouse_slot WHERE id = #{fromId})
+        WHERE id = #{toId};
+        
+        UPDATE warehouse_slot 
+        SET product_code = NULL, status = 0, used_capacity = 0 
+        WHERE id = #{fromId}
+    </update>
+
+</mapper>

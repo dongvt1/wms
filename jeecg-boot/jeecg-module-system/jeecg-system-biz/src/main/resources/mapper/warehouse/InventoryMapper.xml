@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.InventoryMapper">
+
+    <!-- 获取库存价值报告 -->
+    <select id="getValueReport" resultType="java.util.Map">
+        SELECT i.product_id, p.code as product_code, p.name as product_name, 
+               i.quantity, p.price as unit_price, (i.quantity * p.price) as total_value, 
+               i.min_stock_threshold, 
+               CASE WHEN i.quantity = 0 THEN 'out_of_stock' 
+               WHEN i.quantity <= i.min_stock_threshold THEN 'low_stock' 
+               ELSE 'normal' END as status 
+        FROM inventory i 
+        LEFT JOIN product p ON i.product_id = p.id
+    </select>
+
+    <!-- 获取库存统计信息 -->
+    <select id="getStatistics" resultType="java.util.Map">
+        SELECT 
+            COUNT(DISTINCT i.product_id) as totalProducts, 
+            COALESCE(SUM(i.quantity), 0) as totalQuantity, 
+            COALESCE(SUM(i.reserved_quantity), 0) as totalReserved, 
+            COALESCE(SUM(i.available_quantity), 0) as totalAvailable, 
+            COALESCE(SUM(i.quantity * p.price), 0) as totalValue, 
+            COUNT(CASE WHEN i.quantity <= i.min_stock_threshold AND i.quantity > 0 THEN 1 END) as lowStockCount, 
+            COUNT(CASE WHEN i.quantity = 0 THEN 1 END) as outOfStockCount 
+        FROM inventory i 
+        LEFT JOIN product p ON i.product_id = p.id
+    </select>
+
+    <!-- 获取今日入库数量 -->
+    <select id="getTodayCounts" resultType="java.util.Map">
+        SELECT COALESCE(SUM(CASE WHEN transaction_type = 'IN' THEN quantity ELSE 0 END), 0) as todayInCount, 
+               COALESCE(SUM(CASE WHEN transaction_type = 'OUT' THEN quantity ELSE 0 END), 0) as todayOutCount 
+        FROM inventory_transactions 
+        WHERE DATE(created_at) = CURDATE()
+    </select>
+
+    <!-- 获取本周入库数量 -->
+    <select id="getWeekCounts" resultType="java.util.Map">
+        SELECT COALESCE(SUM(CASE WHEN transaction_type = 'IN' THEN quantity ELSE 0 END), 0) as weekInCount, 
+               COALESCE(SUM(CASE WHEN transaction_type = 'OUT' THEN quantity ELSE 0 END), 0) as weekOutCount 
+        FROM inventory_transactions 
+        WHERE YEARWEEK(created_at) = YEARWEEK(NOW())
+    </select>
+
+    <!-- 获取本月入库数量 -->
+    <select id="getMonthCounts" resultType="java.util.Map">
+        SELECT COALESCE(SUM(CASE WHEN transaction_type = 'IN' THEN quantity ELSE 0 END), 0) as monthInCount, 
+               COALESCE(SUM(CASE WHEN transaction_type = 'OUT' THEN quantity ELSE 0 END), 0) as monthOutCount 
+        FROM inventory_transactions 
+        WHERE YEAR(created_at) = YEAR(NOW()) AND MONTH(created_at) = MONTH(NOW())
+    </select>
+
+    <!-- 获取库存趋势数据 -->
+    <select id="getInventoryTrends" resultType="java.util.Map">
+        SELECT DATE(created_at) as date, 
+               SUM(CASE WHEN transaction_type = 'IN' THEN quantity ELSE 0 END) as inQuantity, 
+               SUM(CASE WHEN transaction_type = 'OUT' THEN quantity ELSE 0 END) as outQuantity 
+        FROM inventory_transactions 
+        WHERE product_id = #{productId} 
+        AND created_at >= DATE_SUB(CURDATE(), INTERVAL #{days} DAY) 
+        GROUP BY DATE(created_at) 
+        ORDER BY date ASC
+    </select>
+
+</mapper>
