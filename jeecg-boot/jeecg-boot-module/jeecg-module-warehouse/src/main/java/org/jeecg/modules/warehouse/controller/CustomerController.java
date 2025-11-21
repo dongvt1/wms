@@ -12,13 +12,15 @@ import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.modules.warehouse.entity.Customer;
-import org.jeecg.modules.warehouse.service.ICustomerService;
-import org.jeecg.modules.warehouse.service.ICustomerBalanceService;
+import org.jeecg.modules.warehouse.service.CustomerService;
+import org.jeecg.modules.warehouse.service.CustomerBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
@@ -33,13 +35,13 @@ import java.util.List;
 @Tag(name = "Customer Management")
 @RestController
 @RequestMapping("/warehouse/customer")
-public class CustomerController extends JeecgController<Customer, ICustomerService> {
+public class CustomerController extends JeecgController<Customer, CustomerService> {
 
     @Autowired
-    private ICustomerService customerService;
+    private CustomerService customerService;
 
     @Autowired
-    private ICustomerBalanceService customerBalanceService;
+    private CustomerBalanceService customerBalanceService;
 
     /**
      * Paginated list query

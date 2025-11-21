@@ -1,11 +1,10 @@
 package org.jeecg.modules.warehouse.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.warehouse.entity.WarehouseArea;
 import org.jeecg.modules.warehouse.mapper.WarehouseAreaMapper;
-import org.jeecg.modules.warehouse.service.IWarehouseAreaService;
+import org.jeecg.modules.warehouse.service.WarehouseAreaService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +17,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class WarehouseAreaServiceImpl extends ServiceImpl<WarehouseAreaMapper, WarehouseArea> implements IWarehouseAreaService {
+public class WarehouseAreaServiceImpl extends ServiceImpl<WarehouseAreaMapper, WarehouseArea> implements WarehouseAreaService {
 
     @Override
     public List<WarehouseArea> getByStatus(Integer status) {

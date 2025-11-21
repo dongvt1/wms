@@ -12,17 +12,15 @@ import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.modules.warehouse.entity.Inventory;
-import org.jeecg.modules.warehouse.entity.InventoryTransaction;
-import org.jeecg.modules.warehouse.entity.InventoryAdjustment;
-import org.jeecg.modules.warehouse.service.IInventoryService;
-import org.jeecg.modules.warehouse.service.IInventoryTransactionService;
-import org.jeecg.modules.warehouse.service.IInventoryAdjustmentService;
+import org.jeecg.modules.warehouse.service.InventoryService;
+import org.jeecg.modules.warehouse.service.InventoryTransactionService;
+import org.jeecg.modules.warehouse.service.InventoryAdjustmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import java.util.Arrays;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -37,16 +35,16 @@ import java.util.Map;
 @Tag(name = "Inventory Management")
 @RestController
 @RequestMapping("/warehouse/inventory")
-public class InventoryController extends JeecgController<Inventory, IInventoryService> {
+public class InventoryController extends JeecgController<Inventory, InventoryService> {
 
     @Autowired
-    private IInventoryService inventoryService;
+    private InventoryService inventoryService;
     
     @Autowired
-    private IInventoryTransactionService inventoryTransactionService;
+    private InventoryTransactionService inventoryTransactionService;
     
     @Autowired
-    private IInventoryAdjustmentService inventoryAdjustmentService;
+    private InventoryAdjustmentService inventoryAdjustmentService;
 
     /**
      * Paginated list query

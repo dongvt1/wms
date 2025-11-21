@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.warehouse.entity.Supplier;
 import org.jeecg.modules.warehouse.mapper.SupplierMapper;
-import org.jeecg.modules.warehouse.service.ISupplierService;
+import org.jeecg.modules.warehouse.service.SupplierService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, Supplier> implements ISupplierService {
+public class SupplierServiceImpl extends ServiceImpl<SupplierMapper, Supplier> implements SupplierService {
 
     @Override
     public Supplier getByCode(String supplierCode) {

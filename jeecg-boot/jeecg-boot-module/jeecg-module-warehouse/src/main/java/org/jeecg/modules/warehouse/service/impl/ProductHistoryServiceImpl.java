@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.warehouse.entity.ProductHistory;
 import org.jeecg.modules.warehouse.mapper.ProductHistoryMapper;
-import org.jeecg.modules.warehouse.service.IProductHistoryService;
+import org.jeecg.modules.warehouse.service.ProductHistoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class ProductHistoryServiceImpl extends ServiceImpl<ProductHistoryMapper, ProductHistory> implements IProductHistoryService {
+public class ProductHistoryServiceImpl extends ServiceImpl<ProductHistoryMapper, ProductHistory> implements ProductHistoryService {
 
     @Override
     public List<ProductHistory> getByProductId(String productId) {

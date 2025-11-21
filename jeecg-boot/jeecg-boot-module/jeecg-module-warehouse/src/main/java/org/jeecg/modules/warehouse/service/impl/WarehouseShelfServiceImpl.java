@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.warehouse.entity.WarehouseShelf;
 import org.jeecg.modules.warehouse.mapper.WarehouseShelfMapper;
-import org.jeecg.modules.warehouse.service.IWarehouseShelfService;
+import org.jeecg.modules.warehouse.service.WarehouseShelfService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class WarehouseShelfServiceImpl extends ServiceImpl<WarehouseShelfMapper, WarehouseShelf> implements IWarehouseShelfService {
+public class WarehouseShelfServiceImpl extends ServiceImpl<WarehouseShelfMapper, WarehouseShelf> implements WarehouseShelfService {
 
     @Override
     public List<WarehouseShelf> getByAreaId(String areaId) {

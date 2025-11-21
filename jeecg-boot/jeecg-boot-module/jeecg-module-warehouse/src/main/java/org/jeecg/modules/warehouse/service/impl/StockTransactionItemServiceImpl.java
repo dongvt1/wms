@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.warehouse.entity.StockTransactionItem;
 import org.jeecg.modules.warehouse.mapper.StockTransactionItemMapper;
-import org.jeecg.modules.warehouse.service.IStockTransactionItemService;
+import org.jeecg.modules.warehouse.service.StockTransactionItemService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class StockTransactionItemServiceImpl extends ServiceImpl<StockTransactionItemMapper, StockTransactionItem> implements IStockTransactionItemService {
+public class StockTransactionItemServiceImpl extends ServiceImpl<StockTransactionItemMapper, StockTransactionItem> implements StockTransactionItemService {
 
     @Override
     public List<StockTransactionItem> getByTransactionId(String transactionId) {

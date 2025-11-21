@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.OrderProcessingLogMapper">
+
+    <!-- 获取订单处理日志列表 -->
+    <select id="getProcessingLogsByOrderId" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT 
+            l.id,
+            l.order_id,
+            l.action,
+            l.details,
+            l.status,
+            l.error_message,
+            l.user_id,
+            l.processing_time,
+            l.create_time
+        FROM order_processing_logs l
+        WHERE l.order_id = #{orderId}
+        ORDER BY l.create_time DESC
+    </select>
+
+    <!-- 获取失败的处理日志列表 -->
+    <select id="getFailedProcessingLogs" resultType="org.jeecg.modules.warehouse.entity.OrderProcessingLog">
+        SELECT 
+            id,
+            order_id,
+            action,
+            details,
+            status,
+            error_message,
+            user_id,
+            processing_time,
+            create_time
+        FROM order_processing_logs
+        WHERE status = 'FAILED'
+        ORDER BY create_time DESC
+        LIMIT 100
+    </select>
+
+    <!-- 获取处理统计信息 -->
+    <select id="getProcessingStatistics" resultType="java.util.Map">
+        SELECT 
+            COUNT(*) as total_logs,
+            SUM(CASE WHEN status = 'SUCCESS' THEN 1 ELSE 0 END) as success_count,
+            SUM(CASE WHEN status = 'FAILED' THEN 1 ELSE 0 END) as failed_count,
+            SUM(CASE WHEN status = 'PENDING' THEN 1 ELSE 0 END) as pending_count,
+            SUM(CASE WHEN action = 'CONFIRM' THEN 1 ELSE 0 END) as confirm_count,
+            SUM(CASE WHEN action = 'CANCEL' THEN 1 ELSE 0 END) as cancel_count,
+            SUM(CASE WHEN action = 'SHIP' THEN 1 ELSE 0 END) as ship_count,
+            SUM(CASE WHEN action = 'COMPLETE' THEN 1 ELSE 0 END) as complete_count,
+            SUM(CASE WHEN action = 'STATUS_UPDATE' THEN 1 ELSE 0 END) as status_update_count,
+            SUM(CASE WHEN action = 'CREATE' THEN 1 ELSE 0 END) as create_count,
+            AVG(processing_time) as avg_processing_time,
+            MAX(create_time) as last_log_time
+        FROM order_processing_logs
+        WHERE create_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+    </select>
+
+    <!-- 获取指定时间范围内的处理日志 -->
+    <select id="getProcessingLogsByDateRange" resultType="org.jeecg.modules.warehouse.entity.OrderProcessingLog">
+        SELECT 
+            id,
+            order_id,
+            action,
+            details,
+            status,
+            error_message,
+            user_id,
+            processing_time,
+            create_time
+        FROM order_processing_logs
+        WHERE create_time BETWEEN #{startDate} AND #{endDate}
+        ORDER BY create_time DESC
+        LIMIT 1000
+    </select>
+
+</mapper>

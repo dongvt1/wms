@@ -3,9 +3,8 @@ package org.jeecg.modules.warehouse.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.util.UUIDGenerator;
-import org.jeecg.modules.warehouse.entity.InventoryTransaction;
 import org.jeecg.modules.warehouse.mapper.InventoryTransactionMapper;
-import org.jeecg.modules.warehouse.service.IInventoryTransactionService;
+import org.jeecg.modules.warehouse.service.InventoryTransactionService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,7 +17,7 @@ import java.util.*;
  */
 @Slf4j
 @Service
-public class InventoryTransactionServiceImpl extends ServiceImpl<InventoryTransactionMapper, InventoryTransaction> implements IInventoryTransactionService {
+public class InventoryTransactionServiceImpl extends ServiceImpl<InventoryTransactionMapper, InventoryTransaction> implements InventoryTransactionService {
 
     @Override
     public List<InventoryTransaction> getByProductId(String productId) {

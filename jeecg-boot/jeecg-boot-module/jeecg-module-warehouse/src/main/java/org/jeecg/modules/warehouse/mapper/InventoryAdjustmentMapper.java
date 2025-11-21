@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.jeecg.modules.warehouse.entity.InventoryAdjustment;
 
 /**
  * @Description: InventoryAdjustment Mapper

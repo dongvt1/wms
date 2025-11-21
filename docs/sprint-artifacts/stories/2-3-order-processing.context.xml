@@ -1,0 +1,253 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>3</storyId>
+    <title>Xử lý đơn hàng</title>
+    <status>In Progress</status>
+    <generatedAt>2025-11-21T02:22:00.000Z</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/stories/2-3-order-processing.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>người quản lý đơn hàng</asA>
+    <iWant>tôi muốn hệ thống xử lý tự động các bước trong quy trình đơn hàng từ khi tạo đến khi hoàn thành</iWant>
+    <soThat>để giảm thao tác thủ công và đảm bảo tính chính xác</soThat>
+    <tasks>
+### Task 1: Thiết kế cơ sở dữ liệu xử lý đơn hàng
+- [x] Tạo bảng order_notifications với các trường: id, orderId, type, recipient, subject, content, status, sentAt, createdAt
+- [x] Tạo bảng order_processing_logs với các trường: id, orderId, action, details, status, errorMessage, userId, createdAt
+- [x] Thiết kế quan hệ khóa ngoại giữa order_notifications và orders
+- [x] Thiết kế quan hệ khóa ngoại giữa order_processing_logs và orders
+- [x] Tạo index cho trường orderId trong các bảng xử lý đơn hàng
+
+### Task 2: Xây dựng API xử lý đơn hàng
+- [x] API xác nhận đơn hàng (POST /api/orders/:id/confirm)
+- [x] API cập nhật trạng thái đơn hàng (PUT /api/orders/:id/status)
+- [x] API hủy đơn hàng (POST /api/orders/:id/cancel)
+- [x] API xử lý đơn hàng hàng loạt (POST /api/orders/batch-process)
+- [x] API lấy lịch sử trạng thái đơn hàng (GET /api/orders/:id/status-history)
+- [x] API gửi lại thông báo đơn hàng (POST /api/orders/:id/resend-notification)
+- [x] API in đơn hàng (GET /api/orders/:id/print)
+- [x] API in phiếu xuất kho (GET /api/orders/:id/print-stock-out)
+- [x] API lấy log xử lý đơn hàng (GET /api/orders/:id/processing-logs)
+
+### Task 3: Xây dựng service xử lý đơn hàng
+- [x] Service xác nhận đơn hàng với validation
+- [x] Service cập nhật trạng thái đơn hàng với business rules
+- [x] Service trừ tồn kho khi xác nhận đơn hàng
+- [x] Service hoàn trả tồn kho khi hủy đơn hàng
+- [x] Service gửi email thông báo cho khách hàng
+- [x] Service tạo phiếu xuất kho
+- [x] Service xử lý đơn hàng hàng loạt
+- [x] Service xử lý lỗi và khôi phục
+- [x] Service logging cho tất cả các thao tác
+
+### Task 4: Xây dựng giao diện xử lý đơn hàng
+- [x] Component xác nhận đơn hàng với validation
+- [x] Component cập nhật trạng thái đơn hàng
+- [x] Component hủy đơn hàng với lý do
+- [x] Component xử lý đơn hàng hàng loạt
+- [x] Component xem lịch sử trạng thái đơn hàng
+- [x] Component xem log xử lý đơn hàng
+- [x] Modal in đơn hàng và phiếu xuất kho
+- [x] Component quản lý thông báo đơn hàng
+
+### Task 5: Tích hợp với các module khác
+- [x] Tích hợp với module quản lý tồn kho để trừ/hoàn trả tồn kho
+- [x] Tích hợp với module quản lý khách hàng để gửi thông báo
+- [x] Tích hợp với module quản lý sản phẩm để kiểm tra tồn kho
+- [x] Tích hợp với module báo cáo để cung cấp dữ liệu xử lý đơn hàng
+- [x] Tích hợp với module email để gửi thông báo
+- [x] Tích hợp với module in ấn để in đơn hàng và phiếu xuất kho
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+- [x] Hệ thống tự động xác nhận đơn hàng khi đủ điều kiện
+- [x] Hệ thống tự động cập nhật trạng thái đơn hàng theo quy trình
+- [x] Hệ thống tự động trừ tồn kho khi đơn hàng được xác nhận
+- [x] Hệ thống gửi thông báo email cho khách hàng về trạng thái đơn hàng
+- [x] Hệ thống tạo phiếu xuất kho tự động khi đơn hàng được xác nhận
+- [x] Người dùng có thể in đơn hàng và phiếu xuất kho
+- [x] Hệ thống xử lý hủy đơn hàng và hoàn trả tồn kho
+- [x] Hệ thống ghi lại lịch sử thay đổi trạng thái đơn hàng
+- [x] Hệ thống xử lý đơn hàng hàng loạt
+- [x] Hệ thống có cơ chế xử lý lỗi và khôi phục khi có sự cố
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/prd.md</path>
+        <title>Product Requirements Document</title>
+        <section>Functional Requirements - Quản lý đơn hàng</section>
+        <snippet>FR44: Người dùng có thể tạo đơn hàng mới, FR45: Người dùng có thể chỉnh sửa thông tin đơn hàng, FR46: Người dùng có thể hủy đơn hàng, FR47: Hệ thống tự động trừ tồn kho khi đơn hàng được xác nhận, FR48: Người dùng có thể xem trạng thái đơn hàng (chờ xác nhận, đã xác nhận, đang giao, hoàn thành), FR49: Người dùng có thể tìm kiếm đơn hàng theo mã hoặc khách hàng, FR50: Hệ thống tạo mã đơn hàng tự động</snippet>
+      </doc>
+      <doc>
+        <path>docs/epic-2.md</path>
+        <title>Epic 2: Quản lý đơn hàng và khách hàng</title>
+        <section>Story 2.3: Xử lý đơn hàng</section>
+        <snippet>Mô tả: Hệ thống xử lý các bước trong quy trình đơn hàng từ khi tạo đến khi hoàn thành. Tiêu chí chấp nhận: Xử lý xác nhận đơn hàng, Cập nhật trạng thái đơn hàng tự động, Tích hợp với tồn kho để trừ số lượng, Gửi thông báo cho khách hàng về trạng thái đơn hàng, In đơn hàng khi cần</snippet>
+      </doc>
+    </docs>
+    <code>
+      <code>
+        <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/entity/Order.java</path>
+        <kind>entity</kind>
+        <symbol>Order</symbol>
+        <lines>1-100</lines>
+        <reason>Core entity representing order with status field for processing workflow</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/entity/OrderNotification.java</path>
+        <kind>entity</kind>
+        <symbol>OrderNotification</symbol>
+        <lines>1-95</lines>
+        <reason>Entity for storing order notifications with status tracking</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/entity/OrderProcessingLog.java</path>
+        <kind>entity</kind>
+        <symbol>OrderProcessingLog</symbol>
+        <lines>1-84</lines>
+        <reason>Entity for tracking all order processing actions and errors</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/entity/OrderStatusHistory.java</path>
+        <kind>entity</kind>
+        <symbol>OrderStatusHistory</symbol>
+        <lines>1-75</lines>
+        <reason>Entity for tracking order status changes with reasons</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/service/IOrderService.java</path>
+        <kind>interface</kind>
+        <symbol>IOrderService</symbol>
+        <lines>1-193</lines>
+        <reason>Service interface defining order processing operations</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/service/impl/OrderServiceImpl.java</path>
+        <kind>implementation</kind>
+        <symbol>OrderServiceImpl</symbol>
+        <lines>1-955</lines>
+        <reason>Implementation of order processing logic with inventory integration</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/controller/OrderController.java</path>
+        <kind>controller</kind>
+        <symbol>OrderController</symbol>
+        <lines>1-440</lines>
+        <reason>REST API endpoints for order processing operations</reason>
+      </code>
+      <code>
+        <path>jeecgboot-vue3/src/views/warehouse/order/OrderBatchProcessModal.vue</path>
+        <kind>component</kind>
+        <symbol>OrderBatchProcessModal</symbol>
+        <lines>1-144</lines>
+        <reason>Frontend component for batch order processing</reason>
+      </code>
+      <code>
+        <path>jeecgboot-vue3/src/views/warehouse/order/OrderStatusHistoryModal.vue</path>
+        <kind>component</kind>
+        <symbol>OrderStatusHistoryModal</symbol>
+        <lines>1-38</lines>
+        <reason>Frontend component for viewing order status history</reason>
+      </code>
+      <code>
+        <path>jeecgboot-vue3/src/views/warehouse/order/OrderCancelModal.vue</path>
+        <kind>component</kind>
+        <symbol>OrderCancelModal</symbol>
+        <lines>1-67</lines>
+        <reason>Frontend component for order cancellation with reason</reason>
+      </code>
+      <code>
+        <path>jeecgboot-vue3/src/views/warehouse/order/OrderStatusUpdateModal.vue</path>
+        <kind>component</kind>
+        <symbol>OrderStatusUpdateModal</symbol>
+        <lines>1-98</lines>
+        <reason>Frontend component for updating order status</reason>
+      </code>
+      <code>
+        <path>jeecgboot-vue3/src/views/warehouse/order/order.api.ts</path>
+        <kind>api</kind>
+        <symbol>orderApi</symbol>
+        <lines>1-162</lines>
+        <reason>API client methods for order processing operations</reason>
+      </code>
+    </code>
+    <dependencies>
+      <dependency name="Spring Boot" version="2.7+">Backend framework</dependency>
+      <dependency name="Vue.js 3" version="3.2+">Frontend framework</dependency>
+      <dependency name="Ant Design Vue" version="3.2+">UI component library</dependency>
+      <dependency name="MyBatis Plus" version="3.5+">ORM framework</dependency>
+      <dependency name="MySQL" version="8.0+">Database</dependency>
+      <dependency name="Spring Mail" version="2.7+">Email notification service</dependency>
+      <dependency name="iText" version="7.2+">PDF generation library</dependency>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Must use JEECG framework conventions for backend development</constraint>
+    <constraint>Must use Vue.js 3 with Composition API for frontend development</constraint>
+    <constraint>Must use Ant Design Vue for UI components</constraint>
+    <constraint>Must use Spring Boot with JPA/Hibernate for backend</constraint>
+    <constraint>Must use MySQL for database</constraint>
+    <constraint>Must use Spring Mail for email notifications</constraint>
+    <constraint>Must use Transaction Management to ensure data consistency</constraint>
+    <constraint>Must use Event-Driven Architecture for asynchronous processing</constraint>
+  </constraints>
+  
+  <interfaces>
+    <interface name="Order Processing API" kind="REST">
+      <signature>POST /warehouse/orders/{orderId}/confirm - Confirm order and deduct inventory</signature>
+      <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/controller/OrderController.java</path>
+    </interface>
+    <interface name="Order Status Update API" kind="REST">
+      <signature>PUT /warehouse/orders/status - Update order status with reason</signature>
+      <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/controller/OrderController.java</path>
+    </interface>
+    <interface name="Order Cancellation API" kind="REST">
+      <signature>PUT /warehouse/orders/cancel - Cancel order and restore inventory</signature>
+      <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/controller/OrderController.java</path>
+    </interface>
+    <interface name="Batch Order Processing API" kind="REST">
+      <signature>POST /warehouse/orders/batch-process - Process multiple orders at once</signature>
+      <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/controller/OrderController.java</path>
+    </interface>
+    <interface name="Order Status History API" kind="REST">
+      <signature>GET /warehouse/orders/{orderId}/status-history - Get order status changes</signature>
+      <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/controller/OrderController.java</path>
+    </interface>
+    <interface name="Order Processing Logs API" kind="REST">
+      <signature>GET /warehouse/orders/{orderId}/processing-logs - Get order processing logs</signature>
+      <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/controller/OrderController.java</path>
+    </interface>
+    <interface name="Email Notification Service" kind="Service">
+      <signature>sendOrderConfirmationNotification(orderId, orderCode, email, customerName, amount) - Send order confirmation email</signature>
+      <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/service/IEmailNotificationService.java</path>
+    </interface>
+    <interface name="Inventory Service Integration" kind="Service">
+      <signature>adjustInventory(productId, quantity, reason) - Adjust inventory levels</signature>
+      <path>jeecg-boot/jeecg-module-system/jeecg-system-biz/src/main/java/org/jeecg/modules/warehouse/service/IInventoryService.java</path>
+    </interface>
+  </interfaces>
+  
+  <tests>
+    <standards>Unit tests should be written using JUnit 5 for backend components. Integration tests should verify order processing workflows with database interactions. Frontend components should be tested with Vue Test Utils. All tests should achieve at least 80% code coverage.</standards>
+    <locations>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/test/java/org/jeecg/modules/warehouse/</locations>
+    <ideas>
+      <test ac="1">Test automatic order confirmation when conditions are met</test>
+      <test ac="2">Test automatic status updates through the order workflow</test>
+      <test ac="3">Test inventory deduction when order is confirmed</test>
+      <test ac="4">Test email notification sending for order status changes</test>
+      <test ac="5">Test stock-out note generation when order is confirmed</test>
+      <test ac="6">Test order and stock-out note printing functionality</test>
+      <test ac="7">Test order cancellation with inventory restoration</test>
+      <test ac="8">Test order status history tracking</test>
+      <test ac="9">Test batch order processing with mixed results</test>
+      <test ac="10">Test error handling and recovery mechanisms</test>
+    </ideas>
+  </tests>
+</story-context>

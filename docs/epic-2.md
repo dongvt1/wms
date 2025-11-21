@@ -43,3 +43,18 @@ Xây dựng các chức năng giúp người dùng quản lý đơn hàng và th
 - In đơn hàng khi cần
 
 **Ghi chú:** Cần tích hợp với quản lý tồn kho và báo cáo để theo dõi quy trình.
+
+### Story 2.4: Quản lý nhà cung cấp
+**Mô tả:** Người dùng có thể quản lý thông tin nhà cung cấp và theo dõi lịch sử giao dịch với nhà cung cấp.
+
+**Tiêu chí chấp nhận:**
+- Form thêm nhà cung cấp với các trường: tên, mã, thông tin liên hệ, địa chỉ, điện thoại, email
+- Form chỉnh sửa thông tin nhà cung cấp
+- Xác nhận trước khi xóa nhà cung cấp
+- Hiển thị danh sách nhà cung cấp với thông tin cơ bản
+- Tìm kiếm nhà cung cấp theo tên hoặc mã
+- Xem lịch sử giao dịch với từng nhà cung cấp
+- Gán sản phẩm cho nhà cung cấp cụ thể
+- Hiển thị danh sách nhà cung cấp cho từng sản phẩm
+
+**Ghi chú:** Cần tích hợp với quản lý sản phẩm và tồn kho để theo dõi hoạt động mua hàng.

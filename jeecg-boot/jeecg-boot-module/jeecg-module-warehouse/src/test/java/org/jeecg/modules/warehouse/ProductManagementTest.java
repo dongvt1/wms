@@ -2,8 +2,8 @@ package org.jeecg.modules.warehouse;
 
 import org.jeecg.modules.warehouse.entity.Product;
 import org.jeecg.modules.warehouse.entity.ProductCategory;
-import org.jeecg.modules.warehouse.service.IProductService;
-import org.jeecg.modules.warehouse.service.IProductCategoryService;
+import org.jeecg.modules.warehouse.service.ProductService;
+import org.jeecg.modules.warehouse.service.ProductCategoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,10 +23,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ProductManagementTest {
 
     @Autowired
-    private IProductService productService;
+    private ProductService productService;
     
     @Autowired
-    private IProductCategoryService categoryService;
+    private ProductCategoryService categoryService;
 
     @Test
     public void testCreateProduct() {

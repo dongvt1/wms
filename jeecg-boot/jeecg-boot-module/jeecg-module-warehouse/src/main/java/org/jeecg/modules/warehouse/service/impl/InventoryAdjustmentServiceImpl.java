@@ -3,9 +3,8 @@ package org.jeecg.modules.warehouse.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.util.UUIDGenerator;
-import org.jeecg.modules.warehouse.entity.InventoryAdjustment;
 import org.jeecg.modules.warehouse.mapper.InventoryAdjustmentMapper;
-import org.jeecg.modules.warehouse.service.IInventoryAdjustmentService;
+import org.jeecg.modules.warehouse.service.InventoryAdjustmentService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,7 +17,7 @@ import java.util.*;
  */
 @Slf4j
 @Service
-public class InventoryAdjustmentServiceImpl extends ServiceImpl<InventoryAdjustmentMapper, InventoryAdjustment> implements IInventoryAdjustmentService {
+public class InventoryAdjustmentServiceImpl extends ServiceImpl<InventoryAdjustmentMapper, InventoryAdjustment> implements InventoryAdjustmentService {
 
     @Override
     public List<InventoryAdjustment> getByProductId(String productId) {

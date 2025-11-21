@@ -2,9 +2,9 @@ package org.jeecg.modules.warehouse;
 
 import org.jeecg.modules.warehouse.entity.StockTransaction;
 import org.jeecg.modules.warehouse.entity.StockTransactionItem;
-import org.jeecg.modules.warehouse.service.IStockTransactionService;
-import org.jeecg.modules.warehouse.service.IStockTransactionItemService;
-import org.jeecg.modules.warehouse.service.IInventoryService;
+import org.jeecg.modules.warehouse.service.StockTransactionService;
+import org.jeecg.modules.warehouse.service.StockTransactionItemService;
+import org.jeecg.modules.warehouse.service.InventoryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -27,13 +27,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StockTransactionTest {
 
     @Autowired
-    private IStockTransactionService stockTransactionService;
+    private StockTransactionService stockTransactionService;
     
     @Autowired
-    private IStockTransactionItemService stockTransactionItemService;
+    private StockTransactionItemService stockTransactionItemService;
     
     @Autowired
-    private IInventoryService inventoryService;
+    private InventoryService inventoryService;
 
     @Test
     public void testCreateStockInTransaction() {

@@ -112,7 +112,7 @@
             //          message = type of prompt，默认使use配置的 message
             // target Instance object of row edit
             if (cellValue === 'abc') {
-              callback(false, '${title}Can't beabc'); // false = failed verification
+              callback(false, '${title} Can not beabc'); // false = failed verification
             } else {
               callback(true); // true = Passed verification
             }

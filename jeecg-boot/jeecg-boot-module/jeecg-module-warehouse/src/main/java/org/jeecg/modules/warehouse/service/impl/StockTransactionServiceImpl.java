@@ -7,9 +7,9 @@ import org.jeecg.modules.warehouse.entity.StockTransaction;
 import org.jeecg.modules.warehouse.entity.StockTransactionItem;
 import org.jeecg.modules.warehouse.mapper.StockTransactionMapper;
 import org.jeecg.modules.warehouse.mapper.StockTransactionItemMapper;
-import org.jeecg.modules.warehouse.service.IStockTransactionService;
-import org.jeecg.modules.warehouse.service.IStockTransactionItemService;
-import org.jeecg.modules.warehouse.service.IInventoryService;
+import org.jeecg.modules.warehouse.service.StockTransactionService;
+import org.jeecg.modules.warehouse.service.StockTransactionItemService;
+import org.jeecg.modules.warehouse.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * @Description: StockTransaction Service Implementation
@@ -27,7 +26,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
-public class StockTransactionServiceImpl extends ServiceImpl<StockTransactionMapper, StockTransaction> implements IStockTransactionService {
+public class StockTransactionServiceImpl extends ServiceImpl<StockTransactionMapper, StockTransaction> implements StockTransactionService {
 
     @Autowired
     private StockTransactionMapper stockTransactionMapper;
@@ -36,10 +35,10 @@ public class StockTransactionServiceImpl extends ServiceImpl<StockTransactionMap
     private StockTransactionItemMapper stockTransactionItemMapper;
     
     @Autowired
-    private IStockTransactionItemService stockTransactionItemService;
+    private StockTransactionItemService stockTransactionItemService;
     
     @Autowired
-    private IInventoryService inventoryService;
+    private InventoryService inventoryService;
 
     @Override
     public List<StockTransaction> getByDateRange(Date startDate, Date endDate) {

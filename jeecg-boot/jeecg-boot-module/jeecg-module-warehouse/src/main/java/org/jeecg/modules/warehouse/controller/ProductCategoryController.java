@@ -12,12 +12,14 @@ import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.modules.warehouse.entity.ProductCategory;
-import org.jeecg.modules.warehouse.service.IProductCategoryService;
+import org.jeecg.modules.warehouse.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,10 +33,10 @@ import java.util.List;
 @Tag(name = "Product Category Management")
 @RestController
 @RequestMapping("/warehouse/category")
-public class ProductCategoryController extends JeecgController<ProductCategory, IProductCategoryService> {
+public class ProductCategoryController extends JeecgController<ProductCategory, ProductCategoryService> {
 
     @Autowired
-    private IProductCategoryService productCategoryService;
+    private ProductCategoryService productCategoryService;
 
     /**
      * Paginated list query

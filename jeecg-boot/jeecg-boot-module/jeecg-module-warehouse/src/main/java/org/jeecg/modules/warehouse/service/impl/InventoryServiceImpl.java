@@ -1,16 +1,12 @@
 package org.jeecg.modules.warehouse.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.common.util.UUIDGenerator;
-import org.jeecg.modules.warehouse.entity.Inventory;
-import org.jeecg.modules.warehouse.entity.InventoryTransaction;
-import org.jeecg.modules.warehouse.entity.InventoryAdjustment;
 import org.jeecg.modules.warehouse.mapper.InventoryMapper;
-import org.jeecg.modules.warehouse.service.IInventoryService;
-import org.jeecg.modules.warehouse.service.IInventoryTransactionService;
-import org.jeecg.modules.warehouse.service.IInventoryAdjustmentService;
+import org.jeecg.modules.warehouse.service.InventoryService;
+import org.jeecg.modules.warehouse.service.InventoryTransactionService;
+import org.jeecg.modules.warehouse.service.InventoryAdjustmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +21,13 @@ import java.util.*;
  */
 @Slf4j
 @Service
-public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, Inventory> implements IInventoryService {
+public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, Inventory> implements InventoryService {
 
     @Autowired
-    private IInventoryTransactionService inventoryTransactionService;
+    private InventoryTransactionService inventoryTransactionService;
     
     @Autowired
-    private IInventoryAdjustmentService inventoryAdjustmentService;
+    private InventoryAdjustmentService inventoryAdjustmentService;
 
     @Override
     public Inventory getByProductId(String productId) {

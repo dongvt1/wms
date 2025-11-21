@@ -12,12 +12,14 @@ import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.modules.warehouse.entity.WarehouseSlot;
-import org.jeecg.modules.warehouse.service.IWarehouseSlotService;
+import org.jeecg.modules.warehouse.service.WarehouseSlotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,10 +33,10 @@ import java.util.List;
 @Tag(name = "Quản lý vị trí kho")
 @RestController
 @RequestMapping("/warehouse/slot")
-public class WarehouseSlotController extends JeecgController<WarehouseSlot, IWarehouseSlotService> {
+public class WarehouseSlotController extends JeecgController<WarehouseSlot, WarehouseSlotService> {
 
     @Autowired
-    private IWarehouseSlotService warehouseSlotService;
+    private WarehouseSlotService warehouseSlotService;
 
     /**
      * Paginated list query

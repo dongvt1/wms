@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.warehouse.entity.CustomerBalance;
 import org.jeecg.modules.warehouse.mapper.CustomerBalanceMapper;
-import org.jeecg.modules.warehouse.service.ICustomerBalanceService;
+import org.jeecg.modules.warehouse.service.CustomerBalanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +19,7 @@ import java.math.BigDecimal;
  */
 @Slf4j
 @Service
-public class CustomerBalanceServiceImpl extends ServiceImpl<CustomerBalanceMapper, CustomerBalance> implements ICustomerBalanceService {
+public class CustomerBalanceServiceImpl extends ServiceImpl<CustomerBalanceMapper, CustomerBalance> implements CustomerBalanceService {
 
     @Autowired
     private CustomerBalanceMapper customerBalanceMapper;

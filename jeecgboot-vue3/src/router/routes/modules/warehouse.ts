@@ -29,6 +29,22 @@ const warehouse: AppRouteModule = {
         title: 'Warehouse Shelf Management',
       },
     },
+    {
+      path: 'customer',
+      name: 'CustomerManagement',
+      component: () => import('/@/views/warehouse/customer/CustomerList.vue'),
+      meta: {
+        title: 'Customer Management',
+      },
+    },
+    {
+      path: 'order',
+      name: 'OrderManagement',
+      component: () => import('/@/views/warehouse/order/OrderList.vue'),
+      meta: {
+        title: 'Order Management',
+      },
+    },
   ],
 };
 

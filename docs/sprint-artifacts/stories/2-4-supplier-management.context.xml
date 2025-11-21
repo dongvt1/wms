@@ -1,0 +1,203 @@
+<story-context id=".bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>2</epicId>
+    <storyId>4</storyId>
+    <title>Quản lý nhà cung cấp</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-21T02:59:00.000Z</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/sprint-artifacts/stories/2-4-supplier-management.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>quản lý kho</asA>
+    <iWant>tôi muốn quản lý thông tin nhà cung cấp và theo dõi lịch sử giao dịch với nhà cung cấp</iWant>
+    <soThat>để duy trì mối quan hệ tốt với nhà cung cấp và giám sát hoạt động mua hàng</soThat>
+    <tasks>
+### Task 1: Thiết kế cơ sở dữ liệu quản lý nhà cung cấp
+- [ ] Tạo bảng suppliers với các trường: id, code, name, contactPerson, phone, email, address, status, createdBy, createdAt, updatedBy, updatedAt
+- [ ] Tạo bảng supplier_products với các trường: id, supplierId, productId, supplierProductCode, price, minOrderQuantity, leadTime, isActive, createdAt, updatedAt
+- [ ] Tạo bảng supplier_transactions với các trường: id, supplierId, type, referenceId, totalAmount, status, notes, createdBy, createdAt
+- [ ] Tạo bảng supplier_transaction_details với các trường: id, transactionId, productId, quantity, unitPrice, totalAmount
+- [ ] Thiết kế quan hệ khóa ngoại giữa supplier_products và suppliers, products
+- [ ] Thiết kế quan hệ khóa ngoại giữa supplier_transactions và suppliers
+- [ ] Thiết kế quan hệ khóa ngoại giữa supplier_transaction_details và supplier_transactions, products
+- [ ] Tạo index cho các trường code trong suppliers, supplierId trong supplier_products, supplierId trong supplier_transactions
+
+### Task 2: Xây dựng API quản lý nhà cung cấp
+- [ ] API lấy danh sách nhà cung cấp (GET /api/suppliers)
+- [ ] API lấy chi tiết nhà cung cấp (GET /api/suppliers/:id)
+- [ ] API tạo nhà cung cấp mới (POST /api/suppliers)
+- [ ] API cập nhật thông tin nhà cung cấp (PUT /api/suppliers/:id)
+- [ ] API xóa nhà cung cấp (DELETE /api/suppliers/:id)
+- [ ] API tìm kiếm nhà cung cấp (GET /api/suppliers/search)
+- [ ] API lấy danh sách sản phẩm của nhà cung cấp (GET /api/suppliers/:id/products)
+- [ ] API gán sản phẩm cho nhà cung cấp (POST /api/suppliers/:id/products)
+- [ ] API cập nhật thông tin sản phẩm nhà cung cấp (PUT /api/suppliers/:id/products/:productId)
+- [ ] API xóa sản phẩm khỏi nhà cung cấp (DELETE /api/suppliers/:id/products/:productId)
+- [ ] API lấy lịch sử giao dịch với nhà cung cấp (GET /api/suppliers/:id/transactions)
+- [ ] API lấy chi tiết giao dịch (GET /api/suppliers/transactions/:id)
+
+### Task 3: Xây dựng service quản lý nhà cung cấp
+- [ ] Service quản lý nhà cung cấp với validation
+- [ ] Service quản lý sản phẩm nhà cung cấp
+- [ ] Service quản lý giao dịch nhà cung cấp
+- [ ] Service tìm kiếm và lọc nhà cung cấp
+- [ ] Service logging cho tất cả các thao tác
+- [ ] Service xử lý logic kinh doanh liên quan đến nhà cung cấp
+
+### Task 4: Xây dựng giao diện quản lý nhà cung cấp
+- [ ] Trang danh sách nhà cung cấp với tìm kiếm và lọc
+- [ ] Component form thêm/sửa nhà cung cấp
+- [ ] Component xác nhận xóa nhà cung cấp
+- [ ] Component quản lý sản phẩm của nhà cung cấp
+- [ ] Component xem lịch sử giao dịch với nhà cung cấp
+- [ ] Modal xem chi tiết nhà cung cấp
+- [ ] Component gán sản phẩm cho nhà cung cấp
+
+### Task 5: Tích hợp với các module khác
+- [ ] Tích hợp với module quản lý sản phẩm để lấy thông tin sản phẩm
+- [ ] Tích hợp với module quản lý tồn kho để cập nhật thông tin nhà cung cấp
+- [ ] Tích hợp với module báo cáo để cung cấp dữ liệu nhà cung cấp
+- [ ] Tích hợp với module nhập kho để tự động gán nhà cung cấp
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+- [ ] Form thêm nhà cung cấp với các trường: tên, mã, thông tin liên hệ, địa chỉ, điện thoại, email
+- [ ] Form chỉnh sửa thông tin nhà cung cấp
+- [ ] Xác nhận trước khi xóa nhà cung cấp
+- [ ] Hiển thị danh sách nhà cung cấp với thông tin cơ bản
+- [ ] Tìm kiếm nhà cung cấp theo tên hoặc mã
+- [ ] Xem lịch sử giao dịch với từng nhà cung cấp
+- [ ] Gán sản phẩm cho nhà cung cấp cụ thể
+- [ ] Hiển thị danh sách nhà cung cấp cho từng sản phẩm
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/prd.md</path>
+        <title>Product Requirements Document</title>
+        <section>Quản lý nhà cung cấp</section>
+        <snippet>FR22: Người dùng có thể thêm thông tin nhà cung cấp (tên, liên hệ, địa chỉ), FR23: Người dùng có thể chỉnh sửa thông tin nhà cung cấp, FR24: Người dùng có thể xóa nhà cung cấp, FR25: Người dùng có thể gán sản phẩm đến nhà cung cấp cụ thể, FR26: Người dùng có thể xem lịch sử giao dịch với từng nhà cung cấp, FR27: Hệ thống hiển thị danh sách nhà cung cấp cho từng sản phẩm</snippet>
+      </doc>
+      <doc>
+        <path>docs/epic-2.md</path>
+        <title>Epic 2: Quản lý đơn hàng và khách hàng</title>
+        <section>Story 2.4: Quản lý nhà cung cấp</section>
+        <snippet>Mô tả: Người dùng có thể quản lý thông tin nhà cung cấp và theo dõi lịch sử giao dịch với nhà cung cấp. Tiêu chí chấp nhận: Form thêm nhà cung cấp với các trường: tên, mã, thông tin liên hệ, địa chỉ, điện thoại, email, Form chỉnh sửa thông tin nhà cung cấp, Xác nhận trước khi xóa nhà cung cấp, Hiển thị danh sách nhà cung cấp với thông tin cơ bản, Tìm kiếm nhà cung cấp theo tên hoặc mã, Xem lịch sử giao dịch với từng nhà cung cấp, Gán sản phẩm cho nhà cung cấp cụ thể, Hiển thị danh sách nhà cung cấp cho từng sản phẩm</snippet>
+      </doc>
+    </docs>
+    <code>
+      <code>
+        <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/entity/Supplier.java</path>
+        <kind>entity</kind>
+        <symbol>Supplier</symbol>
+        <lines>1-62</lines>
+        <reason>Core entity representing supplier with basic fields (code, name, contact info)</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/controller/SupplierController.java</path>
+        <kind>controller</kind>
+        <symbol>SupplierController</symbol>
+        <lines>1-189</lines>
+        <reason>REST API endpoints for supplier CRUD operations with validation</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/ISupplierService.java</path>
+        <kind>interface</kind>
+        <symbol>ISupplierService</symbol>
+        <lines>1-36</lines>
+        <reason>Service interface defining supplier operations</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/impl/SupplierServiceImpl.java</path>
+        <kind>implementation</kind>
+        <symbol>SupplierServiceImpl</symbol>
+        <lines>1-37</lines>
+        <reason>Implementation of supplier service with basic operations</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/mapper/SupplierMapper.java</path>
+        <kind>mapper</kind>
+        <symbol>SupplierMapper</symbol>
+        <lines>1-39</lines>
+        <reason>Database mapper for supplier operations with custom queries</reason>
+      </code>
+      <code>
+        <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/mapper/xml/SupplierMapper.xml</path>
+        <kind>xml</kind>
+        <symbol>SupplierMapper</symbol>
+        <lines>1-41</lines>
+        <reason>MyBatis XML mapping for supplier queries</reason>
+      </code>
+    </code>
+    <dependencies>
+      <dependency name="Spring Boot" version="3.5.5">Backend framework</dependency>
+      <dependency name="MyBatis Plus" version="3.5.12">ORM framework</dependency>
+      <dependency name="MySQL" version="8.0.27">Database</dependency>
+      <dependency name="JEECG Framework" version="3.8.3">Enterprise development platform</dependency>
+      <dependency name="Lombok" version="1.18.30">Code generation</dependency>
+      <dependency name="Swagger" version="3.0">API documentation</dependency>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Must use JEECG framework conventions for backend development</constraint>
+    <constraint>Must use Spring Boot with MyBatis Plus for backend</constraint>
+    <constraint>Must use MySQL for database</constraint>
+    <constraint>Must follow existing entity patterns (extend JeecgEntity)</constraint>
+    <constraint>Must use standard JEECG controller patterns (extend JeecgController)</constraint>
+    <constraint>Must use service pattern with interface and implementation</constraint>
+    <constraint>Must use mapper pattern with XML configuration</constraint>
+    <constraint>Must apply logging pattern from previous stories</constraint>
+    <constraint>Must use Transaction Management to ensure data consistency</constraint>
+  </constraints>
+  
+  <interfaces>
+    <interface name="Supplier CRUD API" kind="REST">
+      <signature>GET /warehouse/supplier/list - Get paginated supplier list</signature>
+      <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/controller/SupplierController.java</path>
+    </interface>
+    <interface name="Supplier CRUD API" kind="REST">
+      <signature>POST /warehouse/supplier/add - Create new supplier</signature>
+      <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/controller/SupplierController.java</path>
+    </interface>
+    <interface name="Supplier CRUD API" kind="REST">
+      <signature>PUT /warehouse/supplier/edit - Update supplier information</signature>
+      <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/controller/SupplierController.java</path>
+    </interface>
+    <interface name="Supplier CRUD API" kind="REST">
+      <signature>DELETE /warehouse/supplier/delete - Delete supplier by ID</signature>
+      <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/controller/SupplierController.java</path>
+    </interface>
+    <interface name="Supplier Service" kind="Service">
+      <signature>getByCode(String supplierCode) - Get supplier by code</signature>
+      <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/ISupplierService.java</path>
+    </interface>
+    <interface name="Supplier Service" kind="Service">
+      <signature>isCodeUnique(String supplierCode, String id) - Check if supplier code is unique</signature>
+      <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/ISupplierService.java</path>
+    </interface>
+    <interface name="Supplier Service" kind="Service">
+      <signature>getActiveSuppliers() - Get list of active suppliers</signature>
+      <path>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/main/java/org/jeecg/modules/warehouse/service/ISupplierService.java</path>
+    </interface>
+  </interfaces>
+  
+  <tests>
+    <standards>Unit tests should be written using JUnit 5 for backend components. Integration tests should verify supplier management workflows with database interactions. All tests should achieve at least 80% code coverage. Follow the testing patterns established in previous stories like OrderProcessingTest.java.</standards>
+    <locations>jeecg-boot/jeecg-boot-module/jeecg-module-warehouse/src/test/java/org/jeecg/modules/warehouse/</locations>
+    <ideas>
+      <test ac="1">Test supplier creation with all required fields</test>
+      <test ac="2">Test supplier update with validation for unique code</test>
+      <test ac="3">Test supplier deletion with confirmation</test>
+      <test ac="4">Test supplier search by name and code</test>
+      <test ac="5">Test supplier product assignment functionality</test>
+      <test ac="6">Test supplier transaction history tracking</test>
+      <test ac="7">Test supplier list display with pagination</test>
+      <test ac="8">Test supplier product list display</test>
+    </ideas>
+  </tests>
+</story-context>

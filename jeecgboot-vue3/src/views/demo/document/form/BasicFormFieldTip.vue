@@ -30,7 +30,7 @@
       field: 'lateReason',
       label: 'Reason for being late',
       component: 'Input',
-      helpMessage: 'What's the reason for being late for work?',
+      helpMessage: 'What is the reason for being late for work?',
       //Custom prompt attributes，need to be combinedhelpMessageused together
       helpComponentProps: {
         maxWidth: '200px',

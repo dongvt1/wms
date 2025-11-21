@@ -3,9 +3,9 @@ package org.jeecg.modules.warehouse;
 import org.jeecg.modules.warehouse.entity.WarehouseArea;
 import org.jeecg.modules.warehouse.entity.WarehouseShelf;
 import org.jeecg.modules.warehouse.entity.WarehouseSlot;
-import org.jeecg.modules.warehouse.service.IWarehouseAreaService;
-import org.jeecg.modules.warehouse.service.IWarehouseShelfService;
-import org.jeecg.modules.warehouse.service.IWarehouseSlotService;
+import org.jeecg.modules.warehouse.service.WarehouseAreaService;
+import org.jeecg.modules.warehouse.service.WarehouseShelfService;
+import org.jeecg.modules.warehouse.service.WarehouseSlotService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,13 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class WarehouseLocationTest {
 
     @Autowired
-    private IWarehouseAreaService warehouseAreaService;
+    private WarehouseAreaService warehouseAreaService;
 
     @Autowired
-    private IWarehouseShelfService warehouseShelfService;
+    private WarehouseShelfService warehouseShelfService;
 
     @Autowired
-    private IWarehouseSlotService warehouseSlotService;
+    private WarehouseSlotService warehouseSlotService;
 
     @Test
     public void testCreateWarehouseArea() {

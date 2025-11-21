@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.warehouse.mapper.OrderNotificationMapper">
+
+    <!-- 获取订单通知列表 -->
+    <select id="getNotificationsByOrderId" parameterType="java.lang.String" resultType="java.util.Map">
+        SELECT 
+            n.id,
+            n.order_id,
+            n.type,
+            n.recipient,
+            n.subject,
+            n.content,
+            n.status,
+            n.sent_at,
+            n.error_message,
+            n.retry_count,
+            n.create_time
+        FROM order_notifications n
+        WHERE n.order_id = #{orderId}
+        ORDER BY n.create_time DESC
+    </select>
+
+    <!-- 获取待发送的通知列表 -->
+    <select id="getPendingNotifications" resultType="org.jeecg.modules.warehouse.entity.OrderNotification">
+        SELECT 
+            id,
+            order_id,
+            type,
+            recipient,
+            subject,
+            content,
+            status,
+            sent_at,
+            error_message,
+            retry_count,
+            create_time
+        FROM order_notifications
+        WHERE status = 'PENDING'
+        ORDER BY create_time ASC
+        LIMIT 100
+    </select>
+
+    <!-- 获取失败的通知列表 -->
+    <select id="getFailedNotifications" parameterType="java.lang.Integer" resultType="org.jeecg.modules.warehouse.entity.OrderNotification">
+        SELECT 
+            id,
+            order_id,
+            type,
+            recipient,
+            subject,
+            content,
+            status,
+            sent_at,
+            error_message,
+            retry_count,
+            create_time
+        FROM order_notifications
+        WHERE status = 'FAILED' AND retry_count < #{maxRetryCount}
+        ORDER BY create_time ASC
+        LIMIT 50
+    </select>
+
+</mapper>

@@ -13,14 +13,14 @@ import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.modules.warehouse.entity.StockTransaction;
 import org.jeecg.modules.warehouse.entity.StockTransactionItem;
-import org.jeecg.modules.warehouse.service.IStockTransactionService;
-import org.jeecg.modules.warehouse.service.IStockTransactionItemService;
+import org.jeecg.modules.warehouse.service.StockTransactionService;
+import org.jeecg.modules.warehouse.service.StockTransactionItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.Arrays;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -35,13 +35,13 @@ import java.util.Map;
 @Tag(name = "Stock Transaction Management")
 @RestController
 @RequestMapping("/warehouse/stock")
-public class StockTransactionController extends JeecgController<StockTransaction, IStockTransactionService> {
+public class StockTransactionController extends JeecgController<StockTransaction, StockTransactionService> {
 
     @Autowired
-    private IStockTransactionService stockTransactionService;
+    private StockTransactionService stockTransactionService;
     
     @Autowired
-    private IStockTransactionItemService stockTransactionItemService;
+    private StockTransactionItemService stockTransactionItemService;
 
     /**
      * Paginated list query

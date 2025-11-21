@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.jeecg.modules.warehouse.entity.Inventory;
 
 /**
  * @Description: Inventory Mapper

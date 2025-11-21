@@ -3,7 +3,7 @@
 <mapper namespace="org.jeecg.modules.warehouse.mapper.InventoryMapper">
 
     <!-- Result Map -->
-    <resultMap id="InventoryResultMap" type="org.jeecg.modules.warehouse.entity.Inventory">
+    <resultMap id="InventoryResultMap" type="org.jeecg.modules.warehouse.controller.entity.Inventory">
         <id property="id" column="id"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
@@ -19,7 +19,7 @@
     </resultMap>
 
     <!-- Inventory with product info result map -->
-    <resultMap id="InventoryWithProductResultMap" type="org.jeecg.modules.warehouse.entity.Inventory" extends="InventoryResultMap">
+    <resultMap id="InventoryWithProductResultMap" type="org.jeecg.modules.warehouse.controller.entity.Inventory" extends="InventoryResultMap">
         <result property="productName" column="product_name"/>
         <result property="productCode" column="product_code"/>
         <result property="minStockLevel" column="min_stock_level"/>

@@ -31,11 +31,11 @@
 # - Dev moves story to 'review', SM reviews, then Dev moves to 'done'
 # - Re-run this workflow to refresh auto-detected statuses
 
-# SPRINT 1 (2025-11-20 to 2025-11-27)
-# ===================================
-# Priority 1: Core Product Management (Epic 1)
-# Priority 2: Basic Order Management (Epic 2)
-# Priority 3: Basic Reporting (Epic 3)
+# SPRINT 1 (2025-11-20 to 2025-12-04) - UPDATED
+# ===============================================
+# Priority 1: Complete Order Management Workflow (Epic 2)
+# Priority 2: Essential Reporting (Epic 3)
+# Priority 3: Security & Analytics (Epic 4, Deferred)
 
 development_status:
   # All epics, stories, and retrospectives in order
@@ -46,9 +46,10 @@ development_status:
     1-4-stock-movement: done
   epic-1-retrospective: optional
   epic-2: contexted
-    2-1-customer-management: ready-for-dev
-    2-2-order-management: ready-for-dev
+    2-1-customer-management: done
+    2-2-order-management: review
     2-3-order-processing: ready-for-dev
+    2-4-supplier-management: ready-for-dev
   epic-2-retrospective: optional
   epic-3: contexted
     3-1-inventory-reporting: ready-for-dev
@@ -60,3 +61,24 @@ development_status:
     4-2-role-permissions: ready-for-dev
     4-3-authentication-security: ready-for-dev
   epic-4-retrospective: optional
+
+# UPDATED SPRINT PRIORITIES (2025-11-21)
+# =====================================
+# IMMEDIATE (Day 1):
+# - Complete 2-2-order-management review
+#
+# HIGH PRIORITY (Days 2-4):
+# - 2-3-order-processing (depends on 2-2 completion)
+#
+# MEDIUM PRIORITY (Days 5-6):
+# - 3-1-inventory-reporting (dependencies met)
+#
+# LOW PRIORITY (Days 7-8, if time permits):
+# - 2-4-supplier-management (needs to be moved to ready-for-dev)
+#
+# DEFERRED TO NEXT SPRINT:
+# - 3-2-stock-movement-reporting
+# - 3-3-visual-analytics
+# - 4-1-user-account-management
+# - 4-2-role-permissions
+# - 4-3-authentication-security

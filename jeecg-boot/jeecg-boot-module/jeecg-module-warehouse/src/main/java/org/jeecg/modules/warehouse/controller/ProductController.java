@@ -12,14 +12,16 @@ import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.modules.warehouse.entity.Product;
-import org.jeecg.modules.warehouse.service.IProductService;
-import org.jeecg.modules.warehouse.service.IProductHistoryService;
+import org.jeecg.modules.warehouse.service.ProductService;
+import org.jeecg.modules.warehouse.service.ProductHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,13 +35,13 @@ import java.util.List;
 @Tag(name = "Product Management")
 @RestController
 @RequestMapping("/warehouse/product")
-public class ProductController extends JeecgController<Product, IProductService> {
+public class ProductController extends JeecgController<Product, ProductService> {
 
     @Autowired
-    private IProductService productService;
+    private ProductService productService;
     
     @Autowired
-    private IProductHistoryService productHistoryService;
+    private ProductHistoryService productHistoryService;
 
     /**
      * Paginated list query

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.jeecg.modules.warehouse.entity.ProductCategory;
 import org.jeecg.modules.warehouse.mapper.ProductCategoryMapper;
-import org.jeecg.modules.warehouse.service.IProductCategoryService;
+import org.jeecg.modules.warehouse.service.ProductCategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Slf4j
 @Service
-public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMapper, ProductCategory> implements IProductCategoryService {
+public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMapper, ProductCategory> implements ProductCategoryService {
 
     @Override
     public List<ProductCategory> getTree() {

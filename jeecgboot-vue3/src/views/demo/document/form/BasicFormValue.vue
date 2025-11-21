@@ -77,7 +77,7 @@
    * Update form values
    */
   async function updateFormValue() {
-    console.log('I'm in');
+    console.log('I am in');
     await setFieldsValue({ visitor: 'John Doe' });
   }
 </script>

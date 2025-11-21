@@ -12,12 +12,14 @@ import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import org.jeecg.modules.warehouse.entity.WarehouseArea;
-import org.jeecg.modules.warehouse.service.IWarehouseAreaService;
+import org.jeecg.modules.warehouse.service.WarehouseAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.servlet.ModelAndView;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,10 +33,10 @@ import java.util.List;
 @Tag(name = "Warehouse Area Management")
 @RestController
 @RequestMapping("/warehouse/area")
-public class WarehouseAreaController extends JeecgController<WarehouseArea, IWarehouseAreaService> {
+public class WarehouseAreaController extends JeecgController<WarehouseArea, WarehouseAreaService> {
 
     @Autowired
-    private IWarehouseAreaService warehouseAreaService;
+    private WarehouseAreaService warehouseAreaService;
 
     /**
      * Paginated list query
@@ -47,7 +49,7 @@ public class WarehouseAreaController extends JeecgController<WarehouseArea, IWar
      */
     @Operation(summary = "Get Warehouse Area data list")
     @GetMapping(value = "/list")
-    @PermissionData(pageComponent = "warehouse/area/list")
+    @PermissionData(pageComponent = "warehouse:area:list")
     public Result<?> list(WarehouseArea warehouseArea, 
                       @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo, 
                       @RequestParam(name = "pageSize", defaultValue = "10") Integer pageSize,
@@ -69,6 +71,7 @@ public class WarehouseAreaController extends JeecgController<WarehouseArea, IWar
     @PostMapping(value = "/add")
     @AutoLog(value = "Add Warehouse Area")
     @Operation(summary = "Add Warehouse Area")
+    @PermissionData(pageComponent = "warehouse:area:add")
     public Result<?> add(@RequestBody WarehouseArea warehouseArea) {
         warehouseAreaService.save(warehouseArea);
         return Result.OK("Add successful!");
@@ -83,6 +86,7 @@ public class WarehouseAreaController extends JeecgController<WarehouseArea, IWar
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT,RequestMethod.POST})
     @AutoLog(value = "Edit Warehouse Area", operateType = 3)
     @Operation(summary = "Edit Warehouse Area")
+    @PermissionData(pageComponent = "warehouse:area:edit")
     public Result<?> edit(@RequestBody WarehouseArea warehouseArea) {
         warehouseAreaService.updateById(warehouseArea);
         return Result.OK("Update successful!");
@@ -97,6 +101,7 @@ public class WarehouseAreaController extends JeecgController<WarehouseArea, IWar
     @AutoLog(value = "deleteKhu vực kho")
     @DeleteMapping(value = "/delete")
     @Operation(summary = "Delete Warehouse Area by ID")
+    @PermissionData(pageComponent = "warehouse:area:delete")
     public Result<?> delete(@RequestParam(name = "id", required = true) String id) {
         warehouseAreaService.removeById(id);
         return Result.OK("Delete successful!");
@@ -110,6 +115,7 @@ public class WarehouseAreaController extends JeecgController<WarehouseArea, IWar
      */
     @DeleteMapping(value = "/deleteBatch")
     @Operation(summary = "Batch delete Warehouse Area")
+    @PermissionData(pageComponent = "warehouse:area:deletebath")
     public Result<?> deleteBatch(@RequestParam(name = "ids", required = true) String ids) {
         this.warehouseAreaService.removeByIds(Arrays.asList(ids.split(",")));
         return Result.OK("Batch delete successful!");

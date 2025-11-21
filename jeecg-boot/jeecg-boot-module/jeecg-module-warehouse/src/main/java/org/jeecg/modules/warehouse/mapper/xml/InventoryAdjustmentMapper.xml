@@ -3,7 +3,7 @@
 <mapper namespace="org.jeecg.modules.warehouse.mapper.InventoryAdjustmentMapper">
 
     <!-- Result Map -->
-    <resultMap id="InventoryAdjustmentResultMap" type="org.jeecg.modules.warehouse.entity.InventoryAdjustment">
+    <resultMap id="InventoryAdjustmentResultMap" type="org.jeecg.modules.warehouse.controller.entity.InventoryAdjustment">
         <id property="id" column="id"/>
         <result property="createBy" column="create_by"/>
         <result property="createTime" column="create_time"/>
@@ -19,7 +19,7 @@
     </resultMap>
 
     <!-- Adjustment with product info result map -->
-    <resultMap id="AdjustmentWithProductResultMap" type="org.jeecg.modules.warehouse.entity.InventoryAdjustment" extends="InventoryAdjustmentResultMap">
+    <resultMap id="AdjustmentWithProductResultMap" type="org.jeecg.modules.warehouse.controller.entity.InventoryAdjustment" extends="InventoryAdjustmentResultMap">
         <result property="productName" column="product_name"/>
         <result property="productCode" column="product_code"/>
     </resultMap>
