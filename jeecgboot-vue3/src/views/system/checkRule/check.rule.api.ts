@@ -13,16 +13,16 @@ enum Api {
 }
 
 /**
- * 导出地址
+ * export address
  */
 export const exportUrl = Api.exportXls;
 /**
- * 导入地址
+ * Import address
  */
 export const importUrl = Api.importXls;
 
 /**
- * 列表查询
+ * List query
  * @param params
  */
 export const getCheckRuleList = (params) => {
@@ -30,7 +30,7 @@ export const getCheckRuleList = (params) => {
 };
 
 /**
- * 删除
+ * delete
  * @param params
  * @param handleSuccess
  */
@@ -41,15 +41,15 @@ export const deleteCheckRule = (params, handleSuccess) => {
 };
 
 /**
- * 批量删除
+ * 批量delete
  * @param params
  */
 export const batchDeleteCheckRule = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'confirmdelete',
+    content: '是否delete选中数据',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -59,7 +59,7 @@ export const batchDeleteCheckRule = (params, handleSuccess) => {
 };
 
 /**
- * 根据编码校验规则code，校验传入的值是否合法
+ * According to coding verification rulescode，Verify whether the incoming value is legal
  * @param ruleCode
  * @param value
  */
@@ -70,7 +70,7 @@ export const validateCheckRule = (ruleCode, value) => {
 };
 
 /**
- * 保存
+ * save
  * @param params
  */
 export const saveCheckRule = (params) => {
@@ -78,7 +78,7 @@ export const saveCheckRule = (params) => {
 };
 
 /**
- * 更新
+ * renew
  * @param params
  */
 export const updateCheckRule = (params) => {

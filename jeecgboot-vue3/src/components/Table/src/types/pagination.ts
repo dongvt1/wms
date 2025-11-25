@@ -98,11 +98,11 @@ export interface PaginationProps {
    * @type Function
    */
   itemRender?: (props: PaginationRenderProps) => VNodeChild | JSX.Element;
-  // update-begin--author:liaozhiyang---date:20250423---for：【pull/8013】修复 BasicTable position 属性类型配置
+  // update-begin--author:liaozhiyang---date:20250423---for：【pull/8013】repair BasicTable position Property type configuration
   /**
    * specify the position of Pagination
    * @type Position[]
    */
   position?: Position[];
-  // update-end--author:liaozhiyang---date:20250423---for：【pull/8013】修复 BasicTable position 属性类型配置
+  // update-end--author:liaozhiyang---date:20250423---for：【pull/8013】repair BasicTable position Property type configuration
 }

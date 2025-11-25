@@ -1,10 +1,10 @@
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 /**
- * 将一个请求分组
+ * Group a request
  *
- * @param getPromise 传入一个可以获取到Promise对象的方法
- * @param groupId 分组ID，如果不传或者为空则不分组
- * @param expire 过期时间，默认 半分钟
+ * @param getPromise Pass in one to getPromiseobject methods
+ * @param groupId GroupID，如果不传或者为空则不Group
+ * @param expire Expiration time，default half a minute
  */
 export function httpGroupRequest(getPromise, groupId, expire = 1000 * 30) {
   if (groupId == null || groupId === '') {
@@ -19,7 +19,7 @@ export function httpGroupRequest(getPromise, groupId, expire = 1000 * 30) {
     console.log('--------popup----------getFrom  DB---------groupId = ' + groupId);
   }
 
-  // 还没有发出请求，就发出第一次的请求
+  // No request has been made yet，Just make the first request
   return getPromise().then((res) => {
     setAuthCache(groupId, res);
     return Promise.resolve(res);

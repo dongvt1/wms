@@ -2,23 +2,23 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '路由ID',
+    title: 'routingID',
     dataIndex: 'routerId',
     width: 200,
     align: 'left',
   },
   {
-    title: '路由名称',
+    title: 'routing名称',
     dataIndex: 'name',
     width: 200,
   },
   {
-    title: '路由URI',
+    title: 'routingURI',
     dataIndex: 'uri',
     width: 200,
   },
   {
-    title: '状态',
+    title: 'state',
     dataIndex: 'status',
     slots: { customRender: 'status' },
     width: 150,
@@ -28,24 +28,24 @@ export const columns: BasicColumn[] = [
 export const formSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '路由ID',
+    label: 'routingID',
     component: 'Input',
     required: true,
   },
   {
     field: 'name',
-    label: '路由名称',
+    label: 'routing名称',
     component: 'InputNumber',
     required: true,
   },
   {
     field: 'uri',
-    label: '路由URI',
+    label: 'routingURI',
     component: 'Input',
   },
   {
     field: 'predicates',
-    label: '路由条件',
+    label: 'routing条件',
     slot: 'predicates',
     component: 'Input',
   },

@@ -108,7 +108,7 @@ export function useTree(treeDataRef: Ref<TreeDataItem[]>, getReplaceFields: Comp
   }
 
   /**
-   * 添加节点
+   * Add node
    */
   function insertNodeByKey({ parentKey = null, node, push = 'push' }: InsertNodeParams) {
     const treeData: any = cloneDeep(unref(treeDataRef));
@@ -131,7 +131,7 @@ export function useTree(treeDataRef: Ref<TreeDataItem[]>, getReplaceFields: Comp
   }
 
   /**
-   * 批量添加节点
+   * 批量Add node
    */
   function insertNodesByKey({ parentKey = null, list, push = 'push' }: InsertNodeParams) {
     const treeData: any = cloneDeep(unref(treeDataRef));

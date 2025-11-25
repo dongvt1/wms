@@ -6,50 +6,50 @@ const { createMessage, createWarningModal } = useMessage();
 const glob = useGlobSetting();
 
 /**
- * 导出文件xlsx的mime-type
+ * Export filexlsxofmime-type
  */
 export const XLSX_MIME_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
 /**
- * 导出文件xlsx的文件后缀
+ * Export filexlsxof文件后缀
  */
 export const XLSX_FILE_SUFFIX = '.xlsx';
 
 export function useMethods() {
   /**
-   * 导出xls
+   * Exportxls
    * @param name
    * @param url
    */
   async function exportXls(name, url, params, isXlsx = false) {
-    //update-begin---author:wangshuai---date:2024-01-25---for:【QQYUN-8118】导出超时时间设置长点---
-    // 修改为返回原生 response，便于获取 headers
+    //update-begin---author:wangshuai---date:2024-01-25---for:【QQYUN-8118】Export超时时间设置长点---
+    // Modified to return to native response，Easy to access headers
     const response = await defHttp.get(
       { url: url, params: params, responseType: 'blob', timeout: 60000 },
       { isTransformResponse: false, isReturnNativeResponse: true }
     );
-    //update-end---author:wangshuai---date:2024-01-25---for:【QQYUN-8118】导出超时时间设置长点---
+    //update-end---author:wangshuai---date:2024-01-25---for:【QQYUN-8118】Export超时时间设置长点---
     if (!response || !response.data) {
-      createMessage.warning('文件下载失败');
+      createMessage.warning('File download failed');
       return;
     }
-    // 判断 header 中 content-disposition 是否包含 .xlsx
+    // judge header middle content-disposition Does it contain .xlsx
     let isXlsxByHeader = isXlsx;
     const disposition = response.headers && response.headers['content-disposition'];
     if (disposition && disposition.indexOf('.xlsx') !== -1) {
       isXlsxByHeader = true;
     }
     const data = response.data;
-    //update-begin---author:wangshuai---date:2024-04-18---for: 导出excel失败提示，不进行导出---
+    //update-begin---author:wangshuai---date:2024-04-18---for: ExportexcelFailure prompt，不进行Export---
     let reader = new FileReader()
     reader.readAsText(data, 'utf-8')
     reader.onload = async () => {
       if(reader.result){
         if(reader.result.toString().indexOf("success") !=-1){
-          // update-begin---author:liaozhiyang---date:2025-02-11---for:【issues/7738】文件中带"success"导出报错 ---
+          // update-begin---author:liaozhiyang---date:2025-02-11---for:【issues/7738】文件middle带"success"Export报错 ---
           try {
             const { success, message } = JSON.parse(reader.result.toString());
             if (!success) {
-              createMessage.warning('导出失败，失败原因：' + message);
+              createMessage.warning('Export失败，Reason for failure：' + message);
             } else {
               exportExcel(name, isXlsxByHeader, data);
             }
@@ -57,19 +57,19 @@ export function useMethods() {
           } catch (error) {
             exportExcel(name, isXlsxByHeader, data);
           }
-          // update-end---author:liaozhiyang---date:2025-02-11---for:【issues/7738】文件中带"success"导出报错 ---
+          // update-end---author:liaozhiyang---date:2025-02-11---for:【issues/7738】文件middle带"success"Export报错 ---
         }
       }
       exportExcel(name, isXlsxByHeader, data);
-      //update-end---author:wangshuai---date:2024-04-18---for: 导出excel失败提示，不进行导出---
+      //update-end---author:wangshuai---date:2024-04-18---for: ExportexcelFailure prompt，不进行Export---
     }
   }
 
   /**
-   * 导入xls
-   * @param data 导入的数据
+   * importxls
+   * @param data importof数据
    * @param url
-   * @param success 成功后的回调
+   * @param success 成功后of回调
    */
   async function importXls(data, url, success) {
     const isReturn = (fileInfo) => {
@@ -85,18 +85,18 @@ export function useMethods() {
             centered: false,
             content: `<div>
                                 <span>${msg}</span><br/> 
-                                <span>具体详情请<a href = ${href} download = ${fileName}> 点击下载 </a> </span> 
+                                <span>For specific details please<a href = ${href} download = ${fileName}> Click to download </a> </span> 
                               </div>`,
           });
-          //update-begin---author:wangshuai ---date:20221121  for：[VUEN-2827]导入无权限，提示图标错误------------
+          //update-begin---author:wangshuai ---date:20221121  for：[VUEN-2827]import无权限，Tip icon error------------
         } else if (fileInfo.code === 500 || fileInfo.code === 510) {
-          createMessage.error(fileInfo.message || `${data.file.name} 导入失败`);
-          //update-end---author:wangshuai ---date:20221121  for：[VUEN-2827]导入无权限，提示图标错误------------
+          createMessage.error(fileInfo.message || `${data.file.name} import失败`);
+          //update-end---author:wangshuai ---date:20221121  for：[VUEN-2827]import无权限，Tip icon error------------
         } else {
-          createMessage.success(fileInfo.message || `${data.file.name} 文件上传成功`);
+          createMessage.success(fileInfo.message || `${data.file.name} File uploaded successfully`);
         }
       } catch (error) {
-        console.log('导入的数据异常', error);
+        console.log('importof数据异常', error);
       } finally {
         typeof success === 'function' ? success(fileInfo) : '';
       }
@@ -111,14 +111,14 @@ export function useMethods() {
   };
 
   /**
-   * 导出excel
+   * Exportexcel
    * @param name
    * @param isXlsx
    * @param data
    */
   function exportExcel(name, isXlsx, data) {
     if (!name || typeof name != 'string') {
-      name = '导出文件';
+      name = 'Export file';
     }
     let blobOptions = { type: 'application/vnd.ms-excel' };
     let fileSuffix = '.xls';
@@ -136,8 +136,8 @@ export function useMethods() {
       link.setAttribute('download', name + fileSuffix);
       document.body.appendChild(link);
       link.click();
-      document.body.removeChild(link); //下载完成移除元素
-      window.URL.revokeObjectURL(url); //释放掉blob对象
+      document.body.removeChild(link); //Download complete remove elements
+      window.URL.revokeObjectURL(url); //releaseblobobject
     }
   }
 }

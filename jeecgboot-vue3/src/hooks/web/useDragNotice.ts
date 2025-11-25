@@ -11,40 +11,40 @@ import { useRouter } from 'vue-router';
 import { useMessage } from '@/hooks/web/useMessage';
 const { createMessage } = useMessage();
 export function useDragNotice() {
-  //*********************************websocket配置begin******************************************
+  //*********************************websocketConfigurationbegin******************************************
   const glob = useGlobSetting();
   const { push, currentRoute } = useRouter();
   const userStore = useUserStore();
   const instance: any = getCurrentInstance();
-  // 初始化 WebSocket
+  // initialization WebSocket
   function initWebSocket() {
     const token = getToken();
-    //将登录token生成一个短的标识
+    //will log intokenGenerate a short identifier
     const wsClientId = md5(token);
-    // WebSocket与普通的请求所用协议有所不同，ws等同于http，wss等同于https
+    // WebSocketDifferent from the protocol used for ordinary requests，wsEquivalent tohttp，wssEquivalent tohttps
     const url = glob.domainUrl?.replace('https://', 'wss://').replace('http://', 'ws://') + '/dragChannelSocket/' + wsClientId;
     connectWebSocket(url);
     onWebSocket(onWebSocketMessage);
   }
 
   async function onWebSocketMessage(data) {
-    console.log('仪表盘监听按钮点击事件websocket', data);
+    console.log('Dashboard listens for button click eventswebsocket', data);
     if (data?.CMD === 'drag') {
-      //触发动作： url：路径 modal：弹窗
+      //trigger action： url：path modal：Pop-up window
       const action = data.result.action;
-      //弹窗类型： 点击按钮打开什么弹窗，根据type打开不同的弹窗
+      //Pop-up window类型： 点击按钮打开什么Pop-up window，according totype打开不同的Pop-up window
       const type = data.result.type;
-      //url地址，可以是路由，也可以是外部链接
+      //urladdress，Can be a route，It can also be an external link
       let url = data.result.url;
-      //弹窗参数或者url参数
+      //Pop-up windowparameter或者urlparameter
       const record = data.result.records || {};
-      console.log('仪表盘监听点击事件类型type', type);
-      console.log('仪表盘监听点击事件动作action', action);
-      console.log('仪表盘监听点击事件路径url', url);
-      console.log('仪表盘监听点击事件参数', record);
-      //1.路径的话，判断外部链接还是内部路由跳转
+      console.log('Dashboard listening click event typetype', type);
+      console.log('Dashboard monitors click event actionsaction', action);
+      console.log('仪表盘监听点击事件pathurl', url);
+      console.log('仪表盘监听点击事件parameter', record);
+      //1.path的话，Determine external link or internal route jump
       if (action == 'url') {
-        //常用下載特殊处理
+        //Special handling for common downloads
         if (url == 'fileUrl') {
           url = record[url];
         }
@@ -55,10 +55,10 @@ export function useDragNotice() {
           push({ path: urlParamsObj.url, query: { ...urlParamsObj.params, ...record } });
         }
       } else {
-        //2.弹窗方式打开项目组件
+        //2.Pop-up window方式打开项目组件
         switch (type) {
           case 'email':
-            //邮箱查看弹窗
+            //邮箱查看Pop-up window
             handleOpenType('email', { record });
             break;
           default:
@@ -67,19 +67,19 @@ export function useDragNotice() {
       }
     }
   }
-  //*********************************websocket配置end******************************************
+  //*********************************websocketConfigurationend******************************************
 
-  //*********************************打开弹窗修改，动态设置弹窗begin*******************************
-  //当前表单弹窗
+  //*********************************打开Pop-up window修改，动态设置Pop-up windowbegin*******************************
+  //当前表单Pop-up window
   const currentModal = ref<string | null>(null);
-  //当前表单参数
+  //当前表单parameter
   const modalParams = ref<Recordable>({});
-  //表单注册缓存
+  //Form registration cache
   const modalRegCache = ref<Recordable>({});
-  //组件绑定参数
+  //组件绑定parameter
   const bindParams = ref<Recordable>({});
   /**
-   * 根据类型打开不同弹窗
+   * according to类型打开不同Pop-up window
    * @param type
    * @param params
    */
@@ -88,31 +88,31 @@ export function useDragNotice() {
     modalParams.value = { ...params };
     switch (type) {
       case 'email':
-        //邮件查看
+        //Email check
         currentModal.value = 'EoaMailBoxInModal';
         break;
       default:
         currentModal.value = null;
         break;
     }
-    //注册表单弹窗
+    //注册表单Pop-up window
     initModalRegister();
     await nextTick(() => {
       if (modalRegCache.value[currentModal.value!]?.isRegister) {
-        console.log('已注冊，走缓存');
+        console.log('Registered，Go cache');
         modalRegCache.value[currentModal.value!].modalMethods.openModal(true, modalParams.value);
       }
     });
   }
   /**
-   * 初始化弹窗注册
+   * initializationPop-up window注册
    */
   function initModalRegister() {
-    //如果当前选择表单为null，就不处理
+    //If the current selection form isnull，Don't deal with it
     if (!currentModal.value) {
       return;
     }
-    //判断缓存中是否存在，不存在就走缓存逻辑
+    //Determine whether it exists in the cache，不存在就Go cache逻辑
     if (!modalRegCache.value[currentModal.value]) {
       const [registerModal, modalMethods] = useModal();
       modalRegCache.value[currentModal.value] = {
@@ -124,26 +124,26 @@ export function useDragNotice() {
   }
 
   /**
-   * 绑定注册弹窗
+   * 绑定注册Pop-up window
    * @param regFn
    * @param modalMethod
    */
   function bindRegisterModal(regFn, modalMethod) {
     return async (...args) => {
-      console.log('开始注册：', currentModal.value);
+      console.log('Start registration：', currentModal.value);
       await regFn(...args);
-      console.log('注册完成：', currentModal.value);
-      //打开弹窗
+      console.log('Registration completed：', currentModal.value);
+      //打开Pop-up window
       modalMethod.openModal(true, modalParams.value);
-      //设置缓存标识
+      //Set cache flag
       modalRegCache.value[currentModal.value!].isRegister = true;
     };
   }
-  //*********************************打开弹窗修改，动态设置弹窗end******************************************
-  //刷新页面
+  //*********************************打开Pop-up window修改，动态设置Pop-up windowend******************************************
+  //refresh page
   function reloadPage() {
     const iframes: any = document.getElementsByClassName('jeecg-iframe-page__main');
-    // 将 HTMLCollection 转换为数组
+    // Will HTMLCollection Convert to array
     const iframeArray = Array.from(iframes);
     if (currentRoute.value?.meta?.frameSrc && currentRoute.value?.meta?.frameSrc.indexOf('/drag/view?pageId=') >= 0) {
       const targetIframe: any = iframeArray.find((iframe: any) => iframe.src == currentRoute.value?.meta?.frameSrc);

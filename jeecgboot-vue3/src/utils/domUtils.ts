@@ -172,9 +172,9 @@ export function useRafThrottle<T extends FunctionArgs>(fn: T): T {
 }
 
 /**
- * 查找父级元素，直到找到符合条件的元素
- * @param element 当前元素
- * @param checkFn 判断条件
+ * Find parent element，until an element that meets the criteria is found
+ * @param element current element
+ * @param checkFn Judgment conditions
  */
 export function queryParentElement(element: HTMLElement, checkFn: (node: HTMLElement) => boolean): HTMLElement | null {
   let ele: HTMLElement | null = element;

@@ -1,5 +1,5 @@
 /*
-* 【JEECG作为乾坤子应用】
+* 【JEECGAs Qiankunzi application】
 */
 import type {App} from 'vue';
 import type {MainAppProps} from "#/main";
@@ -11,13 +11,13 @@ import {clearComponent} from "@/components/jeecg/JVxeTable/src/componentMap";
 import {renderWithQiankun} from 'vite-plugin-qiankun/dist/helper';
 
 /**
- * 以乾坤子应用模式运行
+ * Run in Qiankunzi application mode
  * @param render
  */
 export async function useQiankunMicroApp(render: (props?: MainAppProps) => Promise<App>) {
   let instance: Nullable<App> = null;
 
-  // 注册乾坤子应用生命周期函数
+  // Register Qiankunzi application life cycle function
   renderWithQiankun({
     async mount(props) {
       console.debug('[qiankun-micro] mount - props :', props)

@@ -3,7 +3,7 @@ import $printJS, { Configuration } from 'print-js';
 import Print from 'vue-print-nb-jeecg/src/printarea';
 
 /**
- * 调用 printJS，如果type = html，就走 printNB 的方法
+ * call printJS，iftype = html，Just leave printNB method
  */
 export function printJS(configuration: Configuration) {
   if (configuration?.type === 'html') {
@@ -13,7 +13,7 @@ export function printJS(configuration: Configuration) {
   }
 }
 
-/** 调用 printNB 打印 */
+/** call printNB Print */
 export function printNb(domId) {
   if (domId) {
     localPrint(domId);

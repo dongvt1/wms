@@ -93,17 +93,17 @@ export interface FormProps {
   autoSubmitOnEnter?: boolean;
   // Check whether the information is added to the label
   rulesMessageJoinLabel?: boolean;
-  // 是否显示展开收起按钮
+  // Whether to display the expand collapse button
   showAdvancedButton?: boolean;
   // Whether to focus on the first input box, only works when the first form item is input
   autoFocusFirstItem?: boolean;
-  // 【jeecg】如果 showAdvancedButton 为 true，超过指定列数默认折叠，默认为3
+  // 【jeecg】if showAdvancedButton for true，Default collapse when the specified number of columns is exceeded，默认for3
   autoAdvancedCol?: number;
-  // 如果 showAdvancedButton 为 true，超过指定行数行默认折叠
-  // update-begin--author:liaozhiyang---date:202401009---for：【issues/7261】表格上方查询项autoAdvancedLine配置没有效果（删除autoAdvancedLine）
+  // if showAdvancedButton for true，Rows exceeding the specified number of rows are collapsed by default
+  // update-begin--author:liaozhiyang---date:202401009---for：【issues/7261】Query items above the tableautoAdvancedLineConfiguration has no effect（deleteautoAdvancedLine）
   // autoAdvancedLine?: number;
-  // update-end--author:liaozhiyang---date:202401009---for：【issues/7261】表格上方查询项autoAdvancedLine配置没有效果（删除autoAdvancedLine）
-  // 折叠时始终保持显示的行数
+  // update-end--author:liaozhiyang---date:202401009---for：【issues/7261】Query items above the tableautoAdvancedLineConfiguration has no effect（deleteautoAdvancedLine）
+  // Number of rows to keep displayed when folded
   alwaysShowLines?: number;
   // Whether to show the operation button
   showActionButtonGroup?: boolean;
@@ -135,9 +135,9 @@ export interface FormSchema {
   // Variable name bound to v-model Default value
   valueField?: string;
   // Label name
-  // update-begin--author:liaozhiyang---date:20240724---for：【issues/6908】多语言无刷新切换时，BasicColumn和FormSchema里面的值不能正常切换
+  // update-begin--author:liaozhiyang---date:20240724---for：【issues/6908】When switching between multiple languages ​​without refreshing，BasicColumnandFormSchemaThe values ​​inside cannot be switched normally
   label: string | VNode | Fn;
-  // update-end--author:liaozhiyang---date:20240724---for：【issues/6908】多语言无刷新切换时，BasicColumn和FormSchema里面的值不能正常切换
+  // update-end--author:liaozhiyang---date:20240724---for：【issues/6908】When switching between multiple languages ​​without refreshing，BasicColumnandFormSchemaThe values ​​inside cannot be switched normally
   // Auxiliary text
   subLabel?: string;
   // Help text on the right side of the text
@@ -158,7 +158,7 @@ export interface FormSchema {
   required?: boolean | ((renderCallbackParams: RenderCallbackParams) => boolean);
 
   suffix?: string | number | VueNode | ((values: RenderCallbackParams) => string | number | VueNode);
-  // 【QQYUN-12876】是否是紧凑型 suffix（当组件宽度未占满时，可紧挨着组件右侧）
+  // 【QQYUN-12876】Is it compact? suffix（When the component width is not full，Can be placed immediately to the right of the component）
   suffixCompact?: boolean;
 
   // Validation rules
@@ -172,7 +172,7 @@ export interface FormSchema {
   // col configuration outside formModelItem
   colProps?: Partial<ColEx>;
 
-  // 默认值
+  // default value
   defaultValue?: any;
   isAdvanced?: boolean;
 
@@ -200,20 +200,20 @@ export interface FormSchema {
   dynamicDisabled?: boolean | ((renderCallbackParams: RenderCallbackParams) => boolean);
 
   dynamicRules?: (renderCallbackParams: RenderCallbackParams) => Rule[];
-  // update-begin--author:liaozhiyang---date:20240308---for：【QQYUN-8377】formSchema props支持动态修改
-  // 设置组件props的key
+  // update-begin--author:liaozhiyang---date:20240308---for：【QQYUN-8377】formSchema propsSupport dynamic modification
+  // Setup componentpropsofkey
   dynamicPropskey?: string;
   dynamicPropsVal?: ((renderCallbackParams: RenderCallbackParams) => any);
-  // update-end--author:liaozhiyang---date:20240308---for：【QQYUN-8377】formSchema props支持动态修改
+  // update-end--author:liaozhiyang---date:20240308---for：【QQYUN-8377】formSchema propsSupport dynamic modification
 
-  // 这个属性自定义的 用于自定义的业务 比如在表单打开的时候修改表单的禁用状态，但是又不能重写componentProps，因为他的内容太多了，所以使用dynamicDisabled和buss实现
+  // 这个属性自定义of 用于自定义of业务 比如在表单打开of时候修改表单of禁用状态，But it cannot be rewrittencomponentProps，因for他of内容太多了，So usedynamicDisabledandbussaccomplish
   buss?: any;
   
-  //label字数控制（label宽度）
+  //labelword count control（labelwidth）
   labelLength?: number;
-  // update-begin--author:liaozhiyang---date:20240529---for【TV360X-460】basicForm支持v-auth指令(权限控制显隐)
+  // update-begin--author:liaozhiyang---date:20240529---for【TV360X-460】basicFormsupportv-authinstruction(Access control visible and hidden)
   auth?: string;
-  // update-end--author:liaozhiyang---date:20240529---for【TV360X-460】basicForm支持v-auth指令(权限控制显隐)
+  // update-end--author:liaozhiyang---date:20240529---for【TV360X-460】basicFormsupportv-authinstruction(Access control visible and hidden)
 }
 export interface HelpComponentProps {
   maxWidth: string;

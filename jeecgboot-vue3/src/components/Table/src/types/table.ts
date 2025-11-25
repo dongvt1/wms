@@ -38,7 +38,7 @@ export interface TableRowSelection<T = any> extends ITableRowSelection {
    * @type Function
    */
   onSelectInvert?: (selectedRows: string[] | number[]) => any;
-  //【issues/8163】关联记录新增丢失
+  //【issues/8163】New associated records are lost
   selectedRows?: any[];
 }
 
@@ -80,10 +80,10 @@ export interface FetchParams {
 export interface GetColumnsParams {
   ignoreIndex?: boolean;
   ignoreAction?: boolean;
-  // update-begin--author:liaozhiyang---date:20250729---for：【issues/8502】解决权限列在列表中不显示，列配置中还显示
+  // update-begin--author:liaozhiyang---date:20250729---for：【issues/8502】Solve the problem that permission columns are not displayed in the list，The column configuration also shows
   ignoreAuth?: boolean;
   ignoreIfShow?: boolean | ((column: BasicColumn) => boolean);
-  // update-end--author:liaozhiyang---date:20250729---for：【issues/8502】解决权限列在列表中不显示，列配置中还显示
+  // update-end--author:liaozhiyang---date:20250729---for：【issues/8502】Solve the problem that permission columns are not displayed in the list，The column configuration also shows
   sort?: boolean;
 }
 
@@ -125,116 +125,116 @@ export interface TableActionType {
 }
 
 export interface FetchSetting {
-  // 请求接口当前页数
+  // Request the current page number of the interface
   pageField: string;
-  // 每页显示多少条
+  // How many items to display per page
   sizeField: string;
-  // 请求结果列表字段  支持 a.b.c
+  // Request result list fields  support a.b.c
   listField: string;
-  // 请求结果总数字段  支持 a.b.c
+  // Request result total field  support a.b.c
   totalField: string;
 }
 
 export interface TableSetting {
-  // 是否显示刷新按钮
+  // Whether to display refresh button
   redo?: boolean;
-  // 是否显示尺寸调整按钮
+  // Whether to display the resize button
   size?: boolean;
-  // 是否显示字段调整按钮
+  // Whether to display field adjustment buttons
   setting?: boolean;
-  // 缓存“字段调整”配置的key，用于页面上有多个表格需要区分的情况
+  // cache“Field adjustment”configuredkey，Used when there are multiple tables on the page that need to be distinguished
   cacheKey?: string;
-  // 是否显示全屏按钮
+  // Whether to show the full screen button
   fullScreen?: boolean;
 }
 
 export interface BasicTableProps<T = any> {
-  // 点击行选中
+  // Click on row to select
   clickToRowSelect?: boolean;
   isTreeTable?: boolean;
-  // 自定义排序方法
+  // Custom sorting method
   sortFn?: (sortInfo: SorterResult) => any;
-  // 排序方法
+  // Sorting method
   filterFn?: (data: Partial<Recordable<string[]>>) => any;
-  // 取消表格的默认padding
+  // Cancel the default of the tablepadding
   inset?: boolean;
-  // 显示表格设置
+  // Show table settings
   showTableSetting?: boolean;
-  // 表格上方操作按钮设置
+  // Operation button settings above the table
   tableSetting?: TableSetting;
-  // 斑马纹
+  // zebra print
   striped?: boolean;
-  // 是否自动生成key
+  // Whether to automatically generatekey
   autoCreateKey?: boolean;
-  // 计算合计行的方法
+  // How to calculate total rows
   summaryFunc?: (...arg: any) => Recordable[];
-  // 自定义合计表格内容
+  // Customize total table content
   summaryData?: Recordable[];
-  // 是否显示合计行
+  // Whether to display the total row
   showSummary?: boolean;
-  // 是否可拖拽列
+  // Whether columns can be dragged and dropped
   canColDrag?: boolean;
-  // 接口请求对象
+  // Interface request object
   api?: (...arg: any) => Promise<any>;
-  // 请求之前处理参数
+  // Process parameters before requesting
   beforeFetch?: Fn;
-  // 自定义处理接口返回参数
+  // Custom processing interface return parameters
   afterFetch?: Fn;
-  // 查询条件请求之前处理
+  // Processing before query condition request
   handleSearchInfoFn?: Fn;
-  // 请求接口配置
+  // Request interface configuration
   fetchSetting?: Partial<FetchSetting>;
-  // 立即请求接口
+  // Request interface now
   immediate?: boolean;
-  // 在开起搜索表单的时候，如果没有数据是否显示表格
+  // When opening the search form，Whether to display the table if there is no data
   emptyDataIsShowTable?: boolean;
-  // 额外的请求参数
+  // Additional request parameters
   searchInfo?: Recordable;
-  // 默认的排序参数
+  // Default sort parameters
   defSort?: Recordable | Recordable[];
-  // 使用搜索表单
+  // Use the search form
   useSearchForm?: boolean;
-  // 表单配置
+  // Form configuration
   formConfig?: Partial<FormProps>;
-  // 列配置
+  // column configuration
   columns: BasicColumn[];
-  // 统一设置列最大宽度
+  // Set column maximum width uniformly
   maxColumnWidth?: number;
-  // 是否显示序号列
+  // Whether to display the serial number column
   showIndexColumn?: boolean;
-  // 序号列配置
+  // 序号column configuration
   indexColumnProps?: BasicColumn;
-  // 是否显示操作列
+  // Whether to display the operation column
   showActionColumn?: boolean;
-  // 操作列配置
+  // 操作column configuration
   actionColumn?: Partial<BasicColumn>;
-  // 文本超过宽度是否显示。。。
+  // Whether the text exceeds the width and is displayed。。。
   ellipsis?: boolean;
-  // 是否可以自适应高度
+  // Is it possible to adjust the height?
   canResize?: boolean;
-  // 自适应高度偏移， 计算结果-偏移量
+  // Adaptive height offset， Calculation result-offset
   resizeHeightOffset?: number;
-  // 在分页改变的时候清空选项
+  // Clear options when pagination changes
   clearSelectOnPageChange?: boolean;
   //
   rowKey?: string | ((record: Recordable) => string);
-  // 数据
+  // data
   dataSource?: Recordable[];
-  // 标题右侧提示
+  // Tips on the right side of the title
   titleHelpMessage?: string | string[];
-  // 表格最小高度
+  // table minimum height
   minHeight?: number;
-  // 表格滚动最大高度
+  // table scroll maximum height
   maxHeight?: number;
-  // 是否显示边框
+  // Whether to display borders
   bordered?: boolean;
-  // update-begin--author:liaozhiyang---date:202401009---for：【TV360X-116】内嵌风格字段较多时表格错位
-  // 展开列宽度
+  // update-begin--author:liaozhiyang---date:202401009---for：【TV360X-116】The table is misaligned when there are many embedded style fields
+  // Expand column width
   expandColumnWidth: number;
-  // update-end--author:liaozhiyang---date:202401009---for：【TV360X-116】内嵌风格字段较多时表格错位
-  // 分页配置
+  // update-end--author:liaozhiyang---date:202401009---for：【TV360X-116】The table is misaligned when there are many embedded style fields
+  // Paging configuration
   pagination?: PaginationProps | boolean;
-  // loading加载
+  // loadingload
   loading?: boolean;
 
   /**
@@ -331,9 +331,9 @@ export interface BasicTableProps<T = any> {
    * you need to add style .ant-table td { white-space: nowrap; }.
    * @type object
    */
-  // update-begin--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTable加上scrollToFirstRowOnChange类型定义
+  // update-begin--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTableplusscrollToFirstRowOnChangetype definition
   scroll?: { x?: number | true | 'max-content'; y?: number; scrollToFirstRowOnChange?: boolean };
-  // update-end--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTable加上scrollToFirstRowOnChange类型定义
+  // update-end--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTableplusscrollToFirstRowOnChangetype definition
 
   /**
    * Whether to show table header
@@ -438,13 +438,13 @@ export interface BasicColumn extends ColumnProps<Recordable> {
 
   //
   flag?: 'INDEX' | 'DEFAULT' | 'CHECKBOX' | 'RADIO' | 'ACTION';
-  // update-begin--author:liaozhiyang---date:20240724---for：【issues/6908】多语言无刷新切换时，BasicColumn和FormSchema里面的值不能正常切换
+  // update-begin--author:liaozhiyang---date:20240724---for：【issues/6908】When switching between multiple languages ​​without refreshing，BasicColumnandFormSchemaThe values ​​inside cannot be switched normally
   title: string | Fn;
-  // update-end--author:liaozhiyang---date:20240724---for：【issues/6908】多语言无刷新切换时，BasicColumn和FormSchema里面的值不能正常切换
+  // update-end--author:liaozhiyang---date:20240724---for：【issues/6908】When switching between multiple languages ​​without refreshing，BasicColumnandFormSchemaThe values ​​inside cannot be switched normally
   customTitle?: VueNode;
 
   slots?: Recordable;
-  // slots的备份，兼容老的写法，转成新写法避免控制台警告
+  // slotsbackup，Compatible with old writing methods，Convert to new writing method to avoid console warnings
   slotsBak?: Recordable;
 
   // Whether to hide the column by default, it can be displayed in the column configuration
@@ -460,19 +460,19 @@ export interface BasicColumn extends ColumnProps<Recordable> {
   editRow?: boolean;
   editable?: boolean;
   editComponent?: ComponentType;
-  // update-begin--author:liaozhiyang---date:20250818---for：【issues/8680】editComponentProps可接受一个函数传入record
+  // update-begin--author:liaozhiyang---date:20250818---for：【issues/8680】editComponentPropsAccepts a function passed inrecord
   editComponentProps?: Recordable | ((record: Recordable) => Recordable);
-  // update-end--author:liaozhiyang---date:20250818---for：【issues/8680】editComponentProps可接受一个函数传入record
+  // update-end--author:liaozhiyang---date:20250818---for：【issues/8680】editComponentPropsAccepts a function passed inrecord
   editRule?: boolean | ((text: string, record: Recordable) => Promise<string>);
   editValueMap?: (value: any) => string;
   onEditRow?: () => void;
-  // 权限编码控制是否显示
+  // Permission encoding controls whether to display
   auth?: RoleEnum | RoleEnum[] | string | string[];
-  // 业务控制是否显示
+  // Whether business control is displayed
   ifShow?: boolean | ((column: BasicColumn) => boolean);
-  //compType-用于记录类型
+  //compType-for record type
   compType?: string;
-  // update-begin--author:liaozhiyang---date:20240425---for：【pull/1201】添加antd的TableSummary功能兼容老的summary（表尾合计）
+  // update-begin--author:liaozhiyang---date:20240425---for：【pull/1201】Add toantdofTableSummary功能兼容老ofsummary（Total at the end of the table）
   customSummaryRender?: (opt: {
     value: any;
     text: any;
@@ -481,8 +481,8 @@ export interface BasicColumn extends ColumnProps<Recordable> {
     renderIndex?: number;
     column: BasicColumn;
   }) => any | VNodeChild | JSX.Element;
-  // update-end--author:liaozhiyang---date:20240425---for：【pull/1201】添加antd的TableSummary功能兼容老的summary（表尾合计）
-  // 额外的属性
+  // update-end--author:liaozhiyang---date:20240425---for：【pull/1201】Add toantdofTableSummary功能兼容老ofsummary（Total at the end of the table）
+  // 额外of属性
   extraProps?: Recordable;
 }
 

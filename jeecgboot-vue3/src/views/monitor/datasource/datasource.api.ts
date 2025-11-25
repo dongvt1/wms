@@ -13,16 +13,16 @@ enum Api {
   importExcelUrl = 'sys/dataSource/importExcel',
 }
 /**
- * 导出api
+ * Exportapi
  */
 export const getExportUrl = Api.exportXlsUrl;
 /**
- * 导入api
+ * importapi
  */
 export const getImportUrl = Api.importExcelUrl;
 
 /**
- * 查询数据源列表
+ * Query data source list
  * @param params
  */
 export const getDataSourceList = (params) => {
@@ -30,7 +30,7 @@ export const getDataSourceList = (params) => {
 };
 
 /**
- * 保存或者更新数据源
+ * Save or update data source
  * @param params
  */
 export const saveOrUpdateDataSource = (params, isUpdate) => {
@@ -39,7 +39,7 @@ export const saveOrUpdateDataSource = (params, isUpdate) => {
 };
 
 /**
- * 查询数据源详情
+ * Query data source details
  * @param params
  */
 export const getDataSourceById = (params) => {
@@ -47,7 +47,7 @@ export const getDataSourceById = (params) => {
 };
 
 /**
- * 删除数据源
+ * Delete data source
  * @param params
  */
 export const deleteDataSource = (params, handleSuccess) => {
@@ -57,7 +57,7 @@ export const deleteDataSource = (params, handleSuccess) => {
 };
 
 /**
- * 测试连接
+ * test connection
  * @param params
  */
 export const testConnection = (params) => {
@@ -65,15 +65,15 @@ export const testConnection = (params) => {
 };
 
 /**
- * 批量删除数据源
+ * 批量Delete data source
  * @param params
  */
 export const batchDeleteDataSource = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm deletion',
+    content: 'Whether to delete selected data',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();

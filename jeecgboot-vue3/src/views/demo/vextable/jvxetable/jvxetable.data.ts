@@ -2,72 +2,72 @@ import { JVxeTypes, JVxeColumn } from '/@/components/jeecg/JVxeTable/types';
 
 export const columns: JVxeColumn[] = [
   {
-    title: '客户名',
+    title: 'Customer name',
     key: 'name',
     width: 180,
     type: JVxeTypes.input,
     defaultValue: '',
-    placeholder: '请输入${title}',
-    validateRules: [{ required: true, message: '${title}不能为空' }],
+    placeholder: 'Please enter${title}',
+    validateRules: [{ required: true, message: '${title}cannot be empty' }],
   },
   {
-    title: '性别',
+    title: 'gender',
     key: 'sex',
     width: 180,
     type: JVxeTypes.select,
     options: [
-      // 下拉选项
-      { title: '男', value: '1' },
-      { title: '女', value: '2' },
+      // drop down options
+      { title: 'male', value: '1' },
+      { title: 'female', value: '2' },
     ],
     defaultValue: '',
-    placeholder: '请选择${title}',
+    placeholder: 'Please select${title}',
   },
   {
-    title: '身份证号',
+    title: 'ID number',
     key: 'idcard',
     width: 180,
     type: JVxeTypes.input,
     defaultValue: '',
-    placeholder: '请输入${title}',
+    placeholder: 'Please enter${title}',
     validateRules: [
       {
         pattern: '^\\d{6}(18|19|20)?\\d{2}(0[1-9]|1[012])(0[1-9]|[12]\\d|3[01])\\d{3}(\\d|[xX])$',
-        message: '${title}格式不正确',
+        message: '${title}Incorrect format',
       },
     ],
   },
   {
-    title: '手机号',
+    title: 'Phone number',
     key: 'telphone',
     width: 180,
     type: JVxeTypes.input,
     defaultValue: '',
-    placeholder: '请输入${title}',
+    placeholder: 'Please enter${title}',
     validateRules: [
       {
         pattern: '^1[3456789]\\d{9}$',
-        message: '${title}格式不正确',
+        message: '${title}Incorrect format',
       },
     ],
   },
 ];
 export const columns1: JVxeColumn[] = [
   {
-    title: '航班号',
+    title: 'flight number',
     key: 'ticketCode',
     width: 180,
     type: JVxeTypes.input,
     defaultValue: '',
-    placeholder: '请输入${title}',
-    validateRules: [{ required: true, message: '${title}不能为空' }],
+    placeholder: 'Please enter${title}',
+    validateRules: [{ required: true, message: '${title}cannot be empty' }],
   },
   {
-    title: '航班时间',
+    title: 'Flight time',
     key: 'tickectDate',
     width: 180,
     type: JVxeTypes.date,
-    placeholder: '请选择${title}',
+    placeholder: 'Please select${title}',
     defaultValue: '',
   },
 ];

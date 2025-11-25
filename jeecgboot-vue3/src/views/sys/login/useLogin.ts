@@ -147,7 +147,7 @@ function checkUsername(rule, value, callback) {
   } else {
     return new Promise((resolve, reject) => {
       checkOnlyUser({ username: value }).then((res) => {
-        res.success ? resolve() : reject('用户名已存在!');
+        res.success ? resolve() : reject('Username already exists!');
       });
     });
   }
@@ -156,52 +156,52 @@ async function checkPhone(rule, value, callback) {
   const { t } = useI18n();
   var reg = /^1[3456789]\d{9}$/;
   if (!reg.test(value)) {
-    return Promise.reject(new Error('请输入正确手机号'));
+    return Promise.reject(new Error('Please enter the correct mobile phone number'));
   } else {
     return new Promise((resolve, reject) => {
       checkOnlyUser({ phone: value }).then((res) => {
-        res.success ? resolve() : reject('手机号已存在!');
+        res.success ? resolve() : reject('Mobile phone number already exists!');
       });
     });
   }
 }
 
-//update-begin---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3不支持auth2登录------------
+//update-begin---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3Not supportedauth2Log in------------
 /**
- * 判断是否是OAuth2APP环境
+ * Determine whether it isOAuth2APPenvironment
  */
 export function isOAuth2AppEnv() {
   return /wxwork|dingtalk/i.test(navigator.userAgent);
 }
 
 /**
- * 判断是否是钉钉环境
+ * Determine whether it is钉钉environment
  */
 export function isOAuth2DingAppEnv() {
   return /dingtalk/i.test(navigator.userAgent);
 }
 
 /**
- * 后台构造oauth2登录地址
+ * Background structureoauth2Log in地址
  * @param source
  * @param tenantId
  */
 export function sysOAuth2Login(source) {
   let url = `${window._CONFIG['domianURL']}/sys/thirdLogin/oauth2/${source}/login`;
   url += `?state=${encodeURIComponent(window.location.origin)}`;
-  //update-begin---author:wangshuai ---date:20230224  for：[QQYUN-3440]新建企业微信和钉钉配置表，通过租户模式隔离------------
+  //update-begin---author:wangshuai ---date:20230224  for：[QQYUN-3440]Create a new corporate WeChat and DingTalk configuration table，Isolation via tenant mode------------
   let tenantId = getAuthCache(OAUTH2_THIRD_LOGIN_TENANT_ID);
   if(tenantId){
     url += `&tenantId=${tenantId}`;
   }
-  //update-end---author:wangshuai ---date:20230224  for：[QQYUN-3440]新建企业微信和钉钉配置表，通过租户模式隔离------------
+  //update-end---author:wangshuai ---date:20230224  for：[QQYUN-3440]Create a new corporate WeChat and DingTalk configuration table，Isolation via tenant mode------------
   window.location.href = url;
 }
-//update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3不支持auth2登录------------
+//update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3Not supportedauth2Log in------------
 
-//update-begin---author:wangshuai ---date:20241108  for：[QQYUN-9421]vue3新版auth登录，用户不用点击登录------------
+//update-begin---author:wangshuai ---date:20241108  for：[QQYUN-9421]vue3new versionauthLog in，用户不用点击Log in------------
 /**
- * 后台callBack
+ * BackstagecallBack
  * @param code
  */
 export function sysOAuth2Callback(code:string) {
@@ -213,4 +213,4 @@ export function sysOAuth2Callback(code:string) {
   }
   window.location.href = url;
 }
-//update-end---author:wangshuai ---date:20241108  for：[QQYUN-9421]vue3新版auth登录，用户不用点击登录------------
+//update-end---author:wangshuai ---date:20241108  for：[QQYUN-9421]vue3new versionauthLog in，用户不用点击Log in------------

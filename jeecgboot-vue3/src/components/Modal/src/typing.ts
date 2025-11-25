@@ -1,7 +1,7 @@
 import type { ButtonProps } from 'ant-design-vue/lib/button/buttonTypes';
 import type { CSSProperties, VNodeChild, ComputedRef } from 'vue';
 /**
- * @description: 弹窗对外暴露的方法
+ * @description: How to expose pop-up windows to the outside world
  */
 export interface ModalMethods {
   setModalProps: (props: Partial<ModalProps>) => void;
@@ -34,20 +34,20 @@ export type UseModalInnerReturnType = [RegisterFn, ReturnInnerMethods];
 export interface ModalProps {
   minHeight?: number;
   height?: number;
-  // 启用wrapper后 底部可以适当增加高度
+  // enablewrapperback The bottom can be appropriately increased in height
   wrapperFooterOffset?: number;
   draggable?: boolean;
   scrollTop?: boolean;
 
-  // 是否可以进行全屏
+  // Is it possible to go full screen
   canFullscreen?: boolean;
   defaultFullscreen?: boolean;
   visible?: boolean;
   open?: boolean;
-  // 温馨提醒信息
+  // Warm reminder message
   helpMessage: string | string[];
 
-  // 是否使用modalWrapper
+  // Whether to usemodalWrapper
   useWrapper: boolean;
 
   loading: boolean;

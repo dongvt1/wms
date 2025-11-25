@@ -15,7 +15,7 @@
   import { uploadFile } from '@/api/common/api';
   import {$electron} from "@/electron";
 
-  type Lang = 'zh_CN' | 'en_US' | 'ja_JP' | 'ko_KR' | undefined;
+  type Lang =  'en_US' | 'ja_JP' | 'ko_KR' | undefined;
 
   export default defineComponent({
     inheritAttrs: false,

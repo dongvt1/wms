@@ -1,34 +1,34 @@
 import {areaList} from '@vant/area-data'
 import {freezeDeep} from "@/utils/common/compUtils";
 
-// 扁平化的省市区数据
+// Flat province and city data
 export const pcaa = freezeDeep(usePlatPcaaData())
 
 /**
- * 获取扁平化的省市区数据
+ * 获取Flat province and city data
  */
 function usePlatPcaaData() {
   const {city_list: city, county_list: county, province_list: province} = areaList;
   const dataMap = new Map<string, Recordable>()
   const flatData: Recordable = {'86': province}
-  // 省
+  // Province
   Object.keys(province).forEach((code) => {
     flatData[code] = {}
     dataMap.set(code.slice(0, 2), flatData[code])
   })
-  // 市区
+  // urban area
   Object.keys(city).forEach((code) => {
     flatData[code] = {}
     dataMap.set(code.slice(0, 4), flatData[code])
-    // 填充上一级
+    // Fill in the previous level
     const getProvince = dataMap.get(code.slice(0, 2))
     if (getProvince) {
       getProvince[code] = city[code]
     }
   });
-  // 县
+  // county
   Object.keys(county).forEach((code) => {
-    // 填充上一级
+    // Fill in the previous level
     const getCity = dataMap.get(code.slice(0, 4))
     if (getCity) {
       getCity[code] = county[code]

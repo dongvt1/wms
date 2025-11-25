@@ -10,7 +10,7 @@ import {
 
 import { CacheTypeEnum } from '/@/enums/cacheEnum';
 
-export type LocaleType = 'zh_CN' | 'en' | 'ru' | 'ja' | 'ko';
+export type LocaleType = 'en' | 'ru' | 'ja' | 'ko';
 
 export interface MenuSetting {
   bgColor: string;
@@ -24,9 +24,9 @@ export interface MenuSetting {
   mode: MenuModeEnum;
   type: MenuTypeEnum;
   theme: ThemeEnum;
-  // update-begin--author:liaozhiyang---date:20240408---for：【QQYUN-8922】左侧导航栏文字颜色调整区分彩色和暗黑
+  // update-begin--author:liaozhiyang---date:20240408---for：【QQYUN-8922】Adjust the text color of the left navigation bar to distinguish between color and dark
   isThemeBright: boolean;
-  // update-end--author:liaozhiyang---date:20240408---for：【QQYUN-8922】左侧导航栏文字颜色调整区分彩色和暗黑
+  // update-end--author:liaozhiyang---date:20240408---for：【QQYUN-8922】Adjust the text color of the left navigation bar to distinguish between color and dark
   topMenuAlign: 'start' | 'center' | 'end';
   trigger: TriggerEnum;
   accordion: boolean;
@@ -51,20 +51,20 @@ export interface HeaderSetting {
   fixed: boolean;
   show: boolean;
   theme: ThemeEnum;
-  // 是否显示全屏按钮
+  // Whether to show the full screen button
   showFullScreen: boolean;
-  // 是否显示锁屏按钮
+  // Whether to display the lock screen button
   useLockPage: boolean;
-  // 是否显示文档连接
+  // Whether to display document links
   showDoc: boolean;
-  // 是否显示消息图标
+  // Whether to display the message icon
   showNotice: boolean;
-  // 是否显示搜索按钮
+  // Whether to display the search button
   showSearch: boolean;
 }
 
 export interface LocaleSetting {
-  // 是否显示国际化切换按钮
+  // Whether to display the internationalization switch button
   showPicker: boolean;
   // Current language
   locale: LocaleType;
@@ -150,7 +150,7 @@ export interface GlobConfig {
   // Service interface url
   apiUrl: string;
   domainUrl: string;
-  // Upload url (作废)
+  // Upload url (void)
   uploadUrl?: string;
   openSso?: string;
   openQianKun?: string;
@@ -161,14 +161,14 @@ export interface GlobConfig {
   urlPrefix?: string;
   // Project abbreviation
   shortName: string;
-  // 短标题
+  // short title
   shortTitle: string;
-  // 当前是否运行在 electron 平台
+  // Is it currently running on electron platform
   isElectronPlatform: boolean;
 
-  // 【JEECG作为乾坤子应用】是否以乾坤子应用模式启动
+  // 【JEECGAs Qiankunzi application】Whether to start in Qiankunzi application mode
   isQiankunMicro: boolean;
-  // 【JEECG作为乾坤子应用】乾坤子应用入口
+  // 【JEECGAs Qiankunzi application】Qiankunzi application entrance
   qiankunMicroAppEntry?: string;
 }
 export interface GlobEnvConfig {
@@ -181,26 +181,26 @@ export interface GlobEnvConfig {
   VITE_GLOB_API_URL_PREFIX?: string;
   // Project abbreviation
   VITE_GLOB_APP_SHORT_NAME: string;
-  //是否开启单点登录
+  //Whether to enable single sign-on
   VITE_GLOB_APP_OPEN_SSO: string;
-  //是否开启微应用模式
+  //Whether to enable micro application mode
   VITE_GLOB_APP_OPEN_QIANKUN: string;
-  //单点服务端地址
+  //Single point server address
   VITE_GLOB_APP_CAS_BASE_URL: string;
   VITE_GLOB_DOMAIN_URL: string;
   // Upload url
   VITE_GLOB_UPLOAD_URL?: string;
   // view url
   VITE_GLOB_ONLINE_VIEW_URL?: string;
-  // 全局隐藏哪些布局，多个用逗号隔开
+  // Which layouts are globally hidden，Separate multiples with commas
   VITE_GLOB_HIDE_LAYOUT_TYPES?: string;
 
-  // 【JEECG作为乾坤子应用】填写后将作为乾坤子应用启动，主应用注册时AppName需保持一致
+  // 【JEECGAs Qiankunzi application】填写后将As Qiankunzi application启动，When the main application is registeredAppNameNeed to be consistent
   VITE_GLOB_QIANKUN_MICRO_APP_NAME?: string;
-  // 【JEECG作为乾坤子应用】作为乾坤子应用启动时必填，需与qiankun主应用注册子应用时填写的 entry 保持一致
+  // 【JEECGAs Qiankunzi application】As Qiankunzi application启动时必填，need toqiankunFilled in when the main application registers the sub-application entry Be consistent
   VITE_GLOB_QIANKUN_MICRO_APP_ENTRY?: string;
-  //在线文档编辑版本。可选属性：wps, onlyoffice
+  //Online document editing version。Optional attributes：wps, onlyoffice
   VITE_GLOB_ONLINE_DOCUMENT_VERSION?: string;
-  // 当前运行在什么平台
+  // 当前运行在什么platform
   VITE_GLOB_RUN_PLATFORM?: 'web' | 'electron';
 }

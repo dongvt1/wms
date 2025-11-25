@@ -52,12 +52,12 @@ export interface requestParams {
 }
 
 /**
- * @description 本函数用于从request数据中获取token，请根据项目的实际情况修改
+ * @description This function is used to start fromrequestGet from datatoken，Please modify according to the actual situation of the project
  *
  */
 export function getRequestToken({ headers }: requestParams): string | undefined {
   return headers?.authorization;
 }
 
-//TODO 接口父路径（写死不够灵活）
+//TODO Interface parent path（Not flexible enough）
 export const baseUrl = '/jeecgboot/mock';

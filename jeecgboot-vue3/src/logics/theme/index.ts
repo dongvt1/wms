@@ -15,17 +15,17 @@ import { defHttp } from '/@/utils/http/axios';
 
 let cssText = '';
 export async function changeTheme(color: string) {
-  // update-begin--author:liaozhiyang---date:20231218---for：【QQYUN-6366】升级到antd4.x
+  // update-begin--author:liaozhiyang---date:20231218---for：【QQYUN-6366】upgrade toantd4.x
   const appStore = useAppStore();
   appStore.setProjectConfig({ themeColor: color });
-  // update-end--author:liaozhiyang---date:20231218---for：【QQYUN-6366】升级到antd4.x
+  // update-end--author:liaozhiyang---date:20231218---for：【QQYUN-6366】upgrade toantd4.x
   const colors = generateColors({
     mixDarken,
     mixLighten,
     tinycolor,
     color,
   });
-  // update-begin--author:liaozhiyang---date:20240322---for：【QQYUN-8570】生产环境暗黑模式下主题色不生效
+  // update-begin--author:liaozhiyang---date:20240322---for：【QQYUN-8570】The theme color does not take effect in the dark mode of the production environment
   if (import.meta.env.PROD && appStore.getDarkMode === 'dark') {
     if (!darkCssIsReady && !cssText) {
       await loadDarkThemeCss();
@@ -44,13 +44,13 @@ export async function changeTheme(color: string) {
     });
     fixDark();
   }
-  // update-end--author:liaozhiyang---date:20240322---for：【QQYUN-8570】生产环境暗黑模式下主题色不生效
+  // update-end--author:liaozhiyang---date:20240322---for：【QQYUN-8570】The theme color does not take effect in the dark mode of the production environment
 }
-// 【LOWCOD-2262】修复黑暗模式下切换皮肤无效的问题
+// 【LOWCOD-2262】Fixed the issue where switching skins was invalid in dark mode
 async function fixDark() {
-  // update-begin--author:liaozhiyang---date:20240322---for：【QQYUN-8570】生产环境暗黑模式下主题色不生效
+  // update-begin--author:liaozhiyang---date:20240322---for：【QQYUN-8570】The theme color does not take effect in the dark mode of the production environment
   const el = document.getElementById(styleTagId);
-  // update-end--author:liaozhiyang---date:20240322---for：【QQYUN-8570】生产环境暗黑模式下主题色不生效
+  // update-end--author:liaozhiyang---date:20240322---for：【QQYUN-8570】The theme color does not take effect in the dark mode of the production environment
   if (el) {
     el.innerHTML = el.innerHTML.replace(/\\["']dark\\["']/g, `'dark'`);
   }

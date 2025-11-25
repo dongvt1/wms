@@ -1,9 +1,9 @@
 export interface ListItem {
   id: string;
   avatar: string;
-  // 通知的标题内容
+  // The title content of the notification
   title: string;
-  // 是否在标题上显示删除线
+  // Whether to show strikethrough on the title
   titleDelete?: boolean;
   datetime: string;
   type: string;
@@ -12,16 +12,16 @@ export interface ListItem {
   clickClose?: boolean;
   extra?: string;
   color?: string;
-  // 优先级
+  // priority
   priority?: string;
 }
 
 export enum PriorityTypes {
-  // 低优先级，一般消息
+  // 低priority，general news
   L = 'L',
-  // 中优先级，重要消息
+  // 中priority，important news
   M = 'M',
-  // 高优先级，紧急消息
+  // 高priority，emergency message
   H = 'H',
 }
 
@@ -36,12 +36,12 @@ export interface TabItem {
 export const tabListData: TabItem[] = [
   {
     key: '1',
-    name: '通知',
+    name: 'notify',
     list: [
       {
         id: '000000001',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ThXAXghbEsBCCSDihZxY.png',
-        title: '你收到了 14 份新周报',
+        title: 'you received 14 new weekly newspaper',
         description: '',
         datetime: '2017-08-09',
         type: '1',
@@ -49,7 +49,7 @@ export const tabListData: TabItem[] = [
       {
         id: '000000002',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/OKJXDXrmkNshAMvwtvhu.png',
-        title: '你推荐的 曲妮妮 已通过第三轮面试',
+        title: 'Recommended by you Qu Nini Passed the third round of interview',
         description: '',
         datetime: '2017-08-08',
         type: '1',
@@ -57,7 +57,7 @@ export const tabListData: TabItem[] = [
       {
         id: '000000003',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/kISTdvpyTAhtGxpovNWd.png',
-        title: '这种模板可以区分多种通知类型',
+        title: '这种模板可以区分多种notify类型',
         description: '',
         datetime: '2017-08-07',
         // read: true,
@@ -66,7 +66,7 @@ export const tabListData: TabItem[] = [
       {
         id: '000000004',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
-        title: '左侧图标用于区分不同的类型',
+        title: 'The icons on the left are used to distinguish different types',
         description: '',
         datetime: '2017-08-07',
         type: '1',
@@ -74,7 +74,7 @@ export const tabListData: TabItem[] = [
       {
         id: '000000005',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
-        title: '标题可以设置自动显示省略号，本例中标题行数已设为1行，如果内容超过1行将自动截断并支持tooltip显示完整标题。',
+        title: 'Titles can be set to automatically display ellipsis，In this example, the number of header rows has been set to1OK，If the content exceeds1OK将自动截断并支持tooltipShow full title。',
         description: '',
         datetime: '2017-08-07',
         type: '1',
@@ -82,7 +82,7 @@ export const tabListData: TabItem[] = [
       {
         id: '000000006',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
-        title: '左侧图标用于区分不同的类型',
+        title: 'The icons on the left are used to distinguish different types',
         description: '',
         datetime: '2017-08-07',
         type: '1',
@@ -90,7 +90,7 @@ export const tabListData: TabItem[] = [
       {
         id: '000000007',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
-        title: '左侧图标用于区分不同的类型',
+        title: 'The icons on the left are used to distinguish different types',
         description: '',
         datetime: '2017-08-07',
         type: '1',
@@ -98,7 +98,7 @@ export const tabListData: TabItem[] = [
       {
         id: '000000008',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
-        title: '左侧图标用于区分不同的类型',
+        title: 'The icons on the left are used to distinguish different types',
         description: '',
         datetime: '2017-08-07',
         type: '1',
@@ -106,7 +106,7 @@ export const tabListData: TabItem[] = [
       {
         id: '000000009',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
-        title: '左侧图标用于区分不同的类型',
+        title: 'The icons on the left are used to distinguish different types',
         description: '',
         datetime: '2017-08-07',
         type: '1',
@@ -114,7 +114,7 @@ export const tabListData: TabItem[] = [
       {
         id: '000000010',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/GvqBnKhFgObvnSGkDsje.png',
-        title: '左侧图标用于区分不同的类型',
+        title: 'The icons on the left are used to distinguish different types',
         description: '',
         datetime: '2017-08-07',
         type: '1',
@@ -124,13 +124,13 @@ export const tabListData: TabItem[] = [
   },
   {
     key: '2',
-    name: '系统消息',
+    name: 'System messages',
     list: [
       {
         id: '000000006',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-        title: '曲丽丽 评论了你',
-        description: '描述信息描述信息描述信息',
+        title: 'Qu Lili commented on you',
+        description: 'description information description information description information',
         datetime: '2017-08-07',
         type: '2',
         clickClose: true,
@@ -138,8 +138,8 @@ export const tabListData: TabItem[] = [
       {
         id: '000000007',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-        title: '朱偏右 回复了你',
-        description: '这种模板用于提醒谁与你发生了互动',
+        title: 'Zhu Xianyou Replied you',
+        description: 'This template is used to remind you who has interacted with you',
         datetime: '2017-08-07',
         type: '2',
         clickClose: true,
@@ -147,9 +147,9 @@ export const tabListData: TabItem[] = [
       {
         id: '000000008',
         avatar: 'https://gw.alipayobjects.com/zos/rmsportal/fcHMVNCjPOsbUGdEduuv.jpeg',
-        title: '标题',
+        title: 'title',
         description:
-          '请将鼠标移动到此处，以便测试超长的消息在此处将如何处理。本例中设置的描述最大行数为2，超过2行的描述内容将被省略并且可以通过tooltip查看完整内容',
+          'Please move your mouse here，To test how long messages will be handled here。本例中设置的描述最大OK数为2，Exceed2OK的描述内容将被省略并且可以通过tooltipView full content',
         datetime: '2017-08-07',
         type: '2',
         clickClose: true,
@@ -159,45 +159,45 @@ export const tabListData: TabItem[] = [
   },
   // {
   //   key: '3',
-  //   name: '待办',
+  //   name: 'To-do',
   //   list: [
   //     {
   //       id: '000000009',
   //       avatar: '',
-  //       title: '任务名称',
-  //       description: '任务需要在 2017-01-12 20:00 前启动',
+  //       title: 'Task name',
+  //       description: 'The task needs to be in 2017-01-12 20:00 start before',
   //       datetime: '',
-  //       extra: '未开始',
+  //       extra: 'Not started',
   //       color: '',
   //       type: '3',
   //     },
   //     {
   //       id: '000000010',
   //       avatar: '',
-  //       title: '第三方紧急代码变更',
-  //       description: '冠霖 需在 2017-01-07 前完成代码变更任务',
+  //       title: 'Third-party emergency code changes',
+  //       description: 'Guanlin Need to be in 2017-01-07 Complete code change tasks before',
   //       datetime: '',
-  //       extra: '马上到期',
+  //       extra: 'Expires soon',
   //       color: 'red',
   //       type: '3',
   //     },
   //     {
   //       id: '000000011',
   //       avatar: '',
-  //       title: '信息安全考试',
-  //       description: '指派竹尔于 2017-01-09 前完成更新并发布',
+  //       title: 'Information Security Exam',
+  //       description: 'Assign Zhueryu 2017-01-09 Updated and published before',
   //       datetime: '',
-  //       extra: '已耗时 8 天',
+  //       extra: 'Time spent 8 sky',
   //       color: 'gold',
   //       type: '3',
   //     },
   //     {
   //       id: '000000012',
   //       avatar: '',
-  //       title: 'ABCD 版本发布',
-  //       description: '指派竹尔于 2017-01-09 前完成更新并发布',
+  //       title: 'ABCD version release',
+  //       description: 'Assign Zhueryu 2017-01-09 Updated and published before',
   //       datetime: '',
-  //       extra: '进行中',
+  //       extra: '进OK中',
   //       color: 'blue',
   //       type: '3',
   //     },

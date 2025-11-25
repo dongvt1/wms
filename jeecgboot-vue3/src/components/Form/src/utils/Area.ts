@@ -1,7 +1,7 @@
 import {pcaa as REGION_DATA} from "@/utils/areaData/pcaUtils";
 
 /**
- * Area 属性all的类型
+ * Area propertyalltype
  */
 interface PlainPca {
   id: string;
@@ -11,13 +11,13 @@ interface PlainPca {
 }
 
 /**
- * 省市区工具类 -解决列表省市区组件的翻译问题
+ * Provincial and municipal tools -Solve the translation problem of list province and city components
  */
 class Area {
   all: PlainPca[];
 
   /**
-   * 构造器
+   * Constructor
    * @param pcaa
    */
   constructor(pcaa?) {
@@ -57,7 +57,7 @@ class Area {
     }
   }
   
-//update-begin-author:liusq---date:20230404--for: [issue/382]省市区组件JAreaLinkage数据不回显---
+//update-begin-author:liusq---date:20230404--for: [issue/382]Provincial and municipal componentsJAreaLinkageData is not echoed---
   getText(code,index=3) {
     if (!code || code.length == 0) {
       return '';
@@ -66,7 +66,7 @@ class Area {
     this.getAreaBycode(code, arr, index);
     return arr.join('/');
   }
-//update-end-author:liusq---date:20230404--for: [issue/382]省市区组件JAreaLinkage数据不回显---
+//update-end-author:liusq---date:20230404--for: [issue/382]Provincial and municipal componentsJAreaLinkageData is not echoed---
 
   getRealCode(code) {
     let arr = [];
@@ -98,15 +98,15 @@ class Area {
 }
 const jeecgAreaData = new Area();
 
-// 根据code找文本
+// according tocodeFind text
 const getAreaTextByCode = function (code) {
   let index = 3;
-  //update-begin-author:liusq---date:20220531--for: 判断code是否是多code逗号分割的字符串，是的话，获取最后一位的code ---
+  //update-begin-author:liusq---date:20220531--for: judgecodeIs it too muchcodecomma separated string，If yes，Get the last onecode ---
   if (code && code.includes(',')) {
     index = code.split(",").length;
     code = code.substr(code.lastIndexOf(',') + 1);
   }
-  //update-end-author:liusq---date:20220531--for: 判断code是否是多code逗号分割的字符串，是的话，获取最后一位的code ---
+  //update-end-author:liusq---date:20220531--for: judgecodeIs it too muchcodecomma separated string，If yes，Get the last onecode ---
   return jeecgAreaData.getText(code,index);
 };
 

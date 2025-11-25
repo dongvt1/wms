@@ -2,52 +2,52 @@ import { FormSchema } from '/@/components/Table';
 import { render } from "/@/utils/common/renderUtils";
 import { getToken } from '/@/utils/auth';
 
-//列表
+//list
 export const columns = [
   {
-    title:'用户账号',
+    title:'User account',
     align:"center",
     dataIndex: 'username',
     customRender: ( {text,record} ) => {
       let token = getToken();
       if(record.token === token) {
-        return text + '（我）'
+        return text + '（I）'
       }
       return text
     },
   },{
-    title:'用户姓名',
+    title:'User name',
     align:"center",
     dataIndex: 'realname'
   },{
-    title: '头像',
+    title: 'avatar',
     align: "center",
     width: 120,
     dataIndex: 'avatar',
     customRender: render.renderAvatar,
   },{
-    title:'生日',
+    title:'Birthday',
     align:"center",
     dataIndex: 'birthday'
   },{
-    title: '性别',
+    title: 'gender',
     align: "center",
     dataIndex: 'sex',
     customRender: ({text}) => {
       return render.renderDict(text, 'sex');
     }
   },{
-    title:'手机号',
+    title:'Phone number',
     align:"center",
     dataIndex: 'phone'
   }
 ];
 
-//查询区域
+//Query area
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'username',
-    label: '用户账号',
+    label: 'User account',
     component: 'Input',
     colProps: { span: 6 },
   }

@@ -1,7 +1,7 @@
-//第三方app配置表单
+//third partyappConfiguration form
 import { FormSchema } from '/@/components/Form';
 
-//第三方app表单
+//third partyappform
 export const thirdAppFormSchema: FormSchema[] = [
   {
     label: 'id',
@@ -42,18 +42,18 @@ export const thirdAppFormSchema: FormSchema[] = [
     component: 'Input',
     required: true,
   },{
-    label: '启用',
+    label: 'enable',
     field: 'status',
     component: 'Switch',
     componentProps:{
-      checkedChildren:'关闭',
+      checkedChildren:'closure',
       checkedValue:1,
-      unCheckedChildren:'开启',
+      unCheckedChildren:'turn on',
       unCheckedValue: 0
     },
     defaultValue: 1
   },{
-    label: '租户id',
+    label: 'tenantid',
     field: 'tenantId',
     component: 'Input',
     show: false,

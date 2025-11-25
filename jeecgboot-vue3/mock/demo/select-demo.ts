@@ -6,16 +6,16 @@ const demoList = (keyword, count = 20) => {
     list: [] as any[],
   };
   for (let index = 0; index < count; index++) {
-    //根据搜索关键词做一下匹配
-    let name = `选项${index}`;
+    //Match based on search keywords
+    let name = `Options${index}`;
     if(keyword && name.indexOf(keyword)!=-1){
       result.list.push({
-        name: `选项${index}`,
+        name: `Options${index}`,
         id: `${index}`,
       });
     }else if(!keyword){
       result.list.push({
-        name: `选项${index}`,
+        name: `Options${index}`,
         id: `${index}`,
       });
     }
@@ -30,7 +30,7 @@ export default [
     method: 'get',
     response: ({ query }) => {
       const { keyword,count} = query;
-      console.log("查询条件：", keyword);
+      console.log("Query conditions：", keyword);
       return resultSuccess(demoList(keyword,count));
     },
   },

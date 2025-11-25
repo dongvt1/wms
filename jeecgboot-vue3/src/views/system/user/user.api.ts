@@ -30,34 +30,34 @@ enum Api {
   getUserTenantPageList='/sys/tenant/getUserTenantPageList',
 }
 /**
- * 导出api
+ * Exportapi
  * @param params
  */
 export const getExportUrl = Api.exportXls;
 /**
- * 导入api
+ * importapi
  */
 export const getImportUrl = Api.importExcel;
 /**
- * 列表接口(查询用户，通过租户隔离)
+ * List interface(Query user，Isolation by tenant)
  * @param params
  */
 export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
- * 列表接口(查询全部用户，不通过租户隔离)
+ * List interface(Query all users，不Isolation by tenant)
  * @param params
  */
 export const listNoCareTenant = (params) => defHttp.get({ url: Api.listNoCareTenant, params });
 
 /**
- * 用户角色接口
+ * user role interface
  * @param params
  */
 export const getUserRoles = (params) => defHttp.get({ url: Api.getUserRole, params }, { errorMessageMode: 'none' });
 
 /**
- * 删除用户
+ * Delete user
  */
 export const deleteUser = (params, handleSuccess) => {
   return defHttp.delete({ url: Api.deleteUser, params }, { joinParamsToUrl: true }).then(() => {
@@ -65,15 +65,15 @@ export const deleteUser = (params, handleSuccess) => {
   });
 };
 /**
- * 批量删除用户
+ * 批量Delete user
  * @param params
  */
 export const batchDeleteUser = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm deletion',
+    content: 'Whether to delete selected data',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -82,7 +82,7 @@ export const batchDeleteUser = (params, handleSuccess) => {
   });
 };
 /**
- * 保存或者更新用户
+ * Save or update user
  * @param params
  */
 export const saveOrUpdateUser = (params, isUpdate) => {
@@ -90,7 +90,7 @@ export const saveOrUpdateUser = (params, isUpdate) => {
   return defHttp.post({ url: url, params });
 };
 /**
- * 唯一校验
+ * Unique verification
  * @param params
  */
 export const duplicateCheck = (params) => defHttp.get({ url: Api.duplicateCheck, params }, { isTransformResponse: false });
@@ -98,13 +98,13 @@ export const duplicateCheck = (params) => defHttp.get({ url: Api.duplicateCheck,
 /**
  * 20231215
  * liaozhiyang
- * 唯一校验（ 延迟【防抖】）
+ * Unique verification（ Delay【Anti-shake】）
  * @param params
  */
 const timer = {};
 export const duplicateCheckDelay = (params) => {
   return new Promise((resove, rejected) => {
-    // -update-begin--author:liaozhiyang---date:20240619---for：【TV360X-1380】表单中使用多个duplicateCheckDelay，validate方法调用时会导致promise被挂起保存不了
+    // -update-begin--author:liaozhiyang---date:20240619---for：【TV360X-1380】Use multipleduplicateCheckDelay，validateWhen the method is called, it will result inpromiseUnable to save due to suspension
     let key;
     if (isObject(params)) {
       key = `${params.tableName}_${params.fieldName}`;
@@ -112,7 +112,7 @@ export const duplicateCheckDelay = (params) => {
       key = params;
     }
     clearTimeout(timer[key]);
-    // -update-end--author:liaozhiyang---date:20240619---for：【TV360X-1380】表单中使用多个duplicateCheckDelay，validate方法调用时会导致promise被挂起保存不了
+    // -update-end--author:liaozhiyang---date:20240619---for：【TV360X-1380】Use multipleduplicateCheckDelay，validateWhen the method is called, it will result inpromiseUnable to save due to suspension
     timer[key] = setTimeout(() => {
       defHttp
         .get({ url: Api.duplicateCheck, params }, { isTransformResponse: false })
@@ -127,25 +127,25 @@ export const duplicateCheckDelay = (params) => {
   });
 };
 /**
- * 获取全部角色（租户隔离）
+ * Get all roles（Tenant isolation）
  * @param params
  */
 export const getAllRolesList = (params) => defHttp.get({ url: Api.allRolesList, params });
 /**
- * 获取全部角色（不租户隔离）
+ * Get all roles（不Tenant isolation）
  * @param params
  */
 export const getAllRolesListNoByTenant = (params) => defHttp.get({ url: Api.allRolesListNoByTenant, params });
 /**
- * 获取全部租户
+ * Get all tenants
  */
 export const getAllTenantList = (params) => defHttp.get({ url: Api.allTenantList, params });
 /**
- * 获取指定用户负责部门
+ * Get the designated user responsible department
  */
 export const getUserDepartList = (params) => defHttp.get({ url: Api.userDepartList, params }, { successMessageMode: 'none' });
 /**
- * 获取全部职务
+ * Get all jobs
  */
 export const getAllPostList = (params) => {
   return new Promise((resolve) => {
@@ -155,12 +155,12 @@ export const getAllPostList = (params) => {
   });
 };
 /**
- * 回收站列表
+ * Recycle bin list
  * @param params
  */
 export const getRecycleBinList = (params) => defHttp.get({ url: Api.recycleBinList, params });
 /**
- * 回收站还原
+ * Recycle Bin Restore
  * @param params
  */
 export const putRecycleBin = (params, handleSuccess) => {
@@ -169,7 +169,7 @@ export const putRecycleBin = (params, handleSuccess) => {
   });
 };
 /**
- * 回收站删除
+ * Recycle bin delete
  * @param params
  */
 export const deleteRecycleBin = (params, handleSuccess) => {
@@ -178,14 +178,14 @@ export const deleteRecycleBin = (params, handleSuccess) => {
   });
 };
 /**
- * 修改密码
+ * Change password
  * @param params
  */
 export const changePassword = (params) => {
   return defHttp.put({ url: Api.changePassword, params });
 };
 /**
- * 冻结解冻
+ * Freeze and Thaw
  * @param params
  */
 export const frozenBatch = (params, handleSuccess) => {
@@ -196,7 +196,7 @@ export const frozenBatch = (params, handleSuccess) => {
 
 
 /**
- * 用户离职列表
+ * User resignation list
  * @param params
  */
 export const getQuitList = (params) => {
@@ -204,7 +204,7 @@ export const getQuitList = (params) => {
 };
 
 /**
- * 取消离职
+ * Cancel离职
  * @param params
  */
 export const putCancelQuit = (params, handleSuccess) => {
@@ -214,14 +214,14 @@ export const putCancelQuit = (params, handleSuccess) => {
 };
 
 /**
- * 待审批获取列表数据
+ * Get list data pending approval
  */
 export const getUserTenantPageList = (params) => {
   return defHttp.get({ url: Api.getUserTenantPageList, params });
 };
 
 /**
- * 更新租户状态
+ * Update tenant status
  * @param params
  */
 export const updateUserTenantStatus = (params) => {

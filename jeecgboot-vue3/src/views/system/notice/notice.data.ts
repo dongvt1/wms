@@ -5,12 +5,12 @@ import { Tinymce } from '@/components/Tinymce';
 
 export const columns: BasicColumn[] = [
   {
-    title: '标题',
+    title: 'title',
     width: 150,
     dataIndex: 'titile',
   },
   {
-    title: '消息类型',
+    title: 'Message type',
     dataIndex: 'msgCategory',
     width: 100,
     customRender: ({ text }) => {
@@ -18,12 +18,12 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '发布人',
+    title: 'Posted by',
     width: 100,
     dataIndex: 'sender',
   },
   {
-    title: '优先级',
+    title: 'priority',
     dataIndex: 'priority',
     width: 70,
     customRender: ({ text }) => {
@@ -32,7 +32,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '通告对象',
+    title: 'Notification object',
     dataIndex: 'msgType',
     width: 100,
     customRender: ({ text }) => {
@@ -40,7 +40,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '发布状态',
+    title: 'Release status',
     dataIndex: 'sendStatus',
     width: 70,
     customRender: ({ text }) => {
@@ -49,12 +49,12 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '发布时间',
+    title: 'Release time',
     width: 100,
     dataIndex: 'sendTime',
   },
   {
-    title: '撤销时间',
+    title: 'Undo time',
     width: 100,
     dataIndex: 'cancelTime',
   },
@@ -63,7 +63,7 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'titile',
-    label: '标题',
+    label: 'title',
     component: 'JInput',
     colProps: { span: 8 },
   },
@@ -78,47 +78,47 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'msgCategory',
-    label: '消息类型',
+    label: 'Message type',
     required: true,
     component: 'JDictSelectTag',
     defaultValue: '1',
     componentProps: {
       type: 'radio',
       dictCode: 'msg_category',
-      placeholder: '请选择类型',
+      placeholder: 'Please select type',
     },
   },
   {
     field: 'izTop',
-    label: '是否置顶',
+    label: 'Whether to pin it to the top',
     defaultValue: '0',
     component: 'JSwitch',
     componentProps: {
-      //取值 options
+      //value options
       options: ['1', '0'],
-      //文本option
-      labelOptions: ['是', '否'],
-      placeholder: '是否置顶',
-      checkedChildren: '是',
-      unCheckedChildren: '否',
+      //textoption
+      labelOptions: ['yes', 'no'],
+      placeholder: 'Whether to pin it to the top',
+      checkedChildren: 'yes',
+      unCheckedChildren: 'no',
     },
   },
   {
     field: 'titile',
-    label: '通告标题',
+    label: '通告title',
     component: 'Input',
     required: true,
     componentProps: {
-      placeholder: '请输入标题',
+      placeholder: '请输入title',
     },
-    // update-begin--author:liaozhiyang---date:20240701---for：【TV360X-1632】标题过长保存报错，长度校验
+    // update-begin--author:liaozhiyang---date:20240701---for：【TV360X-1632】title过长保存报错，Length check
     dynamicRules() {
       return [
         {
           validator: (_, value) => {
             return new Promise<void>((resolve, reject) => {
               if (value.length > 100) {
-                reject('最长100个字符');
+                reject('longest100characters');
               }
               resolve();
             });
@@ -126,11 +126,11 @@ export const formSchema: FormSchema[] = [
         },
       ];
     },
-    // update-end--author:liaozhiyang---date:20240701---for：【TV360X-1632】标题过长保存报错，长度校验
+    // update-end--author:liaozhiyang---date:20240701---for：【TV360X-1632】title过长保存报错，Length check
   },
   {
     field: 'msgAbstract',
-    label: '通告摘要',
+    label: 'Announcement summary',
     component: 'InputTextArea',
     componentProps: {
       allowClear: true,
@@ -143,73 +143,73 @@ export const formSchema: FormSchema[] = [
   },
   // {
   //   field: 'endTime',
-  //   label: '截至日期',
+  //   label: 'Expiration date',
   //   component: 'DatePicker',
   //   componentProps: {
   //     showTime: true,
   //     valueFormat: 'YYYY-MM-DD HH:mm:ss',
-  //     placeholder: '请选择截至日期',
+  //     placeholder: '请选择Expiration date',
   //   },
   //   dynamicRules: ({ model }) => rules.endTime(model.startTime, true),
   // },
   {
     field: 'msgType',
-    label: '接收用户',
+    label: 'receive user',
     defaultValue: 'ALL',
     component: 'JDictSelectTag',
     required: true,
     componentProps: {
       type: 'radio',
       dictCode: 'msg_type',
-      placeholder: '请选择发布范围',
+      placeholder: 'Please select the publication scope',
     },
   },
   {
     field: 'userIds',
-    label: '指定用户',
+    label: 'Specify user',
     component: 'JSelectUserByDepartment',
     required: true,
     componentProps: {
       rowKey: 'id',
-      // update-begin--author:liaozhiyang---date:20240701---for：【TV360X-1627】通知公告用户选择组件没翻译
+      // update-begin--author:liaozhiyang---date:20240701---for：【TV360X-1627】Notification and Announcement User Selected Component Not Translated
       labelKey: 'realname',
-      // update-end--author:liaozhiyang---date:20240701---for：【TV360X-1627】通知公告用户选择组件没翻译
+      // update-end--author:liaozhiyang---date:20240701---for：【TV360X-1627】Notification and Announcement User Selected Component Not Translated
     },
     ifShow: ({ values }) => values.msgType == 'USER',
   },
   {
     field: 'msgClassify',
-    label: '公告分类',
+    label: 'Announcement classification',
     component: 'JDictSelectTag',
     componentProps: {
       dictCode: 'notice_type',
-      placeholder: '请选择公告分类',
+      placeholder: '请选择Announcement classification',
     },
   },
   {
     field: 'priority',
-    label: '优先级别',
+    label: 'priority别',
     defaultValue: 'H',
     component: 'JDictSelectTag',
     componentProps: {
       dictCode: 'priority',
       type: 'radio',
-      placeholder: '请选择优先级',
+      placeholder: '请选择priority',
     },
   },
   {
     field: 'izApproval',
-    label: '是否审批',
+    label: 'yesno审批',
     component: 'RadioGroup',
     defaultValue: '0',
     componentProps: {
       options: [
         {
-          label: '是',
+          label: 'yes',
           value: '1',
         },
         {
-          label: '否',
+          label: 'no',
           value: '0',
         },
       ],
@@ -217,26 +217,26 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'msgTemplate',
-    label: '公告模版',
+    label: 'Announcement template',
     component: 'Input',
     slot: 'msgTemplate',
   },
   {
     field: 'files',
-    label: '通告附件',
+    label: 'Announcement attachment',
     component: 'JUpload',
     componentProps: {
-      //是否显示选择按钮
-      text: '文件上传',
-      //最大上传数
+      //yesno显示选择按钮
+      text: 'File upload',
+      //Maximum number of uploads
       maxCount: 20,
-      //是否显示下载按钮
+      //yesno显示下载按钮
       download: true,
     },
   },
   {
     field: 'msgContent',
-    label: '通告内容',
+    label: 'Announcement content',
     component: 'Input',
     colProps: { span: 24 },
     render: render.renderTinymce,
@@ -244,11 +244,11 @@ export const formSchema: FormSchema[] = [
 ];
 
 /**
- * 流程表单调用这个方法获取formSchema
+ * The process form calls this method to obtainformSchema
  * @param param
  */
 export function getBpmFormSchema(_formData): FormSchema[] {
-  // 默认和原始表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
+  // The default is the same as the original form If permission data is configured in the process，This needs to be dealt with separatelyformSchema
   return [
     {
       field: 'id',
@@ -258,47 +258,47 @@ export function getBpmFormSchema(_formData): FormSchema[] {
     },
     {
       field: 'msgCategory',
-      label: '消息类型',
+      label: 'Message type',
       required: true,
       component: 'JDictSelectTag',
       defaultValue: '1',
       componentProps: {
         type: 'radio',
         dictCode: 'msg_category',
-        placeholder: '请选择类型',
+        placeholder: 'Please select type',
       },
     },
     {
       field: 'izTop',
-      label: '是否置顶',
+      label: 'Whether to pin it to the top',
       defaultValue: '0',
       component: 'JSwitch',
       componentProps: {
-        //取值 options
+        //value options
         options: ['1', '0'],
-        //文本option
-        labelOptions: ['是', '否'],
-        placeholder: '是否置顶',
-        checkedChildren: '是',
-        unCheckedChildren: '否',
+        //textoption
+        labelOptions: ['yes', 'no'],
+        placeholder: 'Whether to pin it to the top',
+        checkedChildren: 'yes',
+        unCheckedChildren: 'no',
       },
     },
     {
       field: 'titile',
-      label: '通告标题',
+      label: '通告title',
       component: 'Input',
       required: true,
       componentProps: {
-        placeholder: '请输入标题',
+        placeholder: '请输入title',
       },
-      // update-begin--author:liaozhiyang---date:20240701---for：【TV360X-1632】标题过长保存报错，长度校验
+      // update-begin--author:liaozhiyang---date:20240701---for：【TV360X-1632】title过长保存报错，Length check
       dynamicRules() {
         return [
           {
             validator: (_, value) => {
               return new Promise<void>((resolve, reject) => {
                 if (value.length > 100) {
-                  reject('最长100个字符');
+                  reject('longest100characters');
                 }
                 resolve();
               });
@@ -306,81 +306,81 @@ export function getBpmFormSchema(_formData): FormSchema[] {
           },
         ];
       },
-      // update-end--author:liaozhiyang---date:20240701---for：【TV360X-1632】标题过长保存报错，长度校验
+      // update-end--author:liaozhiyang---date:20240701---for：【TV360X-1632】title过长保存报错，Length check
     },
     {
       field: 'msgAbstract',
-      label: '通告摘要',
+      label: 'Announcement summary',
       component: 'InputTextArea',
       required: true,
     },
     {
       field: 'msgType',
-      label: '接收用户',
+      label: 'receive user',
       defaultValue: 'ALL',
       component: 'JDictSelectTag',
       required: true,
       componentProps: {
         type: 'radio',
         dictCode: 'msg_type',
-        placeholder: '请选择发布范围',
+        placeholder: 'Please select the publication scope',
       },
     },
     {
       field: 'userIds',
-      label: '指定用户',
+      label: 'Specify user',
       component: 'JSelectUserByDepartment',
       required: true,
       componentProps: {
         rowKey: 'id',
-        // update-begin--author:liaozhiyang---date:20240701---for：【TV360X-1627】通知公告用户选择组件没翻译
+        // update-begin--author:liaozhiyang---date:20240701---for：【TV360X-1627】Notification and Announcement User Selected Component Not Translated
         labelKey: 'realname',
-        // update-end--author:liaozhiyang---date:20240701---for：【TV360X-1627】通知公告用户选择组件没翻译
+        // update-end--author:liaozhiyang---date:20240701---for：【TV360X-1627】Notification and Announcement User Selected Component Not Translated
       },
       ifShow: ({ values }) => values.msgType == 'USER',
     },
     {
       field: 'msgClassify',
-      label: '公告分类',
+      label: 'Announcement classification',
       component: 'JDictSelectTag',
       componentProps: {
         dictCode: 'notice_type',
-        placeholder: '请选择公告分类',
+        placeholder: '请选择Announcement classification',
       },
     },
     {
       field: 'priority',
-      label: '优先级别',
+      label: 'priority别',
       defaultValue: 'H',
       component: 'JDictSelectTag',
       componentProps: {
         dictCode: 'priority',
         type: 'radio',
-        placeholder: '请选择优先级',
+        placeholder: '请选择priority',
       },
     },
     {
       field: 'msgTemplate',
-      label: '公告模版',
+      label: 'Announcement template',
       component: 'Input',
       slot: 'msgTemplate',
     },
     {
       field: 'files',
-      label: '通告附件',
+      label: 'Announcement attachment',
       component: 'JUpload',
       componentProps: {
-        //是否显示选择按钮
-        text: '文件上传',
-        //最大上传数
+        //yesno显示选择按钮
+        text: 'File upload',
+        //Maximum number of uploads
         maxCount: 2,
-        //是否显示下载按钮
+        //yesno显示下载按钮
         download: true,
       },
     },
     {
       field: 'msgContent',
-      label: '通告内容',
+      label: 'Announcement content',
       component: 'Input',
       colProps: { span: 24 },
       ifShow: ({}) => _formData.disabled == false,
@@ -398,7 +398,7 @@ export function getBpmFormSchema(_formData): FormSchema[] {
     },
     {
       field: 'msgContent',
-      label: '通告内容',
+      label: 'Announcement content',
       component: 'Input',
       colProps: { span: 24 },
       ifShow: ({}) => _formData.disabled !== false,

@@ -17,7 +17,7 @@ import { APP__THEME__COLOR } from '/@/enums/cacheEnum';
 /**
  *  2024-04-07
  *  liaozhiyang
- *  切换导航栏模式都走这个方法，每个模式都会有固定的顶部和菜单颜色搭配。暗黑模式则不走固定搭配
+ *  This method is used to switch the navigation bar mode.，Each mode will have a fixed top and menu color combination。Dark mode does not follow fixed combinations
  * */
 export function layoutHandler(event: HandlerEnum, value: any) {
   const isHTopMenu = isObject(value) && value.type == MenuTypeEnum.TOP_MENU && value.mode == MenuModeEnum.HORIZONTAL;
@@ -42,7 +42,7 @@ export function layoutHandler(event: HandlerEnum, value: any) {
       updateHeaderBgColor();
       updateSidebarBgColor();
     }
-    // 顶部混合导航模式主题色改成绿色
+    // The theme color of the top mixed navigation mode is changed to green
     baseHandler(HandlerEnum.CHANGE_THEME_COLOR, APP_PRESET_COLOR_LIST[2]);
     baseHandler(HandlerEnum.TABS_THEME, tabsThemeOptions[1].value);
   } else if (isMixSidebarMenu) {
@@ -66,13 +66,13 @@ export function layoutHandler(event: HandlerEnum, value: any) {
     baseHandler(HandlerEnum.CHANGE_THEME_COLOR, APP_PRESET_COLOR_LIST[1]);
     baseHandler(HandlerEnum.TABS_THEME, tabsThemeOptions[1].value);
   }
-  // update-begin--author:liaozhiyang---date:20250825---for:【QQYUN-13600】默认顶部混合导航模式且启用顶部左侧导航，切换到其他模式时导航刷新后菜单样式混乱
+  // update-begin--author:liaozhiyang---date:20250825---for:【QQYUN-13600】Default top hybrid navigation mode and enable top left navigation，Menu style is messed up after navigation refresh when switching to other modes
   if (isMixMenu) {
     baseHandler(HandlerEnum.MENU_SPLIT, true);
   } else {
     baseHandler(HandlerEnum.MENU_SPLIT, false);
   }
-  // update-end--author:liaozhiyang---date:20250825---for:【QQYUN-13600】默认顶部混合导航模式且启用顶部左侧导航，切换到其他模式时导航刷新后菜单样式混乱
+  // update-end--author:liaozhiyang---date:20250825---for:【QQYUN-13600】Default top hybrid navigation mode and enable top left navigation，Menu style is messed up after navigation refresh when switching to other modes
 }
 
 export function baseHandler(event: HandlerEnum, value: any) {
@@ -109,9 +109,9 @@ export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConf
       if (getThemeColor.value === value) {
         return {};
       }
-      // update-begin--author:liaozhiyang---date:20240417---for:【QQYUN-8925】系统主题颜色（供页面加载使用）
+      // update-begin--author:liaozhiyang---date:20240417---for:【QQYUN-8925】System theme color（For page loading）
       localStorage.setItem(APP__THEME__COLOR, value);
-      // update-end--author:liaozhiyang---date:20240417---for:【QQYUN-8925】系统主题颜色（供页面加载使用）
+      // update-end--author:liaozhiyang---date:20240417---for:【QQYUN-8925】System theme color（For page loading）
       changeTheme(value);
 
       return { themeColor: value };
@@ -207,10 +207,10 @@ export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConf
     case HandlerEnum.COLOR_WEAK:
       updateColorWeak(value);
       return { colorWeak: value };
-    // update-begin--author:liaozhiyang---date:20250407---for：【QQYUN-10952】AI助手支持通过设置来配置是否显示
+    // update-begin--author:liaozhiyang---date:20250407---for：【QQYUN-10952】AIThe assistant supports configuring whether to display or not through settings
     case HandlerEnum.AI_ICON_SHOW:
       return { aiIconShow: value };
-    // update-end--author:liaozhiyang---date:20250407---for：【QQYUN-10952】AI助手支持通过设置来配置是否显示
+    // update-end--author:liaozhiyang---date:20250407---for：【QQYUN-10952】AIThe assistant supports configuring whether to display or not through settings
     case HandlerEnum.SHOW_LOGO:
       return { showLogo: value };
 

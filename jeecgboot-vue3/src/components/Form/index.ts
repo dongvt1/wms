@@ -10,7 +10,7 @@ export { default as ApiSelect } from './src/components/ApiSelect.vue';
 export { default as RadioButtonGroup } from './src/components/RadioButtonGroup.vue';
 export { default as ApiTreeSelect } from './src/components/ApiTreeSelect.vue';
 export { default as ApiRadioGroup } from './src/components/ApiRadioGroup.vue';
-//Jeecg自定义组件
+//JeecgCustom component
 export { default as JAreaLinkage } from './src/jeecg/components/JAreaLinkage.vue';
 export { default as JSelectUser } from './src/jeecg/components/JSelectUser.vue';
 export { default as JSelectDept } from './src/jeecg/components/JSelectDept.vue';
@@ -32,7 +32,7 @@ export { default as JSelectUserByDept } from './src/jeecg/components/JSelectUser
 export { default as JSelectUserByDepartment } from './src/jeecg/components/JSelectUserByDepartment.vue';
 export { default as JEditor } from './src/jeecg/components/JEditor.vue';
 export { default as JImageUpload } from './src/jeecg/components/JImageUpload.vue';
-// Jeecg自定义校验
+// JeecgCustom verification
 export { JCronValidator } from '/@/components/Form/src/jeecg/components/JEasyCron';
 
 export { BasicForm };

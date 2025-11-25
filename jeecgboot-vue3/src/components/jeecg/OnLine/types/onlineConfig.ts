@@ -3,9 +3,9 @@ interface ScopedSlots {
 }
 
 interface HrefSlots {
-  // 链接地址
+  // Link address
   href: string;
-  // fieldHref_字段名
+  // fieldHref_Field name
   slotName: string;
 }
 
@@ -19,24 +19,24 @@ interface OnlineColumn {
   sorter?: string | boolean;
   isTotal?: string | number | boolean;
   groupTitle?: string;
-  // 超链的时候 和HrefSlots中的slotName匹配
+  // When hyperlinking andHrefSlotsinslotNamematch
   scopedSlots?: ScopedSlots;
-  // 一般用于字典 字典传过来的是字典编码字符串 后转函数
+  // Generally used in dictionaries What is passed from the dictionary is a dictionary-encoded string. backward function
   customRender?: string | Function;
-  // 这个类型不知道有什么用
+  // I don’t know what this type is used for.
   hrefSlotName?: string;
   showLength?: number | string;
   children?: OnlineColumn[];
   sortOrder?: string;
-  // 插槽对应控件类型(列表)
+  // Slot corresponding control type(list)
   slots?: ScopedSlots;
-  //超过宽度将自动省略，暂不支持和排序筛选一起使用。
+  //Exceeding the width will be automatically omitted，暂不支持and排序筛选一起使用。
   ellipsis?: boolean;
-  // 是否固定列
+  // Whether to fix the column
   fixed?: boolean | 'left' | 'right';
-  //字段类型 int/string 
+  //Field type int/string 
   dbType?:string;
-  //他表字段用
+  //Used by other table fields
   linkField?:string;
   fieldExtendJson?:string
 }

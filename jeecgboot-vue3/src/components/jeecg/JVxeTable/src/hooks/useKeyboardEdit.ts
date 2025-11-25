@@ -1,27 +1,27 @@
 /*
- * JVxeTable 键盘操作
+ * JVxeTable Keyboard operation
  */
 import type { VxeTablePropTypes } from 'vxe-table';
 import type { JVxeTableProps } from '../types';
 import { computed } from 'vue';
 
 /**
- * JVxeTable 键盘操作
+ * JVxeTable Keyboard operation
  *
  * @param props
  */
 export function useKeyboardEdit(props: JVxeTableProps) {
-  // 是否开启了键盘操作
+  // 是否开启了Keyboard operation
   const enabledKeyboard = computed(() => props.keyboardEdit ?? false);
-  // 重写 keyboardConfig
+  // rewrite keyboardConfig
   const keyboardConfig: VxeTablePropTypes.KeyboardConfig = {
     editMethod({ row, column, $table }) {
-      // 重写默认的覆盖式，改为追加式
+      // rewrite默认的覆盖式，Change to append
       $table.setActiveCell(row, column);
       return true;
     },
   };
-  // 键盘操作配置
+  // Keyboard operation配置
   const keyboardEditConfig = computed(() => {
     return {
       mouseConfig: {

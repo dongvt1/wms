@@ -3,9 +3,9 @@ import {defineStore} from 'pinia';
 import {defHttp} from "@/utils/http/axios";
 
 interface DefIndexState {
-  // 首页url
+  // front pageurl
   url: string,
-  // 首页组件
+  // front page组件
   component: string
 }
 
@@ -18,7 +18,7 @@ export const useDefIndexStore = defineStore({
   getters: {},
   actions: {
     /**
-     * 查询默认主页配置
+     * Query the default homepage configuration
      */
     async query() {
       const config = await defIndexApi.query();
@@ -26,10 +26,10 @@ export const useDefIndexStore = defineStore({
       this.component = config.component;
     },
     /**
-     * 更新默认主页配置
-     * @param url 首页url
-     * @param component 首页组件
-     * @param isRoute 是否是路由
+     * Update default home page configuration
+     * @param url front pageurl
+     * @param component front page组件
+     * @param isRoute Is it a route?
      */
     async update(url: string, component: string, isRoute: boolean) {
       await defIndexApi.update(url, component, isRoute);
@@ -48,28 +48,28 @@ export function useDefIndexStoreWithOut() {
 }
 
 /**
- * 默认首页配置API
+ * 默认front page配置API
  */
 export const defIndexApi = {
   /**
-   * 查询默认首页配置
+   * 查询默认front page配置
    */
   async query() {
     const url = '/sys/sysRoleIndex/queryDefIndex'
     return await defHttp.get({url});
   },
   /**
-   * 更新默认首页配置
-   * @param url 首页url
-   * @param component 首页组件
-   * @param isRoute 是否是路由
+   * 更新默认front page配置
+   * @param url front pageurl
+   * @param component front page组件
+   * @param isRoute Is it a route?
    */
   async update(url: string, component: string, isRoute: boolean) {
     let apiUrl = '/sys/sysRoleIndex/updateDefIndex'
     apiUrl += '?url=' + url
-    //update-begin-author:liusq---date:2025-07-04--for: 设置默认首页接口传参修改,增加encodeURIComponent，防止{{ window._CONFIG['domianURL'] }}/**保存不上
+    //update-begin-author:liusq---date:2025-07-04--for: 设置默认front page接口传参修改,IncreaseencodeURIComponent，prevent{{ window._CONFIG['domianURL'] }}/**Can't save
     apiUrl += '&component=' + encodeURIComponent(component)
-    //update-end-author:liusq---date:2025-07-04--for: 设置默认首页接口传参修改,增加encodeURIComponent，防止{{ window._CONFIG['domianURL'] }}/**保存不上
+    //update-end-author:liusq---date:2025-07-04--for: 设置默认front page接口传参修改,IncreaseencodeURIComponent，prevent{{ window._CONFIG['domianURL'] }}/**Can't save
     apiUrl += '&isRoute=' + isRoute
     return await defHttp.put({url: apiUrl});
   },

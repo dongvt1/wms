@@ -3,26 +3,26 @@ import { FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '分类名称',
+    title: 'Category name',
     dataIndex: 'name',
     width: 350,
     align: 'left',
   },
   {
-    title: '分类编码',
+    title: 'Classification coding',
     dataIndex: 'code',
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    label: '名称',
+    label: 'name',
     field: 'name',
     component: 'JInput',
     colProps: { span: 6 },
   },
   {
-    label: '编码',
+    label: 'coding',
     field: 'code',
     component: 'JInput',
     colProps: { span: 6 },
@@ -37,13 +37,13 @@ export const formSchema: FormSchema[] = [
     show: false,
   },
   {
-    label: '父级节点',
+    label: 'parent node',
     field: 'pid',
     component: 'TreeSelect',
     componentProps: {
-      //update-begin---author:wangshuai ---date:20230829  for：replaceFields已过期，使用fieldNames代替------------
+      //update-begin---author:wangshuai ---date:20230829  for：replaceFieldsExpired，usefieldNamesreplace------------
       fieldNames: {
-      //update-end---author:wangshuai ---date:20230829  for：replaceFields已过期，使用fieldNames代替------------
+      //update-end---author:wangshuai ---date:20230829  for：replaceFieldsExpired，usefieldNamesreplace------------
         value: 'key',
       },
       dropdownStyle: {
@@ -59,7 +59,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '分类名称',
+    label: 'Category name',
     field: 'name',
     required: true,
     component: 'Input',

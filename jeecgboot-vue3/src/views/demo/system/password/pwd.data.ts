@@ -3,27 +3,27 @@ import { FormSchema } from '/@/components/Form';
 export const formSchema: FormSchema[] = [
   {
     field: 'passwordOld',
-    label: '当前密码',
+    label: 'Current Password',
     component: 'InputPassword',
     required: true,
   },
   {
     field: 'passwordNew',
-    label: '新密码',
+    label: 'New Password',
     component: 'StrengthMeter',
     componentProps: {
-      placeholder: '新密码',
+      placeholder: 'New Password',
     },
     rules: [
       {
         required: true,
-        message: '请输入新密码',
+        message: '请输入New Password',
       },
     ],
   },
   {
     field: 'confirmPassword',
-    label: '确认密码',
+    label: 'Confirm Password',
     component: 'InputPassword',
 
     dynamicRules: ({ values }) => {
@@ -32,10 +32,10 @@ export const formSchema: FormSchema[] = [
           required: true,
           validator: (_, value) => {
             if (!value) {
-              return Promise.reject('不能为空');
+              return Promise.reject('cannot be empty');
             }
             if (value !== values.passwordNew) {
-              return Promise.reject('两次输入的密码不一致!');
+              return Promise.reject('The passwords entered twice are inconsistent!');
             }
             return Promise.resolve();
           },

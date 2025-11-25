@@ -12,50 +12,50 @@ import { getToken } from '/@/utils/auth';
 import { downloadFile } from '/@/api/common/api';
 import { getWeekMonthQuarterYear, split } from '/@/utils';
 /**
- * 获取实际列表需要的column配置
- * @param onlineTableContext 从数据库中查出来的数据
- * @param extConfigJson 扩展配置JSON
+ * Get the actual list neededcolumnConfiguration
+ * @param onlineTableContext Data retrieved from the database
+ * @param extConfigJson 扩展ConfigurationJSON
  */
 export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | undefined>) {
-  // 获取路由器对象 href跳转用到
+  // Get router object hrefUsed for jump
   let router = useRouter();
 
-  // 列信息
+  // Column information
   const columns = ref<Array<OnlineColumn>>([]);
-  // 是否有bpm_status
+  // Is therebpm_status
   //const hasBpmStatus = ref<boolean>(false)
-  // 字典信息
+  // Dictionary information
   const dictOptionInfo = ref<any>({});
-  //已选择的值
+  //Selected value
   const selectedKeys = ref<any[]>([]);
-  //选择的行记录
+  //Selected row records
   //const selectRows = ref<Array<any>>([]);
-  // 选择列配置 --computed有问题
+  // 选择列Configuration --computedThere is a problem
   const rowSelection = ref<any>(null);
-  // 是否有滚动条
+  // Is there滚动条
   let enableScrollBar = ref(true);
-  // table属性scroll
+  // tablepropertyscroll
   let tableScroll = computed(() => {
     if (enableScrollBar.value == true) {
       return undefined;
     } else {
-      // X轴没有滚动条
+      // Xaxis has no scrollbar
       return { x: false };
     }
   });
 
-  //用于 online列表的 某列的点击弹窗事件-弹窗显示其他表单
+  //used for onlinelist Click pop-up event for a certain column-Pop-up window showing other forms
   const [registerOnlineHrefModal, { openModal: openOnlineHrefModal }] = useModal();
   const hrefMainTableId = ref('')
-  // 用于 online表单中 弹出别的表单
+  // used for onlinein form Pop up another form
   const [registerPopModal, { openModal: openPopModal }] = useModal();
   const popTableId = ref('')
 
-  // 对查询列信息的请求结果 处理方法
+  // 对查询Column information的请求结果 Treatment method
   function handleColumnResult(result, type = 'checkbox') {
-    // 字典设置
+    // Dictionary settings
     dictOptionInfo.value = result.dictOptions;
-    // rowSelection设置
+    // rowSelectionset up
     if (result.checkboxFlag == 'Y') {
       rowSelection.value = {
         selectedRowKeys: selectedKeys,
@@ -65,50 +65,50 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
     } else {
       rowSelection.value = null;
     }
-    // 是否允许滚动条
+    // Whether to allow scroll bars
     enableScrollBar.value = result.scrollFlag == 1;
 
     let dataColumns = result.columns;
     dataColumns.forEach((column) => {
-      // update-begin--author:liaozhiyang---date:20230818---for：【QQYUN-4161】列支持固定功能
+      // update-begin--author:liaozhiyang---date:20230818---for：【QQYUN-4161】Column supports fixed functions
       if (column.fieldExtendJson) {
         const json = JSON.parse(column.fieldExtendJson);
         if (!!json.isFixed) {
           column.fixed = 'left';
         }
       }
-      // update-end--author:liaozhiyang---date:20230818---for：【QQYUN-4161】列支持固定功能
-      // update-begin--author:liaozhiyang---date:20240517---for：【TV360X-129】增加富文本控件配置href跳转
+      // update-end--author:liaozhiyang---date:20230818---for：【QQYUN-4161】Column supports fixed functions
+      // update-begin--author:liaozhiyang---date:20240517---for：【TV360X-129】增加富文本控件ConfigurationhrefJump
       if (column.hrefSlotName && column.scopedSlots) {
         const obj = result.fieldHrefSlots?.find((item) => item.slotName === column.hrefSlotName);
         if (obj) {
           column.fieldHref = obj;
         }
       }
-      // update-end--author:liaozhiyang---date:20240517---for：【TV360X-129】增加富文本控件配置href跳转
+      // update-end--author:liaozhiyang---date:20240517---for：【TV360X-129】增加富文本控件ConfigurationhrefJump
       Object.keys(column).map((key) => {
-        // 删掉空值的字段（不删除 空字符串('') 或 数字 0 ）
+        // Delete fields with null values（Do not delete empty string('') or number 0 ）
         if (column[key] == null) {
           delete column[key];
         }
       });
     });
 
-    // href 跳转
+    // href Jump
     let fieldHrefSlots: HrefSlots[] = result.fieldHrefSlots;
     const fieldHrefSlotKeysMap = {};
     fieldHrefSlots.forEach((item) => (fieldHrefSlotKeysMap[item.slotName] = item));
 
     let tableColumns: OnlineColumn[] = [];
-    // 处理列中的 href 跳转和 dict 字典，使两者可以兼容存在
+    // Process the column href Jump和 dict dictionary，Make the two compatible
     tableColumns = handleColumnHrefAndDict(dataColumns, fieldHrefSlotKeysMap);
-    // 是否有 bpm_status字段 如果有，列表操作按钮需要增加提交流程按钮
+    // Is there bpm_statusField if there is，The list operation button needs to add a submit process button
     bpmStatusFilter(tableColumns);
 
-    console.log('-----列表列配置----', tableColumns);
-    // 如果是树列表 需要设置第一列字段 及 第一列align
+    console.log('-----列表列Configuration----', tableColumns);
+    // If it is a tree list 需要set upfirst columnField and first columnalign
     if (onlineTableContext.isTree() === true) {
-      // 找到第一列的配置
+      // 找到first column的Configuration
       let firstField = result.textField;
       let index = -1;
       for (let i = 0; i < tableColumns.length; i++) {
@@ -118,22 +118,22 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
         }
       }
       if (index > 0) {
-        //如果是0或是-1不需要处理
+        //in the case of0or是-1No processing required
         let deleteColumns = tableColumns.splice(index, 1);
         tableColumns.unshift(deleteColumns[0]);
       }
-      //第一列居左
+      //first column居左
       if (tableColumns.length > 0) {
         tableColumns[0].align = 'left';
       }
     }
     columns.value = tableColumns;
-    // 列发生了变化，需要重新渲染表格
+    // Column changed，Need to re-render table
     onlineTableContext.reloadTable();
   }
 
   /**
-   * 表格选择事件 [expose]
+   * table select event [expose]
    * @param selectedRowKeys
    * @param selectRow
    */
@@ -144,12 +144,12 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
   }
 
   /**
-   * 处理列的href和字典翻译
+   * processing columnhref和dictionary翻译
    */
   function handleColumnHrefAndDict(columns: OnlineColumn[], fieldHrefSlotKeysMap: {}): OnlineColumn[] {
     for (let column of columns) {
       let { customRender, hrefSlotName, fieldType } = column;
-      // online 报表中类型配置为日期（yyyy-MM-dd ），但是实际展示为日期时间格式(yyyy-MM-dd HH:mm:ss) issues/3042
+      // online Report中类型Configuration为date（yyyy-MM-dd ），But the actual display is in date and time format(yyyy-MM-dd HH:mm:ss) issues/3042
       if (fieldType == 'date' || fieldType == 'Date') {
         column.customRender = ({ text }) => {
           if (!text) {
@@ -161,36 +161,36 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
           return text;
         };
       } else if (fieldType == 'link_table') {
-        // 关联记录列表展示
-        // update-begin--author:liaozhiyang---date:20250318---for：【issues/7930】表格列表中支持关联记录配置是否只读
+        // Related record list display
+        // update-begin--author:liaozhiyang---date:20250318---for：【issues/7930】表格列表中support关联记录Configuration是否只读
         const fieldExtendJson = column.fieldExtendJson ?? '{}';
         const json = JSON.parse(fieldExtendJson);
-        // update-end--author:liaozhiyang---date:20250318---for：【issues/7930】表格列表中支持关联记录配置是否只读
+        // update-end--author:liaozhiyang---date:20250318---for：【issues/7930】表格列表中support关联记录Configuration是否只读
         column.customRender = ({ text, record }) => {
           if (!text) {
             return '';
           }
           if(onlineTableContext.isPopList===true){
-            // 如果是弹窗的列表，关联记录的列只支持数据翻译，不需要跳转逻辑
+            // in the case of弹窗columns表，Columns of associated records only support data translation，不需要Jump逻辑
             return record[column.dataIndex+"_dictText"]
           }else{
             let tempIdArray = (text+'').split(',');
-            //update-begin-author:taoyan date:2023-2-15 for: QQYUN-4286【online表单】主子表开启联合查询 功能测试报错打不开
+            //update-begin-author:taoyan date:2023-2-15 for: QQYUN-4286【onlineform】Enable joint query for master and child tables Functional test reports error and cannot be opened
             let tempLabelArray = [];
             if(record[column.dataIndex+"_dictText"]){
               tempLabelArray = record[column.dataIndex+"_dictText"].split(',');
             }
-            //update-end-author:taoyan date:2023-2-15 for: QQYUN-4286【online表单】主子表开启联合查询 功能测试报错打不开
+            //update-end-author:taoyan date:2023-2-15 for: QQYUN-4286【onlineform】Enable joint query for master and child tables Functional test reports error and cannot be opened
             let renderResult:any = []
             if(renderResult.length==0){
               return ''
             }
-            //如果需要显示全，但是会换行：display: flex;width: 100%;flex-wrap: wrap;flex-direction: row;
+            //If necessary, display all，But it will wrap：display: flex;width: 100%;flex-wrap: wrap;flex-direction: row;
             return h('div',{style:{'overflow':'hidden'}}, renderResult);
           }
         };
       } else if (fieldType === 'popup_dict') {
-        // update-begin--author:liaozhiyang---date:20240402---for：【QQYUN-8833】JPopupDict的列表翻译
+        // update-begin--author:liaozhiyang---date:20240402---for：【QQYUN-8833】JPopupDictList of translations
         column.customRender = ({ text, record }) => {
           const dict = record[column.dataIndex + '_dictText'];
           if (dict != undefined) {
@@ -198,25 +198,25 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
           }
           return text;
         };
-        // update-end--author:liaozhiyang---date:20240402---for：【QQYUN-8833】JPopupDict的列表翻译
+        // update-end--author:liaozhiyang---date:20240402---for：【QQYUN-8833】JPopupDictList of translations
       } else {
         if (!hrefSlotName && column.scopedSlots && column.scopedSlots.customRender) {
-          //【Online报表】字典和href互斥 这里通过fieldHrefSlotKeysMap 先找到是href的列
+          //【OnlineReport】dictionary和hrefmutually exclusive pass herefieldHrefSlotKeysMap Find it firsthrefcolumns
           if (fieldHrefSlotKeysMap.hasOwnProperty(column.scopedSlots.customRender)) {
             hrefSlotName = column.scopedSlots.customRender;
           }
         }
-        // 如果 customRender 有值则代表使用了字典
-        // 如果 hrefSlotName 有值则代表使用了href跳转
-        // 两者可以兼容。兼容的具体思路为：先获取到字典替换的值，再添加href链接跳转
+        // if customRender A value indicates that it is useddictionary
+        // if hrefSlotName A value indicates that it is usedhrefJump
+        // Both are compatible。The specific idea of ​​compatibility is：先获取到dictionary替换value，Add morehref链接Jump
         if (customRender || hrefSlotName) {
           let dictCode = customRender as string;
           let replaceFlag = '_replace_text_';
-          // 自定义渲染函数的列 需要手动配置ellipsis
+          // 自定义渲染函数columns 需要手动Configurationellipsis
           column.ellipsis = true;
           column.customRender = ({ text, record }) => {
             let value = text;
-            // 如果 dictCode 有值，就进行字典转换
+            // if dictCode valuable，就进行dictionary转换
             if (dictCode) {
               if (dictCode.startsWith(replaceFlag)) {
                 let textFieldName = dictCode.replace(replaceFlag, '');
@@ -225,13 +225,13 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
                 value = filterMultiDictText(unref(dictOptionInfo)[dictCode], text + '');
               }
             }
-            // 扩展参数设置列的内容长度
+            // 扩展parameterset up列的内容长度
             if (column.showLength) {
               if (value && value.length > column.showLength) {
                 value = value.substr(0, column.showLength) + '...';
               }
             }
-            // 如果 hrefSlotName 有值，就生成一个 a 标签，包裹住字典替换后（或原生）的值
+            // if hrefSlotName valuable，Just generate one a Label，包裹住dictionary替换后（or原生）value
             if (hrefSlotName) {
               let field = fieldHrefSlotKeysMap[hrefSlotName];
               if (field) {
@@ -248,9 +248,9 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
           };
         }
 
-        //  老版本叫scopedSlots 新版叫slots
+        //  The old version is calledscopedSlots The new version is calledslots
         if (column.scopedSlots) {
-          // slot的列 需要手动配置ellipsis
+          // slotcolumns 需要手动Configurationellipsis
           column.ellipsis = true;
           let slots = column.scopedSlots;
           column['slots'] = slots;
@@ -262,7 +262,7 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
   }
 
   /**
-   * href 点击事件
+   * href click event
    * @param field
    * @param record
    */
@@ -285,18 +285,18 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
         })
       }else{
         href = href.trim().replace(/\${([^}]+)?}/g, (_s1, s2) => record[s2]);
-        // 执行 {{...}} JS增强语句
+        // implement {{...}} JSEnhancement statement
         if (jsPattern.test(href)) {
           href = href.replace(jsPattern, function (text, s0) {
             try {
-              // 支持 {{ ACCESS_TOKEN }} 占位符
+              // support {{ ACCESS_TOKEN }} placeholder
               if (s0.trim() === 'ACCESS_TOKEN') {
                 return getToken()
               }
 
-              // update-begin--author:liaozhiyang---date:20230904---for：【QQYUN-6390】eval替换成new Function，解决build警告
+              // update-begin--author:liaozhiyang---date:20230904---for：【QQYUN-6390】evalReplace withnew Function，solvebuildwarn
               return _eval(s0);
-              // update-end--author:liaozhiyang---date:20230904---for：【QQYUN-6390】eval替换成new Function，解决build警告
+              // update-end--author:liaozhiyang---date:20230904---for：【QQYUN-6390】evalReplace withnew Function，solvebuildwarn
             } catch (e) {
               console.error(e);
               return text;
@@ -306,7 +306,7 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
         if (urlPattern.test(href)) {
           window.open(href, '_blank');
         } else if (compPattern.test(href)) {
-          // 处理弹框
+          // Handling pop-ups
           openHrefCompModal(href);
         } else {
           router.push(href);
@@ -315,7 +315,7 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
     }
   }
 
-  // 样式
+  // style
   const dialogStyle = {
     top: 0,
     left: 0,
@@ -324,19 +324,19 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
     padding: 0,
   };
 
-  // update-begin--author:liaozhiyang---date:20231218---for：【QQYUN-6366】升级到antd4.x
-  // 弹窗属性配置
+  // update-begin--author:liaozhiyang---date:20231218---for：【QQYUN-6366】upgrade toantd4.x
+  // 弹窗propertyConfiguration
   const hrefComponent = reactive({
     model: {
       title: '',
-      okText: '关闭',
+      okText: 'closure',
       width: '100%',
       open: false,
       destroyOnClose: true,
       style: dialogStyle,
       // dialogStyle: dialogStyle,
       bodyStyle: { padding: '8px', height: 'calc(100vh - 108px)', overflow: 'auto', overflowX: 'hidden' },
-      // 隐藏掉取消按钮
+      // Hide cancel button
       cancelButtonProps: { style: { display: 'none' } },
     },
     on: {
@@ -346,11 +346,11 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
     is: <any>null,
     params: {},
   });
-  // update-end--author:liaozhiyang---date:20231218---for：【QQYUN-6366】升级到antd4.x
+  // update-end--author:liaozhiyang---date:20231218---for：【QQYUN-6366】upgrade toantd4.x
 
-  // 超链点击事件--> 打开一个modal窗口
+  // 超链click event--> open amodalwindow
   function openHrefCompModal(href) {
-    // 解析 href 参数
+    // parse href parameter
     let index = href.indexOf('?');
     let path = href;
     if (index !== -1) {
@@ -366,20 +366,20 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
     } else {
       hrefComponent.params = {};
     }
-    // update-begin--author:liaozhiyang---date:20231218---for：【QQYUN-6366】升级到antd4.x
+    // update-begin--author:liaozhiyang---date:20231218---for：【QQYUN-6366】upgrade toantd4.x
     hrefComponent.model.open = true;
-    // update-end--author:liaozhiyang---date:20231218---for：【QQYUN-6366】升级到antd4.x
-    hrefComponent.model.title = '操作';
+    // update-end--author:liaozhiyang---date:20231218---for：【QQYUN-6366】upgrade toantd4.x
+    hrefComponent.model.title = 'operate';
     hrefComponent.is = markRaw(defineAsyncComponent(() => importViewsFile(path)));
   }
 
-  //如果是树列表 操作列只能右侧固定
+  //If it is a tree list operate列只能右侧固定
   let fixedAction:any = 'left';
   if(onlineTableContext.isTree()){
     fixedAction = 'right'
   }
   const actionColumn = reactive<OnlineColumn>({
-    title: '操作',
+    title: 'operate',
     dataIndex: 'action',
     slots: { customRender: 'action' },
     fixed: fixedAction,
@@ -387,18 +387,18 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
     width: 150,
   });
 
-  // 监听扩展参数的固定列配置，动态改变操作列的固定方式
+  // 监听扩展parameter的固定列Configuration，动态改变operate列的固定方式
   watch(() => extConfigJson?.value, () => {
     if (extConfigJson?.value?.tableFixedAction === 1) {
       actionColumn.fixed = extConfigJson?.value?.tableFixedActionType || 'right';
-      // 如果是树列表 操作列只能右侧固定
+      // If it is a tree list operate列只能右侧固定
       if(onlineTableContext.isTree()){
         actionColumn.fixed = 'right'
       }
     }
   });
 
-  // 流程按钮状态
+  // Process button state
   function bpmStatusFilter(tableColumns: OnlineColumn[]): boolean {
     let flag = false;
     for (let i = 0; i < tableColumns.length; i++) {
@@ -414,38 +414,38 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
   }
 
   /**
-   * 文件
+   * document
    * @param text
    */
   function downloadRowFile(text, record, column, id) {
     if (!text) {
       return;
     }
-    // update-begin--author:liaozhiyang---date:20240124---for：【QQYUN-8020】online 表单有多个文件走下载接口
+    // update-begin--author:liaozhiyang---date:20240124---for：【QQYUN-8020】online form有多个document走下载接口
     if (text.indexOf(',') > 0) {
-      downloadFile(`/online/cgform/field/download/${id}/${record.id}/${column.dataIndex}`, `文件_${record.id}.zip`);
+      downloadFile(`/online/cgform/field/download/${id}/${record.id}/${column.dataIndex}`, `document_${record.id}.zip`);
     } else {
       const url = getFileAccessHttpUrl(text);
       window.open(url);
     }
-    // update-end--author:liaozhiyang---date:20240124---for：【QQYUN-8020】online 表单有多个文件走下载接口
+    // update-end--author:liaozhiyang---date:20240124---for：【QQYUN-8020】online form有多个document走下载接口
   }
 
   /**
-   * 图片
+   * picture
    * @param text
    */
   function getImgView(text) {
     if (text && text.indexOf(',') > 0) {
-      // update-begin--author:liaozhiyang---date:20250325---for：【issues/7990】图片参数中包含逗号会错误的识别成多张图
+      // update-begin--author:liaozhiyang---date:20250325---for：【issues/7990】pictureparameter中包含逗号会错误的识别成多张图
       text = split(text)[0];
-      // update-end--author:liaozhiyang---date:20250325---for：【issues/7990】图片参数中包含逗号会错误的识别成多张图
+      // update-end--author:liaozhiyang---date:20250325---for：【issues/7990】pictureparameter中包含逗号会错误的识别成多张图
     }
     return getFileAccessHttpUrl(text);
   }
 
   /**
-   * 根据编码获取省市区文本
+   * Get provincial and municipal text based on encoding
    * @param code
    */
   function getPcaText(code) {
@@ -456,7 +456,7 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
   }
 
   /**
-   * 日期格式化
+   * date formatting
    * @param text
    */
   function getFormatDate(text, column) {
@@ -467,7 +467,7 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
     if (a.length > 10) {
       a = a.substring(0, 10);
     }
-    // update-begin--author:liaozhiyang---date:20240430---for：【issues/6094】online 日期(年月日)控件增加年、年月，年周，年季度等格式
+    // update-begin--author:liaozhiyang---date:20240430---for：【issues/6094】online date(year month day)Controls increase year、years，year week，Year quarter and other formats
     let fieldExtendJson = column?.fieldExtendJson;
     if (fieldExtendJson) {
       fieldExtendJson = JSON.parse(fieldExtendJson);
@@ -476,7 +476,7 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
         return result[fieldExtendJson.picker];
       }
     }
-    // update-end--author:liaozhiyang---date:20240430---for：【issues/6094】online 日期(年月日)控件增加年、年月，年周，年季度等格式
+    // update-end--author:liaozhiyang---date:20240430---for：【issues/6094】online date(year month day)Controls increase year、years，year week，Year quarter and other formats
     return a;
   }
 
@@ -491,15 +491,15 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
   };
 
   /**
-   * 预览列表 cell 图片
+   * Preview list cell picture
    * @param text
    */
   function viewOnlineCellImage(text) {
     if (text) {
       let imgList: any = [];
-      // update-begin--author:liaozhiyang---date:20250325---for：【issues/7990】图片参数中包含逗号会错误的识别成多张图
+      // update-begin--author:liaozhiyang---date:20250325---for：【issues/7990】pictureparameter中包含逗号会错误的识别成多张图
       const arr = split(text);
-      // update-end--author:liaozhiyang---date:20250325---for：【issues/7990】图片参数中包含逗号会错误的识别成多张图
+      // update-end--author:liaozhiyang---date:20250325---for：【issues/7990】pictureparameter中包含逗号会错误的识别成多张图
       for (let str of arr) {
         if (str) {
           imgList.push(getFileAccessHttpUrl(str));
@@ -510,7 +510,7 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
   }
 
   /**
-   * link table控件在列表上显示 支持点击跳转表单
+   * link tableThe control is displayed on the list support点击Jumpform
    * @param id
    * @param hrefTableName
    */
@@ -518,7 +518,7 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
   async function handleClickLinkTable(id, hrefTableName, isListReadOnly){
     popTableId.value = hrefTableName;
     let formStatus =  await onlinePopModalRef.value.getFormStatus();
-    // 判断当前表单是否支持编辑，不能编辑跳详情表单
+    // 判断当前form是否support编辑，不能编辑跳详情form
     if(formStatus==true){
       hrefMainTableId.value = hrefTableName;
       openOnlineHrefModal(true, {
@@ -530,9 +530,9 @@ export function useTableColumns(onlineTableContext, extConfigJson: Ref<any | und
     }else{
       openPopModal(true, {
         isUpdate: true,
-        // update-begin--author:liaozhiyang---date:20250318---for：【issues/7930】表格列表中支持关联记录配置是否只读
+        // update-begin--author:liaozhiyang---date:20250318---for：【issues/7930】表格列表中support关联记录Configuration是否只读
         disableSubmit: isListReadOnly ? true : false,
-        // update-end--author:liaozhiyang---date:20250318---for：【issues/7930】表格列表中支持关联记录配置是否只读
+        // update-end--author:liaozhiyang---date:20250318---for：【issues/7930】表格列表中support关联记录Configuration是否只读
         record: {
           id: id
         }

@@ -42,10 +42,10 @@ export function useCustomRow(
 
           const isCheckbox = rowSelection.type === 'checkbox';
           if (isCheckbox) {
-            // 找到tr
+            // turn uptr
             const tr: HTMLElement = (e as MouseEvent).composedPath?.().find((dom: HTMLElement) => dom.tagName === 'TR') as HTMLElement;
             if (!tr) return;
-            // 找到Checkbox，检查是否为disabled
+            // turn upCheckbox，Check if it isdisabled
             const checkBox = tr.querySelector('input[type=checkbox]');
             if (!checkBox || checkBox.hasAttribute('disabled')) return;
             if (!keys.includes(key)) {
@@ -60,7 +60,7 @@ export function useCustomRow(
 
           const isRadio = rowSelection.type === 'radio';
           if (isRadio) {
-            // update-begin--author:liaozhiyang---date:20231016---for：【QQYUN-6794】table列表增加radio禁用功能
+            // update-begin--author:liaozhiyang---date:20231016---for：【QQYUN-6794】tableList addedradioDisable function
             const rowSelection = propsRef.value.rowSelection;
             if (rowSelection.getCheckboxProps) {
               const result = rowSelection.getCheckboxProps(record);
@@ -68,7 +68,7 @@ export function useCustomRow(
                 return;
               }
             }
-            // update-end--author:liaozhiyang---date:20231016---for：【QQYUN-6794】table列表增加radio禁用功能
+            // update-end--author:liaozhiyang---date:20231016---for：【QQYUN-6794】tableList addedradioDisable function
             if (!keys.includes(key)) {
               if (keys.length) {
                 clearSelectedRowKeys();
@@ -76,10 +76,10 @@ export function useCustomRow(
               setSelectedRowKeys([key]);
               return;
             } else {
-              // update-begin--author:liaozhiyang---date:20240527---for：【TV360X-359】erp主表点击已选中的选到了最后一个
-              // 点击已经选中的，直接return不在做操作
+              // update-begin--author:liaozhiyang---date:20240527---for：【TV360X-359】erpClick on the selected one in the main table to select the last one
+              // Click on the selected，directreturnNot doing operations
               return;
-              // update-end--author:liaozhiyang---date:20240527---for：【TV360X-359】erp主表点击已选中的选到了最后一个
+              // update-end--author:liaozhiyang---date:20240527---for：【TV360X-359】erpClick on the selected one in the main table to select the last one
             }
             clearSelectedRowKeys();
           }

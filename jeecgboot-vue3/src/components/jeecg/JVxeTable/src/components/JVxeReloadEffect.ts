@@ -2,18 +2,18 @@ import { defineComponent, h, ref, watch } from 'vue';
 import { randomString } from '/@/utils/common/compUtils';
 import '../style/reload-effect.less';
 
-// 修改数据特效
+// Modify data effects
 export default defineComponent({
   props: {
     vNode: null,
-    // 是否启用特效
+    // Whether to enable special effects
     effect: Boolean,
   },
   emits: ['effectBegin', 'effectEnd'],
   setup(props, { emit }) {
     // vNode: null,
     const innerEffect = ref(props.effect);
-    // 应付同时多个特效
+    // Cope with multiple special effects at the same time
     const effectIdx = ref(0);
     const effectList = ref<any[]>([]);
 
@@ -32,24 +32,24 @@ export default defineComponent({
       { deep: true, immediate: true }
     );
 
-    // 条件渲染内容 span
+    // Conditionally rendered content span
     function renderVNode() {
       if (props.vNode == null) {
         return null;
       }
       let bottom = renderSpan(props.vNode, 'bottom');
-      // 启用了特效，并且有旧数据，就渲染特效顶层
+      // Effects enabled，and have old data，Just render the top layer of special effects
       if (innerEffect.value && effectList.value.length > 0) {
         emit('effectBegin');
-        // 1.4s 以后关闭特效
+        // 1.4s Turn off special effects in the future
         window.setTimeout(() => {
           let item = effectList.value[effectIdx.value];
           if (item && item.elm) {
-            // 特效结束后，展示先把 display 设为 none，而不是直接删掉该元素，
-            // 目的是为了防止页面重新渲染，导致动画重置
+            // After the special effects，Show first display set to none，Instead of directly deleting the element，
+            // The purpose is to prevent the page from re-rendering，Cause animation to reset
             item.elm.style.display = 'none';
           }
-          // 当所有的层级动画都结束时，再删掉所有元素
+          // When all level animations have ended，Then delete all elements
           if (++effectIdx.value === effectList.value.length) {
             innerEffect.value = false;
             effectIdx.value = 0;
@@ -63,19 +63,19 @@ export default defineComponent({
       }
     }
 
-    // 渲染内容 span
+    // render content span
     function renderSpan(vNode, layer) {
       let options = {
         key: layer + effectIdx.value + randomString(6),
         class: ['j-vxe-reload-effect-span', `layer-${layer}`],
         style: {},
-        // update-begin--author:liaozhiyang---date:20240424---for：【issues/1175】解决vxetable鼠标hover之后title显示不对的问题
+        // update-begin--author:liaozhiyang---date:20240424---for：【issues/1175】solvevxetablemousehoveraftertitleDisplay error
         title: vNode,
-        // update-end--author:liaozhiyang---date:20240424---for：【issues/1175】解决vxetable鼠标hover之后title显示不对的问题
+        // update-end--author:liaozhiyang---date:20240424---for：【issues/1175】solvevxetablemousehoveraftertitleDisplay error
 
       };
       if (layer === 'top') {
-        // 最新渲染的在下面
+        // The latest rendering is below
         options.style['z-index'] = 9999 - effectIdx.value;
       }
       return h('span', options, [vNode]);

@@ -1,9 +1,9 @@
 import { ref } from 'vue';
-//每行个数
+//Number of lines
 export const grid = ref(12);
-// slider属性
+// sliderproperty
 export const useSlider = (min = 6, max = 12) => {
-  // 每行显示个数滑动条
+  // Display number slider per row
   const getMarks = () => {
     const l = {};
     for (let i = min; i < max + 1; i++) {

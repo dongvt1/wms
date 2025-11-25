@@ -1,5 +1,5 @@
 import type { App } from 'vue';
-// 引入 vxe-table
+// introduce vxe-table
 import 'xe-utils';
 import VxeUIAll from 'vxe-pc-ui';
 import VXETable /*Grid*/ from 'vxe-table';
@@ -13,22 +13,22 @@ import { registerAllComponent } from './utils/registerUtils';
 import { getEnhanced } from './utils/enhancedUtils';
 
 export function registerJVxeTable(app: App) {
-  // VXETable 全局配置
+  // VXETable Global configuration
   const VXETableSettings = {
-    // z-index 起始值
+    // z-index starting value
     zIndex: 1000,
     table: {},
   };
 
-  // 添加事件拦截器 event.clearActived
-  // 比如点击了某个组件的弹出层面板之后，此时被激活单元格不应该被自动关闭，通过返回 false 可以阻止默认的行为。
+  // Add event interceptor event.clearActived
+  // For example, after clicking the pop-up layer panel of a component，The activated cell should not be automatically closed at this time，by returning false Default behavior can be prevented。
   VXETable.interceptor.add('event.clearActived', preventClosingPopUp);
   VXETable.interceptor.add('event.clearEdit', preventClosingPopUp);
-  // 注册插件
+  // Register plugin
   VXETable.use(VXETablePluginAntd);
-  // 注册自定义组件
+  // Register a custom component
   registerAllComponent();
-  // 执行注册方法
+  // Execute registration method
   app.use(VxeUIAll);
   app.use(VXETable, VXETableSettings);
   app.component('JVxeTable', JVxeTable);
@@ -36,21 +36,21 @@ export function registerJVxeTable(app: App) {
 
 
 /**
- * 阻止行编辑中关闭弹窗
+ * Prevent closing pop-ups during line editing
  * @param params
  */
 function preventClosingPopUp(this: any, params) {
-  // 获取组件增强
+  // Get component enhancements
   let col = params.column.params;
-  // update-begin--author:liaozhiyang---date:20250429---for：【issues/8178】使用原生vxe-table组件编辑模式下失去焦点报错
+  // update-begin--author:liaozhiyang---date:20250429---for：【issues/8178】Use nativevxe-tableError reported when losing focus in component editing mode
   if (col === undefined) {
-    // 说明使用的是纯原生的vxe-table
+    // It shows that the use of pure nativevxe-table
     return;
   }
-  // update-end--author:liaozhiyang---date:20250429---for：【issues/8178】使用原生vxe-table组件编辑模式下失去焦点报错
+  // update-end--author:liaozhiyang---date:20250429---for：【issues/8178】Use nativevxe-tableError reported when losing focus in component editing mode
   let { $event } = params;
   const interceptor = getEnhanced(col.type).interceptor;
-  // 执行增强
+  // Execution enhancement
   let flag = interceptor['event.clearActived']?.call(this, ...arguments);
   if (flag === false) {
     return false;
@@ -61,21 +61,21 @@ function preventClosingPopUp(this: any, params) {
     let className: any = p.className || '';
     className = typeof className === 'string' ? className : className.toString();
 
-    /* --- 特殊处理以下组件，点击以下标签时不清空编辑状态 --- */
+    /* --- Special handling of the following components，Do not clear editing status when clicking the following tags --- */
 
-    // 点击的标签是JInputPop
+    // The clicked label isJInputPop
     if (className.includes('j-input-pop')) {
       return false;
     }
-    // 点击的标签是JPopup的弹出层、部门选择、用户选择
+    // The clicked label isJPopuppopup layer、Department selection、User selection
     if (className.includes('j-popup-modal') || className.includes('j-depart-select-modal') || className.includes('j-user-select-modal')) {
       return false;
     }
-    // 点击的是日期选择器
+    // Click on the date picker
     if (className.includes('j-vxe-date-picker')) {
       return false;
     }
-    // 执行增强
+    // Execution enhancement
     let flag = interceptor['event.clearActived.className']?.call(this, className, ...arguments);
     if (flag === false) {
       return false;

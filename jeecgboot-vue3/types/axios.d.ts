@@ -2,28 +2,28 @@ export type ErrorMessageMode = 'none' | 'modal' | 'message' | undefined;
 export type SuccessMessageMode = 'none' | 'success' | 'error' | undefined;
 
 export interface RequestOptions {
-  // 将请求参数拼接到url
+  // Splice request parameters intourl
   joinParamsToUrl?: boolean;
-  // 格式化请求参数时间
+  // Format request parameter time
   formatDate?: boolean;
-  // 是否处理请求结果
+  // Whether to process the request result
   isTransformResponse?: boolean;
-  // 是否返回本地响应头,需要获取响应头时使用此属性
+  // Whether to return local response headers,Use this attribute when you need to get the response headers
   isReturnNativeResponse?: boolean;
-  // 默认将prefix 添加到url
+  // The default will beprefix add tourl
   joinPrefix?: boolean;
-  // 接口地址，如果保留为空，则使用默认值
+  // interface address，If left empty，then use the default value
   apiUrl?: string;
-  // 请求拼接路径
+  // Request splicing path
   urlPrefix?: string;
-  // 错误消息提示类型
+  // Error message prompt type
   errorMessageMode?: ErrorMessageMode;
-  // 成功消息提示类型
+  // Success message prompt type
   successMessageMode?: SuccessMessageMode;
-  // 是否添加时间戳
+  // Whether to add timestamp
   joinTime?: boolean;
   ignoreCancelToken?: boolean;
-  //是否在标头中发送令牌
+  //Whether to send token in header
   withToken?: boolean;
 }
 
@@ -34,22 +34,22 @@ export interface Result<T = any> {
   result: T;
 }
 
-//文件上传参数
+//File upload parameters
 export interface UploadFileParams {
-  // 其他参数
+  // Other parameters
   data?: Recordable;
-  // 文件参数接口字段名
+  // File parameter interface field name
   name?: string;
-  // 文件
+  // document
   file: File | Blob;
-  // 文件名
+  // document名
   filename?: string;
   [key: string]: any;
 }
-//文件返回参数
+//document返回参数
 export interface UploadFileCallBack {
-  // 成功回调方法
+  // Success callback method
   success?: any;
-  // 是否返回响应头,需要获取响应头时使用此属性
+  // Whether to return response headers,Use this attribute when you need to get the response headers
   isReturnResponse?: boolean;
 }

@@ -2,38 +2,38 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '消息标题',
+    title: 'Message title',
     dataIndex: 'esTitle',
     width: 140,
   },
   {
-    title: '发送内容',
+    title: 'Send content',
     dataIndex: 'esContent',
     width: 200,
     // slots: { customRender: 'esContent' },
   },
   {
-    title: '接收人',
+    title: 'recipient',
     dataIndex: 'esReceiver',
     width: 140,
   },
   {
-    title: '发送次数',
+    title: 'Send times',
     dataIndex: 'esSendNum',
     width: 120,
   },
   {
-    title: '发送状态',
+    title: 'Send status',
     dataIndex: 'esSendStatus_dictText',
     width: 120,
   },
   {
-    title: '发送时间',
+    title: 'Send time',
     dataIndex: 'esSendTime',
     width: 140,
   },
   {
-    title: '发送方式',
+    title: 'Send method',
     dataIndex: 'esType_dictText',
     width: 120,
   },
@@ -41,12 +41,12 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    label: '消息标题',
+    label: 'Message title',
     field: 'esTitle',
     component: 'Input',
   },
   {
-    label: '发送状态',
+    label: 'Send status',
     field: 'esSendStatus',
     component: 'JDictSelectTag',
     componentProps: {
@@ -54,7 +54,7 @@ export const searchFormSchema: FormSchema[] = [
     },
   },
   {
-    label: '发送方式',
+    label: 'Send method',
     field: 'esType',
     component: 'JDictSelectTag',
     componentProps: {
@@ -71,62 +71,62 @@ export const formSchemas: FormSchema[] = [
     show: false,
   },
   {
-    label: '消息标题',
+    label: 'Message title',
     field: 'esTitle',
     component: 'Input',
     componentProps: { readOnly: true },
   },
   {
-    label: '发送内容',
+    label: 'Send content',
     field: 'esContent',
     component: 'InputTextArea',
     componentProps: { readOnly: true },
   },
   {
-    label: '发送参数',
+    label: 'Send parameters',
     field: 'esParam',
     component: 'Input',
     componentProps: { readOnly: true },
   },
 
   {
-    label: '接收人',
+    label: 'recipient',
     field: 'esReceiver',
     component: 'Input',
     componentProps: { readOnly: true },
   },
   {
-    label: '发送方式',
+    label: 'Send method',
     field: 'esType',
     component: 'JDictSelectTag',
     componentProps: { disabled: true, dictCode: 'messageType' },
   },
   {
-    label: '发送时间',
+    label: 'Send time',
     field: 'esSendTime',
     component: 'Input',
     componentProps: { readOnly: true },
   },
   {
-    label: '发送状态',
+    label: 'Send status',
     field: 'esSendStatus',
     component: 'JDictSelectTag',
     componentProps: { disabled: true, dictCode: 'msgSendStatus' },
   },
   {
-    label: '发送次数',
+    label: 'Send times',
     field: 'esSendNum',
     component: 'Input',
     componentProps: { readOnly: true },
   },
   {
-    label: '发送失败原因',
+    label: 'Reason for sending failure',
     field: 'esResult',
     component: 'Input',
     componentProps: { readOnly: true },
   },
   {
-    label: '备注',
+    label: 'Remark',
     field: 'remark',
     component: 'InputTextArea',
     componentProps: { readOnly: true },

@@ -1,18 +1,18 @@
 // /**
-//  * qiankun配置
+//  * qiankunConfiguration
 //  */
 // import { registerMicroApps, setDefaultMountApp, start, runAfterFirstMounted, addGlobalUncaughtErrorHandler } from 'qiankun';
 // import { apps } from './apps';
 // import { getProps, initGlState } from './state';
 //
 // /**
-//  * 重构apps
+//  * Refactorapps
 //  */
 // function filterApps() {
 //   apps.forEach((item) => {
-//     //主应用需要传递给微应用的数据。
+//     //Data that the main application needs to pass to the micro application。
 //     item.props = getProps();
-//     //微应用触发的路由规则
+//     //Routing rules triggered by micro applications
 //     // @ts-ignore
 //     item.activeRule = genActiveRule('/' + item.activeRule);
 //   });
@@ -20,15 +20,15 @@
 // }
 //
 // /**
-//  * 路由监听
-//  * @param {*} routerPrefix 前缀
+//  * Route monitoring
+//  * @param {*} routerPrefix prefix
 //  */
 // function genActiveRule(routerPrefix) {
 //   return (location) => location.pathname.startsWith(routerPrefix);
 // }
 //
 // /**
-//  * 微应用注册
+//  * Micro application registration
 //  */
 // function registerApps() {
 //   const _apps = filterApps();
@@ -58,15 +58,15 @@
 //       },
 //     ],
 //   });
-//   // 设置默认子应用,与 genActiveRule中的参数保持一致
+//   // Set default sub-app,and genActiveRuleThe parameters in the
 //   // setDefaultMountApp();
-//   // 第一个微应用 mount 后需要调用的方法，比如开启一些监控或者埋点脚本。
-//   runAfterFirstMounted(() => console.log('开启监控'));
-//   // 添加全局的未捕获异常处理器。
+//   // First micro application mount The method that needs to be called later，For example, enable some monitoring or hidden scripts。
+//   runAfterFirstMounted(() => console.log('Turn on monitoring'));
+//   // Add global uncaught exception handler。
 //   addGlobalUncaughtErrorHandler((event) => console.log(event));
-//   // 定义全局状态
+//   // Define global state
 //   initGlState();
-//   //启动qiankun
+//   //start upqiankun
 //   start({});
 // }
 //

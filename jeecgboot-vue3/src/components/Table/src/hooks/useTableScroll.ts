@@ -68,9 +68,9 @@ export function useTableScroll(
     if (!tableEl) return;
 
     if (!bodyEl) {
-      //update-begin-author:taoyan date:2023-2-11 for: issues/355 前端-jeecgboot-vue3 3.4.4版本,BasicTable高度自适应功能失效,设置BasicTable组件maxHeight失效; 原因已找到,请看详情
+      //update-begin-author:taoyan date:2023-2-11 for: issues/355 front end-jeecgboot-vue3 3.4.4Version,BasicTableHigh adaptive function failure,set upBasicTablecomponentsmaxHeightInvalid; The reason has been found,Please see details
       bodyEl = tableEl.querySelector('.ant-table-tbody');
-      //update-end-author:taoyan date:2023-2-11 for: issues/355 前端-jeecgboot-vue3 3.4.4版本,BasicTable高度自适应功能失效,设置BasicTable组件maxHeight失效; 原因已找到,请看详情
+      //update-end-author:taoyan date:2023-2-11 for: issues/355 front end-jeecgboot-vue3 3.4.4Version,BasicTableHigh adaptive function failure,set upBasicTablecomponentsmaxHeightInvalid; The reason has been found,Please see details
       if (!bodyEl) return;
     }
 
@@ -121,13 +121,13 @@ export function useTableScroll(
     }
 
     let footerHeight = 0;
-    // update-begin--author:liaozhiyang---date:20240424---for：【issues/1137】BasicTable自适应高度计算没有减去尾部高度
+    // update-begin--author:liaozhiyang---date:20240424---for：【issues/1137】BasicTableAdaptive height calculation does not subtract tail height
     footerEl = tableEl.querySelector('.ant-table-footer');
     if (footerEl) {
       const offsetHeight = footerEl.offsetHeight;
       footerHeight = offsetHeight || 0;
     }
-    // update-end--author:liaozhiyang---date:20240424---for：【issues/1137】BasicTable自适应高度计算没有减去尾部高度
+    // update-end--author:liaozhiyang---date:20240424---for：【issues/1137】BasicTableAdaptive height calculation does not subtract tail height
 
     let headerHeight = 0;
     if (headEl) {
@@ -135,17 +135,17 @@ export function useTableScroll(
     }
 
     let height = bottomIncludeBody - (resizeHeightOffset || 0) - paddingHeight - paginationHeight - footerHeight - headerHeight;
-    // update-begin--author:liaozhiyang---date:20240603---for【TV360X-861】列表查询区域不可往上滚动
-    // 10+6(外层边距padding:10 + 内层padding-bottom:6)
+    // update-begin--author:liaozhiyang---date:20240603---for【TV360X-861】The list query area cannot be scrolled up.
+    // 10+6(outer marginpadding:10 + inner layerpadding-bottom:6)
     height -= 16;
-    // update-end--author:liaozhiyang---date:20240603---for：【TV360X-861】列表查询区域不可往上滚动
+    // update-end--author:liaozhiyang---date:20240603---for：【TV360X-861】The list query area cannot be scrolled up.
     
     height = (height < minHeight! ? (minHeight as number) : height) ?? height;
     height = (height > maxHeight! ? (maxHeight as number) : height) ?? height;
     setHeight(height);
 
     bodyEl!.style.height = `${height}px`;
-    // update-begin--author:liaozhiyang---date:20240609---for【issues/8374】分页始终显示在底部
+    // update-begin--author:liaozhiyang---date:20240609---for【issues/8374】Pagination always appears at the bottom
     nextTick(() => {
       if (maxHeight === undefined) {
         if (unref(getPaginationInfo) && unref(getDataSourceRef).length) {
@@ -158,13 +158,13 @@ export function useTableScroll(
           const trHeight = lastrEl.offsetHeight;
           const dataHeight = trHeight * pageSize;
           if (tableBody && lastrEl) {
-            // update-begin--author:liaozhiyang---date:20250702---for：【issues/8532】online权限管理中的按钮权限第一页数据看不到
-            // table是否隐藏（隐藏的table不能吸底）
+            // update-begin--author:liaozhiyang---date:20250702---for：【issues/8532】onlineThe data on the first page of button permissions in permission management cannot be seen
+            // tableWhether to hide（hiddentableCan't suck bottom）
             const isTableBodyHide = tableBody.offsetHeight == 0 && tableBody.offsetWidth == 0;
             if (isTableBodyHide) {
               return;
             }
-            // update-end--author:liaozhiyang---date:20250702---for：【issues/8532】online权限管理中的按钮权限第一页数据看不到
+            // update-end--author:liaozhiyang---date:20250702---for：【issues/8532】onlineThe data on the first page of button permissions in permission management cannot be seen
             if (current === 1 && pageSize > unref(getDataSourceRef).length && total <= pageSize) {
               tableBody.style.height = `${height}px`;
             } else {
@@ -174,7 +174,7 @@ export function useTableScroll(
         }
       }
     });
-    // update-end--author:liaozhiyang---date:20240609---for【issues/8374】分页始终显示在底部
+    // update-end--author:liaozhiyang---date:20240609---for【issues/8374】Pagination always appears at the bottom
   }
   useWindowSizeFn(calcTableHeight, 280);
   onMountedOrActivated(() => {
@@ -186,19 +186,19 @@ export function useTableScroll(
 
   const getScrollX = computed(() => {
     let width = 0;
-    // update-begin--author:liaozhiyang---date:20230922---for：【QQYUN-6391】在线表单列表字段过多时,列头和数据对不齐
+    // update-begin--author:liaozhiyang---date:20230922---for：【QQYUN-6391】When there are too many fields in the online form list,Column headers and data are not aligned
     // if (unref(rowSelectionRef)) {
     //   width += 60;
     // }
-    // update-end--author:liaozhiyang---date:20230922---for：【QQYUN-6391】在线表单列表字段过多时,列头和数据对不齐
-    // update-begin--author:liaozhiyang---date:20230925---for：【issues/5411】BasicTable 配置maxColumnWidth 未生效
+    // update-end--author:liaozhiyang---date:20230922---for：【QQYUN-6391】When there are too many fields in the online form list,Column headers and data are not aligned
+    // update-begin--author:liaozhiyang---date:20230925---for：【issues/5411】BasicTable ConfigurationmaxColumnWidth Not effective
     const { maxColumnWidth } = unref(propsRef);
     // TODO props ?? 0;
     const NORMAL_WIDTH = maxColumnWidth ?? 150;
-    // update-end--author:liaozhiyang---date:20230925---for：【issues/5411】BasicTable 配置maxColumnWidth 未生效
-    // date-begin--author:liaozhiyang---date:20250716---for：【QQYUN-13122】有数十个字段时只展示2个字段，其余字段为ifShow:false会有滚动条
+    // update-end--author:liaozhiyang---date:20230925---for：【issues/5411】BasicTable ConfigurationmaxColumnWidth Not effective
+    // date-begin--author:liaozhiyang---date:20250716---for：【QQYUN-13122】Only displayed when there are dozens of fields2fields，The remaining fields areifShow:falseThere will be scroll bars
     const columns = unref(columnsRef).filter((item) => !(item.defaultHidden == true || item.ifShow == false))
-    // date-end--author:liaozhiyang---date:20250716---for：【QQYUN-13122】有数十个字段时只展示2个字段，其余字段为ifShow:false会有滚动条
+    // date-end--author:liaozhiyang---date:20250716---for：【QQYUN-13122】Only displayed when there are dozens of fields2fields，The remaining fields areifShow:falseThere will be scroll bars
     columns.forEach((item) => {
       width += Number.parseInt(item.width as string) || 0;
     });
@@ -208,11 +208,11 @@ export function useTableScroll(
     if (len !== 0) {
       width += len * NORMAL_WIDTH;
     }
-    // update-begin--author:liaozhiyang---date:202401009---for：【TV360X-116】内嵌风格字段较多时表格错位
+    // update-begin--author:liaozhiyang---date:202401009---for：【TV360X-116】The table is misaligned when there are many embedded style fields
     if (slots.expandedRowRender) {
       width += propsRef.value.expandColumnWidth;
     }
-    // update-end--author:liaozhiyang---date:202401009---for：【TV360X-116】内嵌风格字段较多时表格错位
+    // update-end--author:liaozhiyang---date:202401009---for：【TV360X-116】The table is misaligned when there are many embedded style fields
     const table = unref(tableElRef);
     const tableWidth = table?.$el?.offsetWidth ?? 0;
     return tableWidth > width ? '100%' : width;
@@ -225,9 +225,9 @@ export function useTableScroll(
     return {
       x: unref(getScrollX),
       y: canResize ? tableHeight : null,
-      // update-begin--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTable加上scrollToFirstRowOnChange类型定义
+      // update-begin--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTableplusscrollToFirstRowOnChangetype definition
       scrollToFirstRowOnChange: table.scrollToFirstRowOnChange,
-      // update-end--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTable加上scrollToFirstRowOnChange类型定义
+      // update-end--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTableplusscrollToFirstRowOnChangetype definition
       ...scroll,
     };
   });

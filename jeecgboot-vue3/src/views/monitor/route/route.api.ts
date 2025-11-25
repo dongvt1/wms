@@ -13,14 +13,14 @@ enum Api {
 }
 
 /**
- * 查询路由列表
+ * Query route list
  * @param params
  */
 export const getRouteList = (params) => {
   return defHttp.get({ url: Api.list, params });
 };
 /**
- * 查询逻辑删除的路由列表
+ * Query the tombstone routing list
  * @param params
  */
 export const deleteRouteList = (params) => {
@@ -28,7 +28,7 @@ export const deleteRouteList = (params) => {
 };
 
 /**
- * 保存或者更新路由
+ * Save or update routes
  * @param params
  */
 export const saveOrUpdateRoute = (params) => {
@@ -36,7 +36,7 @@ export const saveOrUpdateRoute = (params) => {
 };
 
 /**
- * 删除路由
+ * Delete route
  * @param params
  */
 export const deleteRoute = (params, handleSuccess) => {
@@ -46,7 +46,7 @@ export const deleteRoute = (params, handleSuccess) => {
 };
 
 /**
- * 回收站还原
+ * Recycle Bin Restore
  * @param params
  */
 export const putRecycleBin = (params, handleSuccess) => {
@@ -55,7 +55,7 @@ export const putRecycleBin = (params, handleSuccess) => {
   });
 };
 /**
- * 回收站删除
+ * Recycle bin delete
  * @param params
  */
 export const deleteRecycleBin = (params, handleSuccess) => {
@@ -64,7 +64,7 @@ export const deleteRecycleBin = (params, handleSuccess) => {
   });
 };
 /**
- * 复制
+ * copy
  */
 export const copyRoute = (params, handleSuccess) => {
   return defHttp.get({ url: Api.copyRoute, params }).then(() => {

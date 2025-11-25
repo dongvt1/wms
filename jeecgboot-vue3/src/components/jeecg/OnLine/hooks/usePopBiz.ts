@@ -13,7 +13,7 @@ import {replaceUserInfoByExpression} from "@/utils/common/compUtils";
 import { isString } from '/@/utils/is';
 
 export function usePopBiz(ob, tableRef?) {
-  // update-begin--author:liaozhiyang---date:20230811---for：【issues/675】子表字段Popup弹框数据不更新
+  // update-begin--author:liaozhiyang---date:20230811---for：【issues/675】Subtable fieldsPopupPop-up data is not updated
   let props: any;
   if (isRef(ob)) {
     props = ob.value;
@@ -24,53 +24,53 @@ export function usePopBiz(ob, tableRef?) {
   } else {
     props = ob;
   }
-  // update-end--author:liaozhiyang---date:20230811---for：【issues/675】子表字段Popup弹框数据不更新
+  // update-end--author:liaozhiyang---date:20230811---for：【issues/675】Subtable fieldsPopupPop-up data is not updated
   const { createMessage } = useMessage();
-  //弹窗可视状态
+  //Pop-up window visible status
   const visible = ref(false);
-  //表格加载
+  //Table loading
   const loading = ref(false);
   //cgRpConfigId
   const cgRpConfigId = ref('');
-  //标题
-  const title = ref('列表');
-  // 排序字段，默认无排序
+  //title
+  const title = ref('list');
+  // sort field，No sorting by default
   const iSorter = ref<any>('');
-  // 查询对象
+  // Query object
   const queryInfo = ref([]);
-  // 查询参数
+  // query parameters
   const queryParam = ref<any>({});
-  // 动态参数
+  // dynamic parameters
   const dynamicParam = ref<any>({});
-  //字典配置项
+  //Dictionary configuration items
   const dictOptions = ref({});
-  //数据集
+  //Dataset
   const dataSource = ref<Array<object>>([]);
-  //定义表格信息
+  //Define table information
   const columns = ref<Array<object>>([]);
-  // 当前路由
+  // current route
   const route = useRoute();
-  //定义请求url信息
+  //define requesturlinformation
   const configUrl = reactive({
-    //列表页加载column和data
+    //list页loadcolumnanddata
     getColumnsAndData: '/online/cgreport/api/getColumnsAndData/',
     getColumns: '/online/cgreport/api/getRpColumns/',
     getData: '/online/cgreport/api/getData/',
     getQueryInfo: '/online/cgreport/api/getQueryInfo/',
     export: '/online/cgreport/api/exportManySheetXls/',
   });
-  //已选择的值
+  //Selected value
   const checkedKeys = ref<Array<string | number>>([]);
-  //选择的行记录
+  //Selected row records
   const selectRows = ref<Array<any>>([]);
-  // 点击单元格选中行 popup需要 但是报表预览不需要
+  // Click on a cell to select a row popupneed 但是Report预览不need
   let clickThenCheckFlag = true;
   if (props.clickToRowSelect === false) {
     clickThenCheckFlag = false;
   }
 
   /**
-   * 选择列配置
+   * Select column configuration
    */
   const rowSelection = {
     fixed: true,
@@ -81,56 +81,56 @@ export function usePopBiz(ob, tableRef?) {
   };
 
   /**
-   * 序号列配置
+   * Serial number column configuration
    */
   const indexColumnProps = {
     dataIndex: 'index',
     width: '15px',
   };
   /**
-   * 分页配置
+   * Paging configuration
    */
   const pagination = reactive({
     current: 1,
     pageSize: 10,
     pageSizeOptions: ['10', '20', '30'],
     // showTotal: (total, range) => {
-    //     return range[0] + '-' + range[1] + ' 共' + total + '条'
+    //     return range[0] + '-' + range[1] + ' common' + total + 'strip'
     // },
     showQuickJumper: true,
     showSizeChanger: true,
     total: 0,
-    // 合计逻辑 [待优化 3.0]
+    // aggregation logic [To be optimized 3.0]
     showTotal: (total) => onShowTotal(total),
     realPageSize: 10,
     realTotal: 0,
-    // 是否有合计列，默认为""，在第一次获取到数据之后会设计为ture或者false
+    // Is there a total column，Default is""，After the data is obtained for the first time, it will be designed astureorfalse
     isTotal: <string | boolean>'',
     onShowSizeChange: (current, pageSize) => onSizeChange(current, pageSize),
   });
 
   /**
-   * 表格选择事件
+   * table select event
    * @param selectedRowKeys
    * @param selectRow
    */
   function onSelectChange(selectedRowKeys: (string | number)[]) {
-    // update-begin--author:liaozhiyang---date:20240105---for：【QQYUN-7514】popup单选显示radio
+    // update-begin--author:liaozhiyang---date:20240105---for：【QQYUN-7514】popupSingle choice displayradio
     if (!props.multi) {
       selectRows.value = [];
       checkedKeys.value = [];
-      // update-begin--author:liaozhiyang---date:20240717---for：【issues/6883】单选模式第二次打开已勾选
+      // update-begin--author:liaozhiyang---date:20240717---for：【issues/6883】The radio mode is opened for the second time and is checked.
       // selectedRowKeys = [selectedRowKeys[selectedRowKeys.length - 1]];
-      // update-end--author:liaozhiyang---date:20240717---for：【issues/6883】单选模式第二次打开已勾选
+      // update-end--author:liaozhiyang---date:20240717---for：【issues/6883】The radio mode is opened for the second time and is checked.
     }
-    // update-end--author:liaozhiyang---date:20240105---for：【QQYUN-7514】popup单选显示radio
-    // update-begin--author:liaozhiyang---date:20230919---for：【QQYUN-4263】跨页选择导出问题
+    // update-end--author:liaozhiyang---date:20240105---for：【QQYUN-7514】popupSingle choice displayradio
+    // update-begin--author:liaozhiyang---date:20230919---for：【QQYUN-4263】Cross-page selection export issue
     if (!selectedRowKeys || selectedRowKeys.length == 0) {
       selectRows.value = [];
       checkedKeys.value = [];
     } else {
       if (selectRows.value.length > selectedRowKeys.length) {
-        // 取消
+        // Cancel
         selectRows.value.forEach((item, index) => {
           const rowKey = combineRowKey(item);
           if (!selectedRowKeys.find((key) => key === rowKey)) {
@@ -138,12 +138,12 @@ export function usePopBiz(ob, tableRef?) {
           }
         });
       } else {
-        // 新增
+        // New
         const append: any = [];
         const beforeRowKeys = selectRows.value.map((item) => combineRowKey(item));
         selectedRowKeys.forEach((key) => {
           if (!beforeRowKeys.find((item) => item === key)) {
-            // 那就是新增选中的行
+            // 那就是New选中的行
             const row = getRowByKey(key);
             row && append.push(row);
           }
@@ -152,10 +152,10 @@ export function usePopBiz(ob, tableRef?) {
       }
       checkedKeys.value = [...selectedRowKeys];
     }
-    // update-end--author:liaozhiyang---date:20230919---for：【QQYUN-4263】跨页选择导出问题
+    // update-end--author:liaozhiyang---date:20230919---for：【QQYUN-4263】Cross-page selection export issue
   }
   /**
-   * 过滤没用选项
+   * Filter useless options
    * @param selectedRowKeys
    */
   function filterUnuseSelect() {
@@ -166,7 +166,7 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 根据key获取row信息
+   * according tokeyGetrowinformation
    * @param key
    */
   function getRowByKey(key) {
@@ -175,14 +175,14 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 加载rowKey
+   * loadrowKey
    */
   function combineRowKey(record) {
     let res = record?.id || '';
     if (props?.rowkey) {
-      // update-begin--author:liaozhiyang---date:20250415--for：【issues/3656】popupdict回显
+      // update-begin--author:liaozhiyang---date:20250415--for：【issues/3656】popupdictecho
       res = record[props.rowkey];
-      // update-end--author:liaozhiyang---date:20250415--for：【issues/3656】popupdict回显
+      // update-end--author:liaozhiyang---date:20250415--for：【issues/3656】popupdictecho
     } else {
       Object.keys(record).forEach((key) => {
         res = key == 'rowIndex' ? record[key] + res : res + record[key];
@@ -193,12 +193,12 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 加载列信息
+   * load列information
    */
   function loadColumnsInfo() {
     const {code} = handleCodeParams(true)
     let url = `${configUrl.getColumns}${code}`;
-    //缓存key
+    //cachekey
     let groupIdKey = props.groupId ? `${props.groupId}${url}` : '';
     httpGroupRequest(() => defHttp.get({ url }, { isTransformResponse: false, successMessageMode: 'none' }), groupIdKey).then((res) => {
       if (res.success) {
@@ -213,12 +213,12 @@ export function usePopBiz(ob, tableRef?) {
               return filterMultiDictText(unref(dictOptions)[dictCode], text + '');
             };
           }
-          // 排序字段受控
+          // sort field受控
           if (unref(iSorter) && currColumns[a].dataIndex === unref(iSorter).column) {
             currColumns[a].sortOrder = unref(iSorter).order === 'asc' ? 'ascend' : 'descend';
           }
         }
-        // update-begin--author:liaozhiyang---date:20250114---for：【issues/946】popup列宽和在线报表列宽读取配置
+        // update-begin--author:liaozhiyang---date:20250114---for：【issues/946】popup列宽and在线Report列宽读取配置
         currColumns.forEach((item) => {
           if (item.fieldWidth != null) {
             if (isString(item.fieldWidth) && item.fieldWidth.trim().length == 0) return;
@@ -226,22 +226,22 @@ export function usePopBiz(ob, tableRef?) {
             delete item.fieldWidth;
           }
         });
-        // update-end--author:liaozhiyang---date:20250114---for：【issues/946】popup列宽和在线报表列宽读取配置
+        // update-end--author:liaozhiyang---date:20250114---for：【issues/946】popup列宽and在线Report列宽读取配置
         if (currColumns[0].key !== 'rowIndex') {
           currColumns.unshift({
-            title: '序号',
+            title: 'serial number',
             dataIndex: 'rowIndex',
             key: 'rowIndex',
             width: 60,
             align: 'center',
             customRender: function ({ text }) {
-              // update-begin--author:liaozhiyang---date:20231226---for：【QQYUN-7584】popup有合计时序号列会出现NaN
+              // update-begin--author:liaozhiyang---date:20231226---for：【QQYUN-7584】popup有合计时serial number列会出现NaN
               if (text == undefined) {
                 return '';
               } else {
                 return parseInt(text) + 1;
               }
-              // update-end--author:liaozhiyang---date:20231226---for：【QQYUN-7584】popup有合计时序号列会出现NaN
+              // update-end--author:liaozhiyang---date:20231226---for：【QQYUN-7584】popup有合计时serial number列会出现NaN
             },
           });
         }
@@ -252,10 +252,10 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 加载列和数据[列表专用]
+   * load列and数据[list专用]
    */
   function loadColumnsAndData() {
-    // 第一次加载 置空isTotal 在这里调用确保 该方法只是进入页面后 加载一次 其余查询不走该方法
+    // 第一次load Leave blankisTotal Make sure to call here This method is just after entering the page load一次 Do not use this method for other queries
     pagination.isTotal = '';
     let url = `${configUrl.getColumnsAndData}${props.id}`;
 
@@ -263,7 +263,7 @@ export function usePopBiz(ob, tableRef?) {
     if (query) {
       url = url + query
     }
-    //缓存key
+    //cachekey
     let groupIdKey = props.groupId ? `${props.groupId}${url}` : '';
     httpGroupRequest(() => defHttp.get({ url }, { isTransformResponse: false, successMessageMode: 'none' }), groupIdKey).then((res) => {
       if (res.success) {
@@ -271,11 +271,11 @@ export function usePopBiz(ob, tableRef?) {
         cgRpConfigId.value = props.id;
         let { columns: metaColumnList, cgreportHeadName, fieldHrefSlots, isGroupTitle } = res.result;
         title.value = cgreportHeadName;
-        // href 跳转
+        // href Jump
         const fieldHrefSlotKeysMap = {};
         fieldHrefSlots.forEach((item) => (fieldHrefSlotKeysMap[item.slotName] = item));
         let currColumns: any = handleColumnHrefAndDict(metaColumnList, fieldHrefSlotKeysMap);
-        // update-begin--author:liaozhiyang---date:20250114---for：【issues/946】popup列宽和在线报表列宽读取配置
+        // update-begin--author:liaozhiyang---date:20250114---for：【issues/946】popup列宽and在线Report列宽读取配置
         currColumns.forEach((item) => {
           if (isString(item.fieldWidth) && item.fieldWidth.trim().length == 0) return;
           if (item.fieldWidth != null) {
@@ -283,12 +283,12 @@ export function usePopBiz(ob, tableRef?) {
             delete item.fieldWidth;
           }
         });
-        // update-end--author:liaozhiyang---date:20250114---for：【issues/946】popup列宽和在线报表列宽读取配置
+        // update-end--author:liaozhiyang---date:20250114---for：【issues/946】popup列宽and在线Report列宽读取配置
 
-        // popup需要序号， 普通列表不需要
+        // popupneedserial number， 普通list不need
         if (clickThenCheckFlag === true) {
           currColumns.unshift({
-            title: '序号',
+            title: 'serial number',
             dataIndex: 'rowIndex',
             key: 'rowIndex',
             width: 60,
@@ -299,21 +299,21 @@ export function usePopBiz(ob, tableRef?) {
           });
         }
 
-        // 合并表头
+        // Merge header
         if (isGroupTitle === true) {
           currColumns = handleGroupTitle(currColumns);
         }
         columns.value = [...currColumns];
         initQueryInfo(res.result.data);
       } else {
-        //update-begin-author:taoyan date:20220401 for: VUEN-583【vue3】JeecgBootException: sql黑名单校验不通过,请联系管理员!,前台无提示
+        //update-begin-author:taoyan date:20220401 for: VUEN-583【vue3】JeecgBootException: sqlBlacklist verification failed,Please contact the administrator!,No prompt at the front desk
         createMessage.warning(res.message);
-        //update-end-author:taoyan date:20220401 for: VUEN-583【vue3】JeecgBootException: sql黑名单校验不通过,请联系管理员!,前台无提示
+        //update-end-author:taoyan date:20220401 for: VUEN-583【vue3】JeecgBootException: sqlBlacklist verification failed,Please contact the administrator!,No prompt at the front desk
       }
     });
   }
 
-  // 处理动态参数和系统变量
+  // 处理dynamic parametersand系统变量
   function handleCodeParams(onlyCode: boolean = false) {
     if (!props.code) {
       return {code: '', query: ''}
@@ -328,12 +328,12 @@ export function usePopBiz(ob, tableRef?) {
     }
     const queryOrigin = props.code.substring(firstIndex, props.code.length);
     let query: string
-    // 替换系统变量
+    // Replace system variables
     query = replaceUserInfoByExpression(queryOrigin)
-    // 获取表单值
+    // Get表单值
     if (typeof props.getFormValues === 'function') {
       const values = props.getFormValues()
-      // 替换动态参数，如果有 ${xxx} 则替换为实际值
+      // 替换dynamic parameters，if there is ${xxx} then replace it with the actual value
       query = query.replace(/\${([^}]+)}/g, (_$0, $1) => {
         if (values[$1] == null) {
           return ''
@@ -347,17 +347,17 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 处理求和的列 合计逻辑 [待优化 3.0]
+   * 处理求andcolumns aggregation logic [To be optimized 3.0]
    */
   function handleSumColumn(metaColumnList: OnlineColumn[], dataTotal: number): void {
-    // 获取需要合计列的dataIndex
+    // Getneed合计列的dataIndex
     let sumColumnList = getNeedSumColumns(metaColumnList);
-    // 判断是否为第一次获取数据，如果是的话，则需要重新设置pageSize
+    // 判断是否为第一次Get数据，if yes，则need重新set uppageSize
     if (pagination.isTotal == '') {
       if (sumColumnList.length > 0) {
         pagination.isTotal = true;
-        // 有合计字段时，每次最多查询原pageSize-1条记录，另外需要第一次时将查询的10条中删除最后一条
-        // 删除最后一条数据 如果第一次得到的数据长度等于pageSize的话，则删除最后一条
+        // When there is a total field，Maximum number of original queries per timepageSize-1strip记录，另外need第一次时将查询的10strip中删除最后一strip
+        // 删除最后一strip数据 If the data length obtained for the first time is equal topageSizewords，则删除最后一strip
         if (dataSource.value.length == pagination.pageSize) {
           let remove_data = dataSource.value.pop();
         }
@@ -366,20 +366,20 @@ export function usePopBiz(ob, tableRef?) {
         pagination.isTotal = false;
       }
     }
-    // 需要添加合计字段
+    // need添加合计Field
     if (pagination.isTotal) {
       let totalRow = {};
       sumColumnList.forEach((dataIndex) => {
         let count = 0;
         dataSource.value.forEach((row) => {
-          // 统计去除null及空数据
+          // Statistical removalnulland empty data
           if (row[dataIndex] != null && row[dataIndex] != '') {
             count += parseFloat(row[dataIndex]);
           }
         });
-        totalRow[dataIndex] = isNaN(count) ? '包含非数字内容' : count.toFixed(2);
+        totalRow[dataIndex] = isNaN(count) ? 'Contains non-digital content' : count.toFixed(2);
 
-        // 长整形时合计不显示.00后缀
+        // The total is not displayed during long shaping.00suffix
         let v = metaColumnList.find((v) => v.dataIndex == dataIndex);
         if (v && v.fieldType == 'Long') {
           totalRow[dataIndex] = parseInt(totalRow[dataIndex]);
@@ -392,7 +392,7 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 获取需要求和的列 dataIndex
+   * Getneed求andcolumns dataIndex
    * @param columns
    */
   function getNeedSumColumns(columns: OnlineColumn[]): string[] {
@@ -401,7 +401,7 @@ export function usePopBiz(ob, tableRef?) {
       if (column.isTotal === '1') {
         arr.push(column.dataIndex!);
       }
-        // 【VUEN-1569】【online报表】合计无效
+        // 【VUEN-1569】【onlineReport】Invalid total
       if (column.children && column.children.length > 0) {
         let subArray = getNeedSumColumns(column.children);
         if (subArray.length > 0) {
@@ -413,12 +413,12 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 处理列的href和字典翻译
+   * processing columnhrefand字典translate
    */
   function handleColumnHrefAndDict(columns: OnlineColumn[], fieldHrefSlotKeysMap: {}): OnlineColumn[] {
     for (let column of columns) {
       let { customRender, hrefSlotName, fieldType } = column;
-      // online 报表中类型配置为日期（yyyy-MM-dd ），但是实际展示为日期时间格式(yyyy-MM-dd HH:mm:ss) issues/3042
+      // online Report中类型配置为日期（yyyy-MM-dd ），But the actual display is in date and time format(yyyy-MM-dd HH:mm:ss) issues/3042
       if (fieldType == 'Date') {
         column.customRender = ({ text }) => {
           if (!text) {
@@ -431,20 +431,20 @@ export function usePopBiz(ob, tableRef?) {
         };
       } else {
         if (!hrefSlotName && column.scopedSlots && column.scopedSlots.customRender) {
-          //【Online报表】字典和href互斥 这里通过fieldHrefSlotKeysMap 先找到是href的列
+          //【OnlineReport】字典andhrefmutually exclusive pass herefieldHrefSlotKeysMap Find it firsthrefcolumns
           if (fieldHrefSlotKeysMap.hasOwnProperty(column.scopedSlots.customRender)) {
             hrefSlotName = column.scopedSlots.customRender;
           }
         }
-        // 如果 customRender 有值则代表使用了字典
-        // 如果 hrefSlotName 有值则代表使用了href跳转
-        // 两者可以兼容。兼容的具体思路为：先获取到字典替换的值，再添加href链接跳转
+        // if customRender A value indicates that a dictionary is used
+        // if hrefSlotName A value indicates that it is usedhrefJump
+        // Both are compatible。The specific idea of ​​compatibility is：先Get到字典替换value，Add morehref链接Jump
         if (customRender || hrefSlotName) {
           let dictCode = customRender as string;
           let replaceFlag = '_replace_text_';
           column.customRender = ({ text, record }) => {
             let value = text;
-            // 如果 dictCode 有值，就进行字典转换
+            // if dictCode valuable，Just do dictionary conversion
             if (dictCode) {
               if (dictCode.startsWith(replaceFlag)) {
                 let textFieldName = dictCode.replace(replaceFlag, '');
@@ -453,13 +453,13 @@ export function usePopBiz(ob, tableRef?) {
                 value = filterMultiDictText(unref(dictOptions)[dictCode], text + '');
               }
             }
-            // 扩展参数设置列的内容长度
+            // Extended parameters set the content length of the column
             if (column.showLength) {
               if (value && value.length > column.showLength) {
                 value = value.substr(0, column.showLength) + '...';
               }
             }
-            // 如果 hrefSlotName 有值，就生成一个 a 标签，包裹住字典替换后（或原生）的值
+            // if hrefSlotName valuable，Just generate one a Label，After wrapping the dictionary and replacing（or native）value
             if (hrefSlotName) {
               let field = fieldHrefSlotKeysMap[hrefSlotName];
               if (field) {
@@ -481,24 +481,24 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 处理合并表头
+   * 处理Merge header
    * @param columns
    */
   function handleGroupTitle(columns: OnlineColumn[]): OnlineColumn[] {
     let newColumns: OnlineColumn[] = [];
     for (let column of columns) {
-      //排序字段受控  ---- 此逻辑为新增逻辑 待
+      //sort field受控  ---- 此逻辑为New逻辑 treat
       if (unref(iSorter) && column.dataIndex === unref(iSorter).column) {
         column.sortOrder = unref(iSorter).order === 'asc' ? 'ascend' : 'descend';
       }
-      //判断字段是否需要合并表头
+      //判断Field是否needMerge header
       if (column.groupTitle) {
         let clIndex = newColumns.findIndex((im) => im.title === column.groupTitle);
         if (clIndex !== -1) {
-          //表头已存在直接push children
+          //The header already exists directlypush children
           newColumns[clIndex].children!.push(column);
         } else {
-          //表头不存在组装表头信息
+          //表头不存在组装表头information
           let clGroup: OnlineColumn = {},
             child: OnlineColumn[] = [];
           child.push(column);
@@ -514,10 +514,10 @@ export function usePopBiz(ob, tableRef?) {
     return newColumns;
   }
 
-  // 获取路由器对象 href跳转用到
+  // Get路由器对象 hrefJump用到
   let router = useRouter();
   /**
-   * href 点击事件
+   * href click event
    * @param field
    * @param record
    */
@@ -528,18 +528,18 @@ export function usePopBiz(ob, tableRef?) {
     let jsPattern = /{{([^}]+)}}/g; // {{ xxx }}
     if (typeof href === 'string') {
       href = href.trim().replace(/\${([^}]+)?}/g, (s1, s2) => record[s2]);
-      // 执行 {{...}} JS增强语句
+      // implement {{...}} JSEnhancement statement
       if (jsPattern.test(href)) {
         href = href.replace(jsPattern, function (text, s0) {
           try {
-            // 支持 {{ ACCESS_TOKEN }} 占位符
+            // support {{ ACCESS_TOKEN }} placeholder
             if (s0.trim() === 'ACCESS_TOKEN') {
               return getToken()
             }
 
-            // update-begin--author:liaozhiyang---date:20230904---for：【QQYUN-6390】eval替换成new Function，解决build警告
+            // update-begin--author:liaozhiyang---date:20230904---for：【QQYUN-6390】evalReplace withnew Function，solvebuildwarn
             return _eval(s0);
-            // update-end--author:liaozhiyang---date:20230904---for：【QQYUN-6390】eval替换成new Function，解决build警告
+            // update-end--author:liaozhiyang---date:20230904---for：【QQYUN-6390】evalReplace withnew Function，solvebuildwarn
           } catch (e) {
             console.error(e);
             return text;
@@ -549,7 +549,7 @@ export function usePopBiz(ob, tableRef?) {
       if (urlPattern.test(href)) {
         window.open(href, '_blank');
       } else if (compPattern.test(href)) {
-        // 处理弹框
+        // Handling pop-ups
         openHrefCompModal(href);
       } else {
         router.push(href);
@@ -558,21 +558,21 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 导出
+   * Export
    */
   function handleExport() {
     const { handleExportXls } = useMethods();
     let url = `${configUrl.export}${cgRpConfigId.value}`;
-    let params = getQueryParams(); //查询条件
-    // 【VUEN-1568】如果选中了某些行，就只导出选中的行
+    let params = getQueryParams(); //查询strip件
+    // 【VUEN-1568】if选中了某些行，就只Export选中的行
     let keys = unref(checkedKeys);
     if (keys.length > 0) {
       keys = keys
         .map((i) => selectRows.value.find((item) => combineRowKey(item) === i)?.id)
         .filter((i) => i != null && i !== '');
-      // 判断是否有ID字段
+      // Determine whether there isIDField
       if (keys.length === 0) {
-        createMessage.warning('由于数据中缺少ID字段，故无法使用选中导出功能');
+        createMessage.warning('Due to missing dataIDField，故无法使用选中Export功能');
         return;
       }
       params['force_id'] = keys.join(',');
@@ -581,8 +581,8 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 合计逻辑 [待优化 3.0]
-   * 分页 大小改变事件
+   * aggregation logic [To be optimized 3.0]
+   * Pagination size change event
    * @param _current
    * @param size
    */
@@ -598,20 +598,20 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   *  合计逻辑 [待优化 3.0]
-   * 显示总条数
+   *  aggregation logic [To be optimized 3.0]
+   * 显示总strip数
    * @param total
    */
   function onShowTotal(total) {
-    // 重新根据是否有合计计算每页显示的数据
+    // 重新according to是否有合计计算每页显示的数据
     let start = (pagination.current - 1) * pagination.realPageSize + 1;
     let end = start + (pagination.isTotal ? dataSource.value.length - 1 : dataSource.value.length) - 1;
     let realTotal = pagination.isTotal ? pagination.realTotal : total;
-    return start + '-' + end + ' 共' + realTotal + '条';
+    return start + '-' + end + ' common' + realTotal + 'strip';
   }
 
   /**
-   * 弹出框显示隐藏触发事件
+   * Pop-up box shows hidden trigger event
    */
   async function visibleChange($event) {
     visible.value = $event;
@@ -619,26 +619,26 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 初始化查询条件
-   * @param data 数据结果集
+   * initialization查询strip件
+   * @param data data result set
    */
   function initQueryInfo(data) {
     let url = `${configUrl.getQueryInfo}${unref(cgRpConfigId)}`;
-    //缓存key
+    //cachekey
     let groupIdKey = props.groupId ? `${props.groupId}${url}` : '';
     httpGroupRequest(() => defHttp.get({ url }, { isTransformResponse: false, successMessageMode: 'none' }), groupIdKey).then((res) => {
-      // console.log("获取查询条件", res);
+      // console.log("Get查询strip件", res);
       if (res.success) {
         dynamicParamHandler(res.result);
         queryInfo.value = res.result;
         console.log('queryInfo==>', queryInfo.value);
-        //查询条件加载后再请求数据
+        //查询strip件load后再请求数据
         if (data) {
           setDataSource(data);
-          //传递路由参数和动态参数，不生效，
+          //传递路由parameteranddynamic parameters，Not effective，
           loadData(1);
         } else {
-          //没有传递data时查询数据
+          //no deliverydataQuery data when
           loadData(1);
         }
       } else {
@@ -648,41 +648,41 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 加载表格数据
+   * load表格数据
    * @param arg
    */
   function loadData(arg?) {
     if (arg == 1) {
       pagination.current = 1;
     }
-    let params = getQueryParams(); //查询条件
+    let params = getQueryParams(); //查询strip件
     params['onlRepUrlParamStr'] = getUrlParamString();
     console.log('params', params);
     loading.value = true;
-    // update-begin--author:liaozhiyang---date:20240603---for：【TV360X-578】online报表SQL翻译，第二页不翻页数据
+    // update-begin--author:liaozhiyang---date:20240603---for：【TV360X-578】onlineReportSQLtranslate，The second page does not turn data
     let url = `${configUrl.getColumnsAndData}${unref(cgRpConfigId)}`;
-    // update-end--author:liaozhiyang---date:20240603---for：【TV360X-578】online报表SQL翻译，第二页不翻页数据
+    // update-end--author:liaozhiyang---date:20240603---for：【TV360X-578】onlineReportSQLtranslate，The second page does not turn data
     const {query} = handleCodeParams()
     if (query) {
       url = url + query
     }
-    //缓存key
+    //cachekey
     let groupIdKey = props.groupId ? `${props.groupId}${url}${JSON.stringify(params)}` : '';
     httpGroupRequest(() => defHttp.get({ url, params }, { isTransformResponse: false, successMessageMode: 'none' }), groupIdKey).then((res) => {
-      // update-begin--author:liaozhiyang---date:20240603---for：【TV360X-578】online报表SQL翻译，第二页不翻页数据
+      // update-begin--author:liaozhiyang---date:20240603---for：【TV360X-578】onlineReportSQLtranslate，The second page does not turn data
       res.result.dictOptions && initDictOptionData(res.result.dictOptions);
-      // update-end--author:liaozhiyang---date:20240603---for：【TV360X-578】online报表SQL翻译，第二页不翻页数据
+      // update-end--author:liaozhiyang---date:20240603---for：【TV360X-578】onlineReportSQLtranslate，The second page does not turn data
       loading.value = false;
-      // update-begin--author:liaozhiyang---date:20240603---for：【TV360X-578】online报表SQL翻译，第二页不翻页数据
+      // update-begin--author:liaozhiyang---date:20240603---for：【TV360X-578】onlineReportSQLtranslate，The second page does not turn data
       let data = res.result.data;
-      // update-end--author:liaozhiyang---date:20240603---for：【TV360X-578】online报表SQL翻译，第二页不翻页数据
-      console.log('表格信息:', data);
+      // update-end--author:liaozhiyang---date:20240603---for：【TV360X-578】onlineReportSQLtranslate，The second page does not turn data
+      console.log('表格information:', data);
       setDataSource(data);
     });
   }
 
   /**
-   * 获取地址栏的参数
+   * Get地址栏的parameter
    */
   function getUrlParamString() {
    let query = route.query;
@@ -696,7 +696,7 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 设置dataSource
+   * set updataSource
    */
   function setDataSource(data) {
     if (data) {
@@ -708,46 +708,46 @@ export function usePopBiz(ob, tableRef?) {
         }
       }
       dataSource.value = data.records;
-      //update-begin-author:taoyan date:2023-2-11 for:issues/356 在线报表分页有问题
-      //update-begin-author:liusq date:2023-4-04 for:issues/426 修复356时候引入的回归错误 JPopupOnlReportModal.vue 中未修改
+      //update-begin-author:taoyan date:2023-2-11 for:issues/356 在线ReportPagination有问题
+      //update-begin-author:liusq date:2023-4-04 for:issues/426 repair356Regression errors introduced when JPopupOnlReportModal.vue Unmodified in
       tableRef?.value && tableRef?.value?.setPagination({
         total: Number(data.total)
       })
-      //update-end-author:liusq date:2023-4-04  for:issues/426 修复356时候引入的回归错误 JPopupOnlReportModal.vue 中未修改
-      //update-end-author:taoyan date:2023-2-11 for:issues/356 在线报表分页有问题
+      //update-end-author:liusq date:2023-4-04  for:issues/426 repair356Regression errors introduced when JPopupOnlReportModal.vue Unmodified in
+      //update-end-author:taoyan date:2023-2-11 for:issues/356 在线ReportPagination有问题
     } else {
       pagination.total = 0;
       dataSource.value = [];
     }
-    // 合计逻辑 [待优化 3.0]
+    // aggregation logic [To be optimized 3.0]
     handleSumColumn(columns.value, pagination.total);
   }
 
   /**
-   * 获取查询参数
+   * Getquery parameters
    */
   function getQueryParams() {
     let paramTarget = {};
     if (unref(dynamicParam)) {
-      //处理自定义参数
+      //Handle custom parameters
       Object.keys(unref(dynamicParam)).map((key) => {
         paramTarget['self_' + key] = unref(dynamicParam)[key];
       });
     }
     let param = Object.assign(paramTarget, unref(queryParam), unref(iSorter));
     param.pageNo = pagination.current;
-    // 合计逻辑 [待优化 3.0]
-    //  实际查询时不使用table组件的pageSize，而使用自定义的realPageSize,realPageSize会在第一次获取到数据后变化
+    // aggregation logic [To be optimized 3.0]
+    //  Not used in actual queriestablecomponentpageSize，Instead of using a customrealPageSize,realPageSize会在第一次Get到数据后变化
     param.pageSize = pagination.realPageSize;
     return filterObj(param);
   }
 
   /**
-   * 处理动态参数
+   * 处理dynamic parameters
    */
   function dynamicParamHandler(arr?) {
     if (arr && arr.length > 0) {
-      //第一次加载查询条件前 初始化queryParam为空对象
+      //第一次load查询strip件前 initializationqueryParamis an empty object
       let queryTemp = {};
       for (let item of arr) {
         if (item.mode === 'single') {
@@ -756,7 +756,7 @@ export function usePopBiz(ob, tableRef?) {
       }
       queryParam.value = { ...queryTemp };
     }
-    // 合并路由参数
+    // Merge routing parameters
     if (props.routeQuery) {
       queryParam.value = Object.assign(queryParam.value, props.routeQuery);
     }
@@ -765,12 +765,12 @@ export function usePopBiz(ob, tableRef?) {
     if (props.param) {
       Object.keys(props.param).map((key) => {
         let str = props.param[key];
-        //【issues/8426】解决JPopup组件传参不能接收
+        //【issues/8426】solveJPopupComponent parameters cannot be received
         if (key in queryParam.value) {
           if (str && str.startsWith("'") && str.endsWith("'")) {
             str = str.substring(1, str.length - 1);
           }
-          //如果查询条件包含参数 设置值
+          //if查询strip件包含parameter set up值
           unref(queryParam)[key] = str;
         }
         dynamicTemp[key] = props.param[key];
@@ -780,20 +780,20 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 分页
+   * Pagination
    * @param page
    * @param filters
    * @param sorter
    */
   function handleChangeInTable(page, filters, sorter) {
     console.log(page, filters, sorter);
-    //分页、排序、筛选变化时触发
+    //Pagination、sort、Triggered when filter changes
     if (Object.keys(sorter).length > 0) {
       iSorter.value = {
         column: sorter.field,
         order: 'ascend' === sorter.order ? 'asc' : 'desc',
       };
-      // 排序字段受控
+      // sort field受控
       unref(columns).forEach((col) => {
         if (col['dataIndex'] === sorter.field) {
           col['sortOrder'] = sorter.order;
@@ -806,17 +806,17 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 行点击事件
+   * 行click event
    * @param record
    */
   function clickThenCheck(record) {
     if (clickThenCheckFlag === true) {
-      // update-begin--author:liaozhiyang---date:20240104---for：【QQYUN-7514】popup单选显示radio
+      // update-begin--author:liaozhiyang---date:20240104---for：【QQYUN-7514】popupSingle choice displayradio
       if (!props.multi) {
         selectRows.value = [];
         checkedKeys.value = [];
       }
-      // update-end--author:liaozhiyang---date:20240104---for：【QQYUN-7514】popup单选显示radio
+      // update-end--author:liaozhiyang---date:20240104---for：【QQYUN-7514】popupSingle choice displayradio
       let rowKey = combineRowKey(record);
       if (!unref(checkedKeys) || unref(checkedKeys).length == 0) {
         let arr1: any[] = [],
@@ -827,23 +827,23 @@ export function usePopBiz(ob, tableRef?) {
         //selectRows.value = arr1;
       } else {
         if (unref(checkedKeys).indexOf(rowKey) < 0) {
-          //不存在就选中
+          //Select if it does not exist
           checkedKeys.value.push(rowKey);
           //selectRows.value.push(record);
         } else {
-          //已选中就取消
+          //已选中就Cancel
           let rowKey_index = unref(checkedKeys).indexOf(rowKey);
           checkedKeys.value.splice(rowKey_index, 1);
           //selectRows.value.splice(rowKey_index, 1);
         }
       }
-      // update-begin--author:liaozhiyang---date:20230914---for：【issues/5357】点击行选中
+      // update-begin--author:liaozhiyang---date:20230914---for：【issues/5357】Click on row to select
       tableRef.value.setSelectedRowKeys([...checkedKeys.value]);
-      // update-end--author:liaozhiyang---date:20230914---for：【issues/5357】点击行选中
+      // update-end--author:liaozhiyang---date:20230914---for：【issues/5357】Click on row to select
     }
   }
 
-  //防止字典中有垃圾数据
+  //Prevent junk data in the dictionary
   function initDictOptionData(arr) {
     let obj = {};
     Object.keys(arr).map((k) => {
@@ -855,7 +855,7 @@ export function usePopBiz(ob, tableRef?) {
   }
 
   /**
-   * 过滤对象中为空的属性
+   * Filter empty properties in objects
    * @param obj
    * @returns {*}
    */
@@ -872,7 +872,7 @@ export function usePopBiz(ob, tableRef?) {
     return obj;
   }
 
-  // 样式
+  // style
   const dialogStyle = {
     top: 0,
     left: 0,
@@ -881,11 +881,11 @@ export function usePopBiz(ob, tableRef?) {
     padding: 0,
   };
 
-  // 弹窗属性配置
+  // Pop-up window property configuration
   const hrefComponent = ref({
     model: {
       title: '',
-      okText: '关闭',
+      okText: 'closure',
       width: '100%',
       open: false,
       destroyOnClose: true,
@@ -897,7 +897,7 @@ export function usePopBiz(ob, tableRef?) {
         overflow: 'auto',
         overflowX: 'hidden',
       },
-      // 隐藏掉取消按钮
+      // 隐藏掉Cancel按钮
       cancelButtonProps: { style: { display: 'none' } },
     },
     on: {
@@ -908,9 +908,9 @@ export function usePopBiz(ob, tableRef?) {
     params: {},
   });
 
-  // 超链点击事件--> 打开一个modal窗口
+  // 超链click event--> open amodalwindow
   function openHrefCompModal(href) {
-    // 解析 href 参数
+    // parse href parameter
     let index = href.indexOf('?');
     let path = href;
     if (index !== -1) {
@@ -927,13 +927,13 @@ export function usePopBiz(ob, tableRef?) {
       hrefComponent.value.params = {};
     }
     hrefComponent.value.model.open = true;
-    hrefComponent.value.model.title = '操作';
+    hrefComponent.value.model.title = 'operate';
     hrefComponent.value.is = markRaw(defineAsyncComponent(() => importViewsFile(path)));
   }
 
-  //update-begin-author:taoyan date:2022-5-31 for: VUEN-1155 popup 选择数据时，会选择多条重复数据
+  //update-begin-author:taoyan date:2022-5-31 for: VUEN-1155 popup When selecting data，会选择多strip重复数据
   /**
-   * emit事件 获取选中的行数据
+   * emitevent Get选中的行数据
    */
   function getOkSelectRows(): any[] {
     let arr = unref(selectRows);
@@ -957,7 +957,7 @@ export function usePopBiz(ob, tableRef?) {
     }
     return rows;
   }
-  //update-end-author:taoyan date:2022-5-31 for: VUEN-1155 popup 选择数据时，会选择多条重复数据
+  //update-end-author:taoyan date:2022-5-31 for: VUEN-1155 popup When selecting data，会选择多strip重复数据
 
   return [
     {

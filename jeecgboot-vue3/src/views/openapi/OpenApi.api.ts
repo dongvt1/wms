@@ -18,45 +18,45 @@ enum Api {
 }
 
 /**
- * 子表单查询接口
+ * Subform query interface
  * @param params
  */
 export const genPath = Api.genPath
 /**
- * swagger文档json
+ * swaggerdocumentjson
  * @param params
  */
 export const openApiJson = Api.openApiJson
 /**
- * 导出api
+ * Exportapi
  * @param params
  */
 export const getExportUrl = Api.exportXls;
 
 /**
- * 导入api
+ * importapi
  */
 export const getImportUrl = Api.importExcel;
 /**
- * 子表单查询接口
+ * Subform query interface
  * @param params
  */
 export const queryOpenApiHeader = Api.openApiHeaderList
 /**
- * 子表单查询接口
+ * Subform query interface
  * @param params
  */
 export const queryOpenApiParam = Api.openApiParamList
 
 /**
- * 列表接口
+ * List interface
  * @param params
  */
 export const list = (params) =>
   defHttp.get({url: Api.list, params});
 
 /**
- * 删除单个
+ * Delete a single
  */
 export const deleteOne = (params,handleSuccess) => {
   return defHttp.delete({url: Api.deleteOne, params}, {joinParamsToUrl: true}).then(() => {
@@ -64,16 +64,16 @@ export const deleteOne = (params,handleSuccess) => {
   });
 }
 /**
- * 批量删除
+ * Batch delete
  * @param params
  */
 export const batchDelete = (params, handleSuccess) => {
   createConfirm({
     iconType: 'warning',
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm deletion',
+    content: 'Whether to delete selected data',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({url: Api.deleteBatch, data: params}, {joinParamsToUrl: true}).then(() => {
         handleSuccess();
@@ -82,7 +82,7 @@ export const batchDelete = (params, handleSuccess) => {
   });
 }
 /**
- * 保存或者更新
+ * Save or update
  * @param params
  */
 export const saveOrUpdate = (params, isUpdate) => {
@@ -93,25 +93,25 @@ export const saveOrUpdate = (params, isUpdate) => {
   }
 }
 /**
- * 获取接口地址
+ * Get interface address
  * @param params
  */
 export const getGenPath = (params) =>
   defHttp.get({url: Api.genPath, params},{isTransformResponse:false});
 /**
- * 子表列表接口
+ * 子表List interface
  * @param params
  */
 export const openApiHeaderList = (params) =>
   defHttp.get({url: Api.openApiHeaderList, params},{isTransformResponse:false});
 /**
- * 子表列表接口
+ * 子表List interface
  * @param params
  */
 export const openApiParamList = (params) =>
   defHttp.get({url: Api.openApiParamList, params},{isTransformResponse:false});
 /**
- * swagger文档json
+ * swaggerdocumentjson
  * @param params
  */
 export const getOpenApiJson = (params) =>

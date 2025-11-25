@@ -12,13 +12,13 @@ export enum MenuTypeEnum {
   TOP_MENU = 'top-menu',
 }
 
-// 折叠触发器位置
+// Collapse trigger position
 export enum TriggerEnum {
-  // 不显示
+  // Don't show
   NONE = 'NONE',
-  // 菜单底部
+  // bottom of menu
   FOOTER = 'FOOTER',
-  // 头部
+  // head
   HEADER = 'HEADER',
 }
 

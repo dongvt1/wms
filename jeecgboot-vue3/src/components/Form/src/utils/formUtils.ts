@@ -2,21 +2,21 @@ import { unref } from 'vue';
 import { dateUtil } from '/@/utils/dateUtil';
 
 /**
- * 表单区间时间数值字段转换
+ * Form interval time numeric field conversion
  * @param props
  * @param values
  */
 export function handleRangeValue(props, values) {
-  //判断是否配置并处理fieldMapToTime
+  //Determine whether to configure and processfieldMapToTime
   const fieldMapToTime = unref(props)?.fieldMapToTime;
   fieldMapToTime && (values = handleRangeTimeValue(props, values));
-  //判断是否配置并处理fieldMapToNumber
+  //Determine whether to configure and processfieldMapToNumber
   const fieldMapToNumber = unref(props)?.fieldMapToNumber;
   fieldMapToNumber && (values = handleRangeNumberValue(props, values));
   return values;
 }
 /**
- * 处理时间转换成2个字段
+ * processing time converted to2fields
  * @param props
  * @param values
  */
@@ -30,22 +30,22 @@ export function handleRangeTimeValue(props, values) {
       continue;
     }
 
-    // 【issues/I53G9Y】 日期区间组件有可能是字符串
+    // 【issues/I53G9Y】 The date interval component may be a string
     let timeValue = values[field];
     if (!Array.isArray(timeValue)) {
       timeValue = timeValue.split(',');
     }
     const [startTime, endTime]: string[] = timeValue;
-    //update-begin---author:wangshuai---date:2024-10-08---for:【issues/7216】当RangePicker组件值允许开始/结束为空时,表单的fieldMapToTime处理异常---
+    //update-begin---author:wangshuai---date:2024-10-08---for:【issues/7216】whenRangePickerComponent value allows start/When the end is empty,formfieldMapToTimeHandle exceptions---
     startTime && (values[startTimeKey] = dateUtil(startTime).format(format));
     endTime && (values[endTimeKey] = dateUtil(endTime).format(format));
-    //update-end---author:wangshuai---date:2024-10-08---for:【issues/7216】当RangePicker组件值允许开始/结束为空时,表单的fieldMapToTime处理异常---
+    //update-end---author:wangshuai---date:2024-10-08---for:【issues/7216】whenRangePickerComponent value allows start/When the end is empty,formfieldMapToTimeHandle exceptions---
     Reflect.deleteProperty(values, field);
   }
   return values;
 }
 /**
- * 处理数字转换成2个字段
+ * Process numbers into2fields
  * @param props
  * @param values
  * @updateby liusq
@@ -60,13 +60,13 @@ export function handleRangeNumberValue(props, values) {
     if (!field || !startNumberKey || !endNumberKey || !values[field]) {
       continue;
     }
-    //update-begin-author:taoyan date:2022-5-10 for: 用于数值的范围查询 数组格式的中间转换不知道哪里出了问题，这里会变成字符串，需要再强制转成数组
+    //update-begin-author:taoyan date:2022-5-10 for: Range query for numeric values I don’t know what went wrong during the intermediate conversion of array format.，This will become a string，Need to be forced into an array
     let temp = values[field];
     if (typeof temp === 'string') {
       temp = temp.split(',');
     }
     const [startNumber, endNumber]: number[] = temp;
-    //update-end-author:taoyan date:2022-5-10 for: 用于数值的范围查询 数组格式的中间转换不知道哪里出了问题，这里会变成字符串，需要再强制转成数组
+    //update-end-author:taoyan date:2022-5-10 for: Range query for numeric values I don’t know what went wrong during the intermediate conversion of array format.，This will become a string，Need to be forced into an array
     values[startNumberKey] = startNumber;
     values[endNumberKey] = endNumber;
     Reflect.deleteProperty(values, field);

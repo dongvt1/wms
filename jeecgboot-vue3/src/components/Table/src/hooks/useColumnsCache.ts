@@ -6,7 +6,7 @@ import { useTableContext } from './useTableContext';
 import { useMessage } from '/@/hooks/web/useMessage';
 
 /**
- * 列表配置缓存
+ * List configuration cache
  */
 export function useColumnsCache(opt, setColumns, handleColumnFixed) {
   let isInit = false;
@@ -14,12 +14,12 @@ export function useColumnsCache(opt, setColumns, handleColumnFixed) {
   const $ls = createLocalStorage();
   const { createMessage: $message } = useMessage();
   const route = useRoute();
-  // 列表配置缓存key
+  // List configuration cachekey
   const cacheKey = computed(() => {
-    // update-begin--author:liaozhiyang---date:20240226---for：【QQYUN-8367】online报表配置列展示保存，影响到其他页面的table字段的显示隐藏（开发环境热更新会有此问题，生产环境无问题）
+    // update-begin--author:liaozhiyang---date:20240226---for：【QQYUN-8367】onlineReport configuration column display save，Affects other pagestableShow and hide fields（Hot update of the development environment will have this problem，No problem in production environment）
     const path = route.path;
     let key = path.replace(/[\/\\]/g, '_');
-    // update-end--author:liaozhiyang---date:20240226---for：【QQYUN-8367】online报表配置列展示保存，影响到其他页面的table字段的显示隐藏（开发环境热更新会有此问题，生产环境无问题）
+    // update-end--author:liaozhiyang---date:20240226---for：【QQYUN-8367】onlineReport configuration column display save，Affects other pagestableShow and hide fields（Hot update of the development environment will have this problem，No problem in production environment）
     let cacheKey = table.getBindValues.value.tableSetting?.cacheKey;
     if (cacheKey) {
       key += ':' + cacheKey;
@@ -43,27 +43,27 @@ export function useColumnsCache(opt, setColumns, handleColumnFixed) {
     if (columnCache && columnCache.checkedList) {
       const { checkedList, sortedList, sortableOrder, checkIndex } = columnCache;
       await nextTick();
-      // checkbox的排序缓存
+      // checkboxsort cache
       opt.sortableOrder.value = sortableOrder;
-      // checkbox的选中缓存
+      // checkboxselected cache
       opt.state.checkedList = checkedList;
-      // tableColumn的排序缓存
+      // tableColumnsort cache
       opt.plainSortOptions.value.sort((prev, next) => {
         return sortedList.indexOf(prev.value) - sortedList.indexOf(next.value);
       });
-      // 重新排序tableColumn
+      // ReordertableColumn
       checkedList.sort((prev, next) => sortedList.indexOf(prev) - sortedList.indexOf(next));
-      // 是否显示行号列
+      // Whether to display the line number column
       if (checkIndex) {
         table.setProps({ showIndexColumn: true });
       }
       setColumns(checkedList);
-      // 设置固定列
+      // Set fixed columns
       setColumnFixed(columnCache);
     }
   }
 
-  /** 设置被固定的列 */
+  /** Set fixed columns */
   async function setColumnFixed(columnCache) {
     const { fixedColumns } = columnCache;
     const columns = opt.plainOptions.value;
@@ -76,10 +76,10 @@ export function useColumnsCache(opt, setColumns, handleColumnFixed) {
     }
   }
 
-  // 判断列固定状态
+  // Determine column fixed status
   const fixedReg = /^(true|left|right)$/;
 
-  /** 获取被固定的列 */
+  /** Get the fixed column */
   function getFixedColumns() {
     let fixedColumns: any[] = [];
     const columns = opt.plainOptions.value;
@@ -94,40 +94,40 @@ export function useColumnsCache(opt, setColumns, handleColumnFixed) {
     return fixedColumns;
   }
 
-  /** 保存列配置 */
+  /** Save column configuration */
   function saveSetting() {
     const { checkedList } = opt.state;
-    // update-begin--author:liaozhiyang---date:20240611---for：【TV360X-105】列展示设置问题[重置之后保存的顺序还是上次的]
+    // update-begin--author:liaozhiyang---date:20240611---for：【TV360X-105】Column display setting issue[After resetting, the order saved is still the last one.]
     let sortedList = [];
     if (opt.restAfterOptions.value) {
       sortedList = opt.restAfterOptions.value.map((item) => item.value);
     } else {
       sortedList = unref(opt.plainSortOptions).map((item) => item.value);
     }
-    // update-end--author:liaozhiyang---date:20240611---for：【TV360X-105】列展示设置问题[重置之后保存的顺序还是上次的]
+    // update-end--author:liaozhiyang---date:20240611---for：【TV360X-105】Column display setting issue[After resetting, the order saved is still the last one.]
     $ls.set(cacheKey.value, {
-      // 保存的列
+      // saved columns
       checkedList,
-      // 排序后的列
+      // sorted column
       sortedList,
-      // 是否显示行号列
+      // Whether to display the line number column
       checkIndex: unref(opt.checkIndex),
-      // checkbox原始排序
+      // checkboxOriginal sorting
       sortableOrder: unref(opt.sortableOrder),
-      // 固定列
+      // fixed column
       fixedColumns: getFixedColumns(),
     });
-    $message.success('保存成功');
-    // 保存之后直接关闭
+    $message.success('Saved successfully');
+    // Close directly after saving
     opt.popoverVisible.value = false;
   }
 
-  /** 重置（删除）列配置 */
+  /** reset（delete）column configuration */
   async function resetSetting() {
-    // 重置固定列
+    // resetfixed column
     await resetFixedColumn();
     $ls.remove(cacheKey.value);
-    $message.success('重置成功');
+    $message.success('reset成功');
   }
 
   async function resetFixedColumn() {

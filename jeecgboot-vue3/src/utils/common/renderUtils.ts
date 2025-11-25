@@ -11,7 +11,7 @@ const { createMessage } = useMessage();
 
 const render = {
   /**
-   * 渲染列表头像
+   * Render list avatar
    */
   renderAvatar: ({ record }) => {
     if (record.avatar) {
@@ -38,10 +38,10 @@ const render = {
     }
   },
   /**
-   * 根据字典编码 渲染
-   * @param v 值
-   * @param code 字典编码
-   * @param renderTag 是否使用tag渲染
+   * Encode according to dictionary rendering
+   * @param v value
+   * @param code dictionary encoding
+   * @param renderTag Whether to usetagrendering
    */
   renderDict: (v, code, renderTag = false) => {
     let text = '';
@@ -52,11 +52,11 @@ const render = {
     if (obj.length > 0) {
       text = obj[0].text;
     }
-    //【jeecgboot-vue3/issues/903】render.renderDict使用tag渲染报警告问题 #903
+    //【jeecgboot-vue3/issues/903】render.renderDictusetagrendering报警告问题 #903
     return isEmpty(text) || !renderTag ? h('span', text) : h(Tag, () => text);
   },
   /**
-   * 渲染图片
+   * rendering图片
    * @param text
    */
   renderImage: ({ text }) => {
@@ -84,10 +84,10 @@ const render = {
         });
       })
     );
-    //update-end-author:taoyan date:2022-5-24 for:  VUEN-1084 【vue3】online表单测试发现的新问题 41、生成的代码，树默认图大小未改
+    //update-end-author:taoyan date:2022-5-24 for:  VUEN-1084 【vue3】onlineNew issues discovered by form testing 41、generated code，The default tree map size has not been changed
   },
   /**
-   * 渲染 Tooltip
+   * rendering Tooltip
    * @param text
    * @param len
    */
@@ -102,7 +102,7 @@ const render = {
     return text;
   },
   /**
-   * 渲染a标签
+   * renderingaLabel
    * @param text
    */
   renderHref: ({ text }) => {
@@ -116,7 +116,7 @@ const render = {
     return h('a', { href: text, target: '_blank' }, text);
   },
   /**
-   * 根据字典渲染
+   * 根据字典rendering
    * @param v
    * @param array
    */
@@ -133,7 +133,7 @@ const render = {
     return isEmpty(text) || !renderTag ? h('span', text) : h(Tag, { color }, () => text);
   },
   /**
-   * 渲染富文本
+   * rendering富文本
    */
   renderTinymce: ({ model, field }) => {
     return h(Tinymce, {
@@ -159,11 +159,11 @@ const render = {
 };
 
 /**
- * 文件下载
+ * File download
  */
 function downloadFile(url) {
   if (!url) {
-    createMessage.warning('未知的文件');
+    createMessage.warning('unknown file');
     return;
   }
   if (url.indexOf(',') > 0) {

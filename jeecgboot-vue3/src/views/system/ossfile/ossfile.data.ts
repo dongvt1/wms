@@ -3,12 +3,12 @@ import { FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '文件名称',
+    title: 'File name',
     dataIndex: 'fileName',
     width: 120,
   },
   {
-    title: '文件地址',
+    title: 'File address',
     dataIndex: 'url',
     width: 100,
   },
@@ -16,13 +16,13 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    label: '文件名称',
+    label: 'File name',
     field: 'fileName',
     component: 'Input',
     colProps: { span: 6 },
   },
   {
-    label: '文件地址',
+    label: 'File address',
     field: 'url',
     component: 'Input',
     colProps: { span: 6 },

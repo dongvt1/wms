@@ -7,7 +7,7 @@ import { getEnhanced } from './enhancedUtils';
 import { isFunction } from '/@/utils/is';
 
 /**
- * 判断某个组件是否已注册
+ * Determine whether a component has been registered
  * @param type
  */
 export function isRegistered(type: JVxeTypes | string) {
@@ -18,11 +18,11 @@ export function isRegistered(type: JVxeTypes | string) {
 }
 
 /**
- * 注册vxe自定义组件
+ * registervxeCustom component
  *
  * @param type
- * @param component 编辑状态显示的组件
- * @param spanComponent 非编辑状态显示的组件，可以为空
+ * @param component Edit status display components
+ * @param spanComponent 非Edit status display components，Can be empty
  */
 export function registerComponent(type: JVxeTypes, component: Component, spanComponent?: Component) {
   addComponent(type, component, spanComponent);
@@ -30,7 +30,7 @@ export function registerComponent(type: JVxeTypes, component: Component, spanCom
 }
 
 /**
- * 异步注册vxe自定义组件
+ * 异步registervxeCustom component
  *
  * @param type
  * @param promise
@@ -51,7 +51,7 @@ export async function registerAsyncComponent(type: JVxeTypes, promise: Promise<a
 /**
  * 2024-03-08
  * liaozhiyang
- * 异步注册vxe自定义组件
+ * 异步registervxeCustom component
  * 【QQYUN-8241】
  * @param type
  * @param promise
@@ -62,11 +62,11 @@ export function registerASyncComponentReal(type: JVxeTypes, component) {
 }
 
 /**
- * 安装所有vxe组件
+ * Install allvxecomponents
  */
 export function registerAllComponent() {
   definedComponent();
-  // 遍历所有组件批量注册
+  // 遍历所有components批量register
   const components = [...componentMap.keys()];
   components.forEach((type) => {
     if (!type.endsWith(spanEnds)) {
@@ -76,9 +76,9 @@ export function registerAllComponent() {
 }
 
 /**
- * 注册单个vxe组件
+ * register单个vxecomponents
  *
- * @param type 组件 type
+ * @param type components type
  */
 export function registerOneComponent(type: JVxeTypes) {
   const component = componentMap.get(type);
@@ -90,41 +90,41 @@ export function registerOneComponent(type: JVxeTypes) {
       createCellRender(type, component);
     }
   } else {
-    throw new Error(`【registerOneComponent】"${type}"不存在于componentMap中`);
+    throw new Error(`【registerOneComponent】"${type}"does not exist incomponentMapmiddle`);
   }
 }
 
-/** 注册可编辑组件 */
+/** register可编辑components */
 function createEditRender(type: JVxeTypes, component: Component, spanComponent?: Component) {
-  // 获取当前组件的增强
+  // 获取当前components的增强
   const enhanced = getEnhanced(type);
   if (!spanComponent) {
     if (componentMap.has(type + spanEnds)) {
       spanComponent = componentMap.get(type + spanEnds);
     } else {
-      // 默认的 span 组件为 normal
+      // default span components为 normal
       spanComponent = componentMap.get(JVxeTypes.normal);
     }
   }
-  // 添加渲染
+  // Add rendering
   VXETable.renderer.add(JVxeTypePrefix + type, {
-    // 可编辑模板
+    // Editable template
     renderEdit: createRender(type, component, JVxeRenderType.editer),
-    // 显示模板
+    // Show template
     renderCell: createRender(type, spanComponent, JVxeRenderType.spaner),
-    // 增强注册
+    // 增强register
     ...enhanced.installOptions,
   });
 }
 
-/** 注册普通组件 */
+/** register普通components */
 function createCellRender(type: JVxeTypes, component: Component = <Component>componentMap.get(JVxeTypes.normal)) {
-  // 获取当前组件的增强
+  // 获取当前components的增强
   const enhanced = getEnhanced(type);
   VXETable.renderer.add(JVxeTypePrefix + type, {
-    // 默认显示模板
+    // 默认Show template
     renderDefault: createRender(type, component, JVxeRenderType.default),
-    // 增强注册
+    // 增强register
     ...enhanced.installOptions,
   });
 }

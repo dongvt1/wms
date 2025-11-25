@@ -6,12 +6,12 @@ import { useToolbar } from '/@/components/jeecg/JVxeTable/src/hooks/useToolbar';
 import { usePagination } from '/@/components/jeecg/JVxeTable/src/hooks/usePagination';
 
 export function useRenderComponents(props: JVxeTableProps, data: JVxeDataProps, methods: JVxeTableMethods, slots) {
-  // 渲染 toolbar
+  // rendering toolbar
   const { renderToolbar } = useToolbar(props, data, methods, slots);
-  // 渲染分页器
+  // rendering分页器
   const { renderPagination } = usePagination(props, methods);
 
-  // 渲染 toolbarAfter 插槽
+  // rendering toolbarAfter slot
   function renderToolbarAfterSlot() {
     if (slots['toolbarAfter']) {
       return slots['toolbarAfter']();
@@ -19,7 +19,7 @@ export function useRenderComponents(props: JVxeTableProps, data: JVxeDataProps, 
     return null;
   }
 
-  // 渲染点击时弹出的子表
+  // rendering点击时弹出的子表
   function renderSubPopover() {
     if (props.clickRowShowSubForm && slots.subForm) {
       return h(
@@ -35,7 +35,7 @@ export function useRenderComponents(props: JVxeTableProps, data: JVxeDataProps, 
     return null;
   }
 
-  // 渲染点击时弹出的详细信息
+  // rendering点击时弹出的详细信息
   function renderDetailsModal() {
     if (props.clickRowShowMainForm && slots.mainForm) {
       return h(

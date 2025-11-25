@@ -8,28 +8,28 @@ enum Api {
 }
 
 /**
- * key个数
+ * keynumber
  */
 export const getKeysSize = () => {
   return defHttp.get({ url: Api.keysSize }, { isTransformResponse: false });
 };
 
 /**
- * 内存信息
+ * memory information
  */
 export const getMemoryInfo = () => {
   return defHttp.get({ url: Api.memoryInfo }, { isTransformResponse: false });
 };
 
 /**
- * 详细信息
+ * Details
  */
 export const getInfo = () => {
   return defHttp.get({ url: Api.info });
 };
 
 /**
- * 历史监控记录
+ * Historical monitoring records
  */
 export const getMetricsHistory = () => {
   return defHttp.get({ url: Api.metricsHistory });

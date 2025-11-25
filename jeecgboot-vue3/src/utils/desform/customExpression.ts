@@ -1,30 +1,30 @@
 /*
  *
- * 这里填写用户自定义的表达式
- * 可用在Online表单的默认值表达式中使用
- * 需要外部使用的变量或方法一定要 export，否则无法识别
- * 示例：
- *   export const name = '张三'; // const 是常量
- *   export let age = 17; // 看情况 export const 还是 let ，两者都可正常使用
- *   export function content(arg) { // export 方法，可传参数，使用时要加括号，值一定要return回去，可以返回Promise
+ * Fill in the user-defined expression here
+ * available inOnlineUsed in form default value expressions
+ * Variables or methods that need to be used externally must export，Otherwise it cannot be recognized
+ * Example：
+ *   export const name = 'Zhang San'; // const is a constant
+ *   export let age = 17; // It depends on the situation export const still let ，Both work fine
+ *   export function content(arg) { // export method，Passable parameters，Use parentheses，Must be worth itreturngo back，can returnPromise
  *     return 'content' + arg;
  *   }
- *   export const address = (arg) => content(arg) + ' | 北京市'; // export 箭头函数也可以
+ *   export const address = (arg) => content(arg) + ' | Beijing'; // export Arrow functions can also be used
  *
  */
 
-/** 字段默认值官方示例：获取地址 */
+/** 字段默认值官方Example：Get address */
 export function demoFieldDefVal_getAddress(arg) {
   if (!arg) {
-    arg = '朝阳区';
+    arg = 'Chaoyang District';
   }
-  return `北京市 ${arg}`;
+  return `Beijing ${arg}`;
 }
 
-/** 自定义JS函数示例 */
+/** CustomizeJS函数Example */
 export function sayHi(name) {
   if (!name) {
-    name = '张三';
+    name = 'Zhang San';
   }
-  return `您好，我叫： ${name}`;
+  return `Hello，my name is： ${name}`;
 }

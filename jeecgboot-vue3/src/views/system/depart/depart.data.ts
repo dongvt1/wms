@@ -6,28 +6,28 @@ import { getDepartPathNameByOrgCode } from '@/utils/common/compUtils';
 import { h, ref } from 'vue';
 
 const { createMessage: $message } = useMessage();
-//部门名称
+//Department name
 const departNamePath = ref<Record<string, string>>({});
 
-// 部门基础表单
+// Department basic form
 export function useBasicFormSchema(treeData) {
   const basicFormSchema: FormSchema[] = [
     {
       field: 'departName',
-      label: '机构名称',
+      label: 'Organization name',
       component: 'Input',
       componentProps: {
-        placeholder: '请输入机构/部门名称',
+        placeholder: 'Please enter organization/Department name',
       },
-      rules: [{ required: true, message: '机构名称不能为空' }],
+      rules: [{ required: true, message: 'Organization name不能为空' }],
     },
     {
       field: 'parentId',
-      label: '上级部门',
+      label: 'superior department',
       component: 'TreeSelect',
       componentProps: {
         treeData: [],
-        placeholder: '无',
+        placeholder: 'none',
         treeCheckAble: true,
         multiple: true,
         dropdownStyle: { maxHeight: '200px', overflow: 'auto' },
@@ -47,21 +47,21 @@ export function useBasicFormSchema(treeData) {
     },
     {
       field: 'orgCode',
-      label: '机构编码',
+      label: 'Institution code',
       component: 'Input',
       componentProps: {
-        placeholder: '请输入机构编码',
+        placeholder: 'Please enter organization编码',
       },
     },
     {
       field: 'orgCategory',
-      label: '机构类型',
+      label: 'Institution type',
       component: 'RadioButtonGroup',
       componentProps: { options: [] },
     },
     {
       field: 'positionId',
-      label: '职务级别',
+      label: 'Job level',
       component: 'JDictSelectTag',
       componentProps: ({ formModel, formActionType }) => {
         return {
@@ -80,7 +80,7 @@ export function useBasicFormSchema(treeData) {
     },
     {
       field: 'depPostParentId',
-      label: '上级岗位',
+      label: 'Superior position',
       component: 'TreeSelect',
       ifShow:({ values })=>{
         return values.orgCategory === '3'
@@ -89,16 +89,16 @@ export function useBasicFormSchema(treeData) {
     },
     {
       field: 'departOrder',
-      label: '排序',
+      label: 'sort',
       component: 'InputNumber',
       componentProps: {},
     },
     {
       field: 'mobile',
-      label: '电话',
+      label: 'Telephone',
       component: 'Input',
       componentProps: {
-        placeholder: '请输入电话',
+        placeholder: '请输入Telephone',
       },
       ifShow:({ values })=>{
         return values.orgCategory !== '3'
@@ -106,10 +106,10 @@ export function useBasicFormSchema(treeData) {
     },
     {
       field: 'fax',
-      label: '传真',
+      label: 'fax',
       component: 'Input',
       componentProps: {
-        placeholder: '请输入传真',
+        placeholder: '请输入fax',
       },
       ifShow:({ values })=>{
         return values.orgCategory !== '3'
@@ -117,10 +117,10 @@ export function useBasicFormSchema(treeData) {
     },
     {
       field: 'address',
-      label: '地址',
+      label: 'address',
       component: 'Input',
       componentProps: {
-        placeholder: '请输入地址',
+        placeholder: '请输入address',
       },
       ifShow:({ values })=>{
         return values.orgCategory !== '3'
@@ -128,10 +128,10 @@ export function useBasicFormSchema(treeData) {
     },
     {
       field: 'memo',
-      label: '备注',
+      label: 'Remark',
       component: 'InputTextArea',
       componentProps: {
-        placeholder: '请输入备注',
+        placeholder: '请输入Remark',
       },
       ifShow:({ values })=>{
         return values.orgCategory !== '3'
@@ -147,55 +147,55 @@ export function useBasicFormSchema(treeData) {
   return { basicFormSchema };
 }
 
-// 机构类型选项
+// Institution type选项
 export const orgCategoryOptions = {
-  // 一级部门
-  root: [{ value: '1', label: '公司' }],
-  // 子级部门
+  // First level department
+  root: [{ value: '1', label: 'company' }],
+  // sub-department
   child: [
-    { value: '4', label: '子公司' },
-    { value: '2', label: '部门' },
-    { value: '3', label: '岗位' },
+    { value: '4', label: '子company' },
+    { value: '2', label: 'department' },
+    { value: '3', label: 'post' },
   ],
-  //部门岗位
+  //departmentpost
   childDepartPost: [
-    { value: '2', label: '部门' },
-    { value: '3', label: '岗位' },
+    { value: '2', label: 'department' },
+    { value: '3', label: 'post' },
   ],
-  //岗位
+  //post
   childPost: [
-    { value: '3', label: '岗位' },
+    { value: '3', label: 'post' },
   ]
 };
 
 /**
- * 用户列表
+ * User list
  */
 export const userColumns: BasicColumn[] = [
   {
-    title: '用户账号',
+    title: 'User account',
     dataIndex: 'username',
     width: 120,
   },
   {
-    title: '姓名',
+    title: 'Name',
     dataIndex: 'realname',
     width: 150,
   },
   {
-    title: '手机',
+    title: 'cell phone',
     width: 150,
     dataIndex: 'phone',
   },
   {
-    title: '主岗位',
+    title: '主post',
     dataIndex: 'mainDepPostId_dictText',
     width: 200,
   },
 ];
 
 /**
- * 职位改变事件
+ * Position change event
  * @param value
  * @param model
  * @param treeData

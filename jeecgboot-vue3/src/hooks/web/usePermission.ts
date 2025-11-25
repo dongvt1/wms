@@ -22,17 +22,17 @@ export function usePermission() {
   const userStore = useUserStore();
   const appStore = useAppStore();
   const permissionStore = usePermissionStore();
-  //动态加载流程节点表单权限
+  //Dynamically load process node form permissions
   let formData: any = {};
   function initBpmFormData(_bpmFormData) {
     formData = _bpmFormData;
   }
   const { closeAll } = useTabs(router);
 
-  //==================================工作流权限判断-begin=========================================
+  //==================================Workflow permission judgment-begin=========================================
   function hasBpmPermission(code, type) {
-    // 禁用-type=2
-    // 显示-type=1
+    // Disable-type=2
+    // show-type=1
     let codeList: string[] = [];
     let permissionList = formData.permissionList;
     if (permissionList && permissionList.length > 0) {
@@ -44,7 +44,7 @@ export function usePermission() {
     }
     return codeList.indexOf(code) >= 0;
   }
-  //==================================工作流权限判断-end=========================================
+  //==================================Workflow permission judgment-end=========================================
 
   /**
    * Change permission mode
@@ -73,7 +73,7 @@ export function usePermission() {
   }
 
   /**
-   * 确定是否存在权限
+   * Determine if permissions exist
    */
   function hasPermission(value?: RoleEnum | RoleEnum[] | string | string[], def = true): boolean {
     // Visible by default
@@ -93,14 +93,14 @@ export function usePermission() {
     if (PermissionModeEnum.BACK === permMode) {
       const allCodeList = permissionStore.getPermCodeList as string[];
       if (!isArray(value) && allCodeList && allCodeList.length > 0) {
-        //=============================工作流权限判断-显示-begin==============================================
+        //=============================Workflow permission judgment-show-begin==============================================
         if (formData) {
           let code = value as string;
           if (hasBpmPermission(code, '1') === true) {
             return true;
           }
         }
-        //=============================工作流权限判断-显示-end==============================================
+        //=============================Workflow permission judgment-show-end==============================================
         return allCodeList.includes(value);
       }
       return (intersection(value, allCodeList) as string[]).length > 0;
@@ -108,22 +108,22 @@ export function usePermission() {
     return true;
   }
   /**
-   * 是否禁用组件
+   * 是否Disable组件
    */
   function isDisabledAuth(value?: RoleEnum | RoleEnum[] | string | string[], def = true): boolean {
-    //=============================工作流权限判断-禁用-begin==============================================
+    //=============================Workflow permission judgment-Disable-begin==============================================
     if (formData) {
       let code = value as string;
       if (hasBpmPermission(code, '2') === true) {
         return true;
       }
-      //update-begin-author:taoyan date:2022-6-17 for: VUEN-1342【流程】编码方式 节点权限配置好后，未生效
+      //update-begin-author:taoyan date:2022-6-17 for: VUEN-1342【process】encoding method After the node permissions are configured，Not effective
       if (isCodingButNoConfig(code) == true) {
         return false;
       }
-      //update-end-author:taoyan date:2022-6-17 for: VUEN-1342【流程】编码方式 节点权限配置好后，未生效
+      //update-end-author:taoyan date:2022-6-17 for: VUEN-1342【process】encoding method After the node permissions are configured，Not effective
     }
-    //=============================工作流权限判断-禁用-end==============================================
+    //=============================Workflow permission judgment-Disable-end==============================================
     return !hasPermission(value);
   }
 
@@ -150,9 +150,9 @@ export function usePermission() {
     resume();
   }
 
-  //update-begin-author:taoyan date:2022-6-17 for: VUEN-1342【流程】编码方式 节点权限配置好后，未生效
+  //update-begin-author:taoyan date:2022-6-17 for: VUEN-1342【process】encoding method After the node permissions are configured，Not effective
   /**
-   * 判断是不是 代码里写了逻辑但是没有配置权限这种情况
+   * Determine whether it is The logic is written in the code but there is no configuration permission.
    */
   function isCodingButNoConfig(code) {
     let all = permissionStore.allAuthList;
@@ -163,14 +163,14 @@ export function usePermission() {
           return true;
         }
       } else {
-        // update-begin--author:liaozhiyang---date:20240705---for：【TV360X-1604】按钮禁用权限在接口中查不到也禁用
+        // update-begin--author:liaozhiyang---date:20240705---for：【TV360X-1604】按钮Disable权限在接口中查不到也Disable
         return false;
-        // update-end--author:liaozhiyang---date:20240705---for：【TV360X-1604】按钮禁用权限在接口中查不到也禁用
+        // update-end--author:liaozhiyang---date:20240705---for：【TV360X-1604】按钮Disable权限在接口中查不到也Disable
       }
     }
     return false;
   }
-  //update-end-author:taoyan date:2022-6-17 for: VUEN-1342【流程】编码方式 节点权限配置好后，未生效
+  //update-end-author:taoyan date:2022-6-17 for: VUEN-1342【process】encoding method After the node permissions are configured，Not effective
 
   return { changeRole, hasPermission, togglePermissionMode, refreshMenu, isDisabledAuth, initBpmFormData };
 }

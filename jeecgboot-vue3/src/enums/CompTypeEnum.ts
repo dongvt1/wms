@@ -1,32 +1,32 @@
 /**
- * 组件类型
+ * Component type
  */
 export enum CompTypeEnum {
-  //单选
+  //Single choice
   Radio = 'radio',
-  //按钮样式单选
+  //按钮样式Single choice
   RadioButton = 'radioButton',
-  //下拉框
+  //drop down box
   Select = 'select',
-  //列表
+  //list
   List = 'list',
-  //开关
+  //switch
   Switch = 'switch',
-  //下拉树
+  //Drop down tree
   SelTree = 'sel_tree',
-  //分类字典树
+  //Classification Dictionary Tree
   CatTree = 'cat_tree',
-  //下拉搜索
+  //Drop down search
   SelSearch = 'search',
-  //用户现在框
+  //User now box
   SelUser = 'sel_user',
-  //复选框
+  //checkbox
   Checkbox = 'checkbox',
-  //多选列表
+  //多选list
   ListMulti = 'list_multi',
-  //区域选择
+  //Region selection
   Pca = 'pca',
   Popup = 'popup',
-  //部门选择
+  //Department selection
   SelDepart = 'sel_depart',
 }

@@ -1,5 +1,5 @@
 /**
- * 目前实现了异步加载的组件清单 ：
+ * List of components that currently implement asynchronous loading ：
  * JAreaLinkage
  * JEditor
  * JMarkdownEditor
@@ -36,7 +36,7 @@ import { BasicUpload } from '/@/components/Upload';
 import { StrengthMeter } from '/@/components/StrengthMeter';
 import { IconPicker } from '/@/components/Icon';
 import { CountdownInput } from '/@/components/CountDown';
-//自定义组件
+//Custom component
 // import JAreaLinkage from './jeecg/components/JAreaLinkage.vue';
 import JSelectUser from './jeecg/components/JSelectUser.vue';
 import JSelectPosition from './jeecg/components/JSelectPosition.vue';
@@ -53,9 +53,9 @@ import JSelectInput from './jeecg/components/JSelectInput.vue';
 import JCategorySelect from './jeecg/components/JCategorySelect.vue';
 import JSelectMultiple from './jeecg/components/JSelectMultiple.vue';
 import JPopup from './jeecg/components/JPopup.vue';
-// update-begin--author:liaozhiyang---date:20240130---for：【QQYUN-7961】popupDict字典
+// update-begin--author:liaozhiyang---date:20240130---for：【QQYUN-7961】popupDictdictionary
 import JPopupDict from './jeecg/components/JPopupDict.vue';
-// update-end--author:liaozhiyang---date:20240130---for：【QQYUN-7961】popupDict字典
+// update-end--author:liaozhiyang---date:20240130---for：【QQYUN-7961】popupDictdictionary
 import JSwitch from './jeecg/components/JSwitch.vue';
 import JTreeDict from './jeecg/components/JTreeDict.vue';
 import JInputPop from './jeecg/components/JInputPop.vue';
@@ -119,7 +119,7 @@ componentMap.set('InputCountDown', CountdownInput);
 componentMap.set('Upload', BasicUpload);
 componentMap.set('Divider', Divider);
 
-//注册自定义组件
+//注册Custom component
 
 componentMap.set(
   'JAreaLinkage',
@@ -150,9 +150,9 @@ componentMap.set(
 componentMap.set('JCategorySelect', JCategorySelect);
 componentMap.set('JSelectMultiple', JSelectMultiple);
 componentMap.set('JPopup', JPopup);
-// update-begin--author:liaozhiyang---date:20240130---for：【QQYUN-7961】popupDict字典
+// update-begin--author:liaozhiyang---date:20240130---for：【QQYUN-7961】popupDictdictionary
 componentMap.set('JPopupDict', JPopupDict);
-// update-end--author:liaozhiyang---date:20240130---for：【QQYUN-7961】popupDict字典
+// update-end--author:liaozhiyang---date:20240130---for：【QQYUN-7961】popupDictdictionary
 componentMap.set('JSwitch', JSwitch);
 componentMap.set('JTreeDict', JTreeDict);
 componentMap.set('JInputPop', JInputPop);

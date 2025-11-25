@@ -1,96 +1,96 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 
 const dbDriverMap = {
-  // MySQL 数据库
+  // MySQL database
   '1': { dbDriver: 'com.mysql.jdbc.Driver' },
-  //MySQL5.7+ 数据库
+  //MySQL5.7+ database
   '4': { dbDriver: 'com.mysql.cj.jdbc.Driver' },
   // Oracle
   '2': { dbDriver: 'oracle.jdbc.OracleDriver' },
-  // SQLServer 数据库
+  // SQLServer database
   '3': { dbDriver: 'com.microsoft.sqlserver.jdbc.SQLServerDriver' },
-  // marialDB 数据库
+  // marialDB database
   '5': { dbDriver: 'org.mariadb.jdbc.Driver' },
-  // postgresql 数据库
+  // postgresql database
   '6': { dbDriver: 'org.postgresql.Driver' },
-  // 达梦 数据库
+  // Dameng database
   '7': { dbDriver: 'dm.jdbc.driver.DmDriver' },
-  // 人大金仓 数据库
+  // Renmin University of Finance and Economics database
   '8': { dbDriver: 'com.kingbase8.Driver' },
-  // 神通 数据库
+  // supernatural power database
   '9': { dbDriver: 'com.oscar.Driver' },
-  // SQLite 数据库
+  // SQLite database
   '10': { dbDriver: 'org.sqlite.JDBC' },
-  // DB2 数据库
+  // DB2 database
   '11': { dbDriver: 'com.ibm.db2.jcc.DB2Driver' },
-  // Hsqldb 数据库
+  // Hsqldb database
   '12': { dbDriver: 'org.hsqldb.jdbc.JDBCDriver' },
-  // Derby 数据库
+  // Derby database
   '13': { dbDriver: 'org.apache.derby.jdbc.ClientDriver' },
-  // H2 数据库
+  // H2 database
   '14': { dbDriver: 'org.h2.Driver' },
-  // 其他数据库
+  // 其他database
   '15': { dbDriver: '' },
 };
 const dbUrlMap = {
-  // MySQL 数据库
+  // MySQL database
   '1': { dbUrl: 'jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false' },
-  //MySQL5.7+ 数据库
+  //MySQL5.7+ database
   '4': {
     dbUrl:
       'jdbc:mysql://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai',
   },
   // Oracle
   '2': { dbUrl: 'jdbc:oracle:thin:@127.0.0.1:1521:ORCL' },
-  // SQLServer 数据库
+  // SQLServer database
   '3': { dbUrl: 'jdbc:sqlserver://127.0.0.1:1433;SelectMethod=cursor;DatabaseName=jeecgboot' },
-  // Mariadb 数据库
+  // Mariadb database
   '5': { dbUrl: 'jdbc:mariadb://127.0.0.1:3306/jeecg-boot?characterEncoding=UTF-8&useSSL=false' },
-  // Postgresql 数据库
+  // Postgresql database
   '6': { dbUrl: 'jdbc:postgresql://127.0.0.1:5432/jeecg-boot' },
-  // 达梦 数据库
+  // Dameng database
   '7': { dbUrl: 'jdbc:dm://127.0.0.1:5236/?jeecg-boot&zeroDateTimeBehavior=convertToNull&useUnicode=true&characterEncoding=utf-8' },
-  // 人大金仓 数据库
+  // Renmin University of Finance and Economics database
   '8': { dbUrl: 'jdbc:kingbase8://127.0.0.1:54321/jeecg-boot' },
-  // 神通 数据库
+  // supernatural power database
   '9': { dbUrl: 'jdbc:oscar://192.168.1.125:2003/jeecg-boot' },
-  // SQLite 数据库
+  // SQLite database
   '10': { dbUrl: 'jdbc:sqlite://opt/test.db' },
-  // DB2 数据库
+  // DB2 database
   '11': { dbUrl: 'jdbc:db2://127.0.0.1:50000/jeecg-boot' },
-  // Hsqldb 数据库
+  // Hsqldb database
   '12': { dbUrl: 'jdbc:hsqldb:hsql://127.0.0.1/jeecg-boot' },
-  // Derby 数据库
+  // Derby database
   '13': { dbUrl: 'jdbc:derby://127.0.0.1:1527/jeecg-boot' },
-  // H2 数据库
+  // H2 database
   '14': { dbUrl: 'jdbc:h2:tcp://127.0.0.1:8082/jeecg-boot' },
-  // 其他数据库
+  // 其他database
   '15': { dbUrl: '' },
 };
 
 export const columns: BasicColumn[] = [
   {
-    title: '数据源名称',
+    title: 'Data source name',
     dataIndex: 'name',
     width: 200,
     align: 'left',
   },
   {
-    title: '数据库类型',
+    title: 'database类型',
     dataIndex: 'dbType_dictText',
     width: 200,
   },
   {
-    title: '驱动类',
+    title: 'Driver class',
     dataIndex: 'dbDriver',
     width: 200,
   },
   {
-    title: '数据源地址',
+    title: 'Data source address',
     dataIndex: 'dbUrl',
   },
   {
-    title: '用户名',
+    title: 'username',
     dataIndex: 'dbUsername',
     width: 200,
   },
@@ -99,13 +99,13 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '数据源名称',
+    label: 'Data source name',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
     field: 'dbType',
-    label: '数据库类型',
+    label: 'database类型',
     component: 'JDictSelectTag',
     colProps: { span: 8 },
     componentProps: () => {
@@ -125,7 +125,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'code',
-    label: '数据源编码',
+    label: 'Data source encoding',
     component: 'Input',
     required: true,
     dynamicDisabled: ({ values }) => {
@@ -134,13 +134,13 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'name',
-    label: '数据源名称',
+    label: 'Data source name',
     component: 'Input',
     required: true,
   },
   {
     field: 'dbType',
-    label: '数据库类型',
+    label: 'database类型',
     component: 'JDictSelectTag',
     required: true,
     componentProps: ({ formModel }) => {
@@ -154,32 +154,32 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'dbDriver',
-    label: '驱动类',
+    label: 'Driver class',
     required: true,
     component: 'Input',
   },
   {
     field: 'dbUrl',
-    label: '数据源地址',
+    label: 'Data source address',
     required: true,
     component: 'Input',
   },
   {
     field: 'dbUsername',
-    label: '用户名',
+    label: 'username',
     required: true,
     component: 'Input',
   },
   {
     field: 'dbPassword',
-    label: '密码',
+    label: 'password',
     required: true,
     component: 'InputPassword',
     slot: 'pwd',
   },
   {
     field: 'remark',
-    label: '备注',
+    label: 'Remark',
     component: 'InputTextArea',
   },
 ];

@@ -1,7 +1,7 @@
 import { defHttp } from '/@/utils/http/axios';
 
 enum Api {
-  //第三方登录配置
+  //Third-party login configuration
   addThirdAppConfig = '/sys/thirdApp/addThirdAppConfig',
   editThirdAppConfig = '/sys/thirdApp/editThirdAppConfig',
   getThirdConfigByTenantId = '/sys/thirdApp/getThirdConfigByTenantId',
@@ -14,7 +14,7 @@ enum Api {
 }
 
 /**
- * 第三方配置保存或者更新
+ * Third-party configuration saving or updating
  */
 export const saveOrUpdateThirdConfig = (params, isUpdate) => {
   let url = isUpdate ? Api.editThirdAppConfig : Api.addThirdAppConfig;
@@ -22,7 +22,7 @@ export const saveOrUpdateThirdConfig = (params, isUpdate) => {
 };
 
 /**
- * 获取第三方配置
+ * Get third-party configuration
  * @param params
  */
 export const getThirdConfigByTenantId = (params) => {
@@ -30,7 +30,7 @@ export const getThirdConfigByTenantId = (params) => {
 };
 
 /**
- * 同步钉钉部门用户到本地
+ * Synchronize DingTalk department users to local
  * @param params
  */
 export const syncDingTalkDepartUserToLocal = () => {
@@ -38,7 +38,7 @@ export const syncDingTalkDepartUserToLocal = () => {
 };
 
 /**
- * 获取企业微信绑定的用户信息
+ * Obtain user information bound to Enterprise WeChat
  * @param params
  */
 export const getThirdUserByWechat = () => {
@@ -46,7 +46,7 @@ export const getThirdUserByWechat = () => {
 };
 
 /**
- * 同步企业微信用户部门到本地
+ * Synchronize enterprise WeChat user departments to local
  * @param params
  */
 export const wechatEnterpriseToLocal = (params) => {
@@ -54,7 +54,7 @@ export const wechatEnterpriseToLocal = (params) => {
 };
 
 /**
- * 获取绑定企业微信的用户
+ * Get users bound to Enterprise WeChat
  * @param params
  */
 export const getThirdUserBindByWechat = () => {
@@ -62,7 +62,7 @@ export const getThirdUserBindByWechat = () => {
 };
 
 /**
- * 根据第三方账号表的id解绑账号
+ * According to the third-party account tableidUnbind account
  * @param params
  */
 export const deleteThirdAccount = (params) => {
@@ -70,7 +70,7 @@ export const deleteThirdAccount = (params) => {
 };
 
 /**
- * 根据配置表的id删除第三方配置
+ * According to the configuration tableidDelete third-party configuration
  * @param params
  * @param handleSuccess
  */

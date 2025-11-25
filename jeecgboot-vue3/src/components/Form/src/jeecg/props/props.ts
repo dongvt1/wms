@@ -1,91 +1,91 @@
-//下拉选择框组件公共props
+//Drop-down selection box component publicprops
 import { propTypes } from '/@/utils/propTypes';
 
 export const selectProps = {
-  //是否多选
+  //Whether to select multiple
   isRadioSelection: {
     type: Boolean,
-    //update-begin---author:wangshuai ---date:20220527  for：部门用户组件默认应该单选，否则其他地方有问题------------
+    //update-begin---author:wangshuai ---date:20220527  for：The department user component should be single-selected by default.，Otherwise there will be problems elsewhere------------
     default: false,
-    //update-end---author:wangshuai ---date:20220527  for：部门用户组件默认应该单选，否则其他地方有问题--------------
+    //update-end---author:wangshuai ---date:20220527  for：The department user component should be single-selected by default.，Otherwise there will be problems elsewhere--------------
   },
-  //回传value字段名
+  //returnvalueField name
   rowKey: {
     type: String,
     default: 'id',
   },
-  //回传文本字段名
+  //return文本Field name
   labelKey: {
     type: String,
     default: 'name',
   },
-  //查询参数
+  //query parameters
   params: {
     type: Object,
     default: () => {},
   },
-  //是否显示选择按钮
+  //Whether to display the select button
   showButton: propTypes.bool.def(true),
-  //是否显示右侧选中列表
+  //Whether to display the selection list on the right
   showSelected: propTypes.bool.def(false),
-  //最大选择数量
+  //Maximum number of choices
   maxSelectCount: {
     type: Number,
     default: 0,
   },
 };
 
-//树形选择组件公共props
+//Tree selection component publicprops
 export const treeProps = {
-  //回传value字段名
+  //returnvalueField name
   rowKey: {
     type: String,
     default: 'key',
   },
-  //回传文本字段名
+  //return文本Field name
   labelKey: {
     type: String,
     default: 'title',
   },
-  //初始展开的层级
+  //Initial expanded level
   defaultExpandLevel: {
     type: [Number],
     default: 1,
   },
-  //根pid值
+  //rootpidvalue
   startPid: {
     type: [Number, String],
     default: '',
   },
-  //主键字段
+  //primary key field
   primaryKey: {
     type: [String],
     default: 'id',
   },
-  //父ID字段
+  //fatherIDField
   parentKey: {
     type: [String],
     default: 'parentId',
   },
-  //title字段
+  //titleField
   titleKey: {
     type: [String],
     default: 'title',
   },
-  //是否开启服务端转换tree数据结构
+  //Whether to enable server-side conversiontreedata structure
   serverTreeData: propTypes.bool.def(true),
-  //是否开启异步加载数据
+  //Whether to enable asynchronous loading of data
   sync: propTypes.bool.def(true),
-  //是否显示选择按钮
+  //Whether to display the select button
   showButton: propTypes.bool.def(true),
-  //是否只显示公司
+  //Whether to show only companies
   onlyShowCompany: propTypes.bool.def(false),
-  //是否显示复选框
+  //Whether to show checkbox
   checkable: propTypes.bool.def(true),
-  //checkable 状态下节点选择完全受控（父子节点选中状态不再关联）
+  //checkable Node selection is fully controlled in the state（father子节点选中状态不再关联）
   checkStrictly: propTypes.bool.def(false),
-  // 是否允许多选，默认 true
+  // Whether to allow multiple selections，default true
   multiple: propTypes.bool.def(true),
-  // 是否只选择岗位
+  // Whether to select only positions
   izOnlySelectDepartPost: propTypes.bool.def(false),
 };

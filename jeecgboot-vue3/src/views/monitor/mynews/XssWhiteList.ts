@@ -1,4 +1,4 @@
-//xss攻击白名单列表
+//xssAttack whitelist
 export const options = {
   whiteList: {
     h1: ['style'],

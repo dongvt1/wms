@@ -4,27 +4,27 @@ import dayjs from 'dayjs';
 
 export const schemas: FormSchema[] = [
   {
-    label: '文本框',
+    label: 'text box',
     field: 'name',
     component: 'Input',
     componentProps: {
-      prefix: '中文',
+      prefix: 'Chinese',
       showCount: true,
     },
-    defaultValue: '张三',
+    defaultValue: 'Zhang San',
   },
   {
-    label: '密码',
+    label: 'password',
     field: 'password',
     component: 'InputPassword',
     componentProps: {
-      //是否显示切换按钮或者控制密码显隐
+      //是否显示切换按钮或者控制password显隐
       visibilityToggle: true,
-      prefix: '密码',
+      prefix: 'password',
     },
   },
   {
-    label: '搜索框',
+    label: 'search box',
     field: 'searchBox',
     component: 'InputSearch',
     componentProps: {
@@ -34,92 +34,92 @@ export const schemas: FormSchema[] = [
     },
   },
   {
-    label: '文本域',
+    label: 'text field',
     field: 'textArea',
     component: 'InputTextArea',
     componentProps: {
-      //可以点击清除图标删除内容
+      //You can click the clear icon to delete content
       allowClear: true,
-      //是否展示字数
+      //Whether to display word count
       showCount: true,
-      //自适应内容高度，可设置为 true | false 或对象：{ minRows: 2, maxRows: 6 }
+      //Adaptive content height，Can be set to true | false or object：{ minRows: 2, maxRows: 6 }
       autoSize: {
-        //最小显示行数
+        //Minimum number of display lines
         minRows: 2,
-        //最大显示行数
+        //Maximum number of displayed lines
         maxRows: 3,
       },
     },
   },
   {
-    label: '数值输入框',
+    label: 'Numeric input box',
     field: 'number',
     component: 'InputNumber',
     componentProps: {
-      //带标签的 input，设置后置标签
-      addonAfter: '保留两位小数',
-      //最大值
+      //tagged input，Set post label
+      addonAfter: 'Keep to two decimal places',
+      //maximum value
       max: 100,
-      //数值经度
+      //numerical longitude
       precision: 2,
-      //步数
+      //number of steps
       step: 0.1,
     },
   },
 
   {
-    label: '下拉框',
+    label: 'drop down box',
     field: 'jinputtype',
     component: 'Select',
     componentProps: {
       options: [
-        { value: 'like', label: '模糊（like）' },
-        { value: 'ne', label: '不等于（ne）' },
-        { value: 'ge', label: '大于等于（ge）' },
-        { value: 'le', label: '小于等于（le)' },
+        { value: 'like', label: 'Vague（like）' },
+        { value: 'ne', label: 'not equal to（ne）' },
+        { value: 'ge', label: 'Greater than or equal to（ge）' },
+        { value: 'le', label: 'less than or equal to（le)' },
       ],
-      //下拉多选
+      //Drop-down multiple selection
       mode: 'multiple',
-      //配置是否可搜索
+      //Is the configuration searchable?
       showSearch: true,
     },
   },
   {
     field: 'TreeSelect',
-    label: '下拉树',
+    label: 'Drop down tree',
     component: 'TreeSelect',
     componentProps: {
-      //是否显示下拉框，默认false
+      //是否显示drop down box，defaultfalse
       treeCheckable: true,
-      //标题
-      title: '下拉树',
-      //下拉树
+      //title
+      title: 'Drop down tree',
+      //Drop down tree
       treeData: [
         {
-          label: '洗衣机',
+          label: 'washing machine',
           value: '0',
           children: [
             {
-              label: '滚筒洗衣机',
+              label: '滚筒washing machine',
               value: '0-1',
             },
           ],
         },
         {
-          label: '电视机',
+          label: 'TV set',
           value: '1',
           children: [
             {
-              label: '平板电视',
+              label: 'flat screen tv',
               value: '1-1',
               disabled: true,
             },
             {
-              label: 'CRT电视机',
+              label: 'CRTTV set',
               value: '1-2',
             },
             {
-              label: '投影电视',
+              label: 'projection tv',
               value: '1-3',
             },
           ],
@@ -128,55 +128,55 @@ export const schemas: FormSchema[] = [
     },
   },
   {
-    label: 'RadioButtonGroup组件',
+    label: 'RadioButtonGroupcomponents',
     field: 'status',
     component: 'RadioButtonGroup',
     componentProps: {
       options: [
-        { label: '有效', value: 1 },
-        { label: '无效', value: 0 },
+        { label: 'efficient', value: 1 },
+        { label: 'invalid', value: 0 },
       ],
     },
   },
   {
-    label: '单选框',
+    label: 'radio button',
     field: 'radioSex',
     component: 'RadioGroup',
     componentProps: {
-      //options里面由一个一个的radio组成,支持disabled禁用
+      //optionsThere are one by one insideradiocomposition,supportdisabledDisable
       options: [
-        { label: '男', value: 1, disabled: false },
-        { label: '女', value: 0 },
+        { label: 'male', value: 1, disabled: false },
+        { label: 'female', value: 0 },
       ],
     },
   },
   {
-    label: '多选框',
+    label: 'checkbox',
     field: 'checkbox',
     component: 'Checkbox',
     componentProps: {
-      //是否禁用,默认false
+      //是否Disable,defaultfalse
       disabled: false,
     },
   },
   {
-    label: '多选框组',
+    label: 'checkbox组',
     field: 'checkSex',
     component: 'CheckboxGroup',
     componentProps: {
-      //RadioGroup 下所有 input[type="radio"] 的 name 属性
-      name: '爱好',
-      //options支持disabled禁用
+      //RadioGroup Download all input[type="radio"] of name property
+      name: 'Hobby',
+      //optionssupportdisabledDisable
       options: [
-        { label: '运动', value: 0, disabled: true },
-        { label: '听音乐', value: 1 },
-        { label: '看书', value: 2 },
+        { label: 'sports', value: 0, disabled: true },
+        { label: 'listen to music', value: 1 },
+        { label: 'read a book', value: 2 },
       ],
     },
     defaultValue: [2],
   },
   {
-    label: '自动完成组件',
+    label: '自动完成components',
     field: 'AutoComplete',
     component: 'AutoComplete',
     componentProps: {
@@ -184,37 +184,37 @@ export const schemas: FormSchema[] = [
     },
   },
   {
-    label: '级联选择',
+    label: 'Cascade selection',
     field: 'cascade',
     component: 'Cascader',
     componentProps: {
-      //最多显示多少个tag
+      //How many are displayed at most?tag
       maxTagCount: 2,
-      //浮层预设位置
+      //Floating layer default position
       placement: 'bottomRight',
-      //在选择框中显示搜索框,默认false
+      //在选择框中显示search box,defaultfalse
       showSearch: true,
       options: [
         {
-          label: '北京',
+          label: 'Beijing',
           value: 'BeiJin',
           children: [
             {
-              label: '海淀区',
+              label: 'Haidian District',
               value: 'HaiDian',
             },
           ],
         },
         {
-          label: '江苏省',
+          label: 'Jiangsu Province',
           value: 'JiangSu',
           children: [
             {
-              label: '南京',
+              label: 'Nanjing',
               value: 'Nanjing',
               children: [
                 {
-                  label: '中华门',
+                  label: 'china gate',
                   value: 'ZhongHuaMen',
                 },
               ],
@@ -225,21 +225,21 @@ export const schemas: FormSchema[] = [
     },
   },
   {
-    label: '日期选择',
+    label: 'date selection',
     field: 'dateSelect',
     component: 'DatePicker',
     componentProps: {
-      //日期格式化，页面上显示的值
+      //date formatting，页面上显示of值
       format: 'YYYY-MM-DD',
-      //返回值格式化（绑定值的格式）
+      //Return value formatting（绑定值of格式）
       valueFormat: 'YYYY-MM-DD',
-      //是否显示今天按钮
+      //Whether to show today button
       showToday: true,
-      //不可选择日期
+      //Date cannot be selected
       disabledDate: (currentDate) => {
         let date = dayjs(currentDate).format('YYYY-MM-DD');
         let nowDate = dayjs(new Date()).format('YYYY-MM-DD');
-        //当天不可选择
+        //Not available on the day
         if (date == nowDate) {
           return true;
         }
@@ -248,15 +248,15 @@ export const schemas: FormSchema[] = [
     },
   },
   {
-    label: '月份选择',
+    label: 'Month selection',
     field: 'monthSelect',
     component: 'MonthPicker',
     componentProps: {
-      //不可选择日期
+      //Date cannot be selected
       disabledDate: (currentDate) => {
         let date = dayjs(currentDate).format('YYYY-MM');
         let nowDate = dayjs(new Date()).format('YYYY-MM');
-        //当天不可选择
+        //Not available on the day
         if (date == nowDate) {
           return true;
         }
@@ -265,7 +265,7 @@ export const schemas: FormSchema[] = [
     },
   },
   {
-    label: '周选择',
+    label: 'Weekly selection',
     field: 'weekSelect',
     component: 'WeekPicker',
     componentProps: {
@@ -273,81 +273,81 @@ export const schemas: FormSchema[] = [
     },
   },
   {
-    label: '时间选择',
+    label: 'Time selection',
     field: 'timeSelect',
     component: 'TimePicker',
     componentProps: {
       size: 'default',
-      //日期时间或者时间模式下是否显示此刻，不支持日期时间范围和时间范围
+      //Whether to display the current moment in date time or time mode，不supportdate time range和time range
       showNow: true,
     },
   },
   {
-    label: '日期时间范围',
+    label: 'date time range',
     field: 'dateTimeRangeSelect',
     component: 'RangePicker',
     componentProps: {
-      //是否显示时间
+      //Whether to display time
       showTime: true,
-      //日期格式化
+      //date formatting
       format: 'YYYY/MM/DD HH:mm:ss',
-      //范围文本描述用集合
-      placeholder: ['请选择开始日期时间', '请选择结束日期时间'],
+      //Collection of range text descriptions
+      placeholder: ['Please select a start date and time', 'Please select an end date and time'],
     },
   },
   {
-    label: '日期范围',
+    label: 'date range',
     field: 'dateRangeSelect',
     component: 'RangeDate',
     componentProps: {
-      //日期格式化
+      //date formatting
       format: 'YYYY/MM/DD',
-      //范围文本描述用集合
-      placeholder: ['请选择开始日期', '请选择结束日期'],
+      //Collection of range text descriptions
+      placeholder: ['Please select a start date', 'Please select an end date'],
     },
   },
   {
-    label: '时间范围',
+    label: 'time range',
     field: 'timeRangeSelect',
     component: 'RangeTime',
     componentProps: {
-      //日期格式化
+      //date formatting
       format: 'HH/mm/ss',
-      //范围文本描述用集合
-      placeholder: ['请选择开始时间', '请选择结束时间'],
+      //Collection of range text descriptions
+      placeholder: ['Please select a start time', 'Please select end time'],
     },
   },
   {
-    label: '开关',
+    label: 'switch',
     field: 'switch',
     component: 'Switch',
     componentProps: {
-      //开关大小，可选值：default small
+      //switch大小，Optional value：default small
       size: 'default',
-      //非选中时的内容
-      unCheckedChildren: '开启',
-      //非选中时的值
+      //非选中时of内容
+      unCheckedChildren: 'turn on',
+      //非选中时of值
       unCheckedValue: '0',
-      //选中时的内容
-      checkedChildren: '关闭',
-      //选中时的值
+      //选中时of内容
+      checkedChildren: 'closure',
+      //选中时of值
       checkedValue: '1',
-      //是否禁用
+      //是否Disable
       disabled: false,
     },
   },
   {
-    label: '滑动输入条',
+    label: 'sliding input bar',
     field: 'slider',
     component: 'Slider',
     componentProps: {
-      //最小值
+      //minimum value
       min: -20,
-      //最大值
+      //maximum value
       max: 100,
-      //是否为双滑块模式
+      //Whether it is dual slider mode
       range: true,
-      //刻度标记
+      //tick marks
       marks: {
         '-20': '-20°C',
         0: '0°C',
@@ -363,30 +363,30 @@ export const schemas: FormSchema[] = [
     },
   },
   {
-    label: '评分',
+    label: 'score',
     field: 'rate',
     component: 'Rate',
     componentProps: {
-      //是否允许半选
+      //Whether to allow half selection
       allowHalf: true,
-      //star 总数
+      //star total
       count: 5,
-      //tooltip提示，有几颗星写几个
-      tooltips: ['非常差', '较差', '正常', '很好', '非很好'],
+      //tooltiphint，Write how many stars there are
+      tooltips: ['very bad', 'Poor', 'normal', 'very good', '非very good'],
     },
   },
   {
-    label: '分割线',
+    label: 'dividing line',
     field: 'divisionLine',
     component: 'Divider',
     componentProps: {
-      //是否虚线
+      //Dotted line or not?
       dashed: false,
-      //分割线标题的位置（left | right | center）
+      //dividing linetitleof位置（left | right | center）
       orientation: 'center',
-      //文字是否显示为普通正文样式
+      //Whether the text is displayed in normal text style
       plain: true,
-      //水平还是垂直类型（horizontal | vertical）
+      //horizontal or vertical type（horizontal | vertical）
       type: 'horizontal',
     },
   },

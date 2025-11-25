@@ -7,11 +7,11 @@ import { JVxeDataProps, JVxeTableMethods, JVxeTableProps } from '../types';
 
 export function useFinallyProps(props: JVxeTableProps, data: JVxeDataProps, methods: JVxeTableMethods) {
   const attrs = useAttrs();
-  // vxe 键盘操作配置
+  // vxe Keyboard operation configuration
   const { keyboardEditConfig } = useKeyboardEdit(props);
-  // vxe 最终 editRules
+  // vxe final editRules
   const vxeEditRules = computed(() => merge({}, props.editRules, data.innerEditRules));
-  // vxe 最终 events
+  // vxe final events
   const vxeEvents = computed(() => {
     let listeners = { ...unref(attrs) };
     let events = {
@@ -22,11 +22,11 @@ export function useFinallyProps(props: JVxeTableProps, data: JVxeDataProps, meth
       onRadioChange: methods.handleVxeRadioChange,
       onCheckboxAll: methods.handleVxeCheckboxAll,
       onCheckboxChange: methods.handleVxeCheckboxChange,
-      // update-begin--author:liaozhiyang---date:20240321---for：【QQYUN-8566】JVXETable无法记住列设置
+      // update-begin--author:liaozhiyang---date:20240321---for：【QQYUN-8566】JVXETableUnable to remember column settings
       onCustom: methods.handleCustom,
-      // update-begin--author:liaozhiyang---date:20240321---for：【QQYUN-8566】JVXETable无法记住列设置
+      // update-begin--author:liaozhiyang---date:20240321---for：【QQYUN-8566】JVXETableUnable to remember column settings
     };
-    // 用户传递的事件，进行合并操作
+    // events passed by the user，Perform merge operation
     Object.keys(listeners).forEach((key) => {
       let listen = listeners[key];
       if (events.hasOwnProperty(key)) {
@@ -41,9 +41,9 @@ export function useFinallyProps(props: JVxeTableProps, data: JVxeDataProps, meth
     return events;
   });
 
-  // vxe 最终 props
+  // vxe final props
   const vxePropsMerge = computed(() => {
-    // update-begin--author:liaozhiyang---date:20240417---for:【QQYUN-8785】online表单列位置的id未做限制，拖动其他列到id列上面，同步数据库时报错
+    // update-begin--author:liaozhiyang---date:20240417---for:【QQYUN-8785】onlineform column positionidNo restrictions，Drag other columns toidcolumn above，Error when synchronizing database
     let rowClass = {};
     if (props.dragSort) {
       rowClass = {
@@ -53,7 +53,7 @@ export function useFinallyProps(props: JVxeTableProps, data: JVxeDataProps, meth
             const {key, value} = item;
             return row[key] == value;
           });
-          // 业务传进的来的rowClassName
+          // Business comes inrowClassName
           const popsRowClassName = props.rowClassName ?? '';
           let outClass = '';
           if(typeof popsRowClassName==='string'){
@@ -65,7 +65,7 @@ export function useFinallyProps(props: JVxeTableProps, data: JVxeDataProps, meth
         },
       };
     }
-    // update-end--author:liaozhiyang---date:20240417---for:【QQYUN-8785】online表单列位置的id未做限制，拖动其他列到id列上面，同步数据库时报错
+    // update-end--author:liaozhiyang---date:20240417---for:【QQYUN-8785】onlineform column positionidNo restrictions，Drag other columns toidcolumn above，Error when synchronizing database
     return merge(
       {},
       data.defaultVxeProps,
@@ -82,22 +82,22 @@ export function useFinallyProps(props: JVxeTableProps, data: JVxeDataProps, meth
         editRules: unref(vxeEditRules),
         height: props.height === 'auto' ? null : props.height,
         maxHeight: props.maxHeight,
-        // update-begin--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable 行编辑升级
+        // update-begin--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable Line editing upgrade
         scrollY: props.scrollY,
         scrollX: props.scrollX,
-        // update-end--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable 行编辑升级
+        // update-end--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable Line editing upgrade
         border: props.bordered,
         footerMethod: methods.handleFooterMethod,
-        // 展开行配置
+        // Expand row configuration
         expandConfig: {
           toggleMethod: methods.handleExpandToggleMethod,
         },
-        // 可编辑配置
+        // Editable configuration
         editConfig: {
-          // update-begin--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable 行编辑升级
+          // update-begin--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable Line editing upgrade
           //activeMethod: methods.handleActiveMethod,
           beforeEditMethod: methods.handleActiveMethod,
-          // update-end--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable 行编辑升级
+          // update-end--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable Line editing upgrade
         },
         radioConfig: {
           checkMethod: methods.handleCheckMethod,
@@ -116,7 +116,7 @@ export function useFinallyProps(props: JVxeTableProps, data: JVxeDataProps, meth
     );
   });
 
-  // update-begin--author:sunjianlei---date:20250804---for:【issues/8593】修复列改变后内容不刷新
+  // update-begin--author:sunjianlei---date:20250804---for:【issues/8593】Fixed an issue where content is not refreshed after column changes
   const vxeColumnsRef = ref(data.vxeColumns!.value || [])
   const watchColumnsDebounce = debounce(async () => {
     vxeColumnsRef.value = []
@@ -124,12 +124,12 @@ export function useFinallyProps(props: JVxeTableProps, data: JVxeDataProps, meth
     vxeColumnsRef.value = data.vxeColumns!.value
   }, 50)
   watch(data.vxeColumns!, watchColumnsDebounce)
-  // update-end----author:sunjianlei---date:20250804---for:【issues/8593】修复列改变后内容不刷新
+  // update-end----author:sunjianlei---date:20250804---for:【issues/8593】Fixed an issue where content is not refreshed after column changes
 
   const vxeProps = computed(() => {
     return {
       ...unref(vxePropsMerge),
-      // 【issue/8695】单独抽出 columns，防止性能问题
+      // 【issue/8695】extracted separately columns，Prevent performance issues
       columns: unref(vxeColumnsRef),
     }
   });

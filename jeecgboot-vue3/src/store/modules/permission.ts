@@ -24,15 +24,15 @@ import { getBackMenuAndPerms } from '/@/api/sys/menu';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { PageEnum } from '/@/enums/pageEnum';
 
-// 系统权限
+// System permissions
 interface AuthItem {
-  // 菜单权限编码，例如：“sys:schedule:list,sys:schedule:info”,多个逗号隔开
+  // Menu permission encoding，For example：“sys:schedule:list,sys:schedule:info”,Multiple commas separated
   action: string;
-  // 权限策略1显示2禁用
+  // Permission policy1show2Disable
   type: string | number;
-  // 权限状态(0无效1有效)
+  // permission status(0invalid1efficient)
   status: string | number;
-  // 权限名称
+  // Permission name
   describe?: string;
   isAuth?: boolean;
 }
@@ -47,13 +47,13 @@ interface PermissionState {
   // Backstage menu list
   backMenuList: Menu[];
   frontMenuList: Menu[];
-  // 用户所拥有的权限
+  // Permissions the user has
   authList: AuthItem[];
-  // 全部权限配置
+  // All permissions configuration
   allAuthList: AuthItem[];
-  // 系统安全模式
+  // System safe mode
   sysSafeMode: boolean;
-  // online子表按钮权限
+  // onlineSubtable button permissions
   onlineSubTableAuthMap: object;
 }
 export const usePermissionStore = defineStore({
@@ -90,11 +90,11 @@ export const usePermissionStore = defineStore({
       return this.isDynamicAddedRoute;
     },
 
-    //update-begin-author:taoyan date:2022-6-1 for: VUEN-1162 子表按钮没控制
+    //update-begin-author:taoyan date:2022-6-1 for: VUEN-1162 The sub-watch button has no control
     getOnlineSubTableAuth: (state) => {
       return (code) => state.onlineSubTableAuthMap[code];
     },
-    //update-end-author:taoyan date:2022-6-1 for: VUEN-1162 子表按钮没控制
+    //update-end-author:taoyan date:2022-6-1 for: VUEN-1162 The sub-watch button has no control
   },
   actions: {
     setPermCodeList(codeList: string[]) {
@@ -129,7 +129,7 @@ export const usePermissionStore = defineStore({
       this.setPermCodeList(codeList);
       this.setAuthData(systemPermission);
       
-      //菜单路由
+      //menu routing
       const routeList = systemPermission.menu;
       return routeList;
     },
@@ -156,7 +156,7 @@ export const usePermissionStore = defineStore({
       };
 
       /**
-       * @description 根据设置的首页path，修正routes中的affix标记（固定首页）
+       * @description Home page according to settingspath，Correctionroutesinaffixmark（Fixed homepage）
        * */
       const patchHomeAffix = (routes: AppRouteRecordRaw[]) => {
         if (!routes || routes.length === 0) return;
@@ -180,7 +180,7 @@ export const usePermissionStore = defineStore({
         try {
           patcher(routes);
         } catch (e) {
-          // 已处理完毕跳出循环
+          // Processed and exited the loop
         }
         return;
       };
@@ -189,7 +189,7 @@ export const usePermissionStore = defineStore({
         case PermissionModeEnum.ROLE:
           routes = filter(asyncRoutes, routeFilter);
           routes = routes.filter(routeFilter);
-          //  将多级路由转换为二级
+          //  Convert multi-level routing to level two
           routes = flatMultiLevelRoutes(routes);
           break;
 
@@ -204,53 +204,53 @@ export const usePermissionStore = defineStore({
           });
 
           this.setFrontMenuList(menuList);
-          // 将多级路由转换为二级
+          // Convert multi-level routing to level two
           routes = flatMultiLevelRoutes(routes);
           break;
 
-        // 后台菜单构建
+        // Backend menu construction
         case PermissionModeEnum.BACK:
           const { createMessage, createWarningModal } = useMessage();
-          console.log(" --- 构建后台路由菜单 --- ")
-          // 菜单加载提示
+          console.log(" --- Build background routing menu --- ")
+          // Menu loading prompt
           // createMessage.loading({
           //   content: t('sys.app.menuLoading'),
           //   duration: 1,
           // });
 
-          // 从后台获取权限码，
-          // 这个函数可能只需要执行一次，并且实际的项目可以在正确的时间被放置
+          // Get the permission code from the background，
+          // This function may only need to be executed once，and actual items can be placed at the right time
           let routeList: AppRouteRecordRaw[] = [];
           try {
             routeList = await this.changePermissionCode();
             //routeList = (await getMenuList()) as AppRouteRecordRaw[];
-            // update-begin--author:liaozhiyang---date:20240313---for：【QQYUN-8487】注释掉判断菜单是否vue2版本逻辑代码
-            // update-begin----author:sunjianlei---date:20220315------for: 判断是否是 vue3 版本的菜单 ---
+            // update-begin--author:liaozhiyang---date:20240313---for：【QQYUN-8487】Comment out the judgment menu whethervue2Version logic code
+            // update-begin----author:sunjianlei---date:20220315------for: Determine whether it is vue3 version menu ---
             // let hasIndex: boolean = false;
             // let hasIcon: boolean = false;
             // for (let menuItem of routeList) {
-            //   // 条件1：判断组件是否是 layouts/default/index
+            //   // condition1：Determine whether the component is layouts/default/index
             //   if (!hasIndex) {
             //     hasIndex = menuItem.component === 'layouts/default/index';
             //   }
-            //   // 条件2：判断图标是否带有 冒号
+            //   // condition2：Determine whether the icon has colon
             //   if (!hasIcon) {
             //     hasIcon = !!menuItem.meta?.icon?.includes(':');
             //   }
-            //   // 满足任何一个条件都直接跳出循环
+            //   // 满足任何一个condition都直接跳出循环
             //   if (hasIcon || hasIndex) {
             //     break;
             //   }
             // }
-            // // 两个条件都不满足，就弹出提示框
+            // // 两个condition都不满足，A prompt box pops up
             // if (!hasIcon && !hasIndex) {
-            //   // 延迟1.5秒之后再出现提示，否则提示框出不来
+            //   // Delay1.5The prompt will appear again after seconds，Otherwise, the prompt box will not appear.
             //   setTimeout(
             //     () =>
             //       createWarningModal({
-            //         title: '检测提示',
+            //         title: 'Detection tips',
             //         content:
-            //           '当前菜单表是 <b>Vue2版本</b>，导致菜单加载异常!<br>点击确认，切换到Vue3版菜单！',
+            //           'The current menu table is <b>Vue2Version</b>，Causes menu loading exception!<br>Click to confirm，switch toVue3version menu！',
             //         onOk:function () {
             //           switchVue3Menu();
             //           location.reload();
@@ -259,28 +259,28 @@ export const usePermissionStore = defineStore({
             //     100
             //   );
             // }
-            // update-end----author:sunjianlei---date:20220315------for: 判断是否是 vue3 版本的菜单 ---
-            // update-end--author:liaozhiyang---date:20240313---for：【QQYUN-8487】注释掉判断菜单是否vue2版本逻辑代码
+            // update-end----author:sunjianlei---date:20220315------for: Determine whether it is vue3 version menu ---
+            // update-end--author:liaozhiyang---date:20240313---for：【QQYUN-8487】Comment out the judgment menu whethervue2Version logic code
           } catch (error) {
             console.error(error);
           }
-          // 组件地址前加斜杠处理  author: lsq date:2021-09-08
+          // Add a slash before the component address  author: lsq date:2021-09-08
           routeList = addSlashToRouteComponent(routeList);
-          // 动态引入组件
+          // Dynamically introduce components
           routeList = transformObjToRoute(routeList);
 
-          // 构建后台路由菜单
+          // Build background routing menu
           const backMenuList = transformRouteToMenu(routeList);
           this.setBackMenuList(backMenuList);
 
-          // 删除meta.ignoreRoute项
+          // deletemeta.ignoreRouteitem
           routeList = filter(routeList, routeRemoveIgnoreFilter);
           routeList = routeList.filter(routeRemoveIgnoreFilter);
 
           routeList = flatMultiLevelRoutes(routeList);
-          // update-begin--author:liaozhiyang---date:20240529---for：【TV360X-522】ai助手路由写死在前端
+          // update-begin--author:liaozhiyang---date:20240529---for：【TV360X-522】aiThe assistant routing is hard-coded on the front end
           routes = [PAGE_NOT_FOUND_ROUTE, ...routeList, ...staticRoutesList];
-          // update-end--author:liaozhiyang---date:20240529---for：【TV360X-522】ai助手路由写死在前端
+          // update-end--author:liaozhiyang---date:20240529---for：【TV360X-522】aiThe assistant routing is hard-coded on the front end
           break;
       }
 
@@ -300,15 +300,15 @@ export const usePermissionStore = defineStore({
       this.allAuthList = authList;
     },
 
-    //update-begin-author:taoyan date:2022-6-1 for: VUEN-1162 子表按钮没控制
+    //update-begin-author:taoyan date:2022-6-1 for: VUEN-1162 The sub-watch button has no control
     setOnlineSubTableAuth(code, hideBtnList) {
       this.onlineSubTableAuthMap[code] = hideBtnList;
     },
-    //update-end-author:taoyan date:2022-6-1 for: VUEN-1162 子表按钮没控制
+    //update-end-author:taoyan date:2022-6-1 for: VUEN-1162 The sub-watch button has no control
   },
 });
 
-// 需要在设置之外使用
+// Need to be used outside of settings
 export function usePermissionStoreWithOut() {
   return usePermissionStore(store);
 }

@@ -4,11 +4,11 @@ import { JVxeTypes } from '../types';
 import { JVxeComponent } from '../types/JVxeComponent';
 import { componentMap } from '../componentMap';
 
-// 已注册的组件增强
+// Registered component enhancements
 const enhancedMap = new Map<JVxeTypes, JVxeComponent.Enhanced>();
 
 /**
- * 获取某个组件的增强
+ * Get enhancements for a component
  * @param type JVxeTypes
  */
 export function getEnhanced(type: JVxeTypes | string): JVxeComponent.Enhanced {
@@ -21,7 +21,7 @@ export function getEnhanced(type: JVxeTypes | string): JVxeComponent.Enhanced {
         Object.keys(defaultEnhanced).forEach((key) => {
           let def = defaultEnhanced[key];
           if (enhanced.hasOwnProperty(key)) {
-            // 方法如果存在就不覆盖
+            // If the method exists, it will not be overwritten.
             if (!isFunction(def) && !isString(def)) {
               enhanced[key] = Object.assign({}, def, enhanced[key]);
             }
@@ -33,14 +33,14 @@ export function getEnhanced(type: JVxeTypes | string): JVxeComponent.Enhanced {
         return <JVxeComponent.Enhanced>enhanced;
       }
     } else {
-      throw new Error(`[JVxeTable] ${$type} 组件尚未注册，获取增强失败`);
+      throw new Error(`[JVxeTable] ${$type} The component has not been registered yet，Failed to obtain enhancement`);
     }
     enhancedMap.set($type, <JVxeComponent.Enhanced>defaultEnhanced);
   }
   return <JVxeComponent.Enhanced>enhancedMap.get($type);
 }
 
-/** 辅助方法：替换${...}变量 */
+/** Helper methods：replace${...}variable */
 export function replaceProps(col, value) {
   if (value && typeof value === 'string') {
     let text = value;

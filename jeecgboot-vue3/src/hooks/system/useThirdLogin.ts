@@ -11,31 +11,31 @@ export function useThirdLogin() {
   const { t } = useI18n();
   const glob = useGlobSetting();
   const userStore = useUserStore();
-  //第三方类型
+  //Third party type
   const thirdType = ref('');
-  //第三方登录相关信息
+  //Third-party login related information
   const thirdLoginInfo = ref<any>({});
-  //状态
+  //state
   const thirdLoginState = ref(false);
-  //绑定手机号弹窗
+  //Bind mobile phone number pop-up window
   const bindingPhoneModal = ref(false);
-  //第三方用户UUID
+  //third party usersUUID
   const thirdUserUuid = ref('');
-  //提示窗
+  //Prompt window
   const thirdConfirmShow = ref(false);
-  //绑定密码弹窗
+  //Bind password pop-up window
   const thirdPasswordShow = ref(false);
-  //绑定密码
+  //Bind password
   const thirdLoginPassword = ref('');
-  //绑定用户
+  //Bind user
   const thirdLoginUser = ref('');
-  //加载中
+  //loading
   const thirdCreateUserLoding = ref(false);
-  //绑定手机号
+  //Bind mobile phone number
   const thirdPhone = ref('');
-  //验证码
+  //Verification code
   const thirdCaptcha = ref('');
-  //第三方登录
+  //Third party login
   function onThirdLogin(source) {
     let url = `${glob.uploadUrl}/sys/thirdLogin/render/${source}`;
     const openWin = window.open(
@@ -49,10 +49,10 @@ export function useThirdLogin() {
     let receiveMessage = function (event) {
       let token = event.data;
       if (typeof token === 'string') {
-        //如果是字符串类型 说明是token信息
-        if (token === '登录失败') {
+        //If it is a string type The explanation istokeninformation
+        if (token === 'Login failed') {
           createMessage.warning(token);
-        } else if (token.includes('绑定手机号')) {
+        } else if (token.includes('Bind mobile phone number')) {
           bindingPhoneModal.value = true;
           let strings = token.split(',');
           thirdUserUuid.value = strings[1];
@@ -60,26 +60,26 @@ export function useThirdLogin() {
           doThirdLogin(token);
         }
       } else if (typeof token === 'object') {
-        //对象类型 说明需要提示是否绑定现有账号
+        //Object type Explain that you need to be prompted whether to bind an existing account
         if (token['isObj'] === true) {
           thirdConfirmShow.value = true;
           thirdLoginInfo.value = { ...token };
         }
       } else {
-        createMessage.warning('不识别的信息传递');
+        createMessage.warning('不识别的information传递');
       }
-      // update-begin--author:liaozhiyang---date:20240717---for：【TV360X-1827】mac系统谷歌浏览器企业微信第三方登录成功后没有弹出绑定手机弹窗
+      // update-begin--author:liaozhiyang---date:20240717---for：【TV360X-1827】mac系统谷歌浏览器企业微信Third party login成功后没有弹出绑定手机弹窗
       if (openWin?.closed) {
         window.removeEventListener('message', receiveMessage, false);
       }
-      // update-end--author:liaozhiyang---date:20240717---for：【TV360X-1827】mac系统谷歌浏览器企业微信第三方登录成功后没有弹出绑定手机弹窗
+      // update-end--author:liaozhiyang---date:20240717---for：【TV360X-1827】mac系统谷歌浏览器企业微信Third party login成功后没有弹出绑定手机弹窗
     };
-    // update-begin--author:liaozhiyang---date:20240717---for：【TV360X-1827】mac系统谷歌浏览器企业微信第三方登录成功后没有弹出绑定手机弹窗
+    // update-begin--author:liaozhiyang---date:20240717---for：【TV360X-1827】mac系统谷歌浏览器企业微信Third party login成功后没有弹出绑定手机弹窗
     window.removeEventListener('message', receiveMessage, false);
-    // update-end--author:liaozhiyang---date:20240717---for：【TV360X-1827】mac系统谷歌浏览器企业微信第三方登录成功后没有弹出绑定手机弹窗
+    // update-end--author:liaozhiyang---date:20240717---for：【TV360X-1827】mac系统谷歌浏览器企业微信Third party login成功后没有弹出绑定手机弹窗
     window.addEventListener('message', receiveMessage, false);
   }
-  // 根据token执行登录
+  // according totokenExecute login
   function doThirdLogin(token) {
     if (unref(thirdLoginState) === false) {
       thirdLoginState.value = true;
@@ -100,22 +100,22 @@ export function useThirdLogin() {
 
   function requestFailed(err) {
     notification.error({
-      message: '登录失败',
-      description: ((err.response || {}).data || {}).message || err.message || '请求出现错误，请稍后再试',
+      message: 'Login failed',
+      description: ((err.response || {}).data || {}).message || err.message || 'An error occurred with the request，Please try again later',
       duration: 4,
     });
   }
-  // 绑定已有账号 需要输入密码
+  // Bind existing account Password required
   function thirdLoginUserBind() {
     thirdLoginPassword.value = '';
     thirdLoginUser.value = thirdLoginInfo.value.uuid;
     thirdConfirmShow.value = false;
     thirdPasswordShow.value = true;
   }
-  //创建新账号
+  //Create new account
   function thirdLoginUserCreate() {
     thirdCreateUserLoding.value = true;
-    // 账号名后面添加两位随机数
+    // Add two random numbers after the account name
     thirdLoginInfo.value.suffix = parseInt(Math.random() * 98 + 1);
     defHttp
       .post({ url: '/sys/third/user/create', params: { thirdLoginInfo: unref(thirdLoginInfo) } }, { isTransformResponse: false })
@@ -132,7 +132,7 @@ export function useThirdLogin() {
         thirdCreateUserLoding.value = false;
       });
   }
-  // 核实密码
+  // Verify password
   function thirdLoginCheckPassword() {
     let params = Object.assign({}, unref(thirdLoginInfo), { password: unref(thirdLoginPassword) });
     defHttp.post({ url: '/sys/third/user/checkPassword', params }, { isTransformResponse: false }).then((res) => {
@@ -144,25 +144,25 @@ export function useThirdLogin() {
       }
     });
   }
-  // 没有密码 取消操作
+  // no password Cancel operation
   function thirdLoginNoPassword() {
     thirdPasswordShow.value = false;
     thirdLoginPassword.value = '';
     thirdLoginUser.value = '';
   }
 
-  //倒计时执行前的函数
+  //Countdown function before execution
   function sendCodeApi() {
     //return setThirdCaptcha({mobile:unref(thirdPhone)});
     return getCaptcha({ mobile: unref(thirdPhone), smsmode: '0' });
   }
-  //绑定手机号点击确定按钮
+  //Bind mobile phone number点击确定按钮
   function thirdHandleOk() {
     if (!unref(thirdPhone)) {
-      cmsFailed('请输入手机号');
+      cmsFailed('Please enter mobile phone number');
     }
     if (!unref(thirdCaptcha)) {
-      cmsFailed('请输入验证码');
+      cmsFailed('请输入Verification code');
     }
     let params = {
       mobile: unref(thirdPhone),
@@ -180,13 +180,13 @@ export function useThirdLogin() {
   }
   function cmsFailed(err) {
     notification.error({
-      message: '登录失败',
+      message: 'Login failed',
       description: err,
       duration: 4,
     });
     return;
   }
-  //返回数据和方法
+  //Return data and methods
   return {
     thirdPasswordShow,
     thirdLoginCheckPassword,

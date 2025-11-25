@@ -385,7 +385,7 @@ public class SysAnnouncementController {
 		//update-begin---author:scott ---date:2024-05-11  for：【Performance optimization】优化系统notify，Only search close2个月的notify---
 		// Get the first day of the previous month（Only search close两个月的notify）
 		Date lastMonthStartDay = DateRangeUtils.getLastMonthStartDay();
-		log.info("-----Queryclose两个月收到的未读notify-----，close2first day of month：{}", lastMonthStartDay);
+		log.info("-----Unread notifications received by Queryclose in two months-----，close2first day of month：{}", lastMonthStartDay);
 		//update-end---author:scott ---date::2024-05-11  for：【Performance optimization】优化系统notify，Only search close2个月的notify---
 		
 //		//补push数据（use户和notify的关系表）
@@ -428,7 +428,7 @@ public class SysAnnouncementController {
 
 		// Get the first day of the previous month（Only search close两个月的notify）
 		Date lastMonthStartDay = DateRangeUtils.getLastMonthStartDay();
-		log.info(" ------Queryclose两个月收到的未读notify消息数量------，close2first day of month：{}", lastMonthStartDay);
+		log.info(" ------Number of unread notify messages received by Queryclose in two months------，close2first day of month：{}", lastMonthStartDay);
         //update-begin---author:wangshuai---date:2025-06-26---for:【QQYUN-12162】OAProject transformation，System heavy message splitting，The news is all together now Need to be split by category---
         Map<String,Integer> unreadMessageCount = new HashMap<>();
         //System messages数量

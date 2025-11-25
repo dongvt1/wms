@@ -15,7 +15,7 @@ export function useMultipleTabSetting() {
 
   const getShowFold = computed(() => appStore.getMultiTabsSetting.showFold);
 
-  // 获取标签页样式
+  // Get tab style
   const getTabsTheme = computed(() => appStore.getMultiTabsSetting.theme);
 
   function setMultipleTabSetting(multiTabsSetting: Partial<MultiTabsSetting>) {

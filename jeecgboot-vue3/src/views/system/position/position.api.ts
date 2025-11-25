@@ -12,13 +12,13 @@ enum Api {
   deleteBatch = '/sys/position/deleteBatch',
 }
 /**
- * 导出api
+ * Exportapi
  */
 export const getExportUrl = Api.exportXls;
 
 export const getImportUrl = Api.importExcel;
 /**
- * 查询列表
+ * query list
  * @param params
  */
 export const getPositionList = (params) => {
@@ -26,7 +26,7 @@ export const getPositionList = (params) => {
 };
 
 /**
- * 保存或者更新
+ * Save or update
  * @param params
  */
 export const saveOrUpdatePosition = (params, isUpdate) => {
@@ -35,7 +35,7 @@ export const saveOrUpdatePosition = (params, isUpdate) => {
 };
 
 /**
- * 查询详情
+ * Query details
  * @param params
  */
 export const getPositionById = (params) => {
@@ -43,7 +43,7 @@ export const getPositionById = (params) => {
 };
 
 /**
- * 单条删除
+ * Delete a single item
  * @param params
  */
 export const deletePosition = (params, handleSuccess) => {
@@ -53,15 +53,15 @@ export const deletePosition = (params, handleSuccess) => {
 };
 
 /**
- * 批量删除
+ * Batch delete
  * @param params
  */
 export const batchDeletePosition = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm deletion',
+    content: 'Whether to delete selected data',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -71,7 +71,7 @@ export const batchDeletePosition = (params, handleSuccess) => {
 };
 
 /**
- * 自定义上传
+ * Custom upload
  * @param customUpload
  */
 export const customUpload = (params) => {

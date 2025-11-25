@@ -1,9 +1,9 @@
 /**
  *
- * 根据 tagName 获取父级节点
+ * according to tagName Get parent node
  *
- * @param dom 一级dom节点
- * @param tagName 标签名，不区分大小写
+ * @param dom Level 1domnode
+ * @param tagName tag name，Not case sensitive
  */
 export function getParentNodeByTagName(dom: HTMLElement, tagName: string = 'body'): HTMLElement | null {
   if (tagName === 'body') {

@@ -10,7 +10,7 @@ enum Api {
 }
 
 /**
- * 查询消息列表
+ * Query message list
  * @param params
  */
 export const getMyNewsList = (params) => {
@@ -18,7 +18,7 @@ export const getMyNewsList = (params) => {
 };
 
 /**
- * 更新用户系统消息阅读状态
+ * Update user system message reading status
  * @param params
  */
 export const editCementSend = (params) => {
@@ -26,15 +26,15 @@ export const editCementSend = (params) => {
 };
 
 /**
- * 一键已读
+ * Read with one click
  * @param params
  */
 export const readAllMsg = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认操作',
-    content: '是否全部标注已读?',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm action',
+    content: 'Whether to mark all as read?',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.put({ url: Api.readAllMsg, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -44,7 +44,7 @@ export const readAllMsg = (params, handleSuccess) => {
 };
 
 /**
- * 同步消息
+ * Sync messages
  * @param params
  */
 export const syncNotic = (params) => {
@@ -52,7 +52,7 @@ export const syncNotic = (params) => {
 };
 
 /**
- * 根据消息发送记录ID获取消息内容
+ * Send records based on messagesID获Cancel息内容
  * @param sendId
  */
 export const getOne = (sendId) => {

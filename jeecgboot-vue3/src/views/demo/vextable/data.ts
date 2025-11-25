@@ -5,41 +5,41 @@ const { isDisabledAuth, hasPermission, initBpmFormData} = usePermission();
 
 export const columns: BasicColumn[] = [
   {
-    title: '订单号',
+    title: 'Order number',
     dataIndex: 'orderCode',
     width: 260,
   },
   {
-    title: '订单类型',
+    title: 'Order type',
     dataIndex: 'ctype',
     slots: { customRender: 'ctype' },
   },
   {
-    title: '订单日期',
+    title: 'order date',
     dataIndex: 'orderDate',
     width: 300,
   },
   {
-    title: '订单金额',
+    title: 'Order amount',
     width: 200,
     dataIndex: 'orderMoney',
   },
   {
-    title: '订单备注',
+    title: 'Order notes',
     width: 200,
     dataIndex: 'content',
   },
   {
-    title: '流程状态',
+    title: 'process status',
     width: 200,
     dataIndex: 'bpmStatus',
     customRender: ({ text }) => {
       if (!text || text == '1') {
-        return '待提交';
+        return 'To be submitted';
       } else if (text == '2') {
-        return '处理中';
+        return 'Processing';
       } else if (text == '2') {
-        return '已完成';
+        return 'Completed';
       } else {
         return text;
       }
@@ -48,12 +48,12 @@ export const columns: BasicColumn[] = [
 ];
 
 export function getBpmFormSchema(formData) {
-  //注入流程节点表单权限
+  //Inject process node form permissions
   initBpmFormData(formData);
   
   const formSchema2: FormSchema[] = [
     {
-      label: '订单号',
+      label: 'Order number',
       field: 'orderCode',
       component: 'Input',
       show: ({ values }) => {
@@ -61,18 +61,18 @@ export function getBpmFormSchema(formData) {
       },
     },
     {
-      label: '订单类型',
+      label: 'Order type',
       field: 'ctype',
       component: 'Select',
       componentProps: {
         options: [
-          { label: '国内订单', value: '1', key: '1' },
-          { label: '国际订单', value: '2', key: '2' },
+          { label: 'Domestic orders', value: '1', key: '1' },
+          { label: 'international orders', value: '2', key: '2' },
         ],
       },
     },
     {
-      label: '订单日期',
+      label: 'order date',
       field: 'orderDate',
       component: 'DatePicker',
       componentProps: {
@@ -83,12 +83,12 @@ export function getBpmFormSchema(formData) {
       },
     },
     {
-      label: '订单金额',
+      label: 'Order amount',
       field: 'orderMoney',
       component: 'Input',
     },
     {
-      label: '订单备注',
+      label: 'Order notes',
       field: 'content',
       component: 'Input',
     },
@@ -97,12 +97,12 @@ export function getBpmFormSchema(formData) {
 }
 
 export function getOrderCustomerFormSchema(formData) {
-  //注入流程节点表单权限
+  //Inject process node form permissions
   initBpmFormData(formData);
   
   const formSchema2: FormSchema[] = [
     {
-      label: '客户名',
+      label: 'Customer name',
       field: 'name',
       component: 'Input',
       dynamicDisabled: ({ values }) => {
@@ -110,23 +110,23 @@ export function getOrderCustomerFormSchema(formData) {
       },
     },
     {
-      label: '性别',
+      label: 'gender',
       field: 'sex',
       component: 'Select',
       componentProps: {
         options: [
-          { label: '男', value: '1', key: '1' },
-          { label: '女', value: '2', key: '2' },
+          { label: 'male', value: '1', key: '1' },
+          { label: 'female', value: '2', key: '2' },
         ],
       },
     },
     {
-      label: '身份证号',
+      label: 'ID number',
       field: 'idcard',
       component: 'Input',
     },
     {
-      label: '手机号',
+      label: 'Phone number',
       field: 'telphone',
       component: 'Input',
     },
@@ -136,19 +136,19 @@ export function getOrderCustomerFormSchema(formData) {
 
 export const jeecgOrderTicketColumns: JVxeColumn[] = [
   {
-    title: '航班号',
+    title: 'flight number',
     key: 'ticketCode',
     width: 180,
     type: JVxeTypes.input,
-    placeholder: '请输入${title}',
+    placeholder: 'Please enter${title}',
     defaultValue: '',
   },
   {
-    title: '航班时间',
+    title: 'Flight time',
     key: 'tickectDate',
     width: 180,
     type: JVxeTypes.date,
-    placeholder: '请选择${title}',
+    placeholder: 'Please select${title}',
     defaultValue: '',
   },
 ];

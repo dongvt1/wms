@@ -13,12 +13,12 @@ export function setupStore($app: App<Element>) {
   app.use(store);
 }
 
-// 销毁store
+// destroystore
 export function destroyStore() {
   store = null;
 }
 
-// 获取app实例
+// GetappExample
 export const getAppContext = () => app?._context;
 
 export {app, store};

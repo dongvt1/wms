@@ -1,13 +1,13 @@
 export const SIDE_BAR_MINI_WIDTH = 48;
 export const SIDE_BAR_SHOW_TIT_MINI_WIDTH = 80;
 
-// 标签页样式
+// Tab style
 export enum TabsThemeEnum {
-  // 圆滑
+  // sleek
   SMOOTH = 'smooth',
-  // 卡片
+  // card
   CARD = 'card',
-  // 极简
+  // minimalist
   SIMPLE = 'simple',
 }
 
@@ -36,12 +36,12 @@ export enum SessionTimeoutProcessingEnum {
 }
 
 /**
- * 权限模式
+ * permission mode
  */
 export enum PermissionModeEnum {
   // role
   ROLE = 'ROLE',
-  // 后台
+  // Backstage
   BACK = 'BACK',
   // route mapping
   ROUTE_MAPPING = 'ROUTE_MAPPING',

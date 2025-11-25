@@ -18,7 +18,7 @@ enum Api {
 
 export const getMenuList = () => {
   return new Promise((resolve) => {
-    //为了兼容mock和接口数据
+    //For compatibilitymockand interface data
     defHttp.get<getMenuListResultModel>({ url: Api.GetMenuList }).then((res) => {
       if (Array.isArray(res)) {
         resolve(res);
@@ -30,11 +30,11 @@ export const getMenuList = () => {
 };
 
 /**
- * @description: 获取后台菜单权限和按钮权限
+ * @description: Get background menu permissions and button permissions
  */
 export function getBackMenuAndPerms() {
   return defHttp.get({ url: Api.GetMenuList }).catch((e) => {
-    // Token过期失效，直接跳转登录页面 2025-09-08 scott
+    // TokenExpired，Jump directly to the login page 2025-09-08 scott
     if (e && (e.message.includes('timeout') || e.message.includes('401'))) {
       const userStore = useUserStoreWithOut();
       userStore.setToken('');
@@ -42,7 +42,7 @@ export function getBackMenuAndPerms() {
       router.push({
         path: PageEnum.BASE_LOGIN,
         query: {
-          // 传入当前的路由，登录成功后跳转到当前路由
+          // Pass in the current route，After successful login, jump to the current route
           redirect: router.currentRoute.value.fullPath,
         }
       });
@@ -51,12 +51,12 @@ export function getBackMenuAndPerms() {
 }
 
 /**
- * 切换成vue3菜单
+ * switch tovue3menu
  */
- // update-begin--author:liaozhiyang---date:20240313---for：【QQYUN-8487】注释掉判断菜单是否vue2版本逻辑代码
+ // update-begin--author:liaozhiyang---date:20240313---for：【QQYUN-8487】注释掉判断menu是否vue2Version logic code
 // export const switchVue3Menu = () => {
 //   return new Promise((resolve) => {
 //     defHttp.get({ url: Api.SwitchVue3Menu });
 //   });
 // };
-// update-end--author:liaozhiyang---date:20240313---for：【QQYUN-8487】注释掉判断菜单是否vue2版本逻辑代码
+// update-end--author:liaozhiyang---date:20240313---for：【QQYUN-8487】注释掉判断menu是否vue2Version logic code

@@ -27,31 +27,31 @@ export const APP_LOCAL_CACHE_KEY = 'COMMON__LOCAL__KEY__';
 
 // base global session key
 export const APP_SESSION_CACHE_KEY = 'COMMON__SESSION__KEY__';
-// 租户 key
+// tenant key
 export const TENANT_ID = 'TENANT_ID';
 // login info key
 export const LOGIN_INFO_KEY = 'LOGIN__INFO__';
 
-// 聊天UID key
+// chatUID key
 export const JEECG_CHAT_UID = 'JEECG_CHAT_UID';
 
-// 免登录租户id，与系统分开，避免重复
+// 免登录tenantid，separate from system，avoid duplication
 export const OAUTH2_THIRD_LOGIN_TENANT_ID = 'THIRD_LOGIN_TENANT_ID';
 
-// ai助手标识（退出需要记录一下）
+// aiAssistant ID（You need to record your exit）
 export const AIDE_FLAG = 'AIDE_FLAG';
 
-// ai助手标识（退出需要记录一下）
+// aiAssistant ID（You need to record your exit）
 export const JEECG_CHAT_KEY = 'JEECG-CHAT-KEY';
 
-// 【QQYUN-8925】系统主题颜色（供页面加载使用）
+// 【QQYUN-8925】System theme color（For page loading）
 export const APP__THEME__COLOR = '__APP__THEME__COLOR__';
 
 // 
 export const ROLE_AUTH_CONFIG_KEY = 'ROLE__AUTH__CONFIG__KEY__';
-// 部门角色权限
+// Department role permissions
 export const DEPART_ROLE_AUTH_CONFIG_KEY = 'DEPART__ROLE__AUTH__CONFIG__KEY__';
-// 部门管理权限
+// Department management authority
 export const DEPART_MANGE_AUTH_CONFIG_KEY = 'DEPART__MANGE__AUTH__CONFIG__KEY__';
 
 export enum CacheTypeEnum {

@@ -6,7 +6,7 @@ import { getViewportOffset } from '/@/utils/domUtils';
 import { isNumber, isString } from '/@/utils/is';
 
 export interface CompensationHeight {
-  // 使用 layout Footer 高度作为判断补偿高度的条件
+  // use layout Footer Height as a condition for judging compensation height
   useLayoutFooter: boolean;
   // refs HTMLElement
   elements?: Ref[];
@@ -15,16 +15,16 @@ export interface CompensationHeight {
 type Upward = number | string | null | undefined;
 
 /**
- * 动态计算内容高度，根据锚点dom最下坐标到屏幕最下坐标，根据传入dom的高度、padding、margin等值进行动态计算
- * 最终获取合适的内容高度
+ * Dynamically calculate content height，according to anchor pointdomFrom the bottom coordinate to the bottom coordinate of the screen，According to the incomingdomheight、padding、marginDynamic calculation of equivalent values
+ * Finally get the appropriate content height
  *
- * @param flag 用于开启计算的响应式标识
- * @param anchorRef 锚点组件 Ref<ElRef | ComponentRef>
- * @param subtractHeightRefs 待减去高度的组件列表 Ref<ElRef | ComponentRef>
- * @param substractSpaceRefs 待减去空闲空间(margins/paddings)的组件列表 Ref<ElRef | ComponentRef>
- * @param offsetHeightRef 计算偏移的响应式高度，计算高度时将直接减去此值
- * @param upwardSpace 向上递归减去空闲空间的 层级 或 直到指定class为止 数值为2代表向上递归两次|数值为ant-layout表示向上递归直到碰见.ant-layout为止
- * @returns 响应式高度
+ * @param flag Responsive flag to enable computation
+ * @param anchorRef anchor component Ref<ElRef | ComponentRef>
+ * @param subtractHeightRefs List of components whose height is to be subtracted Ref<ElRef | ComponentRef>
+ * @param substractSpaceRefs Free space to be subtracted(margins/paddings)List of components Ref<ElRef | ComponentRef>
+ * @param offsetHeightRef Calculate offset responsive height，This value will be subtracted directly when calculating the height
+ * @param upwardSpace Recursively subtract free space upward Hierarchy or until specifiedclassuntil The value is2Represents recursion upward twice|The value isant-layoutmeans recursing upward until encountering.ant-layoutuntil
+ * @returns Responsive height
  */
 export function useContentHeight(
   flag: ComputedRef<Boolean>,

@@ -6,13 +6,13 @@ enum Api {
 }
 
 /**
- * 列表
+ * list
  * @param params
  */
 export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
- * 批量删除角色
+ * Delete roles in batches
  * @param params
  */
 export const forceLogout = (params) => {

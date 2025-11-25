@@ -36,22 +36,22 @@ export function getAppEnvConfig() {
     VITE_GLOB_APP_CAS_BASE_URL,
     VITE_GLOB_DOMAIN_URL,
     VITE_GLOB_ONLINE_VIEW_URL,
-    // 全局隐藏哪些布局，多个用逗号隔开
+    // Which layouts are globally hidden，Separate multiples with commas
     VITE_GLOB_HIDE_LAYOUT_TYPES,
-    // 当前运行在什么平台
+    // What platform is it currently running on?
     VITE_GLOB_RUN_PLATFORM,
 
-    // 【JEECG作为乾坤子应用】
+    // 【JEECGAs Qiankunzi application】
     VITE_GLOB_QIANKUN_MICRO_APP_NAME,
     VITE_GLOB_QIANKUN_MICRO_APP_ENTRY,
     
-    //在线文档编辑版本。可选属性：wps, onlyoffice
+    //Online document editing version。Optional attributes：wps, onlyoffice
     VITE_GLOB_ONLINE_DOCUMENT_VERSION,
   } = ENV;
 
   // if (!/^[a-zA-Z\_]*$/.test(VITE_GLOB_APP_SHORT_NAME)) {
   //   warn(
-  //     `VITE_GLOB_APP_SHORT_NAME 变量只能是字符/下划线，请在环境变量中修改并重新运行.`
+  //     `VITE_GLOB_APP_SHORT_NAME Variables can only be characters/Underline，Please modify the environment variables and rerun.`
   //   );
   // }
 
@@ -69,11 +69,11 @@ export function getAppEnvConfig() {
     VITE_GLOB_HIDE_LAYOUT_TYPES,
     VITE_GLOB_RUN_PLATFORM,
 
-    // 【JEECG作为乾坤子应用】
+    // 【JEECGAs Qiankunzi application】
     VITE_GLOB_QIANKUN_MICRO_APP_NAME,
     VITE_GLOB_QIANKUN_MICRO_APP_ENTRY,
 
-    //在线文档编辑版本。可选属性：wps, onlyoffice
+    //Online document editing version。Optional attributes：wps, onlyoffice
     VITE_GLOB_ONLINE_DOCUMENT_VERSION
   };
 }
@@ -124,7 +124,7 @@ export function getHideLayoutTypes(): string[] {
 }
 
 /**
- * 获取在线文档版本号
+ * Get the online document version number
  */
 export function getOnlineDocumentVersion(): string {
   const { VITE_GLOB_ONLINE_DOCUMENT_VERSION } = getAppEnvConfig();

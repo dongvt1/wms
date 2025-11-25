@@ -16,7 +16,7 @@ export const rules = {
         required: required ? required : false,
         validator: async (_rule, value) => {
           if (required == true && !value) {
-            return Promise.reject('请输入邮箱!');
+            return Promise.reject('Please enter your email!');
           }
           if (
             value &&
@@ -24,7 +24,7 @@ export const rules = {
               /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             ).test(value)
           ) {
-            return Promise.reject('请输入正确邮箱格式!');
+            return Promise.reject('Please enter the correct email format!');
           }
           return Promise.resolve();
         },
@@ -38,10 +38,10 @@ export const rules = {
         required: required,
         validator: async (_, value) => {
           if (required && !value) {
-            return Promise.reject('请输入手机号码!');
+            return Promise.reject('Please enter mobile phone number!');
           }
           if (!/^1[3456789]\d{9}$/.test(value)) {
-            return Promise.reject('手机号码格式有误');
+            return Promise.reject('Mobile number format is wrong');
           }
           return Promise.resolve();
         },
@@ -55,10 +55,10 @@ export const rules = {
         required: required ? required : false,
         validator: (_, value) => {
           if (required && !value) {
-            return Promise.reject('请选择开始时间');
+            return Promise.reject('Please select a start time');
           }
           if (endTime && value && dateUtil(endTime).isBefore(value)) {
-            return Promise.reject('开始时间需小于结束时间');
+            return Promise.reject('The start time must be less than the end time');
           }
           return Promise.resolve();
         },
@@ -72,10 +72,10 @@ export const rules = {
         required: required ? required : false,
         validator: (_, value) => {
           if (required && !value) {
-            return Promise.reject('请选择结束时间');
+            return Promise.reject('Please select end time');
           }
           if (startTime && value && dateUtil(value).isBefore(startTime)) {
-            return Promise.reject('结束时间需大于开始时间');
+            return Promise.reject('The end time needs to be greater than the start time');
           }
           return Promise.resolve();
         },
@@ -89,10 +89,10 @@ export const rules = {
         required: required ? required : false,
         validator: (_, value) => {
           if (!value) {
-            return Promise.reject('密码不能为空');
+            return Promise.reject('Password cannot be empty');
           }
           if (value !== values.password) {
-            return Promise.reject('两次输入的密码不一致!');
+            return Promise.reject('The passwords entered twice are inconsistent!');
           }
           return Promise.resolve();
         },
@@ -104,7 +104,7 @@ export const rules = {
       {
         validator: (_, value) => {
           if (!value && required) {
-            return Promise.reject(`请输入${schema.label}`);
+            return Promise.reject(`Please enter${schema.label}`);
           }
           return new Promise<void>((resolve, reject) => {
             duplicateCheck({
@@ -114,10 +114,10 @@ export const rules = {
               dataId: model.id,
             })
               .then((res) => {
-                res.success ? resolve() : reject(res.message || '校验失败');
+                res.success ? resolve() : reject(res.message || 'Verification failed');
               })
               .catch((err) => {
-                reject(err.message || '验证失败');
+                reject(err.message || 'Authentication failed');
               });
           });
         },
@@ -126,13 +126,13 @@ export const rules = {
   },
 };
 
-//update-begin-author:taoyan date:2022-6-16 for: 代码生成-原生表单用
+//update-begin-author:taoyan date:2022-6-16 for: code generation-For native forms
 /**
- * 唯一校验函数，给原生<a-form>使用，vben的表单校验建议使用上述rules
- * @param tableName 表名
- * @param fieldName 字段名
- * @param fieldVal 字段值
- * @param dataId 数据ID
+ * unique verification function，Give to native<a-form>use，vben的表单校验建议use上述rules
+ * @param tableName table name
+ * @param fieldName Field name
+ * @param fieldVal field value
+ * @param dataId dataID
  */
 export async function duplicateValidate(tableName, fieldName, fieldVal, dataId) {
   try {
@@ -146,10 +146,10 @@ export async function duplicateValidate(tableName, fieldName, fieldVal, dataId) 
     if (res.success) {
       return Promise.resolve();
     } else {
-      return Promise.reject(res.message || '校验失败');
+      return Promise.reject(res.message || 'Verification failed');
     }
   } catch (e) {
-    return Promise.reject('校验失败,可能是断网等问题导致的校验失败');
+    return Promise.reject('Verification failed,可能是断网等问题导致的Verification failed');
   }
 }
-//update-end-author:taoyan date:2022-6-16 for: 代码生成-原生表单用
+//update-end-author:taoyan date:2022-6-16 for: code generation-For native forms

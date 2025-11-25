@@ -54,22 +54,22 @@ export const basicProps = {
       return FETCH_SETTING;
     },
   },
-  // 立即请求接口
+  // Request interface now
   immediate: propTypes.bool.def(true),
   emptyDataIsShowTable: propTypes.bool.def(true),
-  // 额外的请求参数
+  // Additional request parameters
   searchInfo: {
     type: Object as PropType<Recordable>,
     default: null,
   },
-  // 默认的排序参数
+  // Default sort parameters
   defSort: {
     type: Object as PropType<Recordable>,
     default: null,
   },
-  // 使用搜索表单
+  // Use the search form
   useSearchForm: propTypes.bool,
-  // 表单配置
+  // Form configuration
   formConfig: {
     type: Object as PropType<Partial<FormProps>>,
     default: null,
@@ -108,10 +108,10 @@ export const basicProps = {
   },
   minHeight: propTypes.number,
   maxHeight: propTypes.number,
-  // update-begin--author:liaozhiyang---date:202401009---for：【TV360X-116】内嵌风格字段较多时表格错位
+  // update-begin--author:liaozhiyang---date:202401009---for：【TV360X-116】The table is misaligned when there are many embedded style fields
   expandColumnWidth: propTypes.number.def(48),
-  // update-end--author:liaozhiyang---date:202401009---for：【TV360X-116】内嵌风格字段较多时表格错位
-  // 统一设置列最大宽度
+  // update-end--author:liaozhiyang---date:202401009---for：【TV360X-116】The table is misaligned when there are many embedded style fields
+  // Set column maximum width uniformly
   maxColumnWidth: propTypes.number,
   dataSource: {
     type: Array as PropType<Recordable[]>,
@@ -131,9 +131,9 @@ export const basicProps = {
     type: Function as PropType<(record: TableCustomRecord<any>, index: number) => string>,
   },
   scroll: {
-    // update-begin--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTable加上scrollToFirstRowOnChange类型定义
+    // update-begin--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTableplusscrollToFirstRowOnChangetype definition
     type: Object as PropType<{ x?: number | true; y?: number; scrollToFirstRowOnChange?: boolean }>,
-    // update-end--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTable加上scrollToFirstRowOnChange类型定义
+    // update-end--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTableplusscrollToFirstRowOnChangetype definition
     default: null,
   },
   beforeEditSubmit: {

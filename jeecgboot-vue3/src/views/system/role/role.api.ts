@@ -27,26 +27,26 @@ enum Api {
   queryIndexByCode = '/sys/sysRoleIndex/queryByCode',
 }
 /**
- * 导出api
+ * Exportapi
  */
 export const getExportUrl = Api.exportXls;
 /**
- * 导入api
+ * importapi
  */
 export const getImportUrl = Api.importExcel;
 /**
- * 系统角色列表
+ * System role list
  * @param params
  */
 export const list = (params) => defHttp.get({ url: Api.list, params });
 /**
- * 租户角色列表
+ * Tenant role list
  * @param params
  */
 export const listByTenant = (params) => defHttp.get({ url: Api.listByTenant, params });
 
 /**
- * 删除角色
+ * Delete role
  */
 export const deleteRole = (params, handleSuccess) => {
   return defHttp.delete({ url: Api.deleteRole, params }, { joinParamsToUrl: true }).then(() => {
@@ -54,15 +54,15 @@ export const deleteRole = (params, handleSuccess) => {
   });
 };
 /**
- * 批量删除角色
+ * 批量Delete role
  * @param params
  */
 export const batchDeleteRole = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm deletion',
+    content: 'Whether to delete selected data',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -71,7 +71,7 @@ export const batchDeleteRole = (params, handleSuccess) => {
   });
 };
 /**
- * 保存或者更新角色
+ * Save or update role
  * @param params
  */
 export const saveOrUpdateRole = (params, isUpdate) => {
@@ -79,10 +79,10 @@ export const saveOrUpdateRole = (params, isUpdate) => {
   return defHttp.post({ url: url, params });
 };
 /**
- * 编码校验
+ * Coding verification
  * @param params
  */
-// update-begin--author:liaozhiyang---date:20231215---for：【QQYUN-7415】表单调用接口进行校验的添加防抖
+// update-begin--author:liaozhiyang---date:20231215---for：【QQYUN-7415】Add anti-shake to the form calling interface for verification
 let timer;
 export const isRoleExist = (params) => {
   return new Promise((resolve, rejected) => {
@@ -99,49 +99,49 @@ export const isRoleExist = (params) => {
     }, 500);
   });
 };
-// update-end--author:liaozhiyang---date:20231215---for：【QQYUN-7415】表单调用接口进行校验的添加防抖
+// update-end--author:liaozhiyang---date:20231215---for：【QQYUN-7415】Add anti-shake to the form calling interface for verification
 /**
- * 根据角色查询树信息
+ * Query tree information based on role
  */
 export const queryTreeListForRole = () => defHttp.get({ url: Api.queryTreeListForRole });
 /**
- * 查询角色权限
+ * Query role permissions
  */
 export const queryRolePermission = (params) => defHttp.get({ url: Api.queryRolePermission, params });
 /**
- * 保存角色权限
+ * Save role permissions
  */
 export const saveRolePermission = (params) => defHttp.post({ url: Api.saveRolePermission, params });
 /**
- * 查询角色数据规则
+ * Query role data rules
  */
 export const queryDataRule = (params) =>
   defHttp.get({ url: `${Api.queryDataRule}/${params.functionId}/${params.roleId}` }, { isTransformResponse: false });
 /**
- * 保存角色数据规则
+ * Save role data rules
  */
 export const saveDataRule = (params) => defHttp.post({ url: Api.queryDataRule, params });
 /**
- * 获取表单数据
+ * Get form data
  * @return List<Map>
  */
 export const getParentDesignList = () => defHttp.get({ url: Api.getParentDesignList });
 /**
- * 获取角色表单数据
+ * Get role form data
  * @return List<Map>
  */
 export const getRoleDegisnList = (params) => defHttp.get({ url: Api.getRoleDegisnList, params });
 /**
- * 提交角色工单信息
+ * Submit role ticket information
  */
 export const saveRoleDesign = (params) => defHttp.post({ url: Api.saveRoleDesign, params });
 /**
- * 角色列表接口
+ * Role list interface
  * @param params
  */
 export const userList = (params) => defHttp.get({ url: Api.userList, params });
 /**
- * 删除角色用户
+ * Delete role用户
  */
 export const deleteUserRole = (params, handleSuccess) => {
   return defHttp.delete({ url: Api.deleteUserRole, params }, { joinParamsToUrl: true }).then(() => {
@@ -149,15 +149,15 @@ export const deleteUserRole = (params, handleSuccess) => {
   });
 };
 /**
- * 批量删除角色用户
+ * 批量Delete role用户
  * @param params
  */
 export const batchDeleteUserRole = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm deletion',
+    content: 'Whether to delete selected data',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.batchDeleteUserRole, params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -166,7 +166,7 @@ export const batchDeleteUserRole = (params, handleSuccess) => {
   });
 };
 /**
- * 添加已有用户
+ * Add existing user
  */
 export const addUserRole = (params, handleSuccess) => {
   return defHttp.post({ url: Api.addUserRole, params }).then(() => {
@@ -174,16 +174,16 @@ export const addUserRole = (params, handleSuccess) => {
   });
 };
 /**
- * 保存或者更新
+ * Save or update
  * @param params
- * @param isUpdate 是否是更新数据
+ * @param isUpdate Is it updating data?
  */
 export const saveOrUpdateRoleIndex = (params, isUpdate) => {
   let url = isUpdate ? Api.editRoleIndex : Api.saveRoleIndex;
   return defHttp.post({ url: url, params });
 };
 /**
- * 根据code查询首页配置
+ * according tocodeQuery home page configuration
  * @param params
  */
 export const queryIndexByCode = (params) => defHttp.get({ url: Api.queryIndexByCode, params }, { isTransformResponse: false });

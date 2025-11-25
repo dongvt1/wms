@@ -3,19 +3,19 @@ import { rules } from '/@/utils/helper/validator';
 
 export const columns: BasicColumn[] = [
   // {
-  //   title: '职务编码',
+  //   title: 'Job code',
   //   dataIndex: 'code',
   //   width: 200,
   //   align: 'left',
   // },
   {
-    title: '职务级别名称',
+    title: 'Job level name',
     dataIndex: 'name',
     align: 'left'
     // width: 200,
   },
   {
-    title: '职务级别(越小级别越高)',
+    title: 'Job level(The smaller the level, the higher the level)',
     dataIndex: 'postLevel',
   },
 ];
@@ -23,7 +23,7 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '职务级别名称',
+    label: 'Job level name',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -31,19 +31,19 @@ export const searchFormSchema: FormSchema[] = [
 
 export const formSchema: FormSchema[] = [
   {
-    label: '主键',
+    label: 'primary key',
     field: 'id',
     component: 'Input',
     show: false,
   },
   {
     field: 'name',
-    label: '职务级别名称',
+    label: 'Job level name',
     component: 'Input',
     required: true,
   },
   {
-    label: '职务级别',
+    label: 'Job level',
     field: 'postLevel',
     component: 'InputNumber',
     required: true,
@@ -52,12 +52,12 @@ export const formSchema: FormSchema[] = [
       max: 99
     },
     dynamicRules: ({ model, schema }) => {
-      return [{ required: true, message: '请输入职务级别!' }];
+      return [{ required: true, message: '请输入Job level!' }];
     },
   },
   // {
   //   field: 'code',
-  //   label: '职务编码',
+  //   label: 'Job code',
   //   component: 'Input',
   //   required: true,
   //   dynamicDisabled: ({ values }) => {

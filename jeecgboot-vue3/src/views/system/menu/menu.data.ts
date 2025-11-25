@@ -10,7 +10,7 @@ const isDir = (type) => type === 0;
 const isMenu = (type) => type === 1;
 const isButton = (type) => type === 2;
 
-// 定义可选择的组件类型
+// Define optional component types
 export enum ComponentTypes {
   Default = 'layouts/default/index',
   IFrame = 'sys/iframe/FrameBlank',
@@ -18,13 +18,13 @@ export enum ComponentTypes {
 
 export const columns: BasicColumn[] = [
   {
-    title: '菜单名称',
+    title: 'Menu name',
     dataIndex: 'name',
     width: 200,
     align: 'left',
   },
   {
-    title: '菜单类型',
+    title: 'Menu type',
     dataIndex: 'menuType',
     width: 150,
     customRender: ({ text }) => {
@@ -32,7 +32,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '图标',
+    title: 'icon',
     dataIndex: 'icon',
     width: 50,
     customRender: ({ record }) => {
@@ -40,19 +40,19 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '组件',
+    title: 'components',
     dataIndex: 'component',
     align: 'left',
     width: 150,
   },
   {
-    title: '路径',
+    title: 'path',
     dataIndex: 'url',
     align: 'left',
     width: 150,
   },
   {
-    title: '排序',
+    title: 'sort',
     dataIndex: 'sortNo',
     width: 50,
   },
@@ -61,7 +61,7 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '菜单名称',
+    label: 'Menu name',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -76,20 +76,20 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'menuType',
-    label: '菜单类型',
+    label: 'Menu type',
     component: 'RadioButtonGroup',
     defaultValue: 0,
     componentProps: ({ formActionType, formModel }) => {
       return {
         options: [
-          { label: '一级菜单', value: 0 },
-          { label: '子菜单', value: 1 },
-          { label: '按钮/权限', value: 2 },
+          { label: 'First level menu', value: 0 },
+          { label: 'submenu', value: 1 },
+          { label: 'button/Permissions', value: 2 },
         ],
         onChange: (e) => {
           const { updateSchema, clearValidate } = formActionType;
-          const label = isButton(e) ? '按钮/权限' : '菜单名称';
-          //清除校验
+          const label = isButton(e) ? 'button/Permissions' : 'Menu name';
+          //clear checksum
           clearValidate();
           updateSchema([
             {
@@ -101,34 +101,34 @@ export const formSchema: FormSchema[] = [
               required: !isButton(e),
             },
           ]);
-          //update-begin---author:wangshuai ---date:20220729  for：[VUEN-1834]只有一级菜单，才默认值，子菜单的时候，清空------------
+          //update-begin---author:wangshuai ---date:20220729  for：[VUEN-1834]只有First level menu，Only the default value，submenu的时候，Clear------------
           if (isMenu(e) && !formModel.id && (formModel.component=='layouts/default/index' || formModel.component=='layouts/RouteView')) {
             formModel.component = '';
           }
-          //update-end---author:wangshuai ---date:20220729  for：[VUEN-1834]只有一级菜单，才默认值，子菜单的时候，清空------------
+          //update-end---author:wangshuai ---date:20220729  for：[VUEN-1834]只有First level menu，Only the default value，submenu的时候，Clear------------
         },
       };
     },
   },
   {
     field: 'name',
-    label: '菜单名称',
+    label: 'Menu name',
     component: 'Input',
     required: true,
   },
   {
     field: 'parentId',
-    label: '上级菜单',
+    label: 'Previous menu',
     component: 'TreeSelect',
     required: true,
     componentProps: {
-      //update-begin---author:wangshuai ---date:20230829  for：replaceFields已过期，使用fieldNames代替------------
+      //update-begin---author:wangshuai ---date:20230829  for：replaceFieldsExpired，usefieldNamesreplace------------
       fieldNames: {
         label: 'name',
         key: 'id',
         value: 'id',
       },
-      //update-end---author:wangshuai ---date:20230829  for：replaceFields已过期，使用fieldNames代替------------
+      //update-end---author:wangshuai ---date:20230829  for：replaceFieldsExpired，usefieldNamesreplace------------
       dropdownStyle: {
         maxHeight: '50vh',
       },
@@ -138,24 +138,24 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'url',
-    label: '访问路径',
+    label: '访问path',
     component: 'Input',
     required: true,
-    //update-begin-author:liusq date:2023-06-06 for: [issues/5008]子表数据权限设置不生效
+    //update-begin-author:liusq date:2023-06-06 for: [issues/5008]子表数据Permissions设置不生效
     ifShow: ({ values }) => !(values.component === ComponentTypes.IFrame && values.internalOrExternal),
-    //update-begin-author:zyf date:2022-11-02 for: 聚合路由允许路径重复
+    //update-begin-author:zyf date:2022-11-02 for: aggregate route允许path重复
      dynamicRules: ({ model, schema,values }) => {
        return checkPermDuplication(model, schema,  values.menuType !== 2?true:false);
     },
-    //update-end-author:zyf date:2022-11-02 for: 聚合路由允许路径重复
-    //update-end-author:liusq date:2022-06-06 for:  [issues/5008]子表数据权限设置不生效
+    //update-end-author:zyf date:2022-11-02 for: aggregate route允许path重复
+    //update-end-author:liusq date:2022-06-06 for:  [issues/5008]子表数据Permissions设置不生效
   },
   {
     field: 'component',
-    label: '前端组件',
+    label: '前端components',
     component: 'Input',
     componentProps: {
-      placeholder: '请输入前端组件',
+      placeholder: 'Please enter前端components',
     },
     defaultValue:'layouts/default/index',
     required: true,
@@ -163,39 +163,39 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'componentName',
-    label: '组件名称',
+    label: 'components名称',
     component: 'Input',
     componentProps: {
-      placeholder: '请输入组件名称',
+      placeholder: 'Please entercomponents名称',
     },
     helpMessage: [
-      '此处名称应和vue组件的name属性保持一致。',
-      '组件名称不能重复，主要用于路由缓存功能。',
-      '如果组件名称和vue组件的name属性不一致，则会导致路由缓存失效。',
-      '非必填，留空则会根据访问路径自动生成。',
+      'The name here should be the same asvuecomponents的nameProperties remain consistent。',
+      'components名称不能重复，Mainly used for route caching function。',
+      '如果components名称和vuecomponents的nameAttributes are inconsistent，This will cause the route cache to become invalid.。',
+      'Optional，留空则会根据访问path自动生成。',
     ],
     defaultValue: '',
     ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'frameSrc',
-    label: 'Iframe地址',
+    label: 'Iframeaddress',
     component: 'Input',
     rules: [
-      { required: true, message: '请输入Iframe地址' },
-      { type: 'url', message: '请输入正确的url地址' },
+      { required: true, message: 'Please enterIframeaddress' },
+      { type: 'url', message: 'Please enter正确的urladdress' },
     ],
     ifShow: ({ values }) => !isButton(values.menuType) && values.component === ComponentTypes.IFrame,
   },
   {
     field: 'redirect',
-    label: '默认跳转地址',
+    label: '默认跳转address',
     component: 'Input',
     ifShow: ({ values }) => isDir(values.menuType),
   },
   {
     field: 'perms',
-    label: '授权标识',
+    label: 'Authorization ID',
     component: 'Input',
     ifShow: ({ values }) => isButton(values.menuType),
     // dynamicRules: ({ model }) => {
@@ -212,10 +212,10 @@ export const formSchema: FormSchema[] = [
     //           };
     //           duplicateCheck(params)
     //             .then((res) => {
-    //               res.success ? resolve() : reject(res.message || '校验失败');
+    //               res.success ? resolve() : reject(res.message || 'Verification failed');
     //             })
     //             .catch((err) => {
-    //               reject(err.message || '校验失败');
+    //               reject(err.message || 'Verification failed');
     //             });
     //         });
     //       },
@@ -225,34 +225,34 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'permsType',
-    label: '授权策略',
+    label: 'Authorization strategy',
     component: 'RadioGroup',
     defaultValue: '1',
-    helpMessage: ['可见/可访问(授权后可见/可访问)', '可编辑(未授权时禁用)'],
+    helpMessage: ['visible/accessible(授权后visible/accessible)', 'Editable(Disabled without authorization)'],
     componentProps: {
       options: [
-        { label: '可见/可访问', value: '1' },
-        { label: '可编辑', value: '2' },
+        { label: 'visible/accessible', value: '1' },
+        { label: 'Editable', value: '2' },
       ],
     },
     ifShow: ({ values }) => isButton(values.menuType),
   },
   {
     field: 'status',
-    label: '状态',
+    label: 'state',
     component: 'RadioGroup',
     defaultValue: '1',
     componentProps: {
       options: [
-        { label: '有效', value: '1' },
-        { label: '无效', value: '0' },
+        { label: 'efficient', value: '1' },
+        { label: 'invalid', value: '0' },
       ],
     },
     ifShow: ({ values }) => isButton(values.menuType),
   },
   {
     field: 'icon',
-    label: '菜单图标',
+    label: '菜单icon',
     component: 'IconPicker',
     ifShow: ({ values }) => !isButton(values.menuType),
     componentProps: {
@@ -261,74 +261,74 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'sortNo',
-    label: '排序',
+    label: 'sort',
     component: 'InputNumber',
     defaultValue: 1,
     ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'route',
-    label: '是否路由菜单',
+    label: 'Whether to route menu',
     component: 'Switch',
     defaultValue: true,
     componentProps: {
-      checkedChildren: '是',
-      unCheckedChildren: '否',
+      checkedChildren: 'yes',
+      unCheckedChildren: 'no',
     },
     ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'hidden',
-    label: '隐藏路由',
+    label: 'Hidden route',
     component: 'Switch',
     defaultValue: 0,
     componentProps: {
-      checkedChildren: '是',
-      unCheckedChildren: '否',
+      checkedChildren: 'yes',
+      unCheckedChildren: 'no',
     },
     ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'hideTab',
-    label: '隐藏Tab',
+    label: 'hideTab',
     component: 'Switch',
     defaultValue: 0,
     componentProps: {
-      checkedChildren: '是',
-      unCheckedChildren: '否',
+      checkedChildren: 'yes',
+      unCheckedChildren: 'no',
     },
     ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'keepAlive',
-    label: '是否缓存路由',
+    label: 'yesno缓存路由',
     component: 'Switch',
     defaultValue: false,
     componentProps: {
-      checkedChildren: '是',
-      unCheckedChildren: '否',
+      checkedChildren: 'yes',
+      unCheckedChildren: 'no',
     },
     ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'alwaysShow',
-    label: '聚合路由',
+    label: 'aggregate route',
     component: 'Switch',
     defaultValue: false,
     componentProps: {
-      checkedChildren: '是',
-      unCheckedChildren: '否',
+      checkedChildren: 'yes',
+      unCheckedChildren: 'no',
     },
     ifShow: ({ values }) => !isButton(values.menuType),
   },
   {
     field: 'internalOrExternal',
-    label: '打开方式',
+    label: 'Open method',
     component: 'Switch',
     defaultValue: false,
     componentProps: {
-      checkedChildren: '外部',
-      unCheckedChildren: '内部',
+      checkedChildren: 'external',
+      unCheckedChildren: 'internal',
     },
     ifShow: ({ values }) => !isButton(values.menuType),
   },
@@ -336,17 +336,17 @@ export const formSchema: FormSchema[] = [
 
 export const dataRuleColumns: BasicColumn[] = [
   {
-    title: '规则名称',
+    title: 'Rule name',
     dataIndex: 'ruleName',
     width: 150,
   },
   {
-    title: '规则字段',
+    title: 'Rule field',
     dataIndex: 'ruleColumn',
     width: 100,
   },
   {
-    title: '规则值',
+    title: 'rule value',
     dataIndex: 'ruleValue',
     width: 100,
   },
@@ -355,13 +355,13 @@ export const dataRuleColumns: BasicColumn[] = [
 export const dataRuleSearchFormSchema: FormSchema[] = [
   {
     field: 'ruleName',
-    label: '规则名称',
+    label: 'Rule name',
     component: 'Input',
     // colProps: { span: 6 },
   },
   {
     field: 'ruleValue',
-    label: '规则值',
+    label: 'rule value',
     component: 'Input',
     // colProps: { span: 6 },
   },
@@ -376,13 +376,13 @@ export const dataRuleFormSchema: FormSchema[] = [
   },
   {
     field: 'ruleName',
-    label: '规则名称',
+    label: 'Rule name',
     component: 'Input',
     required: true,
   },
   {
     field: 'ruleColumn',
-    label: '规则字段',
+    label: 'Rule field',
     component: 'Input',
     ifShow: ({ values }) => {
       const ruleConditions = Array.isArray(values.ruleConditions) ? values.ruleConditions[0] : values.ruleConditions;
@@ -391,7 +391,7 @@ export const dataRuleFormSchema: FormSchema[] = [
   },
   {
     field: 'ruleConditions',
-    label: '条件规则',
+    label: 'conditional rules',
     required: true,
     component: 'ApiSelect',
     componentProps: {
@@ -402,59 +402,59 @@ export const dataRuleFormSchema: FormSchema[] = [
       getPopupContainer: (node) => document.body,
     },
   },
-  // update-begin--author:liaozhiyang---date:20240724---for：【TV360X-1864】添加系统变量
+  // update-begin--author:liaozhiyang---date:20240724---for：【TV360X-1864】Add system variables
   {
     field: 'ruleValue',
     component: 'JInputSelect',
-    label: '规则值',
+    label: 'rule value',
     required: true,
     componentProps: {
-      selectPlaceholder: '可选择系统变量',
-      inputPlaceholder: '请输入',
+      selectPlaceholder: 'Optional system variables',
+      inputPlaceholder: 'Please enter',
       getPopupContainer: () => document.body,
       selectWidth: '200px',
       options: [
         {
-          label: '登录用户账号',
+          label: 'Login user account',
           value: '#{sys_user_code}',
         },
         {
-          label: '登录用户名称',
+          label: 'Login user name',
           value: '#{sys_user_name}',
         },
         {
-          label: '当前日期',
+          label: 'current date',
           value: '#{sys_date}',
         },
         {
-          label: '当前时间',
+          label: 'current time',
           value: '#{sys_time}',
         },
         {
-          label: '登录用户部门',
+          label: 'Login user department',
           value: '#{sys_org_code}',
         },
         {
-          label: '用户拥有部门',
+          label: 'User owns department',
           value: '#{sys_multi_org_code}',
         },
         {
-          label: '登录用户租户',
+          label: 'Login user tenant',
           value: '#{tenant_id}',
         },
       ],
     },
   },
-  // update-end--author:liaozhiyang---date:20240724---for：【TV360X-1864】添加系统变量
+  // update-end--author:liaozhiyang---date:20240724---for：【TV360X-1864】Add system variables
   {
     field: 'status',
-    label: '状态',
+    label: 'state',
     component: 'RadioButtonGroup',
     defaultValue: '1',
     componentProps: {
       options: [
-        { label: '无效', value: '0' },
-        { label: '有效', value: '1' },
+        { label: 'invalid', value: '0' },
+        { label: 'efficient', value: '1' },
       ],
     },
   },

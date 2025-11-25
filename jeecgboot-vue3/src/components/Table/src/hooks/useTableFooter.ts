@@ -19,7 +19,7 @@ export function useTableFooter(
     return (unref(getDataSourceRef) || []).length === 0;
   });
 
-  // 是否有展开行
+  // Is there an expanded row?
   const hasExpandedRow = computed(() => Object.keys(slots).includes('expandedRowRender'))
 
   const getFooterProps = computed((): Recordable | undefined => {
@@ -44,7 +44,7 @@ export function useTableFooter(
       const tableEl = unref(tableElRef);
       if (!tableEl) return;
       let bodyDom;
-      // update-begin--author:liaozhiyang---date:20241111---for：【issues/7422】BasicTable列表canResize属性为true时合计行不能横向滚动
+      // update-begin--author:liaozhiyang---date:20241111---for：【issues/7422】BasicTablelistcanResizeThe properties aretrueTotal row cannot be scrolled horizontally
       if (canResize) {
         setTimeout(() => {
           bodyDom = tableEl.$el.querySelector('.ant-table-body');
@@ -65,7 +65,7 @@ export function useTableFooter(
           options: true,
         });
       }, 0);
-      // update-end--author:liaozhiyang---date:20241111---for：【issues/7422】BasicTable列表canResize属性为true时合计行不能横向滚动
+      // update-end--author:liaozhiyang---date:20241111---for：【issues/7422】BasicTablelistcanResizeThe properties aretrueTotal row cannot be scrolled horizontally
     });
   }
   return { getFooterProps };

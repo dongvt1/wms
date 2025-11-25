@@ -13,15 +13,15 @@ export function useValidateRules(args: HandleArgs) {
         message: replaceProps(col, rule.message),
       };
       if (rule.unique || rule.pattern === 'only') {
-        // 唯一校验器
+        // unique validator
         rule.validator = uniqueValidator(args);
       } else if (rule.pattern) {
-        // 非空
+        // Not empty
         if (rule.pattern === fooPatterns[0].value) {
           rule.required = true;
           delete rule.pattern;
         } else {
-          // 兼容Online表单的特殊规则
+          // compatibleOnlineSpecial rules for forms
           for (let foo of fooPatterns) {
             if (foo.value === rule.pattern) {
               rule.pattern = foo.pattern;
@@ -30,7 +30,7 @@ export function useValidateRules(args: HandleArgs) {
           }
         }
       } else if (typeof rule.handler === 'function') {
-        // 自定义函数校验
+        // Custom function verification
         rule.validator = handlerConvertToValidator;
       }
       rules.push(Object.assign({}, rule, replace));
@@ -39,13 +39,13 @@ export function useValidateRules(args: HandleArgs) {
   data.innerEditRules[col.key] = rules;
 }
 
-/** 唯一校验器 */
+/** unique validator */
 function uniqueValidator({ methods }: HandleArgs) {
   return function (event) {
     const { cellValue, column, rule } = event;
-    // update-begin--author:liaozhiyang---date:20240522---for：【TV360X-299】JVxetable组件中唯一校验过滤掉空字符串
+    // update-begin--author:liaozhiyang---date:20240522---for：【TV360X-299】JVxetableThe only check in the component filters out empty strings
     if (cellValue == '') return Promise.resolve();
-    // update-end--author:liaozhiyang---date:20240522---for：【TV360X-299】JVxetable组件中唯一校验过滤掉空字符串
+    // update-end--author:liaozhiyang---date:20240522---for：【TV360X-299】JVxetableThe only check in the component filters out empty strings
     let tableData = methods.getTableData();
     let findCount = 0;
     for (let rowData of tableData) {
@@ -59,7 +59,7 @@ function uniqueValidator({ methods }: HandleArgs) {
   };
 }
 
-/** 旧版handler转为新版Validator */
+/** Old versionhandlerConvert to new versionValidator */
 function handlerConvertToValidator(event) {
   const { column, rule } = event;
   return new Promise((resolve, reject) => {
@@ -79,29 +79,29 @@ function handlerConvertToValidator(event) {
   });
 }
 
-// 兼容 online 的规则
+// compatible online rules
 const fooPatterns = [
-  { title: '非空', value: '*', pattern: /^.+$/ },
-  { title: '6到16位数字', value: 'n6-16', pattern: /^\d{6,16}$/ },
-  { title: '6到16位任意字符', value: '*6-16', pattern: /^.{6,16}$/ },
-  { title: '6到18位字母', value: 's6-18', pattern: /^[a-z|A-Z]{6,18}$/ },
-  //update-begin-author:taoyan date:2022-6-1 for: VUEN-1160 对多子表，网址校验不正确
+  { title: 'Not empty', value: '*', pattern: /^.+$/ },
+  { title: '6arrive16digits', value: 'n6-16', pattern: /^\d{6,16}$/ },
+  { title: '6arrive16any character', value: '*6-16', pattern: /^.{6,16}$/ },
+  { title: '6arrive18letters', value: 's6-18', pattern: /^[a-z|A-Z]{6,18}$/ },
+  //update-begin-author:taoyan date:2022-6-1 for: VUEN-1160 to many subtables，URL verification is incorrect
   {
-    title: '网址',
+    title: 'URL',
     value: 'url',
     pattern: /^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-.,@?^=%&:\/~+#]*[\w\-@?^=%&\/~+#])?$/,
   },
-  //update-end-author:taoyan date:2022-6-1 for: VUEN-1160 对多子表，网址校验不正确
-  // update-begin--author:liaozhiyang---date:20240527---for：【TV360X-466】邮箱跟一对第一校验规则一致
-  { title: '电子邮件', value: 'e', pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ },
-  // update-end--author:liaozhiyang---date:20240527---for：【TV360X-466】邮箱跟一对第一校验规则一致
-  { title: '手机号码', value: 'm', pattern: /^1[3456789]\d{9}$/ },
-  { title: '邮政编码', value: 'p', pattern: /^\d{6}$/ },
-  { title: '字母', value: 's', pattern: /^[A-Z|a-z]+$/ },
-  { title: '数字', value: 'n', pattern: /^-?\d+(\.?\d+|\d?)$/ },
-  { title: '整数', value: 'z', pattern: /^-?\d+$/ },
+  //update-end-author:taoyan date:2022-6-1 for: VUEN-1160 to many subtables，URL verification is incorrect
+  // update-begin--author:liaozhiyang---date:20240527---for：【TV360X-466】The email address is consistent with the first pair of verification rules
+  { title: 'e-mail', value: 'e', pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ },
+  // update-end--author:liaozhiyang---date:20240527---for：【TV360X-466】The email address is consistent with the first pair of verification rules
+  { title: 'phone number', value: 'm', pattern: /^1[3456789]\d{9}$/ },
+  { title: 'postal code', value: 'p', pattern: /^\d{6}$/ },
+  { title: 'letter', value: 's', pattern: /^[A-Z|a-z]+$/ },
+  { title: 'number', value: 'n', pattern: /^-?\d+(\.?\d+|\d?)$/ },
+  { title: 'integer', value: 'z', pattern: /^-?\d+$/ },
   {
-    title: '金额',
+    title: 'Amount',
     value: 'money',
     pattern: /^(([1-9][0-9]*)|([0]\.\d{0,2}|[1-9][0-9]*\.\d{0,5}))$/,
   },

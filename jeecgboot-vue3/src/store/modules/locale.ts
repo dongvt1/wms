@@ -14,9 +14,9 @@ const lsLocaleSetting = (ls.get(LOCALE_KEY) || localeSetting) as LocaleSetting;
 interface LocaleState {
   localInfo: LocaleSetting;
   pathTitleMap: object;
-  // myapps主题色（低代码应用列表首页）
+  // myappstheme color（Low-code application list homepage）
   appIndexTheme: string
-  // myapps - 跳转前路由地址
+  // myapps - Routing address before jump
   appMainPth: string
 }
 
@@ -33,13 +33,13 @@ export const useLocaleStore = defineStore({
       return !!this.localInfo?.showPicker;
     },
     getLocale(): LocaleType {
-      return this.localInfo?.locale ?? 'zh_CN';
+      return this.localInfo?.locale ?? 'en';
     },
-    //update-begin-author:taoyan date:2022-6-1 for: VUEN-1144 online 配置成菜单后，打开菜单，显示名称未展示为菜单名称
+    //update-begin-author:taoyan date:2022-6-1 for: VUEN-1144 online After configuring it as a menu，Open menu，Display name not shown as menu name
     getPathTitle: (state) => {
       return (path) => state.pathTitleMap[path];
     },
-    //update-end-author:taoyan date:2022-6-1 for: VUEN-1144 online 配置成菜单后，打开菜单，显示名称未展示为菜单名称
+    //update-end-author:taoyan date:2022-6-1 for: VUEN-1144 online After configuring it as a menu，Open menu，Display name not shown as menu name
     getAppIndexTheme(): string {
       return this.appIndexTheme;
     },
@@ -65,11 +65,11 @@ export const useLocaleStore = defineStore({
         ...this.localInfo,
       });
     },
-    //update-begin-author:taoyan date:2022-6-1 for: VUEN-1144 online 配置成菜单后，打开菜单，显示名称未展示为菜单名称
+    //update-begin-author:taoyan date:2022-6-1 for: VUEN-1144 online After configuring it as a menu，Open menu，Display name not shown as menu name
     setPathTitle(path, title) {
       this.pathTitleMap[path] = title;
     },
-    //update-end-author:taoyan date:2022-6-1 for: VUEN-1144 online 配置成菜单后，打开菜单，显示名称未展示为菜单名称
+    //update-end-author:taoyan date:2022-6-1 for: VUEN-1144 online After configuring it as a menu，Open menu，Display name not shown as menu name
     setAppIndexTheme(theme) {
       this.appIndexTheme = theme;
     },

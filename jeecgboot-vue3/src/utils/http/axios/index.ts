@@ -1,4 +1,4 @@
-// axios配置  可自行根据项目进行更改，只需更改该文件即可，其他文件可以不动
+// axiosConfiguration  Can be changed according to the project，Just change the file，Other files can be left alone
 // The axios configuration can be changed according to the project, just change the file, other files can be left unchanged
 
 import type { AxiosResponse } from 'axios';
@@ -24,45 +24,45 @@ const urlPrefix = globSetting.urlPrefix;
 const { createMessage, createErrorModal } = useMessage();
 
 /**
- * @description: 数据处理，方便区分多种处理方式
+ * @description: Data processing，Conveniently distinguish between multiple processing methods
  */
 const transform: AxiosTransform = {
   /**
-   * @description: 处理请求数据。如果数据不是预期格式，可直接抛出错误
+   * @description: Process request data。If the data is not in the expected format，Can throw an error directly
    */
   transformRequestHook: (res: AxiosResponse<Result>, options: RequestOptions) => {
     const { t } = useI18n();
     const { isTransformResponse, isReturnNativeResponse } = options;
-    // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+    // Whether to return native response headers for example：Use this attribute when you need to get the response header
     if (isReturnNativeResponse) {
       return res;
     }
-    // 不进行任何处理，直接返回
-    // 用于页面代码可能需要直接获取code，data，message这些信息时开启
+    // No processing，Return directly
+    // The page code may need to be obtained directlycode，data，messageWhen these messages are turned on
     if (!isTransformResponse) {
       return res.data;
     }
-    // 错误的时候返回
+    // Return on error
 
     const { data } = res;
     if (!data) {
       // return '[HTTP] Request has no return value';
       throw new Error(t('sys.api.apiRequestFailed'));
     }
-    //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
+    //  here code，result，messagefor Unified fields in the background，need to be in types.ts内修改for项目自己of接口返回Format
     const { code, result, message, success } = data;
-    // 这里逻辑可以根据项目进行修改
+    // here逻辑可by根据项目进行修改
     const hasSuccess = data && Reflect.has(data, 'code') && (code === ResultEnum.SUCCESS || code === 200);
     if (hasSuccess) {
       if (success && message && options.successMessageMode === 'success') {
-        //信息成功提示
+        //Information success prompt
         createMessage.success(message);
       }
       return result;
     }
 
-    // 在此处根据自己项目的实际情况对不同的code执行不同的操作
-    // 如果不希望中断当前请求，请return数据，否则直接抛出异常即可
+    // Here you can review different options based on the actual situation of your project.codeperform different operations
+    // If you do not want to interrupt the current request，pleasereturndata，Otherwise, just throw an exception directly
     let timeoutMsg = '';
     switch (code) {
       case ResultEnum.TIMEOUT:
@@ -77,8 +77,8 @@ const transform: AxiosTransform = {
         }
     }
 
-    // errorMessageMode=‘modal’的时候会显示modal错误弹窗，而不是消息提示，用于一些比较重要的错误
-    // errorMessageMode='none' 一般是调用时明确表示不希望自动弹出错误提示
+    // errorMessageMode=‘modal’will be displayed whenmodalError popup，instead of message prompt，Used for some more important errors
+    // errorMessageMode='none' Generally, when calling, you should clearly indicate that you do not want an error message to pop up automatically.
     if (options.errorMessageMode === 'modal') {
       createErrorModal({ title: t('sys.api.errorTip'), content: timeoutMsg });
     } else if (options.errorMessageMode === 'message') {
@@ -88,23 +88,23 @@ const transform: AxiosTransform = {
     throw new Error(timeoutMsg || t('sys.api.apiRequestFailed'));
   },
 
-  // 请求之前处理config
+  // please求之前处理config
   beforeRequestHook: (config, options) => {
     const { apiUrl, joinPrefix, joinParamsToUrl, formatDate, joinTime = true, urlPrefix } = options;
 
-    //update-begin---author:scott ---date:2024-02-20  for：以http开头的请求url，不拼加前缀--
-    // http开头的请求url，不加前缀
+    //update-begin---author:scott ---date:2024-02-20  for：byhttp开头ofplease求url，no prefix--
+    // http开头ofplease求url，without prefix
     let isStartWithHttp = false;
     const requestUrl = config.url;
     if(requestUrl!=null && (requestUrl.startsWith("http:") || requestUrl.startsWith("https:"))){
       isStartWithHttp = true;
     }
-    // update-begin--author:sunjianlei---date:20250411---for：【QQYUN-9685】构建 electron 桌面应用
+    // update-begin--author:sunjianlei---date:20250411---for：【QQYUN-9685】build electron desktop application
     if (!isStartWithHttp && requestUrl != null) {
-      // 由于electron的url是file://开头的，所以需要判断一下
+      // becauseelectronofurlyesfile://开头of，所by需要判断一下
       isStartWithHttp = requestUrl.startsWith('file://');
     }
-    // update-end----author:sunjianlei---date:20250411---for：【QQYUN-9685】构建 electron 桌面应用
+    // update-end----author:sunjianlei---date:20250411---for：【QQYUN-9685】build electron desktop application
     if (!isStartWithHttp && joinPrefix) {
       config.url = `${urlPrefix}${config.url}`;
     }
@@ -112,17 +112,17 @@ const transform: AxiosTransform = {
     if (!isStartWithHttp && apiUrl && isString(apiUrl)) {
       config.url = `${apiUrl}${config.url}`;
     }
-    //update-end---author:scott ---date::2024-02-20  for：以http开头的请求url，不拼加前缀--
+    //update-end---author:scott ---date::2024-02-20  for：byhttp开头ofplease求url，no prefix--
     
     const params = config.params || {};
     const data = config.data || false;
     formatDate && data && !isString(data) && formatRequestDate(data);
     if (config.method?.toUpperCase() === RequestEnum.GET) {
       if (!isString(params)) {
-        // 给 get 请求加上时间戳参数，避免从缓存中拿数据。
+        // Give get please求加上时间戳参数，避免从缓存中拿data。
         config.params = Object.assign(params || {}, joinTimestamp(joinTime, false));
       } else {
-        // 兼容restful风格
+        // compatiblerestfulstyle
         config.url = config.url + params + `${joinTimestamp(joinTime, true)}`;
         config.params = undefined;
       }
@@ -133,7 +133,7 @@ const transform: AxiosTransform = {
           config.data = data;
           config.params = params;
         } else {
-          // 非GET请求如果没有提供data，则将params视为data
+          // NoGETplease求如果没有提供data，then willparams视fordata
           config.data = params;
           config.params = undefined;
         }
@@ -141,79 +141,79 @@ const transform: AxiosTransform = {
           config.url = setObjToUrlParams(config.url as string, Object.assign({}, config.params, config.data));
         }
       } else {
-        // 兼容restful风格
+        // compatiblerestfulstyle
         config.url = config.url + params;
         config.params = undefined;
       }
     }
 
-    // update-begin--author:sunjianlei---date:220241019---for：【JEECG作为乾坤子应用】作为乾坤子应用启动时，拼接请求路径
+    // update-begin--author:sunjianlei---date:220241019---for：【JEECG作for乾坤子应用】作for乾坤子应用启动时，拼接please求路径
     if (globSetting.isQiankunMicro) {
       if (config.url && config.url.startsWith('/')) {
         config.url = globSetting.qiankunMicroAppEntry + config.url
       }
     }
-    // update-end--author:sunjianlei---date:220241019---for：【JEECG作为乾坤子应用】作为乾坤子应用启动时，拼接请求路径
+    // update-end--author:sunjianlei---date:220241019---for：【JEECG作for乾坤子应用】作for乾坤子应用启动时，拼接please求路径
 
     return config;
   },
 
   /**
-   * @description: 请求拦截器处理
+   * @description: please求拦截器处理
    */
   requestInterceptors: (config: Recordable, options) => {
-    // 请求之前处理config
+    // please求之前处理config
     const token = getToken();
     let tenantId: string | number = getTenantId();
     
-    //update-begin---author:wangshuai---date:2024-04-16---for:【QQYUN-9005】发送短信加签。解决没有token无法加签---
-    // 将签名和时间戳，添加在请求接口 Header
+    //update-begin---author:wangshuai---date:2024-04-16---for:【QQYUN-9005】Send SMS to sign。No solutiontokenUnable to add signature---
+    // Signature and timestamp，添加在please求接口 Header
     config.headers[ConfigEnum.TIMESTAMP] = signMd5Utils.getTimestamp();
-    //update-begin---author:wangshuai---date:2024-04-25---for: 生成签名的时候复制一份，避免影响原来的参数---
+    //update-begin---author:wangshuai---date:2024-04-25---for: 生成签名of时候复制一份，避免影响原来of参数---
     config.headers[ConfigEnum.Sign] = signMd5Utils.getSign(config.url, cloneDeep(config.params), cloneDeep(config.data));
-    //update-end---author:wangshuai---date:2024-04-25---for: 生成签名的时候复制一份，避免影响原来的参数---
-    //update-end---author:wangshuai---date:2024-04-16---for:【QQYUN-9005】发送短信加签。解决没有token无法加签---
-    // update-begin--author:liaozhiyang---date:20240509---for：【issues/1220】登录时，vue3版本不加载字典数据设置无效
-    //--update-begin--author:liusq---date:20220325---for: 增加vue3标记
+    //update-end---author:wangshuai---date:2024-04-25---for: 生成签名of时候复制一份，避免影响原来of参数---
+    //update-end---author:wangshuai---date:2024-04-16---for:【QQYUN-9005】Send SMS to sign。No solutiontokenUnable to add signature---
+    // update-begin--author:liaozhiyang---date:20240509---for：【issues/1220】When logging in，vue3版本不加载字典data设置无效
+    //--update-begin--author:liusq---date:20220325---for: Increasevue3mark
     config.headers[ConfigEnum.VERSION] = 'v3';
-    //--update-end--author:liusq---date:20220325---for:增加vue3标记
-    // update-end--author:liaozhiyang---date:20240509---for：【issues/1220】登录时，vue3版本不加载字典数据设置无效
+    //--update-end--author:liusq---date:20220325---for:Increasevue3mark
+    // update-end--author:liaozhiyang---date:20240509---for：【issues/1220】When logging in，vue3版本不加载字典data设置无效
     if (token && (config as Recordable)?.requestOptions?.withToken !== false) {
       // jwt token
       config.headers.Authorization = options.authenticationScheme ? `${options.authenticationScheme} ${token}` : token;
       config.headers[ConfigEnum.TOKEN] = token;
       
-      // 将签名和时间戳，添加在请求接口 Header
+      // Signature and timestamp，添加在please求接口 Header
       //config.headers[ConfigEnum.TIMESTAMP] = signMd5Utils.getTimestamp();
       //config.headers[ConfigEnum.Sign] = signMd5Utils.getSign(config.url, config.params);
       if (!tenantId) {
         tenantId = 0;
       }
 
-      // update-begin--author:sunjianlei---date:220230428---for：【QQYUN-5279】修复分享的应用租户和当前登录租户不一致时，提示404的问题
+      // update-begin--author:sunjianlei---date:220230428---for：【QQYUN-5279】修复分享of应用租户和当前登录租户不一致时，hint404of问题
       const userStore = useUserStoreWithOut();
-      // 判断是否有临时租户id
+      // 判断yes否有temporary tenantid
       if (userStore.hasShareTenantId && userStore.shareTenantId !== 0) {
-        // 临时租户id存在，使用临时租户id
+        // temporary tenantidexist，使用temporary tenantid
         tenantId = userStore.shareTenantId!;
       }
-      // update-end--author:sunjianlei---date:220230428---for：【QQYUN-5279】修复分享的应用租户和当前登录租户不一致时，提示404的问题
+      // update-end--author:sunjianlei---date:220230428---for：【QQYUN-5279】修复分享of应用租户和当前登录租户不一致时，hint404of问题
 
       config.headers[ConfigEnum.TENANT_ID] = tenantId;
-      //--update-end--author:liusq---date:20211105---for:将多租户id，添加在请求接口 Header
+      //--update-end--author:liusq---date:20211105---for:multi-tenantid，添加在please求接口 Header
 
       // ========================================================================================
-      // update-begin--author:sunjianlei---date:20220624--for: 添加低代码应用ID
+      // update-begin--author:sunjianlei---date:20220624--for: Add low-code appsID
       let routeParams = router.currentRoute.value.params;
       if (routeParams.appId) {
         config.headers[ConfigEnum.X_LOW_APP_ID] = routeParams.appId;
-        // lowApp自定义筛选条件
+        // lowAppCustom filters
         if (routeParams.lowAppFilter) {
           config.params = { ...config.params, ...JSON.parse(routeParams.lowAppFilter as string) };
           delete routeParams.lowAppFilter;
         }
       }
-      // update-end--author:sunjianlei---date:20220624--for: 添加低代码应用ID
+      // update-end--author:sunjianlei---date:20220624--for: Add low-code appsID
       // ========================================================================================
 
     }
@@ -221,14 +221,14 @@ const transform: AxiosTransform = {
   },
 
   /**
-   * @description: 响应拦截器处理
+   * @description: Response interceptor handling
    */
   responseInterceptors: (res: AxiosResponse<any>) => {
     return res;
   },
 
   /**
-   * @description: 响应错误处理
+   * @description: Response error handling
    */
   responseInterceptorsCatch: (error: any) => {
     const { t } = useI18n();
@@ -236,7 +236,7 @@ const transform: AxiosTransform = {
     errorLogStore.addAjaxErrorInfo(error);
     const { response, code, message, config } = error || {};
     const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
-    //scott 20211022 token失效提示信息
+    //scott 20211022 token失效hint信息
     //const msg: string = response?.data?.error?.message ?? '';
     const msg: string = response?.data?.message ?? '';
     const err: string = error?.toString?.() ?? '';
@@ -275,40 +275,40 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
         // authentication schemes，e.g: Bearer
         // authenticationScheme: 'Bearer',
         authenticationScheme: '',
-        //接口超时设置
+        //Interface timeout settings
         timeout: 10 * 1000,
-        // 基础接口地址
+        // Basic interface address
         // baseURL: globSetting.apiUrl,
         headers: { 'Content-Type': ContentTypeEnum.JSON },
-        // 如果是form-data格式
+        // 如果yesform-dataFormat
         // headers: { 'Content-Type': ContentTypeEnum.FORM_URLENCODED },
-        // 数据处理方式
+        // Data processing方式
         transform,
-        // 配置项，下面的选项都可以在独立的接口请求中覆盖
+        // Configuration项，下面of选项都可by在独立of接口please求中覆盖
         requestOptions: {
-          // 默认将prefix 添加到url
+          // The default will beprefix add tourl
           joinPrefix: true,
-          // 是否返回原生响应头 比如：需要获取响应头时使用该属性
+          // Whether to return native response headers for example：Use this attribute when you need to get the response header
           isReturnNativeResponse: false,
-          // 需要对返回数据进行处理
+          // 需要对返回data进行处理
           isTransformResponse: true,
-          // post请求的时候添加参数到url
+          // postplease求of时候添加参数到url
           joinParamsToUrl: false,
-          // 格式化提交参数时间
+          // Format化提交参数时间
           formatDate: true,
-          // 异常消息提示类型
+          // 异常消息hint类型
           errorMessageMode: 'message',
-          // 成功消息提示类型
+          // 成功消息hint类型
           successMessageMode: 'success',
-          // 接口地址
+          // interface address
           apiUrl: globSetting.apiUrl,
-          // 接口拼接地址
+          // Interface splicing address
           urlPrefix: urlPrefix,
-          //  是否加入时间戳
+          //  yes否加入时间戳
           joinTime: true,
-          // 忽略重复请求
+          // 忽略重复please求
           ignoreCancelToken: true,
-          // 是否携带token
+          // yes否携带token
           withToken: true,
         },
       },

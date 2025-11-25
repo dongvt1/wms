@@ -7,10 +7,10 @@ export enum PageEnum {
   ERROR_PAGE = '/exception',
   // error log page path
   ERROR_LOG_PAGE = '/error-log/list',
-  // auth2登录路由路径
+  // auth2Login routing path
   OAUTH2_LOGIN_PAGE_PATH = '/oauth2-app/login',
-  //文件路由
+  //file routing
   SYS_FILES_PATH = '/file/share',
-  // 邮件中的跳转地址
+  // Jump address in email
   TOKEN_LOGIN = '/tokenLogin'
 }

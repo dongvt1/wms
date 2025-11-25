@@ -11,7 +11,7 @@ const modules = import.meta.glob('./modules/**/*.ts', { eager: true });
 
 const routeModuleList: AppRouteModule[] = [];
 
-// 加入到路由集合中
+// Add to route collection
 Object.keys(modules).forEach((key) => {
   const mod = (modules as Recordable)[key].default || {};
   const modList = Array.isArray(mod) ? [...mod] : [mod];
@@ -32,7 +32,7 @@ export const RootRoute: AppRouteRecordRaw = {
 export const LoginRoute: AppRouteRecordRaw = {
   path: '/login',
   name: 'Login',
-  //新版后台登录，如果想要使用旧版登录放开即可
+  //New version backend login，If you want to use the old version to log in, just let go
   // component: () => import('/@/views/sys/login/Login.vue'),
   component: () => import('/@/views/system/loginmini/MiniLogin.vue'),
   meta: {
@@ -40,28 +40,28 @@ export const LoginRoute: AppRouteRecordRaw = {
   },
 };
 
-//update-begin---author:wangshuai ---date:20220629  for：auth2登录页面路由------------
+//update-begin---author:wangshuai ---date:20220629  for：auth2Login page routing------------
 export const Oauth2LoginRoute: AppRouteRecordRaw = {
   path: '/oauth2-app/login',
   name: 'oauth2-app-login',
-  //新版钉钉免登录，如果想要使用旧版放开即可
+  //The new version of DingTalk requires no login，If you want to use the old version, just let it go
   // component: () => import('/@/views/sys/login/OAuth2Login.vue'),
   component: () => import('/@/views/system/loginmini/OAuth2Login.vue'),
   meta: {
     title: t('routes.oauth2.login'),
   },
 };
-//update-end---author:wangshuai ---date:20220629  for：auth2登录页面路由------------
+//update-end---author:wangshuai ---date:20220629  for：auth2Login page routing------------
 
 /**
- * 【通过token直接静默登录】流程办理登录页面 中转跳转
+ * 【passtokenDirect and silent login】Process login page transit jump
  */
 export const TokenLoginRoute: AppRouteRecordRaw = {
   path: '/tokenLogin',
   name: 'TokenLoginRoute',
   component: () => import('/@/views/sys/login/TokenLoginPage.vue'),
   meta: {
-    title: '带token登录页面',
+    title: 'bringtokenLogin page',
     ignoreAuth: true,
   },
 };

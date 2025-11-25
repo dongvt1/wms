@@ -1,14 +1,14 @@
-/** 组件类型 */
+/** Component type */
 export enum JVxeTypes {
-  // 行号列
+  // Line number column
   rowNumber = 'row-number',
-  // 选择列
+  // select column
   rowCheckbox = 'row-checkbox',
-  // 单选列
+  // radio select column
   rowRadio = 'row-radio',
-  // 展开列
+  // Expand column
   rowExpand = 'row-expand',
-  // 上下排序
+  // Sort up and down
   rowDragSort = 'row-drag-sort',
 
   input = 'input',
@@ -20,39 +20,39 @@ export enum JVxeTypes {
   time = 'time',
   checkbox = 'checkbox',
   upload = 'upload',
-  // 下拉搜索
+  // Drop down search
   selectSearch = 'select-search',
-  // 下拉多选
+  // Drop-down multiple selection
   selectMultiple = 'select-multiple',
-  // 进度条
+  // progress bar
   progress = 'progress',
-  //部门选择
+  //Department selection
   departSelect = 'depart-select',
-  //用户选择
+  //User selection
   userSelect = 'user-select',
 
-  // 拖轮Tags（暂无用）
-  tags = 'tags', // TODO 待实现
+  // tugboatTags（Not useful yet）
+  tags = 'tags', // TODO To be realized
 
   slot = 'slot',
   normal = 'normal',
   hidden = 'hidden',
 
-  // 以下为自定义组件
+  // The following are custom components
   popup = 'popup',
   selectDictSearch = 'selectDictSearch',
   radio = 'radio',
   image = 'image',
   file = 'file',
-  // 省市区
+  // Provinces and municipalities
   pca = 'pca',
 }
 
-// 为了防止和 vxe 内置的类型冲突，所以加上一个前缀
-// 前缀是自动加的，代码中直接用就行（JVxeTypes.input）
+// In order to prevent and vxe Built-in type conflict，So add a prefix
+// The prefix is ​​added automatically，Just use it directly in the code（JVxeTypes.input）
 export const JVxeTypePrefix = 'j-';
 
-/** VxeTable 渲染类型 */
+/** VxeTable Rendering type */
 export enum JVxeRenderType {
   editer = 'editer',
   spaner = 'spaner',

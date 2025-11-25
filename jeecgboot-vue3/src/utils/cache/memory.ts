@@ -96,15 +96,15 @@ export class Memory<T = any, V = any> {
   }
 
   clear() {
-    console.log('------clear------进入clear方法');
+    console.log('------clear------Enterclearmethod');
     Object.keys(this.cache).forEach((key) => {
       const item = this.cache[key];
       item.timeoutId && clearTimeout(item.timeoutId);
     });
-    //update-begin---author:liusq  Date:20220108  for：不删除登录用户的租户id，其他缓存信息都清除----
+    //update-begin---author:liusq  Date:20220108  for：Do not delete the tenant of the logged in userid，Clear all other cache information----
     this.cache = {
       ...omit(this.cache, [TOKEN_KEY, USER_INFO_KEY, ROLES_KEY, DB_DICT_DATA_KEY, TENANT_ID, LOGIN_INFO_KEY, PROJ_CFG_KEY]),
     };
-    //update-end---author:liusq  Date:20220108  for：不删除登录用户的租户id，其他缓存信息都清除----
+    //update-end---author:liusq  Date:20220108  for：Do not delete the tenant of the logged in userid，Clear all other cache information----
   }
 }

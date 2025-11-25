@@ -9,12 +9,12 @@ import { useResolveComponent as rc } from '/@/components/jeecg/JVxeTable/hooks';
 import { useJVxeComponent, useJVxeCompProps } from '/@/components/jeecg/JVxeTable/hooks';
 import { useMessage } from '/@/hooks/web/useMessage';
 
-/** value - label map，防止重复查询（刷新清空缓存） */
+/** value - label map，Prevent duplicate queries（Refresh clear cache） */
 const LabelMap = new Map<string, any>();
-// 请求id
+// askid
 let requestId = 0;
 
-/** 显示组件，自带翻译 */
+/** display component，Comes with translation */
 export const DictSearchSpanCell = defineComponent({
   name: 'JVxeSelectSearchSpanCell',
   props: useJVxeCompProps(),
@@ -26,7 +26,7 @@ export const DictSearchSpanCell = defineComponent({
   },
 });
 
-// 输入选择组件
+// Input selection component
 export const DictSearchInputCell = defineComponent({
   name: 'JVxeSelectSearchInputCell',
   props: useJVxeCompProps(),
@@ -35,20 +35,20 @@ export const DictSearchInputCell = defineComponent({
     const { dict, loading, isAsync, options, innerOptions, originColumn, cellProps, innerSelectValue, handleChangeCommon } =
       useSelectDictSearch(props);
     const hasRequest = ref(false);
-    // 提示信息
+    // Prompt message
     const tipsContent = computed(() => {
-      return originColumn.value.tipsContent || '请输入搜索内容';
+      return originColumn.value.tipsContent || 'Please enter search content';
     });
-    // 筛选函数
+    // filter function
     const filterOption = computed(() => {
       if (isAsync.value) {
-        //【jeecgboot-vue3/issues/I5QRT8】JVxeTypes.selectDictSearch sync问题
+        //【jeecgboot-vue3/issues/I5QRT8】JVxeTypes.selectDictSearch syncquestion
         return ()=>true;
       }
       return (input, option) => option.componentOptions.children[0].text.toLowerCase().indexOf(input.toLowerCase()) >= 0;
     });
 
-    /** 加载数据 */
+    /** Load data */
     const loadData = debounce((value) => {
       const currentRequestId = ++requestId;
       loading.value = true;
@@ -58,7 +58,7 @@ export const DictSearchInputCell = defineComponent({
         hasRequest.value = false;
         return;
       }
-      // 字典code格式：table,text,code
+      // dictionarycodeFormat：table,text,code
       hasRequest.value = true;
       loadDictByKeyword(dict.value, value)
         .then((res) => {
@@ -72,7 +72,7 @@ export const DictSearchInputCell = defineComponent({
               LabelMap.set(item.value, [item]);
             });
           } else {
-            createMessage.warning(message || '查询失败');
+            createMessage.warning(message || 'Query failed');
           }
         })
         .finally(() => {
@@ -87,7 +87,7 @@ export const DictSearchInputCell = defineComponent({
 
     function handleSearch(value) {
       if (isAsync.value) {
-        // 在输入时也应该开启加载，因为loadData加了消抖，所以会有800ms的用户主观上认为的卡顿时间
+        // Loading should also be enabled while typing，becauseloadDataAdded anti-shake，So there will be800msusers’ subjective perception of lag time
         loading.value = true;
         if (innerOptions.value.length > 0) {
           innerOptions.value = [];
@@ -137,7 +137,7 @@ export const DictSearchInputCell = defineComponent({
             if (loading.value) {
               return h(rc('a-spin'), { size: 'small' });
             } else if (hasRequest.value) {
-              return h('div', '没有查询到任何数据');
+              return h('div', 'No data found');
             } else {
               return h('div', [tipsContent.value]);
             }
@@ -146,7 +146,7 @@ export const DictSearchInputCell = defineComponent({
       );
     };
   },
-  // 【组件增强】注释详见：JVxeComponent.Enhanced
+  // 【Component enhancement】See notes for details：JVxeComponent.Enhanced
   enhanced: {
     aopEvents: {
       editActived({ $event }) {
@@ -166,15 +166,15 @@ function useSelectDictSearch(props) {
   const setup = useJVxeComponent(props);
   const { innerValue, originColumn } = setup;
 
-  // 加载状态
+  // Loading status
   const loading = ref(false);
-  // 内部选择值
+  // Internal selection value
   const innerSelectValue = ref(null);
-  // 内部 options
+  // internal options
   const innerOptions = ref<any[]>([]);
 
   const dict = computed(() => originColumn.value.dict);
-  // 是否是异步模式
+  // Whether it is asynchronous mode
   const isAsync = computed(() => {
     let isAsync = originColumn.value.async;
     return isAsync != null && isAsync !== '' ? !!isAsync : true;
@@ -187,7 +187,7 @@ function useSelectDictSearch(props) {
     }
   });
 
-  /** 公共属性监听 */
+  /** Public property monitoring */
   watch(
     innerValue,
     (value: string) => {
@@ -201,7 +201,7 @@ function useSelectDictSearch(props) {
   );
   watch(dict, () => loadDataByDict());
 
-  // 根据 value 查询数据，用于回显
+  // according to value Query data，used to echo
   async function loadDataByValue(value) {
     if (isAsync.value) {
       if (innerSelectValue.value !== value) {
@@ -219,12 +219,12 @@ function useSelectDictSearch(props) {
     innerSelectValue.value = (value || '').toString();
   }
 
-  // 初始化字典
+  // 初始化dictionary
   async function loadDataByDict() {
     if (!isAsync.value) {
-      // 如果字典项集合有数据
+      // 如果dictionary项集合有数据
       if (!originColumn.value.options || originColumn.value.options.length === 0) {
-        // 根据字典Code, 初始化字典数组
+        // according todictionaryCode, 初始化dictionary数组
         let dictStr = '';
         if (dict.value) {
           let arr = dict.value.split(',');
@@ -235,7 +235,7 @@ function useSelectDictSearch(props) {
             dictStr = dict.value;
           }
           if (dict.value.indexOf(',') === -1) {
-            //优先从缓存中读取字典配置
+            //优先从缓存中读取dictionary配置
             let cache = getDictItemsByCode(dict.value);
             if (cache) {
               innerOptions.value = cache;
@@ -262,7 +262,7 @@ function useSelectDictSearch(props) {
   };
 }
 
-/** 获取字典项 */
+/** 获取dictionary项 */
 function loadDictItem(dict: string, key: string) {
   return defHttp.get({
     url: `/sys/dict/loadDictItem/${dict}`,
@@ -272,7 +272,7 @@ function loadDictItem(dict: string, key: string) {
   });
 }
 
-/** 根据关键字获取字典项（搜索） */
+/** according to关键字获取dictionary项（search） */
 function loadDictByKeyword(dict: string, keyword: string) {
   return defHttp.get(
     {

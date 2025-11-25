@@ -1,10 +1,10 @@
-// 应用参数
+// Application parameters
 export type MainAppProps = {
   container?: HTMLElement;
-  // 隐藏侧边栏（菜单）
+  // Hide sidebar（menu）
   hideSider?: boolean;
-  // 隐藏顶部
+  // hide top
   hideHeader?: boolean;
-  // 隐藏 多Tab 切换
+  // hide manyTab switch
   hideMultiTabs?: boolean;
 }

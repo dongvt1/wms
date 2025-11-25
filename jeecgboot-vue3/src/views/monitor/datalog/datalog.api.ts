@@ -7,7 +7,7 @@ enum Api {
 }
 
 /**
- * 查询数据日志列表
+ * Query data log list
  * @param params
  */
 export const getDataLogList = (params) => {
@@ -15,7 +15,7 @@ export const getDataLogList = (params) => {
 };
 
 /**
- * 查询数据日志列表
+ * Query data log list
  * @param params
  */
 export const queryDataVerList = (params) => {
@@ -23,7 +23,7 @@ export const queryDataVerList = (params) => {
 };
 
 /**
- * 查询对比数据
+ * Query and compare data
  * @param params
  */
 export const queryCompareList = (params) => {

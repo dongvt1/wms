@@ -36,20 +36,20 @@ export function useSplitMenu(splitType: Ref<MenuSplitTyeEnum>) {
       if (unref(splitNotLeft) || unref(getIsMobile)) return;
       const { meta } = unref(currentRoute);
       const currentActiveMenu = meta.currentActiveMenu as string;
-      // update-begin--author:liaozhiyang---date:20250908---for：【QQYUN-13718】一级菜单默认重定向到子菜单，但子菜单未授权，导致点击一级菜单加载不出子菜单
-      // 顶部混合模式且顶部左侧组合菜单开始时
+      // update-begin--author:liaozhiyang---date:20250908---for：【QQYUN-13718】The first-level menu redirects to the submenu by default，But the submenu is not authorized，As a result, clicking the first-level menu cannot load the submenu.
+      // When top blending mode and top left combo menu start
       if (unref(getMenuType) === MenuTypeEnum.MIX && unref(getSplit)) { 
-        // 404页面时，跳转到重定向的路径
+        // 404page，Jump to the redirected path
         if (unref(currentRoute).name === PAGE_NOT_FOUND_NAME_404 && unref(currentRoute)?.redirectedFrom?.path) {
           const menus = await getMenus();
           const findItem = menus.find((item:any) => item.redirect === unref(currentRoute).path);
           if (findItem) {
-            // 说明是从一级菜单重定向过来的
+            // The description is redirected from the first-level menu
             path = findItem.path;
           }
         }
       }
-      // update-end--author:liaozhiyang---date:20250908---for：【QQYUN-13718】一级菜单默认重定向到子菜单，但子菜单未授权，导致点击一级菜单加载不出子菜单
+      // update-end--author:liaozhiyang---date:20250908---for：【QQYUN-13718】The first-level menu redirects to the submenu by default，But the submenu is not authorized，As a result, clicking the first-level menu cannot load the submenu.
       let parentPath = await getCurrentParentPath(path);
       if (!parentPath) {
         parentPath = await getCurrentParentPath(currentActiveMenu);
@@ -76,9 +76,9 @@ export function useSplitMenu(splitType: Ref<MenuSplitTyeEnum>) {
   watch(
     () => getSplit.value,
     () => {
-      // update-begin--author:liaozhiyang---date:20240919---for：【issues/7209】顶部左侧组合菜单关闭之后左侧导航没还原
+      // update-begin--author:liaozhiyang---date:20240919---for：【issues/7209】The left navigation is not restored after the top left combination menu is closed.
       // if (unref(splitNotLeft)) return;
-      // update-end--author:liaozhiyang---date:20240919---for：【issues/7209】顶部左侧组合菜单关闭之后左侧导航没还原
+      // update-end--author:liaozhiyang---date:20240919---for：【issues/7209】The left navigation is not restored after the top left combination menu is closed.
       genMenus();
     }
   );

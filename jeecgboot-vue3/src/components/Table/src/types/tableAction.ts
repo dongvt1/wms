@@ -9,14 +9,14 @@ export interface ActionItem extends ButtonProps {
   popConfirm?: PopConfirm;
   disabled?: boolean;
   divider?: boolean;
-  // 权限编码控制是否显示
+  // Permission encoding controls whether to display
   auth?: RoleEnum | RoleEnum[] | string | string[];
-  // 业务控制是否显示
+  // Whether business control is displayed
   ifShow?: boolean | ((action: ActionItem) => boolean);
   tooltip?: string | TooltipProps;
-  // 自定义类名
+  // Custom class name
   class?: string | Record<string, boolean> | any[];
-  // 自定义图标颜色
+  // Custom icon color
   iconColor?: string;
 }
 

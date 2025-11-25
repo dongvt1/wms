@@ -60,14 +60,14 @@ function initPersistentMemory() {
 
 export class Persistent {
   static getLocal<T>(key: LocalKeys) {
-    //update-begin---author:scott ---date:2022-10-27  for：token过期退出重新登录，online菜单还是提示token过期----------
+    //update-begin---author:scott ---date:2022-10-27  for：tokenExpired, log out and log in again，onlineMenu or promptstokenExpired----------
     const globalCache = ls.get(APP_LOCAL_CACHE_KEY);
-    // update-begin--author:liaozhiyang---date:20240920---for：【issues/7250】自动锁屏无法解锁
+    // update-begin--author:liaozhiyang---date:20240920---for：【issues/7250】Automatic lock screen cannot be unlocked
     if (globalCache && router?.currentRoute?.value.path !== PageEnum.BASE_LOGIN) {
       localMemory.setCache(globalCache);
     }
-    // update-end--author:liaozhiyang---date:20240920---for：【issues/7250】自动锁屏无法解锁
-    //update-end---author:scott ---date::2022-10-27  for：token过期退出重新登录，online菜单还是提示token过期----------
+    // update-end--author:liaozhiyang---date:20240920---for：【issues/7250】Automatic lock screen cannot be unlocked
+    //update-end---author:scott ---date::2022-10-27  for：tokenExpired, log out and log in again，onlineMenu or promptstokenExpired----------
     return localMemory.get(key)?.value as Nullable<T>;
   }
 
@@ -115,8 +115,8 @@ export class Persistent {
 }
 
 window.addEventListener('beforeunload', function () {
-  // TOKEN_KEY 在登录或注销时已经写入到storage了，此处为了解决同时打开多个窗口时token不同步的问题
-  // LOCK_INFO_KEY 在锁屏和解锁时写入，此处也不应修改
+  // TOKEN_KEY has been written to thestorageGot it，此处为Got it解决同时打开多个窗口时tokenOut of sync problem
+  // LOCK_INFO_KEY Write on lock screen and unlock，This should not be modified
   ls.set(APP_LOCAL_CACHE_KEY, {
     ...omit(localMemory.getCache, LOCK_INFO_KEY),
     ...pick(ls.get(APP_LOCAL_CACHE_KEY), [TOKEN_KEY, USER_INFO_KEY, LOCK_INFO_KEY]),

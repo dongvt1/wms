@@ -15,19 +15,19 @@ import { useI18n } from "@/hooks/web/useI18n";
 const globSetting = useGlobSetting();
 const baseApiUrl = globSetting.domainUrl;
 /**
- *  获取文件服务访问路径
- * @param fileUrl 文件路径
- * @param prefix(默认http)  文件路径前缀 http/https
+ *  Get file service access path
+ * @param fileUrl file path
+ * @param prefix(defaulthttp)  file path前缀 http/https
  */
 export const getFileAccessHttpUrl = (fileUrl, prefix = 'http') => {
   let result = fileUrl;
   try {
     if (fileUrl && fileUrl.length > 0 && !fileUrl.startsWith(prefix)) {
-      //判断是否是数组格式
+      //Determine whether it is an array format
       let isArray = fileUrl.indexOf('[') != -1;
       if (!isArray) {
         let prefix = `${baseApiUrl}/sys/common/static/`;
-        // 判断是否已包含前缀
+        // Determine whether the prefix is ​​included
         if (!fileUrl.startsWith(prefix)) {
           result = `${prefix}${fileUrl}`;
         }
@@ -38,7 +38,7 @@ export const getFileAccessHttpUrl = (fileUrl, prefix = 'http') => {
 };
 
 /**
- * 触发 window.resize
+ * trigger window.resize
  */
 export function triggerWindowResizeEvent() {
   let event: any = document.createEvent('HTMLEvents');
@@ -48,18 +48,18 @@ export function triggerWindowResizeEvent() {
 }
 
 /**
- * 获取随机数
- *  @param length 数字位数
+ * Get random number
+ *  @param length Number of digits
  */
 export const getRandom = (length: number = 1) => {
   return '-' + parseInt(String(Math.random() * 10000 + 1), length);
 };
 
 /**
- * 随机生成字符串
- * @param length 字符串的长度
- * @param chats 可选字符串区间（只会生成传入的字符串中的字符）
- * @return string 生成的字符串
+ * Randomly generate string
+ * @param length length of string
+ * @param chats Optional string interval（Only characters in the string passed in will be generated）
+ * @return string generated string
  */
 export function randomString(length: number, chats?: string) {
   if (!length) length = 1;
@@ -76,10 +76,10 @@ export function randomString(length: number, chats?: string) {
 }
 
 /**
- * 将普通列表数据转化为tree结构
- * @param array tree数据
- * @param opt  配置参数
- * @param startPid 父节点
+ * Convert ordinary list data intotreestructure
+ * @param array treedata
+ * @param opt  Configuration parameters
+ * @param startPid parent node
  */
 export const listToTree = (array, opt, startPid) => {
   const obj = {
@@ -97,7 +97,7 @@ export const listToTree = (array, opt, startPid) => {
   return toTree(array, obj.startPid, obj.currentDept, obj);
 };
 /**
- *  递归构建tree
+ *  recursive buildtree
  * @param list
  * @param startPid
  * @param currentDept
@@ -112,11 +112,11 @@ export const toTree = (array, startPid, currentDept, opt) => {
   if (array && array.length > 0) {
     child = array
       .map((item) => {
-        // 筛查符合条件的数据（主键 = startPid）
+        // 筛查符合条件的data（primary key = startPid）
         if (typeof item[opt.parentKey] !== 'undefined' && item[opt.parentKey] === startPid) {
-          // 满足条件则递归
+          // Recurse if conditions are met
           const nextChild = toTree(array, item[opt.primaryKey], currentDept + 1, opt);
-          // 节点信息保存
+          // Node information storage
           if (nextChild.length > 0) {
             item['isLeaf'] = false;
             item[opt.childKey] = nextChild;
@@ -138,40 +138,40 @@ export const toTree = (array, startPid, currentDept, opt) => {
 };
 
 /**
- * 表格底部合计工具方法
- * @param tableData 表格数据
- * @param fieldKeys 要计算合计的列字段
+ * Total tool method at the bottom of the table
+ * @param tableData 表格data
+ * @param fieldKeys Column field to be totaled
  */
 export function mapTableTotalSummary(tableData: Recordable[], fieldKeys: string[]) {
-  let totals: any = { _row: '合计', _index: '合计' };
+  let totals: any = { _row: 'total', _index: 'total' };
   fieldKeys.forEach((key) => {
     totals[key] = tableData.reduce((prev, next) => {
-      // update-begin--author:liaozhiyang---date:20240118---for：【QQYUN-7891】PR 合计工具方法，转换为Nuber类型再计算
+      // update-begin--author:liaozhiyang---date:20240118---for：【QQYUN-7891】PR total工具method，Convert toNuberType recalculation
       const value = Number(next[key]);
       if (!Number.isNaN(value)) {
-        // update-begin--author:liaozhiyang---date:20250224---for：【issues/7830】合计小数计算精度
+        // update-begin--author:liaozhiyang---date:20250224---for：【issues/7830】total小数计算精度
         prev = Big(prev).plus(value).toString();
-        // update-end--author:liaozhiyang---date:20250224---for：【issues/7830】合计小数计算精度
+        // update-end--author:liaozhiyang---date:20250224---for：【issues/7830】total小数计算精度
       }
-      // update-end--author:liaozhiyang---date:20240118---for：【issues/7830】PR 合计工具方法，转换为Nuber类型再计算
+      // update-end--author:liaozhiyang---date:20240118---for：【issues/7830】PR total工具method，Convert toNuberType recalculation
       return prev;
     }, 0);
-    // update-begin--author:liaozhiyang---date:20250224---for：【issues/7830】合计小数计算精度
+    // update-begin--author:liaozhiyang---date:20250224---for：【issues/7830】total小数计算精度
     totals[key] = +totals[key];
-    // update-end--author:liaozhiyang---date:20250224---for：【issues/7830】合计小数计算精度
+    // update-end--author:liaozhiyang---date:20250224---for：【issues/7830】total小数计算精度
   });
   return totals;
 }
 
 /**
- * 简单实现防抖方法
+ * Simple method to achieve anti-shake
  *
- * 防抖(debounce)函数在第一次触发给定的函数时，不立即执行函数，而是给出一个期限值(delay)，比如100ms。
- * 如果100ms内再次执行函数，就重新开始计时，直到计时结束后再真正执行函数。
- * 这样做的好处是如果短时间内大量触发同一事件，只会执行一次函数。
+ * Anti-shake(debounce)函数在第一次trigger给定的函数时，Do not execute function immediately，Instead, it gives a deadline value(delay)，for example100ms。
+ * if100msExecute the function again within，Just start timing again，The function is not actually executed until the timer expires.。
+ * 这样做的好处是if短时间内大量trigger同一事件，The function will only be executed once。
  *
- * @param fn 要防抖的函数
- * @param delay 防抖的毫秒数
+ * @param fn 要Anti-shake的函数
+ * @param delay Anti-shake的毫Second数
  * @returns {Function}
  */
 export function simpleDebounce(fn, delay = 100) {
@@ -189,9 +189,9 @@ export function simpleDebounce(fn, delay = 100) {
 }
 
 /**
- * 日期格式化
- * @param date 日期
- * @param block 格式化字符串
+ * date formatting
+ * @param date date
+ * @param block Format string
  */
 export function dateFormat(date, block) {
   if (!date) {
@@ -200,13 +200,13 @@ export function dateFormat(date, block) {
   let format = block || 'yyyy-MM-dd';
   date = new Date(date);
   const map = {
-    M: date.getMonth() + 1, // 月份
-    d: date.getDate(), // 日
-    h: date.getHours(), // 小时
-    m: date.getMinutes(), // 分
-    s: date.getSeconds(), // 秒
-    q: Math.floor((date.getMonth() + 3) / 3), // 季度
-    S: date.getMilliseconds(), // 毫秒
+    M: date.getMonth() + 1, // month
+    d: date.getDate(), // day
+    h: date.getHours(), // Hour
+    m: date.getMinutes(), // point
+    s: date.getSeconds(), // Second
+    q: Math.floor((date.getMonth() + 3) / 3), // quarter
+    S: date.getMilliseconds(), // 毫Second
   };
   format = format.replace(/([yMdhmsqS])+/g, (all, t) => {
     let v = map[t];
@@ -228,8 +228,8 @@ export function dateFormat(date, block) {
 }
 
 /**
- * 获取事件冒泡路径，兼容 IE11，Edge，Chrome，Firefox，Safari
- * 目前使用的地方：JVxeTable Span模式
+ * Get event bubbling path，compatible IE11，Edge，Chrome，Firefox，Safari
+ * Current place of use：JVxeTable Spanmodel
  */
 export function getEventPath(event) {
   let target = event.target;
@@ -256,11 +256,11 @@ export function getEventPath(event) {
 }
 
 /**
- * 如果值不存在就 push 进数组，反之不处理
- * @param array 要操作的数据
- * @param value 要添加的值
- * @param key 可空，如果比较的是对象，可能存在地址不一样但值实际上是一样的情况，可以传此字段判断对象中唯一的字段，例如 id。不传则直接比较实际值
- * @returns {boolean} 成功 push 返回 true，不处理返回 false
+ * if值不存在就 push into array，Otherwise, don’t deal with it
+ * @param array 要操作的data
+ * @param value value to add
+ * @param key available，if比较的是对象，There may be situations where the addresses are different but the values ​​are actually the same.，You can pass this field to determine the only field in the object，For example id。If not passed, the actual value will be compared directly.
+ * @returns {boolean} success push return true，不处理return false
  */
 export function pushIfNotExist(array, value, key?) {
   for (let item of array) {
@@ -274,7 +274,7 @@ export function pushIfNotExist(array, value, key?) {
   return true;
 }
 /**
- * 过滤对象中为空的属性
+ * Filter empty properties in objects
  * @param obj
  * @returns {*}
  */
@@ -292,7 +292,7 @@ export function filterObj(obj) {
 }
 
 /**
- * 下划线转驼峰
+ * Underscore to camel case
  * @param string
  */
 export function underLine2CamelCase(string: string) {
@@ -300,9 +300,9 @@ export function underLine2CamelCase(string: string) {
 }
 
 /**
- * 查找树结构
+ * 查找树structure
  * @param treeList
- * @param fn 查找方法
+ * @param fn Find method
  * @param childrenKey
  */
 export function findTree(treeList: any[], fn: Fn, childrenKey = 'children') {
@@ -322,7 +322,7 @@ export function findTree(treeList: any[], fn: Fn, childrenKey = 'children') {
   return null;
 }
 
-/** 获取 mapFormSchema 方法 */
+/** Get mapFormSchema method */
 export function bindMapFormSchema<T>(spanMap, spanTypeDef: T) {
   return function (s: FormSchema, spanType: T = spanTypeDef) {
     return merge(
@@ -336,45 +336,45 @@ export function bindMapFormSchema<T>(spanMap, spanTypeDef: T) {
 }
 
 /**
- * 字符串是否为null或null字符串
+ * Is the stringnullornullstring
  * @param str
  * @return {boolean}
  */
 export function stringIsNull(str) {
-  // 两个 == 可以同时判断 null 和 undefined
+  // two == Can be judged simultaneously null and undefined
   return str == null || str === 'null' || str === 'undefined';
 }
 
 /**
- * 【组件多了可能存在性能问题】获取弹窗div，将下拉框、日期等组件挂载到modal上，解决弹窗遮盖问题
+ * 【There may be performance issues if there are too many components.】Get弹窗div，drop down box、date等组件mount tomodalsuperior，Solve the problem of pop-up window covering
  * @param node
  */
 export function getAutoScrollContainer(node: HTMLElement) {
   let element: Nullable<HTMLElement> = node
   while (element != null) {
     if (element.classList.contains('scrollbar__view')) {
-      // 判断是否有滚动条
+      // Determine whether there is a scroll bar
       if (element.clientHeight < element.scrollHeight) {
-        // 有滚动条时，挂载到父级，解决滚动问题
+        // When there is a scroll bar，Mount to parent，Fix scrolling issues
         return node.parentElement
       } else {
-        // 无滚动条时，挂载到body上，解决下拉框遮盖问题
+        // When there is no scroll bar，mount tobodysuperior，Solve the problem of drop-down box covering
         return document.body
       }
     } else {
       element = element.parentElement
     }
   }
-  // 不在弹窗内，走默认逻辑
+  // Not in the pop-up window，走default逻辑
   return node.parentElement
 }
 
 /**
- * 判断子菜单是否全部隐藏
+ * Determine whether all submenus are hidden
  * @param menuTreeItem
  */
 export  function checkChildrenHidden(menuTreeItem){
-  //是否是聚合路由
+  //Is it an aggregate route?
   let alwaysShow=menuTreeItem.alwaysShow;
   if(alwaysShow){
     return false;
@@ -386,10 +386,10 @@ export  function checkChildrenHidden(menuTreeItem){
 }
 
 /**
- * 计算文件大小
+ * Calculate file size
  * @param fileSize
  * @param unit
- * @return 返回大小及后缀
+ * @return return大小及后缀
  */
 export function calculateFileSize(fileSize, unit?) {
   let unitArr = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
@@ -402,13 +402,13 @@ export function calculateFileSize(fileSize, unit?) {
     size /= 1024;
     unitIndex++;
   }
-  //保留两位小数，四舍五入
+  //Keep to two decimal places，rounding
   size = Math.round(size * 100) / 100;
   return size + unitArr[unitIndex];
 }
 
 /**
- * 获取上传header
+ * Getsuperior传header
  */
 export function getHeaders() {
   let tenantId = getTenantId();
@@ -418,16 +418,16 @@ export function getHeaders() {
   });
 }
 
-/** 根据表达式获取相应的用户信息 */
+/** 根据表达式Get相应的用户信息 */
 export function getUserInfoByExpression(expression) {
   if (!expression) {
     return expression;
   }
-  // 当前日期
+  // 当前date
   if (expression === 'sys_date' || expression === 'sysDate') {
     return dayjs().format('YYYY-MM-DD');
   }
-  // 当前时间
+  // current time
   if (expression === 'sys_time' || expression === 'sysTime') {
     return dayjs().format('HH:mm:ss');
   }
@@ -437,14 +437,14 @@ export function getUserInfoByExpression(expression) {
     switch (expression) {
       case 'sysUserId':
         return userInfo.id;
-      // 当前登录用户登录账号
+      // Current logged in user login account
       case 'sysUserCode':
       case 'sys_user_code':
         return userInfo.username;
-      // 当前登录用户真实名称
+      // Real name of currently logged in user
       case 'sysUserName':
         return userInfo.realname;
-      // 当前登录用户部门编号
+      // Current login user department number
       case 'sysOrgCode':
       case 'sys_org_code':
         return userInfo.orgCode;
@@ -454,7 +454,7 @@ export function getUserInfoByExpression(expression) {
 }
 
 /**
- * 替换表达式（#{xxx}）为用户信息
+ * replacement expression（#{xxx}）for user information
  * @param expression
  */
 export function replaceUserInfoByExpression(expression: string | any[]) {
@@ -485,26 +485,26 @@ export function replaceUserInfoByExpression(expression: string | any[]) {
 }
 
 /**
- * 设置租户缓存，当租户退出的时候
+ * Set up tenant cache，When a tenant exits
  * 
  * @param tenantId
  */
 export async function userExitChangeLoginTenantId(tenantId){
   const userStore = useUserStoreWithOut();
-  //step 1 获取用户租户
+  //step 1 Get用户租户
   const url = '/sys/tenant/getCurrentUserTenant'
   let currentTenantId = null;
   const data = await defHttp.get({ url });
   if(data && data.list){
     let arr = data.list;
     if(arr.length>0){
-      //step 2.判断当前id是否存在用户租户中
+      //step 2.Determine currentidDoes it exist in the user tenant?
       let filterTenantId = arr.filter((item) => item.id == tenantId);
-      //存在说明不是退出的不是当前租户，还用用来的租户即可
+      //The existence description is not exiting and is not the current tenant.，Just use the tenant you are using
       if(filterTenantId && filterTenantId.length>0){
         currentTenantId = tenantId;
       }else{
-        //不存在默认第一个
+        //不存在default第一个
         currentTenantId = arr[0].id
       }
     }
@@ -512,26 +512,26 @@ export async function userExitChangeLoginTenantId(tenantId){
   let loginTenantId = getTenantId();
   userStore.setTenant(currentTenantId);
 
-  //update-begin---author:wangshuai---date:2023-11-07---for:【QQYUN-7005】退租户，判断退出的租户ID与当前租户ID一致，再刷新---
-  //租户为空，说明没有租户了，需要刷新页面。或者当前租户和退出的租户一致则需要刷新浏览器
+  //update-begin---author:wangshuai---date:2023-11-07---for:【QQYUN-7005】Quit the tenant，Determine exiting tenantsIDwith current tenantIDconsistent，Refresh again---
+  //Tenant is empty，It means there are no tenants anymore，Need to refresh page。or者当前租户and退出的租户consistent则需要刷新浏览器
   if(!currentTenantId || tenantId == loginTenantId){
     window.location.reload();
   }
-  //update-end---author:wangshuai---date:2023-11-07---for:【QQYUN-7005】退租户，判断退出的租户ID与当前租户ID一致，再刷新---
+  //update-end---author:wangshuai---date:2023-11-07---for:【QQYUN-7005】Quit the tenant，Determine exiting tenantsIDwith current tenantIDconsistent，Refresh again---
 }
 
 /**
- * 我的租户模块需要开启多租户提示
+ * My tenant module needs to enable multi-tenant prompts
  * 
- * @param title 标题
+ * @param title title
  */
 export function tenantSaasMessage(title){
   let tenantId = getTenantId();
   if(!tenantId){
     Modal.confirm({
       title:title,
-      content: '此菜单需要在多租户模式下使用，否则数据会出现混乱',
-      okText: '确认',
+      content: '此菜单需要在多租户model下使用，否则data会出现混乱',
+      okText: 'confirm',
       okType: 'danger',
       // @ts-ignore
       cancelButtonProps: { style: { display: 'none' } },
@@ -540,26 +540,26 @@ export function tenantSaasMessage(title){
 }
 
 /**
- * 判断日期和当前时间是否为同一天
+ * 判断dateandcurrent time是否为同一天
  * @param dateStr
  */
 export function sameDay(dateStr) {
   if (!dateStr) {
     return false;
   }
-  // 获取当前日期
+  // Get当前date
   let currentDate = new Date();
   let currentDay = currentDate.getDate();
   let currentMonth = currentDate.getMonth();
   let currentYear = currentDate.getFullYear();
 
-  //创建另一个日期进行比较
+  //创建另一个date进行比较
   let otherDate = new Date(dateStr);
   let otherDay = otherDate.getDate();
   let otherMonth = otherDate.getMonth();
   let otherYear = otherDate.getFullYear();
 
-  //比较日期
+  //比较date
   if (currentDay === otherDay && currentMonth === otherMonth && currentYear === otherYear) {
     return true;
   } else {
@@ -569,7 +569,7 @@ export function sameDay(dateStr) {
 
 
 /**
- * 翻译菜单名称
+ * Translate menu names
  * 2024-02-28
  * liaozhiyang
  * @param data
@@ -593,7 +593,7 @@ export function translateTitle(data) {
 
 /**
  *
- * 深度冻结对象
+ * deep freeze object
  * @param obj Object or Array
  */
 export function freezeDeep(obj: Recordable | Recordable[]) {
@@ -611,12 +611,12 @@ export function freezeDeep(obj: Recordable | Recordable[]) {
 }
 
 /**
- * 获取父级名称
+ * Get父级名称
  * 
- * @param orgCode 当前部门的code
- * @param label 当前默认显示的值
+ * @param orgCode current departmentcode
+ * @param label 当前default显示的值
  * @param depId depId
- * @return 部门名称
+ * @return Department name
  */
 export async function getDepartPathNameByOrgCode(orgCode, label, depId){
   let key:any = "DEPARTNAME" + depId + orgCode;

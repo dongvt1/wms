@@ -2,35 +2,35 @@ import { FormSchema } from '/@/components/Table';
 import { isRoleExist } from './role.api';
 export const columns = [
   {
-    title: '角色名称',
+    title: 'Character name',
     dataIndex: 'roleName',
     width: 100,
   },
   {
-    title: '角色编码',
+    title: 'role coding',
     dataIndex: 'roleCode',
     width: 100,
   },
   {
-    title: '创建时间',
+    title: 'creation time',
     dataIndex: 'createTime',
     width: 100,
   },
 ];
 /**
- * 角色用户Columns
+ * role userColumns
  */
 export const userColumns = [
   {
-    title: '用户账号',
+    title: 'User account',
     dataIndex: 'username',
   },
   {
-    title: '用户姓名',
+    title: 'User name',
     dataIndex: 'realname',
   },
   {
-    title: '状态',
+    title: 'state',
     dataIndex: 'status_dictText',
     width: 80,
   },
@@ -38,31 +38,31 @@ export const userColumns = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'roleName',
-    label: '角色名称',
+    label: 'Character name',
     component: 'Input',
     colProps: { span: 6 },
   },
   {
     field: 'roleCode',
-    label: '角色编码',
+    label: 'role coding',
     component: 'Input',
     colProps: { span: 6 },
   },
 ];
 /**
- * 角色用户搜索form
+ * role user搜索form
  */
 export const searchUserFormSchema: FormSchema[] = [
   {
     field: 'username',
-    label: '用户账号',
+    label: 'User account',
     component: 'Input',
     colProps: { span: 8 },
     labelWidth: 74,
   },
   {
     field: 'realname',
-    label: '用户名称',
+    label: 'Username',
     component: 'Input',
     colProps: { span: 8 },
     labelWidth: 74,
@@ -78,13 +78,13 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'roleName',
-    label: '角色名称',
+    label: 'Character name',
     required: true,
     component: 'Input',
   },
   {
     field: 'roleCode',
-    label: '角色编码',
+    label: 'role coding',
     required: true,
     component: 'Input',
     dynamicDisabled: ({ values }) => {
@@ -97,16 +97,16 @@ export const formSchema: FormSchema[] = [
           required: true,
           validator: (_, value) => {
             if (!value) {
-              return Promise.reject('请输入角色编码');
+              return Promise.reject('请输入role coding');
             }
             if (values) {
               return new Promise((resolve, reject) => {
                 isRoleExist({ id: model.id, roleCode: value })
                   .then((res) => {
-                    res.success ? resolve() : reject(res.message || '校验失败');
+                    res.success ? resolve() : reject(res.message || 'Verification failed');
                   })
                   .catch((err) => {
-                    reject(err.message || '验证失败');
+                    reject(err.message || 'Authentication failed');
                   });
               });
             }
@@ -117,7 +117,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '备注',
+    label: 'Remark',
     field: 'description',
     component: 'InputTextArea',
   },
@@ -126,14 +126,14 @@ export const formSchema: FormSchema[] = [
 export const formDescSchema = [
   {
     field: 'roleName',
-    label: '角色名称',
+    label: 'Character name',
   },
   {
     field: 'roleCode',
-    label: '角色编码',
+    label: 'role coding',
   },
   {
-    label: '备注',
+    label: 'Remark',
     field: 'description',
   },
 ];
@@ -146,42 +146,42 @@ export const roleIndexFormSchema: FormSchema[] = [
     show: false,
   },
   {
-    label: '角色编码',
+    label: 'role coding',
     field: 'roleCode',
     component: 'Input',
     dynamicDisabled: true,
   },
   {
-    label: '首页路由',
+    label: 'Home page routing',
     field: 'url',
     component: 'Input',
     required: true,
-    helpMessage: '首页路由的访问地址',
+    helpMessage: 'Home page routing的访问地址',
   },
   {
-    label: '组件地址',
+    label: 'Component address',
     field: 'component',
     component: 'Input',
-    helpMessage: '首页路由的组件地址',
+    helpMessage: 'Home page routing的Component address',
     componentProps: {
-      placeholder: '请输入前端组件',
+      placeholder: 'Please enter the front-end component',
     },
     required: true,
   },
   {
     field: 'route',
-    label: '是否路由菜单',
-    helpMessage: '非路由菜单设置成首页，需开启',
+    label: 'Whether to route menu',
+    helpMessage: 'Set the non-routing menu to the homepage，Need to be turned on',
     component: 'Switch',
     defaultValue: true
   },
   {
-    label: '优先级',
+    label: 'priority',
     field: 'priority',
     component: 'InputNumber',
   },
   {
-    label: '是否开启',
+    label: 'Whether to turn on',
     field: 'status',
     component: 'JSwitch',
     componentProps: {

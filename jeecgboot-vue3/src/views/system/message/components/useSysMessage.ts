@@ -8,7 +8,7 @@ import { useModal } from '/@/components/Modal';
 import {useMessage} from "/@/hooks/web/useMessage";
 
 /**
- * 列表接口
+ * List interface
  * @param params
  */
 const queryMessageList = (params) => {
@@ -17,9 +17,9 @@ const queryMessageList = (params) => {
 };
 
 /**
- * 获取消息列表数据
+ * Get message list data
  *
- * setLocaleText 设置未读消息
+ * setLocaleText Set unread messages
  */
 export function useSysMessage(setLocaleText) {
   const { createMessage } = useMessage();
@@ -60,17 +60,17 @@ export function useSysMessage(setLocaleText) {
     return params;
   }
 
-  // 数据是否加载完了
+  // Is the data loaded?
   const loadEndStatus = ref(false);
 
-  //请求数据
+  //Request data
   async function loadData() {
     if(loadEndStatus.value === true){
       return;
     }
     let params = getQueryParams();
     const data = await queryMessageList(params);
-    console.log('获取结果', data);
+    console.log('Get results', data);
     if(!data || data.length<=0){
       loadEndStatus.value = true;
       setLocaleText();
@@ -86,14 +86,14 @@ export function useSysMessage(setLocaleText) {
     setLocaleText();
   }
 
-  //重置
+  //reset
   function reset(){
     messageList.value = []
     pageNo.value = 1;
     loadEndStatus.value = false;
   }
 
-  //标星
+  //mark star
   async function updateStarMessage(item){
     const url = '/sys/sysAnnouncementSend/edit';
     let starFlag = '1';
@@ -104,13 +104,13 @@ export function useSysMessage(setLocaleText) {
       starFlag,
       id: item.sendId
     }
-    //update-begin-author:taoyan date:2023-3-6 for: QQYUN-4491【应用】一些小问题  4、标星不需要提示吧
+    //update-begin-author:taoyan date:2023-3-6 for: QQYUN-4491【application】some minor issues  4、mark star不需要提示吧
     const data:any = await defHttp.put({url, params}, {isTransformResponse: false});
     if(data.success === true){
     }else{
       createMessage.warning(data.message)
     }
-    //update-end-author:taoyan date:2023-3-6 for: QQYUN-4491【应用】一些小问题  4、标星不需要提示吧
+    //update-end-author:taoyan date:2023-3-6 for: QQYUN-4491【application】some minor issues  4、mark star不需要提示吧
   }
 
 
@@ -128,41 +128,41 @@ export function useSysMessage(setLocaleText) {
     return true;
   }
 
-  // 消息类型
+  // Message type
   function getMsgCategory(item) {
     if(item.busType=='email'){
-      return '邮件提醒:';
+      return 'Email reminder:';
     } else if(item.busType=='bpm'){
-      return '流程催办:';
+      return 'Process reminder:';
     } else if(item.busType=='bpm_cc'){
-      return '流程抄送:';
+      return 'process copy:';
     }else if(item.busType=='bpm_task'){
-      return '流程任务:';
+      return 'process tasks:';
     } else if (item.msgCategory == '2') {
-      return '系统消息:';
+      return 'System messages:';
     } else if (item.msgCategory == '1') {
-      return '通知公告:';
+      return 'Notices and Announcements:';
     }
     return '';
   }
 
-  // QQYUN-4472 来消息了没有提醒--查看详情改为去处理
+  // QQYUN-4472 There is a message but no reminder--View details and change to process
   function getHrefText(item) {
     if(item.busType === 'bpm'|| item.busType === 'bpm_task' || item.busType === 'tenant_invite'){
-      //判断是否是查看详情
+      //Determine whether to view details
       if (item.msgAbstract) {
         try {
           const json = JSON.parse(item.msgAbstract);
           if (json.taskDetail) {
-            return '查看详情';
+            return 'check the details';
           }
         } catch (e) {
-          console.error('getHrefText:msgAbstract参数不是JSON格式', item.msgAbstract);
+          console.error('getHrefText:msgAbstractParameters are notJSONFormat', item.msgAbstract);
         }
       }
-      return '去处理'
+      return 'to deal with'
     } else {
-      return '查看详情'
+      return 'check the details'
     }
   }
 
@@ -182,12 +182,12 @@ export function useSysMessage(setLocaleText) {
 }
 
 /**
- * 用于消息跳转
+ * Used for message jump
  */
 export function useMessageHref(emit, props){
   //const [registerHistoryModal, { openModal: openHistoryModal }] = useModal();
   //const [registerTaskModal, { openModal: openTaskModal }] = useModal();
-  // 注册表单弹窗
+  // Registration form pop-up window
   //const [registerDesignFormModal, { openModal: openDesignFormModal }] = useModal();
   const messageHrefArray: any[] = getDictItemsByCode('messageHref');
   const router = useRouter();
@@ -195,18 +195,18 @@ export function useMessageHref(emit, props){
   const rt = useRoute();
   const { close: closeTab, closeSameRoute } = useTabs();
 
-  //*********************************[QQYUN-6713]系统通知打开弹窗修改，动态设置弹窗begin******************************************
-  //当前表单弹窗
+  //*********************************[QQYUN-6713]System notification opens pop-up window for modification，Dynamically set pop-up windowsbegin******************************************
+  //Current form pop-up window
   const currentModal = ref<string | null>(null);
-  //当前表单参数
+  //Current form parameters
   const modalParams = ref<Recordable>({});
-  //表单注册缓存
+  //Form registration cache
   const modalRegCache = ref<Recordable>({});
-  //组件绑定参数
+  //Component binding parameters
   const bindParams = ref<Recordable>({});
 
   /**
-   * 根据类型打开不同弹窗
+   * Open different pop-up windows based on type
    * @param type
    * @param params
    */
@@ -215,17 +215,17 @@ export function useMessageHref(emit, props){
     modalParams.value = { ...params };
     switch (type) {
       case 'task':
-        //流程办理
+        //Process handling
         bindParams.value = { actionType: 'todo' };
         currentModal.value = 'ProcessTaskHandleModal';
         break;
       case 'history':
         bindParams.value = {};
-        //历史流程
+        //historical process
         currentModal.value = 'MyTaskHandleModal';
         break;
       case 'design':
-        //表单设计
+        //form design
         currentModal.value = 'DesformViewModal';
         bindParams.value = {
           showRecordCopy: false,
@@ -235,7 +235,7 @@ export function useMessageHref(emit, props){
         };
         break;
       case 'cgform':
-        //Online表单
+        //Onlineform
         currentModal.value = 'OnlineAutoModal';
         bindParams.value = {
           id: params.formId,
@@ -245,25 +245,25 @@ export function useMessageHref(emit, props){
         currentModal.value = null;
         break;
     }
-    //注册表单弹窗
+    //Registration form pop-up window
     initModalRegister();
     await nextTick(() => {
       if (modalRegCache.value[currentModal.value!]?.isRegister) {
-        console.log('已注冊，走缓存');
+        console.log('Registered，Go cache');
         modalRegCache.value[currentModal.value!].modalMethods.openModal(true, modalParams.value);
       }
     });
   }
 
   /**
-   * 初始化弹窗注册
+   * Initialize pop-up window registration
    */
   function initModalRegister() {
-    //如果当前选择表单为null，就不处理
+    //如果当前选择form为null，Don't deal with it
     if (!currentModal.value) {
       return;
     }
-    //判断缓存中是否存在，不存在就走缓存逻辑
+    //Determine whether it exists in the cache，不存exist就Go cache逻辑
     if (!modalRegCache.value[currentModal.value]) {
       const [registerModal, modalMethods] = useModal();
       modalRegCache.value[currentModal.value] = {
@@ -275,35 +275,35 @@ export function useMessageHref(emit, props){
   }
 
   /**
-   * 绑定注册弹窗
+   * Bind registration pop-up window
    * @param regFn
    * @param modalMethod
    */
   function bindRegisterModal(regFn, modalMethod) {
     return async (...args) => {
-      console.log('开始注册：', currentModal.value);
+      console.log('Start registration：', currentModal.value);
       await regFn(...args);
-      console.log('注册完成：', currentModal.value);
-      //打开弹窗
+      console.log('Registration completed：', currentModal.value);
+      //Open pop-up window
       modalMethod.openModal(true, modalParams.value);
-      //设置缓存标识
+      //Set cache flag
       modalRegCache.value[currentModal.value!].isRegister = true;
     };
   }
-  //*************************************[QQYUN-6713]系统通知打开弹窗修改，动态设置弹窗end*********************************************
+  //*************************************[QQYUN-6713]System notification opens pop-up window for modification，Dynamically set pop-up windowsend*********************************************
   // const defaultPath = '/monitor/mynews';
   //const bpmPath = '/task/handle/'
 
   async function goPage(record, openModalFun?){
     if(!record.busType || record.busType == 'msg_node'){
       if(!openModalFun){
-        // 从首页的消息通知跳转
+        // Jump from the message notification on the home page
         await goPageFromOuter(record);
       }else{
-        // 从消息页面列表点击详情查看 直接打开modal
+        // Click on the details from the message page list to view Open directlymodal
         openModalFun()
       }
-      // update-begin-author:taoyan date:2023-5-10 for: QQYUN-4744【系统通知】6、系统通知@人后，对方看不到是哪个表单@的，没有超链接
+      // update-begin-author:taoyan date:2023-5-10 for: QQYUN-4744【System notification】6、System notification@queen of people，对方看不到是哪个form@of，no hyperlink
     }else if(record.busType == 'comment'){
       // de
       let msgAbstract = record.msgAbstract;
@@ -316,13 +316,13 @@ export function useMessageHref(emit, props){
             showOnlineCgformModal(data);
           }
         }catch (e) {
-          console.error('打开评论表单，但是msgAbstract参数不是JSON格式', msgAbstract)
+          console.error('Open评论form，butmsgAbstractParameters are notJSONFormat', msgAbstract)
           if(openModalFun){
             openModalFun();
           }
         }
       }
-      // update-end-author:taoyan date:2023-5-10 for: QQYUN-4744【系统通知】6、系统通知@人后，对方看不到是哪个表单@的，没有超链接
+      // update-end-author:taoyan date:2023-5-10 for: QQYUN-4744【System notification】6、System notification@queen of people，对方看不到是哪个form@of，no hyperlink
     }else if(record.busType == 'tenant_invite'){
       if(props.isLowApp===true){
         router.push({ name:"myapps-settings-user", query:{ page:'tenantSetting' }})
@@ -343,7 +343,7 @@ export function useMessageHref(emit, props){
   }
 
   /**
-   * 打开表单设计器 表单弹窗
+   * Openform design器 formPop-up window
    * @param data
    */
   function showDesignFormModal(data) {
@@ -356,7 +356,7 @@ export function useMessageHref(emit, props){
   }
 
   /**
-   * 打开Online表单 弹窗
+   * OpenOnlineform Pop-up window
    * @param data
    */
   function showOnlineCgformModal(data) {
@@ -371,7 +371,7 @@ export function useMessageHref(emit, props){
   }
 
   /**
-   * 判断是不是表单的评论消息
+   * 判断是不是formof评论消息
    * @param record
    */
   function isFormComment(record) {
@@ -384,7 +384,7 @@ export function useMessageHref(emit, props){
             return true
           }
         }catch (e) {
-          console.error('打开评论表单，但是msgAbstract参数不是JSON格式', msgAbstract)
+          console.error('Open评论form，butmsgAbstractParameters are notJSONFormat', msgAbstract)
         }
       }
     }
@@ -392,24 +392,24 @@ export function useMessageHref(emit, props){
   }
 
   /**
-   * 如果是工作流任务 在lowApp中 直接打开modal
+   * If it is a workflow task existlowAppmiddle Open directlymodal
    */
   function openLowAppFlowModal(record){
     const { busType, busId, msgAbstract } = record;
     let temp = messageHrefArray.filter(item=>item.value === busType);
     if(!temp || temp.length==0){
-      console.error('当前业务类型不识别', busType);
+      console.error('The current business type is not recognized', busType);
       return;
     }
     if(busType.indexOf('bpm')<0){
-      console.error('low-app不支持跳转邮箱', busType);
+      console.error('low-appJump mailbox is not supported', busType);
       return;
     }
-    //固定参数 detailId 用于查询表单数据
+    //Fixed parameters detailId 用于查询form数据
     let query:any = {
       detailId: busId
     };
-    // 额外参数处理
+    // Additional parameter handling
     if(msgAbstract){
       try {
         let json = JSON.parse(msgAbstract);
@@ -417,7 +417,7 @@ export function useMessageHref(emit, props){
           query[k] = json[k]
         });
       }catch (e) {
-        console.error('msgAbstract参数不是JSON格式', msgAbstract)
+        console.error('msgAbstractParameters are notJSONFormat', msgAbstract)
       }
     }
     console.log("busType = ", busType)
@@ -432,23 +432,23 @@ export function useMessageHref(emit, props){
   }
 
   /**
-   * 根据busType不同跳转不同页面
+   * according tobusTypeDifferent jumps to different pages
    * @param record
    */
   async function goPageWithBusType(record){
     const { busType, busId, msgAbstract } = record;
     let temp = messageHrefArray.filter(item=>item.value === busType);
     if(!temp || temp.length==0){
-      console.error('当前业务类型不识别', busType);
+      console.error('The current business type is not recognized', busType);
       return;
     }
     let path = temp[0].text;
     path = path.replace('{DETAIL_ID}', busId)
-    //固定参数 detailId 用于查询表单数据
+    //Fixed parameters detailId 用于查询form数据
     let query:any = {
       detailId: busId
     };
-    // 额外参数处理
+    // Additional parameter handling
     if(msgAbstract){
       try {
         let json = JSON.parse(msgAbstract);
@@ -456,14 +456,14 @@ export function useMessageHref(emit, props){
           query[k] = json[k]
         });
       }catch (e) {
-        console.error('msgAbstract参数不是JSON格式', msgAbstract)
+        console.error('msgAbstractParameters are notJSONFormat', msgAbstract)
       }
     }
     if(query.taskDetail){
-      // 查看任务详情的弹窗
+      // 查看任务详情ofPop-up window
       await showHistory(query.procInsId)
     }else{
-      // 跳转路由
+      // Jump route
       appStore.setMessageHrefParams(query);
       if(rt.path.indexOf(path)>=0){
         await closeTab();
@@ -476,23 +476,23 @@ export function useMessageHref(emit, props){
   }
 
   /**
-   * 从首页的消息通知跳转消息列表打开modal
+   * Jump from the message notification on the home page消息列表Openmodal
    * @param record
    */
   async function goPageFromOuter(record){
-    //没有定义业务类型 直接跳转我的消息页面
+    //No business type defined 直接跳转我of消息页面
     emit('detail', record)
   }
 
   //===============================================================================================================
-  //update-begin-author:taoyan date:2022-12-31 for:   QQYUN-3485 【查看流程】做一个查看页面，非办理页面，只通过流程实例参数即可
+  //update-begin-author:taoyan date:2022-12-31 for:   QQYUN-3485 【View process】Make a view page，Non-processing page，Just pass the process instance parameters
   async function showHistory(processInstanceId) {
     let { formData, formUrl } = await getTaskInfoForHistory({ processInstanceId });
     formData['PROCESS_TAB_TYPE'] = 'history';
     handleOpenType('history', {
       formData,
       formUrl,
-      title: '流程历史',
+      title: 'process history',
     });
   }
 
@@ -500,10 +500,10 @@ export function useMessageHref(emit, props){
   const taskNodeInfo = (params) => defHttp.get({ url: nodeInfoUrl, params });
 
   async function getTaskInfoForHistory(record) {
-    //查询条件
+    //Query conditions
     let params = { procInstId: record.processInstanceId };
     const result = await taskNodeInfo(params);
-    console.log('获取历史任务信息', result);
+    console.log('Get historical task information', result);
     let formData: any = {
       dataId: result.dataId,
       taskId: record.id,
@@ -513,11 +513,11 @@ export function useMessageHref(emit, props){
       vars: result.records,
     };
     let tempFormUrl = result.formUrl;
-    console.log('获取流程节点表单URL', tempFormUrl);
-    //节点配置表单URL，VUE组件类型对应的拓展参数
+    console.log('Get流程节点formURL', tempFormUrl);
+    //节点配置formURL，VUE组件类型对应of拓展参数
     if (tempFormUrl && tempFormUrl.indexOf('?') != -1 && !isURL(tempFormUrl) && tempFormUrl.indexOf('{{DOMAIN_URL}}') == -1) {
       tempFormUrl = result.formUrl.split('?')[0];
-      console.log('获取流程节点表单URL（去掉参数）', tempFormUrl);
+      console.log('Get流程节点formURL（Remove parameters）', tempFormUrl);
       formData.extendUrlParams = getQueryVariable(result.formUrl);
     }
     return {
@@ -527,7 +527,7 @@ export function useMessageHref(emit, props){
   }
 
   /**
-   * 获取URL上参数
+   * GetURLupper parameters
    * @param url
    */
   function getQueryVariable(url) {
@@ -547,13 +547,13 @@ export function useMessageHref(emit, props){
   }
 
   /**
-   * URL地址
+   * URLaddress
    * @param {*} s
    */
   function isURL(s) {
     return /^http[s]?:\/\/.*/.test(s);
   }
-  //update-end-author:taoyan date:2022-12-31 for:   QQYUN-3485 【查看流程】做一个查看页面，非办理页面，只通过流程实例参数即可
+  //update-end-author:taoyan date:2022-12-31 for:   QQYUN-3485 【View process】Make a view page，Non-processing page，Just pass the process instance parameters
   //===============================================================================================================
 
   return {

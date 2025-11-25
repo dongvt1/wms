@@ -6,9 +6,9 @@ import { JVxeComponent } from '../../types/JVxeComponent';
 import { useJVxeComponent } from '../useJVxeComponent';
 
 /**
- * use 公共上传组件
+ * use Public upload component
  * @param props
- * @param options 组件选项，token：默认是否传递token，action：默认上传路径，multiple：是否允许多文件
+ * @param options Component options，token：Whether to pass by defaulttoken，action：Default upload path，multiple：Whether to allow multiple files
  */
 export function useJVxeUploadCell(props: JVxeComponent.Props, options?) {
   const setup = useJVxeComponent(props);
@@ -27,7 +27,7 @@ export function useJVxeUploadCell(props: JVxeComponent.Props, options?) {
     return headers;
   });
 
-  /** 上传请求地址 */
+  /** Upload request address */
   const uploadAction = computed(() => {
     if (!originColumn.value.action) {
       return options?.action ?? '';
@@ -75,16 +75,16 @@ export function useJVxeUploadCell(props: JVxeComponent.Props, options?) {
           handleChangeCommon(value);
         } else {
           value['status'] = 'error';
-          value['message'] = file.response.message || '未知错误';
+          value['message'] = file.response.message || 'unknown error';
         }
       } else {
-        // 考虑到如果设置action上传路径为非jeecg-boot后台，可能不会返回 success 属性的情况，就默认为成功
+        // Consider that if you setactionThe upload path is notjeecg-bootBackstage，may not return success attribute situation，It defaults to success
         paths.push(file.response[responseName.value]);
         value['path'] = paths.join(',');
         handleChangeCommon(value);
       }
     } else if (file.status === 'error') {
-      value['message'] = file.response.message || '未知错误';
+      value['message'] = file.response.message || 'unknown error';
     }
     innerFile.value = value;
   }

@@ -14,7 +14,7 @@ export const basicProps = {
     type: Object as PropType<Recordable>,
     default: {},
   },
-  // 标签宽度  固定宽度
+  // label width  fixed width
   labelWidth: {
     type: [Number, String] as PropType<number | string>,
     default: 0,
@@ -28,7 +28,7 @@ export const basicProps = {
     default: () => [],
   },
   compact: propTypes.bool,
-  // 表单配置规则
+  // Form configuration rules
   schemas: {
     type: [Array] as PropType<FormSchema[]>,
     default: () => [],
@@ -44,57 +44,57 @@ export const basicProps = {
     type: Object as PropType<Partial<ColEx>>,
   },
   autoSetPlaceHolder: propTypes.bool.def(true),
-  // 在INPUT组件上单击回车时，是否自动提交
+  // existINPUTWhen clicking Enter on the component，Whether to automatically submit
   autoSubmitOnEnter: propTypes.bool.def(false),
   submitOnReset: propTypes.bool,
   size: propTypes.oneOf(['default', 'small', 'large']).def('default'),
-  // 禁用表单
+  // Disable form
   disabled: propTypes.bool,
   emptySpan: {
     type: [Number, Object] as PropType<number>,
     default: 0,
   },
-  // 是否显示收起展开按钮
+  // Whether to display the collapse expand button
   showAdvancedButton: propTypes.bool,
-  // 转化时间
+  // conversion time
   transformDateFunc: {
     type: Function as PropType<Fn>,
     default: (date: any) => {
-      // 判断是否是dayjs实例
+      // Determine whether it isdayjsExample
       return dayjs.isDayjs(date) ? date?.format('YYYY-MM-DD HH:mm:ss') : date;
     },
   },
   rulesMessageJoinLabel: propTypes.bool.def(true),
-  // 【jeecg】超过3列自动折叠
+  // 【jeecg】Exceed3Column auto-collapse
   autoAdvancedCol: propTypes.number.def(3),
-  // update-begin--author:liaozhiyang---date:202401009---for：【issues/7261】表格上方查询项autoAdvancedLine配置没有效果（删除autoAdvancedLine）
-  // 超过3行自动折叠
+  // update-begin--author:liaozhiyang---date:202401009---for：【issues/7261】Query items above the tableautoAdvancedLineConfiguration has no effect（deleteautoAdvancedLine）
+  // Exceed3Rows automatically fold
   // autoAdvancedLine: propTypes.number.def(3),
-  // update-end--author:liaozhiyang---date:202401009---for：【issues/7261】表格上方查询项autoAdvancedLine配置没有效果（删除autoAdvancedLine）
-  // 不受折叠影响的行数
+  // update-end--author:liaozhiyang---date:202401009---for：【issues/7261】Query items above the tableautoAdvancedLineConfiguration has no effect（deleteautoAdvancedLine）
+  // Number of rows not affected by folding
   alwaysShowLines: propTypes.number.def(1),
 
-  // 是否显示操作按钮
+  // Whether to display operation buttons
   showActionButtonGroup: propTypes.bool.def(true),
-  // 操作列Col配置
+  // Operation columnColConfiguration
   actionColOptions: Object as PropType<Partial<ColEx>>,
-  // 显示重置按钮
+  // Show reset button
   showResetButton: propTypes.bool.def(true),
-  // 是否聚焦第一个输入框，只在第一个表单项为input的时候作用
+  // Whether to focus on the first input box，只exist第一个表单项为inputfunction when
   autoFocusFirstItem: propTypes.bool,
-  // 重置按钮配置
+  // 重置按钮Configuration
   resetButtonOptions: Object as PropType<Partial<ButtonProps>>,
 
-  // 显示确认按钮
+  // Show confirmation button
   showSubmitButton: propTypes.bool.def(true),
-  // 确认按钮配置
+  // 确认按钮Configuration
   submitButtonOptions: Object as PropType<Partial<ButtonProps>>,
 
-  // 自定义重置函数
+  // Custom reset function
   resetFunc: Function as PropType<() => Promise<void>>,
   submitFunc: Function as PropType<() => Promise<void>>,
 
-  // 以下为默认props
+  // The following is the defaultprops
   hideRequiredMark: propTypes.bool,
 
   labelCol: {
@@ -118,6 +118,6 @@ export const basicProps = {
 
   rowProps: Object as PropType<RowProps>,
   
-  // 当表单是查询条件的时候 当表单改变后自动查询，不需要点击查询按钮
+  // When the form is a query condition Automatically query when the form changes，No need to click the query button
   autoSearch: propTypes.bool.def(false),
 };

@@ -15,33 +15,33 @@ import { setAuthCache } from "/@/utils/auth";
 import { PAGE_NOT_FOUND_NAME_404 } from '/@/router/constant';
 
 const LOGIN_PATH = PageEnum.BASE_LOGIN;
-//auth2登录路由
+//auth2Login routing
 const OAUTH2_LOGIN_PAGE_PATH = PageEnum.OAUTH2_LOGIN_PAGE_PATH;
 
-//分享免登录路由
+//分享免Login routing
 const SYS_FILES_PATH = PageEnum.SYS_FILES_PATH;
 
-// 邮件中的跳转地址,对应此路由,携带token免登录直接去办理页面
+// Jump address in email,Corresponding to this route,carrytokenGo directly to the application page without logging in
 const TOKEN_LOGIN = PageEnum.TOKEN_LOGIN;
 
 const ROOT_PATH = RootRoute.path;
 
-//update-begin---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3不支持auth2登录------------
-//update-begin---author:wangshuai ---date:20221111  for: [VUEN-2472]分享免登录------------
+//update-begin---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3Not supportedauth2Log in------------
+//update-begin---author:wangshuai ---date:20221111  for: [VUEN-2472]分享免Log in------------
 const whitePathList: PageEnum[] = [LOGIN_PATH, OAUTH2_LOGIN_PAGE_PATH,SYS_FILES_PATH, TOKEN_LOGIN ];
-//update-end---author:wangshuai ---date:20221111  for: [VUEN-2472]分享免登录------------
-//update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3不支持auth2登录------------
+//update-end---author:wangshuai ---date:20221111  for: [VUEN-2472]分享免Log in------------
+//update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3Not supportedauth2Log in------------
 
 export function createPermissionGuard(router: Router) {
   const userStore = useUserStoreWithOut();
   const permissionStore = usePermissionStoreWithOut();
 
-  // 自定义首页跳转次数
+  // Customize the number of home page jumps
   let homePathJumpCount = 0;
 
   router.beforeEach(async (to, from, next) => {
     if (
-      // 【#6861】跳转到自定义首页的逻辑，只跳转一次即可
+      // 【#6861】Logic to jump to custom home page，Just jump once
       homePathJumpCount < 1 &&
       from.path === ROOT_PATH &&
       to.path === PageEnum.BASE_HOME &&
@@ -60,10 +60,10 @@ export function createPermissionGuard(router: Router) {
       if (to.path === LOGIN_PATH && token) {
         const isSessionTimeout = userStore.getSessionTimeout;
         
-        //update-begin---author:scott ---date:2023-04-24  for：【QQYUN-4713】登录代码调整逻辑有问题，改造待观察--
-        //TODO vben默认写法，暂时不知目的，有问题暂时先注释掉
+        //update-begin---author:scott ---date:2023-04-24  for：【QQYUN-4713】Log in代码调整逻辑有问题，Transformation to be seen--
+        //TODO vbenDefault writing method，The purpose is unknown at the moment，If there are any problems, please comment them out for now.
         //await userStore.afterLoginAction();
-        //update-end---author:scott ---date::2023-04-24  for：【QQYUN-4713】登录代码调整逻辑有问题，改造待观察--
+        //update-end---author:scott ---date::2023-04-24  for：【QQYUN-4713】Log in代码调整逻辑有问题，Transformation to be seen--
         
         try {
           if (!isSessionTimeout) {
@@ -71,18 +71,18 @@ export function createPermissionGuard(router: Router) {
             return;
           }
         } catch {}
-        //update-begin---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3不支持auth2登录------------
+        //update-begin---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3Not supportedauth2Log in------------
       } else if (to.path === LOGIN_PATH && isOAuth2AppEnv() && !token) {
-        //退出登录进入此逻辑
-        //如果进入的页面是login页面并且当前是OAuth2app环境，并且token为空，就进入OAuth2登录页面
-        //update-begin---author:wangshuai ---date:20230224  for：[QQYUN-3440]新建企业微信和钉钉配置表，通过租户模式隔离------------
+        //退出Log in进入此逻辑
+        //If the page entered isloginpage and is currentlyOAuth2appenvironment，andtokenis empty，Just enterOAuth2Log inpage
+        //update-begin---author:wangshuai ---date:20230224  for：[QQYUN-3440]Create a new corporate WeChat and DingTalk configuration table，Isolation via tenant mode------------
         if(to.query.tenantId){
           setAuthCache(OAUTH2_THIRD_LOGIN_TENANT_ID,to.query.tenantId)
         }
         next({ path: OAUTH2_LOGIN_PAGE_PATH });
-        //update-end---author:wangshuai ---date:20230224  for：[QQYUN-3440]新建企业微信和钉钉配置表，通过租户模式隔离------------
+        //update-end---author:wangshuai ---date:20230224  for：[QQYUN-3440]Create a new corporate WeChat and DingTalk configuration table，Isolation via tenant mode------------
         return;
-        //update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3不支持auth2登录------------
+        //update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3Not supportedauth2Log in------------
       }
       next();
       return;
@@ -96,44 +96,44 @@ export function createPermissionGuard(router: Router) {
         return;
       }
 
-      //update-begin---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3 Auth2未实现------------
+      //update-begin---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3 Auth2Not implemented------------
       let path = LOGIN_PATH;
       if (whitePathList.includes(to.path as PageEnum)) {
-        // 在免登录白名单，如果进入的页面是login页面并且当前是OAuth2app环境，就进入OAuth2登录页面
+        // 在免Log in白名单，If the page entered isloginpage and is currentlyOAuth2appenvironment，Just enterOAuth2Log inpage
         if (to.path === LOGIN_PATH && isOAuth2AppEnv()) {
           next({ path: OAUTH2_LOGIN_PAGE_PATH });
         } else {
-          //在免登录白名单，直接进入
+          //在免Log in白名单，Enter directly
           next();
         }
       } else {
-        //update-begin---author:wangshuai ---date:20230302  for：只有首次登陆并且是企业微信或者钉钉的情况下才会调用------------
-        //----------【首次登陆并且是企业微信或者钉钉的情况下才会调用】-----------------------------------------------
-        //只有首次登陆并且是企业微信或者钉钉的情况下才会调用
+        //update-begin---author:wangshuai ---date:20230302  for：只有首次登陆and是Enterprise WeChat或者钉钉的情况下才会调用------------
+        //----------【首次登陆and是Enterprise WeChat或者钉钉的情况下才会调用】-----------------------------------------------
+        //只有首次登陆and是Enterprise WeChat或者钉钉的情况下才会调用
         let href = window.location.href;
-        //判断当前是auth2页面，并且是钉钉/企业微信，并且包含tenantId参数
+        //Determine whether the currentauth2page，and是钉钉/Enterprise WeChat，and包含tenantIdparameter
         if(isOAuth2AppEnv() && href.indexOf("/tenantId/")!= -1){
           let params = to.params;
           if(params && params.path && params.path.length>0){
-            //直接获取参数最后一位
+            //直接获取parameter最后一位
             setAuthCache(OAUTH2_THIRD_LOGIN_TENANT_ID,params.path[params.path.length-1])
           }
         }
-        //---------【首次登陆并且是企业微信或者钉钉的情况下才会调用】------------------------------------------------
-        //update-end---author:wangshuai ---date:20230302  for：只有首次登陆并且是企业微信或者钉钉的情况下才会调用------------
-        // 如果当前是在OAuth2APP环境，就跳转到OAuth2登录页面，否则跳转到登录页面
+        //---------【首次登陆and是Enterprise WeChat或者钉钉的情况下才会调用】------------------------------------------------
+        //update-end---author:wangshuai ---date:20230302  for：只有首次登陆and是Enterprise WeChat或者钉钉的情况下才会调用------------
+        // If it is currently inOAuth2APPenvironment，Just jump toOAuth2Log inpage，否则跳转到Log inpage
         path = isOAuth2AppEnv() ? OAUTH2_LOGIN_PAGE_PATH : LOGIN_PATH;
       }
-      //update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3 Auth2未实现------------
+      //update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3 Auth2Not implemented------------
       // redirect login page
       const redirectData: { path: string; replace: boolean; query?: Recordable<string> } = {
-        //update-begin---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3 Auth2未实现------------
+        //update-begin---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3 Auth2Not implemented------------
         path: path,
-        //update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3 Auth2未实现------------
+        //update-end---author:wangshuai ---date:20220629  for：[issues/I5BG1I]vue3 Auth2Not implemented------------
         replace: true,
       };
 
-      //update-begin---author:scott ---date:2023-04-24  for：【QQYUN-4713】登录代码调整逻辑有问题，改造待观察--
+      //update-begin---author:scott ---date:2023-04-24  for：【QQYUN-4713】Log in代码调整逻辑有问题，Transformation to be seen--
       if (to.fullPath) {
         console.log("to.fullPath 1",to.fullPath)
         console.log("to.path 2",to.path)
@@ -142,13 +142,13 @@ export function createPermissionGuard(router: Router) {
         if(getFullPath=='/' || getFullPath=='/500' || getFullPath=='/400' || getFullPath=='/login?redirect=/' || getFullPath=='/login?redirect=/login?redirect=/'){
           return;
         }
-      //update-end---author:scott ---date:2023-04-24  for：【QQYUN-4713】登录代码调整逻辑有问题，改造待观察--
+      //update-end---author:scott ---date:2023-04-24  for：【QQYUN-4713】Log in代码调整逻辑有问题，Transformation to be seen--
         
         redirectData.query = {
           ...redirectData.query,
-          // update-begin-author:sunjianlei date:20230306 for: 修复登录成功后，没有正确重定向的问题
+          // update-begin-author:sunjianlei date:20230306 for: 修复Log in成功后，Problem with not redirecting correctly
           redirect: to.fullPath,
-          // update-end-author:sunjianlei date:20230306 for: 修复登录成功后，没有正确重定向的问题
+          // update-end-author:sunjianlei date:20230306 for: 修复Log in成功后，Problem with not redirecting correctly
 
         };
       }
@@ -156,28 +156,28 @@ export function createPermissionGuard(router: Router) {
       return;
     }
 
-    //==============================【首次登录并且是企业微信或者钉钉的情况下才会调用】==================
-    //判断是免登录页面,如果页面包含/tenantId/,那么就直接前往主页
+    //==============================【首次Log inand是Enterprise WeChat或者钉钉的情况下才会调用】==================
+    //判断是免Log inpage,如果page包含/tenantId/,Then go directly to the homepage
     if(isOAuth2AppEnv() && to.path.indexOf("/tenantId/") != -1){
-      //update-begin---author:wangshuai---date:2024-11-08---for:【TV360X-2958】钉钉登录后打开了敲敲云，换其他账号登录后，再打开敲敲云显示的是原来账号的应用---
+      //update-begin---author:wangshuai---date:2024-11-08---for:【TV360X-2958】钉钉Log in后打开了敲敲云，换其他账号Log in后，When you open Knockout Cloud again, the apps that show the original account will be displayed.---
       if (isOAuth2DingAppEnv()) {
         next(OAUTH2_LOGIN_PAGE_PATH);
       } else {
         next(userStore.getUserInfo.homePath || PageEnum.BASE_HOME);
       }
-      //update-end---author:wangshuai---date:2024-11-08---for:【TV360X-2958】钉钉登录后打开了敲敲云，换其他账号登录后，再打开敲敲云显示的是原来账号的应用---
+      //update-end---author:wangshuai---date:2024-11-08---for:【TV360X-2958】钉钉Log in后打开了敲敲云，换其他账号Log in后，When you open Knockout Cloud again, the apps that show the original account will be displayed.---
       return;
     }
-    //==============================【首次登录并且是企业微信或者钉钉的情况下才会调用】==================
-    // update-begin--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0版本路由name:PageNotFound同名导致登录进不去
+    //==============================【首次Log inand是Enterprise WeChat或者钉钉的情况下才会调用】==================
+    // update-begin--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0version routingname:PageNotFound同名导致Log in进不去
     // Jump to the 404 page after processing the login
     if (from.path === LOGIN_PATH && to.name === PAGE_NOT_FOUND_NAME_404 && to.fullPath !== (userStore.getUserInfo.homePath || PageEnum.BASE_HOME)) {
       next(userStore.getUserInfo.homePath || PageEnum.BASE_HOME);
       return;
     }
-    // update-end--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0版本路由name:PageNotFound同名导致登录进不去
+    // update-end--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0version routingname:PageNotFound同名导致Log in进不去
 
-    //update-begin---author:scott ---date:2024-02-21  for：【QQYUN-8326】刷新首页，不需要重新获取用户信息---
+    //update-begin---author:scott ---date:2024-02-21  for：【QQYUN-8326】Refresh home page，No need to re-obtain user information---
     // // get userinfo while last fetch time is empty
     // if (userStore.getLastUpdateTime === 0) {
     //   try {
@@ -188,18 +188,18 @@ export function createPermissionGuard(router: Router) {
     //     next();
     //   }
     // }
-    //update-end---author:scott ---date::2024-02-21  for：【QQYUN-8326】刷新首页，不需要重新获获取用户信息---
-    // update-begin--author:liaozhiyang---date:20240321---for：【QQYUN-8572】表格行选择卡顿问题（customRender中字典引起的）
+    //update-end---author:scott ---date::2024-02-21  for：【QQYUN-8326】Refresh home page，No need to re-obtain user information---
+    // update-begin--author:liaozhiyang---date:20240321---for：【QQYUN-8572】Table row selection stuck problem（customRendercaused by Chinese dictionary）
     if (userStore.getLastUpdateTime === 0) {
       userStore.setAllDictItemsByLocal();
     }
-    // update-end--author:liaozhiyang---date:20240321---for：【QQYUN-8572】表格行选择卡顿问题（customRender中字典引起的）
+    // update-end--author:liaozhiyang---date:20240321---for：【QQYUN-8572】Table row selection stuck problem（customRendercaused by Chinese dictionary）
     if (permissionStore.getIsDynamicAddedRoute) {
       next();
       return;
     }
 
-    // 构建后台菜单路由
+    // Build background menu routing
     const routes = await permissionStore.buildRoutesAction();
     routes.forEach((route) => {
       router.addRoute(route as unknown as RouteRecordRaw);
@@ -207,9 +207,9 @@ export function createPermissionGuard(router: Router) {
 
     router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw);
     permissionStore.setDynamicAddedRoute(true);
-    // update-begin--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0版本路由name:PageNotFound同名导致登录进不去
+    // update-begin--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0version routingname:PageNotFound同名导致Log in进不去
     if (to.name === PAGE_NOT_FOUND_NAME_404) {
-      // 动态添加路由后，此处应当重定向到fullPath，否则会加载404页面内容
+      // After dynamically adding routes，This should redirect tofullPath，Otherwise it will be loaded404page内容
       next({ path: to.fullPath, replace: true, query: to.query });
     } else {
       const redirectPath = (from.query.redirect || to.path) as string;
@@ -217,6 +217,6 @@ export function createPermissionGuard(router: Router) {
       const nextData = to.path === redirect ? { ...to, replace: true } : { path: redirect };
       next(nextData);
     }
-    // update-end--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0版本路由name:PageNotFound同名导致登录进不去
+    // update-end--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0version routingname:PageNotFound同名导致Log in进不去
   });
 }

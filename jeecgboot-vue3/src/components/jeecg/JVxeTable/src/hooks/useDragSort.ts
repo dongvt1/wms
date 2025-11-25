@@ -9,7 +9,7 @@ export function useDragSort(props: JVxeTableProps, methods: JVxeTableMethods) {
     let initTime: any;
 
     onMounted(() => {
-      // 加载完成之后再绑定拖动事件
+      // Bind the drag event after loading is complete
       initTime = setTimeout(createSortable, 300);
     });
 
@@ -26,16 +26,16 @@ export function useDragSort(props: JVxeTableProps, methods: JVxeTableMethods) {
       // let dom = xTable.$el.querySelector('.body--wrapper>.vxe-table--body tbody');
       let dom = xTable.$el.querySelector('.vxe-table--body-inner-wrapper > .vxe-table--body tbody');
       if (!dom) {
-        console.warn('[JVxeTable] 拖拽排序初始化失败，可能是vxe-table升级导致的版本不兼容。');
+        console.warn('[JVxeTable] Drag sort initialization failed，may bevxe-tableVersion incompatibility caused by upgrade。');
         return;
       }
       let startChildren = [];
       sortable2 = Sortable.create(dom as HTMLElement, {
         handle: '.drag-btn',
-        // update-begin--author:liaozhiyang---date:20240417---for:【QQYUN-8785】online表单列位置的id未做限制，拖动其他列到id列上面，同步数据库时报错
+        // update-begin--author:liaozhiyang---date:20240417---for:【QQYUN-8785】onlineform column positionidNo restrictions，Drag other columns toidcolumn above，Error when synchronizing database
         filter: '.not-allow-drag',
         draggable: ".allow-drag",
-        // update-end--author:liaozhiyang---date:20240417---for:【QQYUN-8785】online表单列位置的id未做限制，拖动其他列到id列上面，同步数据库时报错
+        // update-end--author:liaozhiyang---date:20240417---for:【QQYUN-8785】onlineform column positionidNo restrictions，Drag other columns toidcolumn above，Error when synchronizing database
         direction: 'vertical',
         animation: 300,
         onStart(e) {
@@ -44,34 +44,34 @@ export function useDragSort(props: JVxeTableProps, methods: JVxeTableMethods) {
           startChildren = [...from.children];
         },
         onEnd(e: any) {
-          // -update-begin--author:liaozhiyang---date:20240619---for：【TV360X-585】拖动字段虚拟滚动不好使
+          // -update-begin--author:liaozhiyang---date:20240619---for：【TV360X-585】Virtual scrolling does not work when dragging fields
           const isRealEnabledVirtual = isEnabledVirtualYScroll(props, xTable);
           let newIndex;
           let oldIndex;
-          // 滚动排序需要区分当前行编辑是否启动了虚拟滚动(底层loadData方法对是否真实开启了虚拟滚动处理不一样导致需要区分)
+          // Scroll sorting needs to distinguish whether the current line editor has activated virtual scrolling(Ground floorloadDataThe method handles whether virtual scrolling is actually turned on is different, so it needs to be distinguished.)
           if (isRealEnabledVirtual) {
-            // e.clone的元素才是真实拖动的元素(虚拟滚动也不会变)
+            // e.cloneThe element is the actual dragged element(Virtual scrolling will not change)
             const dragNode = e.clone;
             const dragRowInfo = xTable.getRowNode(dragNode);
-            // e.item的元素只有没虚拟滚动时才是拖动的元素(如果虚拟滚动了则会变)
+            // e.itemThe element is a draggable element only when there is no virtual scrolling.(If virtual scrolling occurs, it will change)
             const itemNode = e.item;
             const itemRowInfo = xTable.getRowNode(itemNode);
-            // e.newIndex是当前可视区内元素的索引(不是数据实际的索引)、e.oldIndex 是拖动时可视区内元素的索引(不是数据实际的索引)
+            // e.newIndexIs the index of the element in the current visual area(Not the actual index of the data)、e.oldIndex Is the index of the element in the visual area when dragging(Not the actual index of the data)
             if (dragRowInfo!.rowid === itemRowInfo!.rowid) {
-              // e.clone和e.item相同说明拖拽的元素在DOM中，没被虚拟滚动给remove掉。
+              // e.cloneande.itemThe same description shows that the dragged element is inDOMmiddle，Not given by virtual scrollingremoveLose。
               if (e.newIndex === e.oldIndex) {
-                // 此时新旧index一样就可认为没拖动
+                // New and old at this timeindexIf the same, it can be considered that there is no dragging
                 return;
               }
             } else {
             }
-            // 此时真实DOM元素顺序已排(通过拖拽元素的前后元素确定拖拽元素在真实数据中是往前还是往后拖)
+            // real at this timeDOMThe elements are sorted(通过drag元素的前后元素确定drag元素在真实数据middle是往前还是往后拖)
             oldIndex = dragRowInfo!.index;
             const len = e.from.childNodes.length;
             let referenceIndex;
             let referenceNode;
             if (e.newIndex + 1 < len) {
-              // 拖拽DOM交换之后，后面还有元素（参考物是后面的元素）
+              // dragDOMafter exchange，There are elements behind（The reference is the following element）
               referenceNode = e.from.childNodes[e.newIndex + 1];
               referenceIndex = xTable.getRowNode(referenceNode)!.index;
               if (oldIndex > referenceIndex) {
@@ -80,7 +80,7 @@ export function useDragSort(props: JVxeTableProps, methods: JVxeTableMethods) {
                 newIndex = referenceIndex - 1;
               }
             } else {
-              // 拖拽DOM交换之后，后面没有元素了（参考物是前面的元素）
+              // dragDOMafter exchange，There are no elements behind（The reference is the previous element）
               referenceNode = e.from.childNodes[e.newIndex - 1];
               referenceIndex = xTable.getRowNode(referenceNode)!.index;
               newIndex = referenceIndex;
@@ -95,18 +95,18 @@ export function useDragSort(props: JVxeTableProps, methods: JVxeTableMethods) {
             const element = startChildren[oldIndex];
             let target = null;
             if (oldIndex > newIndex) {
-              // 向上移动
+              // move up
               if (oldIndex + 1 < startChildren.length) {
                 target = startChildren[oldIndex + 1];
               }
             } else {
-              // 向下移动
+              // move down
               target = startChildren[oldIndex + 1];
             }
             from.removeChild(element);
             from.insertBefore(element, target);
           }
-          // -update-end--author:liaozhiyang---date:20240620---for：【TV360X-585】拖动字段虚拟滚动不好使
+          // -update-end--author:liaozhiyang---date:20240620---for：【TV360X-585】Virtual scrolling does not work when dragging fields
           nextTick(() => {
             methods.doSort(oldIndex, newIndex);
             methods.trigger('dragged', { oldIndex: oldIndex, newIndex: newIndex });

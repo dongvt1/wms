@@ -3,10 +3,10 @@ import { isFunction, isPromise, isArray } from '/@/utils/is';
 import { JVxeColumn, JVxeDataProps, JVxeTableProps, JVxeLinkageConfig } from '../types';
 
 /**
- * 多级联动
+ * Multi-level linkage
  */
 export function useLinkage(props: JVxeTableProps, data: JVxeDataProps, methods) {
-  // 整理多级联动配置
+  // 整理Multi-level linkage配置
   watch(
     () => props.linkageConfig,
     (linkageConfig: JVxeLinkageConfig[]) => {
@@ -14,7 +14,7 @@ export function useLinkage(props: JVxeTableProps, data: JVxeDataProps, methods) 
       if (isArray(linkageConfig) && linkageConfig.length > 0) {
         linkageConfig.forEach((config) => {
           let keys = getLinkageKeys(config.key, []);
-          // 多个key共享一个，引用地址
+          // Multiplekeyshare a，Reference address
           let configItem = {
             ...config,
             keys,
@@ -27,12 +27,12 @@ export function useLinkage(props: JVxeTableProps, data: JVxeDataProps, methods) 
     { immediate: true }
   );
 
-  // 获取联动的key顺序
+  // Get linkedkeyorder
   function getLinkageKeys(key: string, keys: string[]): string[] {
     let col = props.columns?.find((col: JVxeColumn) => col.key === key) as JVxeColumn;
     if (col) {
       keys.push(col.key);
-      // 寻找下级
+      // Looking for subordinates
       if (col.linkageKey) {
         return getLinkageKeys(col.linkageKey, keys);
       }
@@ -40,7 +40,7 @@ export function useLinkage(props: JVxeTableProps, data: JVxeDataProps, methods) 
     return keys;
   }
 
-  // 处理联动回显数据
+  // Processing linkage echo data
   function handleLinkageBackData(row) {
     if (data.innerLinkageConfig.size > 0) {
       for (let configItem of data.innerLinkageConfig.values()) {
@@ -49,16 +49,16 @@ export function useLinkage(props: JVxeTableProps, data: JVxeDataProps, methods) 
     }
   }
 
-  /** 【多级联动】获取同级联动下拉选项 */
+  /** 【Multi-level linkage】Get sibling linkage drop-down options */
   function getLinkageOptionsSibling(row, col, config, request) {
-    // 如果当前列不是顶级列
+    // If the current column is not a top-level column
     let key = '';
     if (col.key !== config.key) {
-      // 就找出联动上级列
+      // Just find the linkage parent column
       let idx = config.keys.findIndex((k) => col.key === k);
       let parentKey = config.keys[idx - 1];
       key = row[parentKey];
-      // 如果联动上级列没有选择数据，就直接返回空数组
+      // If no data is selected in the linked upper-level column，Just return an empty array directly
       if (key === '' || key == null) {
         return [];
       }
@@ -77,7 +77,7 @@ export function useLinkage(props: JVxeTableProps, data: JVxeDataProps, methods) 
     return options;
   }
 
-  /** 【多级联动】获取联动下拉选项（异步） */
+  /** 【Multi-level linkage】Get linkage drop-down options（asynchronous） */
   function getLinkageOptionsAsync(config, parent) {
     return new Promise((resolve) => {
       let key = parent ? parent : 'root';
@@ -93,7 +93,7 @@ export function useLinkage(props: JVxeTableProps, data: JVxeDataProps, methods) 
           resolve(options);
         }
       } else if (isFunction(config.requestData)) {
-        // 调用requestData方法，通过传入parent来获取子级
+        // callrequestDatamethod，By passing inparentto get children
         // noinspection JSVoidFunctionReturnValueUsed,TypeScriptValidateJSTypes
         let promise = config.requestData(parent);
         config.optionsMap.set(key, promise);
@@ -107,7 +107,7 @@ export function useLinkage(props: JVxeTableProps, data: JVxeDataProps, methods) 
     });
   }
 
-  // 【多级联动】 用于回显数据，自动填充 optionsMap
+  // 【Multi-level linkage】 Used to echo data，autofill optionsMap
   function autoSetLinkageOptionsByData(data, parent, config, level) {
     if (level === 0) {
       getLinkageOptionsAsync(config, '');
@@ -122,7 +122,7 @@ export function useLinkage(props: JVxeTableProps, data: JVxeDataProps, methods) 
     }
   }
 
-  // 【多级联动】联动组件change时，清空下级组件
+  // 【Multi-level linkage】Linkage componentschangehour，Clear subordinate components
   function handleLinkageSelectChange(row, col, config, value) {
     if (col.linkageKey) {
       getLinkageOptionsAsync(config, value);
@@ -131,7 +131,7 @@ export function useLinkage(props: JVxeTableProps, data: JVxeDataProps, methods) 
       for (let i = idx; i < config.keys.length; i++) {
         values[config.keys[i]] = '';
       }
-      // 清空后几列的数据
+      // Clear the data in the last few columns
       methods.setValues([{ rowKey: row.id, values }]);
     }
   }

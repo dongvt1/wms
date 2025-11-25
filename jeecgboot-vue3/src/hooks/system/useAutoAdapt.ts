@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { ScreenSizeEnum } from '/@/enums/sizeEnum';
 import { useWindowSizeFn } from '/@/hooks/event/useWindowSizeFn';
-// 定义 useAdapt 方法参数
+// definition useAdapt method parameters
 interface AdaptOptions {
   // xl>1200
   xl?: string | number;
@@ -13,17 +13,17 @@ interface AdaptOptions {
   sm?: string | number;
   // xl>480
   xs?: string | number;
-  //xl<480默认值
+  //xl<480default value
   mindef?: string | number;
-  //默认值
+  //default value
   def?: string | number;
 }
 export function useAdapt(props?: AdaptOptions) {
-  //默认宽度
+  //default width
   const width = ref<string | number>(props?.def || '600px');
-  //获取宽度
+  //Get width
   useWindowSizeFn(calcWidth, 100, { immediate: true });
-  //计算宽度
+  //Calculate width
   function calcWidth() {
     let windowWidth = document.documentElement.clientWidth;
     switch (true) {

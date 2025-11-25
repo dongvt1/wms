@@ -2,7 +2,7 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Form';
 import { categoryApi } from './category.api';
 
-// 产品表单配置
+// Product form configuration
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'code',
@@ -41,7 +41,7 @@ export const searchFormSchema: FormSchema[] = [
   },
 ];
 
-// 产品表格列配置
+// Product table column configuration
 export const columns: BasicColumn[] = [
   {
     title: 'Product Code',
@@ -133,7 +133,7 @@ export const columns: BasicColumn[] = [
   } as BasicColumn,
 ];
 
-// 产品表单配置
+// Product form configuration
 export const formSchema: FormSchema[] = [
   {
     field: 'code',
@@ -225,7 +225,7 @@ export const formSchema: FormSchema[] = [
   },
 ];
 
-// 获取产品分类选项
+// Get product category options
 export async function getCategoryOptions() {
   try {
     const result = await categoryApi.list({ pageSize: 999 });
@@ -239,7 +239,7 @@ export async function getCategoryOptions() {
   }
 }
 
-// 产品历史记录表格列配置
+// Product history table column configuration
 export const historyColumns: BasicColumn[] = [
   {
     title: 'Action',

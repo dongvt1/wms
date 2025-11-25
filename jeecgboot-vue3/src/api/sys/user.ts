@@ -16,32 +16,32 @@ enum Api {
   phoneLogin = '/sys/phoneLogin',
   Logout = '/sys/logout',
   GetUserInfo = '/sys/user/getUserInfo',
-  // 获取系统权限
-  // 1、查询用户拥有的按钮/表单访问权限
-  // 2、所有权限
-  // 3、系统安全模式
+  // Get system permissions
+  // 1、Query the buttons owned by the user/Form access
+  // 2、All permissions
+  // 3、System safe mode
   GetPermCode = '/sys/permission/getPermCode',
-  //新加的获取图形验证码的接口
+  //Newly added interface for obtaining graphic verification codes
   getInputCode = '/sys/randomImage',
-  //获取短信验证码的接口
+  //Interface for obtaining SMS verification code
   getCaptcha = '/sys/sms',
-  //注册接口
+  //Registration interface
   registerApi = '/sys/user/register',
-  //校验用户接口
+  //Verify user interface
   checkOnlyUser = '/sys/user/checkOnlyUser',
-  //SSO登录校验
+  //SSOLogin verification
   validateCasLogin = '/sys/cas/client/validateLogin',
-  //校验手机号
+  //Verify mobile phone number
   phoneVerify = '/sys/user/phoneVerification',
-  //修改密码
+  //Change password
   passwordChange = '/sys/user/passwordChange',
-  //第三方登录
+  //Third party login
   thirdLogin = '/sys/thirdLogin/getLoginUser',
-  //第三方登录
+  //Third party login
   getThirdCaptcha = '/sys/thirdSms',
-  //获取二维码信息
+  //Get QR code information
   getLoginQrcode = '/sys/getLoginQrcode',
-  //监控二维码扫描状态
+  //Monitor QR code scanning status
   getQrcodeToken = '/sys/getQrcodeToken',
 }
 
@@ -80,22 +80,22 @@ export function phoneLoginApi(params: LoginParams, mode: ErrorMessageMode = 'mod
  */
 export function getUserInfo() {
   return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }, {}).catch((e) => {
-    // update-begin--author:zyf---date:20220425---for:【VUEN-76】捕获接口超时异常,跳转到登录界面
-    // Token过期失效，直接跳转登录页面
+    // update-begin--author:zyf---date:20220425---for:【VUEN-76】Capture interface timeout exception,Jump to login interface
+    // TokenExpired，Jump directly to the login page
     if (e && (e.message.includes('timeout') || e.message.includes('401'))) {
-      //接口不通时跳转到登录界面
+      //接口不通时Jump to login interface
       const userStore = useUserStoreWithOut();
       userStore.setToken('');
       setAuthCache(TOKEN_KEY, null);
       router.push({
         path: PageEnum.BASE_LOGIN,
         query: {
-          // 传入当前的路由，登录成功后跳转到当前路由
+          // Pass in the current route，After successful login, jump to the current route
           redirect: router.currentRoute.value.fullPath,
         }
       });
     }
-    // update-end--author:zyf---date:20220425---for:【VUEN-76】捕获接口超时异常,跳转到登录界面
+    // update-end--author:zyf---date:20220425---for:【VUEN-76】Capture interface timeout exception,Jump to login interface
   });
 }
 
@@ -112,7 +112,7 @@ export function getCodeInfo(currdatetime) {
   return defHttp.get({ url: url });
 }
 /**
- * @description: 获取短信验证码
+ * @description: Get SMS verification code
  */
 export function getCaptcha(params) {
   return new Promise((resolve, reject) => {
@@ -121,53 +121,53 @@ export function getCaptcha(params) {
       if (res.success) {
         resolve(true);
       } else {
-        //update-begin---author:wangshuai---date:2024-04-18---for:【QQYUN-9005】同一个IP，1分钟超过5次短信，则提示需要验证码---
+        //update-begin---author:wangshuai---date:2024-04-18---for:【QQYUN-9005】same oneIP，1minutes exceed5SMS，It prompts that a verification code is required---
         if(res.code != ExceptionEnum.PHONE_SMS_FAIL_CODE){
-          createErrorModal({ title: '错误提示', content: res.message || '未知问题' });
+          createErrorModal({ title: 'Error message', content: res.message || 'unknown problem' });
           reject();
         }
         reject(res);
-        //update-end---author:wangshuai---date:2024-04-18---for:【QQYUN-9005】同一个IP，1分钟超过5次短信，则提示需要验证码---
+        //update-end---author:wangshuai---date:2024-04-18---for:【QQYUN-9005】same oneIP，1minutes exceed5SMS，It prompts that a verification code is required---
       }
     }).catch((res)=>{
-      createErrorModal({ title: '错误提示', content: res.message || '未知问题' });
+      createErrorModal({ title: 'Error message', content: res.message || 'unknown problem' });
       reject();
     });
   });
 }
 
 /**
- * @description: 注册接口
+ * @description: Registration interface
  */
 export function register(params) {
   return defHttp.post({ url: Api.registerApi, params }, { isReturnNativeResponse: true });
 }
 
 /**
- *校验用户是否存在
+ *Verify that the user exists
  * @param params
  */
 export const checkOnlyUser = (params) => defHttp.get({ url: Api.checkOnlyUser, params }, { isTransformResponse: false });
 /**
- *校验手机号码
+ *Verify mobile phone number码
  * @param params
  */
 export const phoneVerify = (params) => defHttp.post({ url: Api.phoneVerify, params }, { isTransformResponse: false });
 /**
- *密码修改
+ *Password change
  * @param params
  */
 export const passwordChange = (params) => defHttp.get({ url: Api.passwordChange, params }, { isTransformResponse: false });
 /**
- * @description: 第三方登录
+ * @description: Third party login
  */
 export function thirdLogin(params, mode: ErrorMessageMode = 'modal') {
-  //==========begin 第三方登录/auth2登录需要传递租户id===========
+  //==========begin Third party login/auth2Login requires passing tenantid===========
   let tenantId = "0";
   if(!params.tenantId){
     tenantId = params.tenantId;
   }
-  //==========end 第三方登录/auth2登录需要传递租户id===========
+  //==========end Third party login/auth2Login requires passing tenantid===========
   return defHttp.get<LoginResultModel>(
     {
       url: `${Api.thirdLogin}/${params.token}/${params.thirdType}/${tenantId}`,
@@ -178,7 +178,7 @@ export function thirdLogin(params, mode: ErrorMessageMode = 'modal') {
   );
 }
 /**
- * @description: 获取第三方短信验证码
+ * @description: Get third-party SMS verification code
  */
 export function setThirdCaptcha(params) {
   return new Promise((resolve, reject) => {
@@ -187,7 +187,7 @@ export function setThirdCaptcha(params) {
       if (res.success) {
         resolve(true);
       } else {
-        createErrorModal({ title: '错误提示', content: res.message || '未知问题' });
+        createErrorModal({ title: 'Error message', content: res.message || 'unknown problem' });
         reject();
       }
     });
@@ -195,7 +195,7 @@ export function setThirdCaptcha(params) {
 }
 
 /**
- * 获取登录二维码信息
+ * Get login QR code information
  */
 export function getLoginQrcode() {
   let url = Api.getLoginQrcode;
@@ -203,7 +203,7 @@ export function getLoginQrcode() {
 }
 
 /**
- * 监控扫码状态
+ * Monitor code scanning status
  */
 export function getQrcodeToken(params) {
   let url = Api.getQrcodeToken;
@@ -211,7 +211,7 @@ export function getQrcodeToken(params) {
 }
 
 /**
- * SSO登录校验
+ * SSOLogin verification
  */
 export async function validateCasLogin(params) {
   let url = Api.validateCasLogin;

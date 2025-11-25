@@ -4,78 +4,78 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 import { DescItem } from '/@/components/Description';
 import { findTree } from '/@/utils/common/compUtils';
 
-// 用户信息 columns
+// User information columns
 export const userInfoColumns: BasicColumn[] = [
   {
-    title: '用户账号',
+    title: 'User account',
     dataIndex: 'username',
     width: 150,
   },
   {
-    title: '用户名称',
+    title: 'Username',
     dataIndex: 'realname',
     width: 180,
   },
   {
-    title: '部门',
+    title: 'department',
     dataIndex: 'orgCode',
     width: 200,
   },
   {
-    title: '性别',
+    title: 'gender',
     dataIndex: 'sex_dictText',
     width: 80,
   },
   {
-    title: '电话',
+    title: 'Telephone',
     dataIndex: 'phone',
     width: 120,
   },
 ];
 
-// 用户信息查询条件表单
+// User information查询条件form
 export const userInfoSearchFormSchema: FormSchema[] = [
   {
     field: 'username',
-    label: '用户账号',
+    label: 'User account',
     component: 'Input',
   },
 ];
 
-// 部门角色 columns
+// department角色 columns
 export const departRoleColumns: BasicColumn[] = [
   {
-    title: '部门角色名称',
+    title: 'department角色名称',
     dataIndex: 'roleName',
     width: 100,
   },
   {
-    title: '部门角色编码',
+    title: 'department角色编码',
     dataIndex: 'roleCode',
     width: 100,
   },
   {
-    title: '部门',
+    title: 'department',
     dataIndex: 'departId_dictText',
     width: 100,
   },
   {
-    title: '备注',
+    title: 'Remark',
     dataIndex: 'description',
     width: 100,
   },
 ];
 
-// 部门角色查询条件表单
+// department角色查询条件form
 export const departRoleSearchFormSchema: FormSchema[] = [
   {
     field: 'roleName',
-    label: '部门角色名称',
+    label: 'department角色名称',
     component: 'Input',
   },
 ];
 
-// 部门角色弹窗form表单
+// department角色弹窗formform
 export const departRoleModalFormSchema: FormSchema[] = [
   {
     label: 'id',
@@ -85,28 +85,28 @@ export const departRoleModalFormSchema: FormSchema[] = [
   },
   {
     field: 'roleName',
-    label: '部门角色名称',
+    label: 'department角色名称',
     component: 'Input',
     rules: [
-      { required: true, message: '部门角色名称不能为空！' },
-      { min: 2, max: 30, message: '长度在 2 到 30 个字符', trigger: 'blur' },
+      { required: true, message: 'department角色名称不能为空！' },
+      { min: 2, max: 30, message: 'The length is 2 arrive 30 characters', trigger: 'blur' },
     ],
   },
   {
     field: 'roleCode',
-    label: '部门角色编码',
+    label: 'department角色编码',
     component: 'Input',
     dynamicDisabled: ({ values }) => {
       return !!values.id;
     },
     dynamicRules: ({ model }) => {
       return [
-        { required: true, message: '部门角色编码不能为空！' },
-        { min: 0, max: 64, message: '长度不能超过 64 个字符', trigger: 'blur' },
+        { required: true, message: 'department角色编码不能为空！' },
+        { min: 0, max: 64, message: 'The length cannot exceed 64 characters', trigger: 'blur' },
         {
           validator: (_, value) => {
             if (/[\u4E00-\u9FA5]/g.test(value)) {
-              return Promise.reject('部门角色编码不可输入汉字！');
+              return Promise.reject('department角色编码不可输入汉字！');
             }
             return new Promise((resolve, reject) => {
               let params = {
@@ -117,10 +117,10 @@ export const departRoleModalFormSchema: FormSchema[] = [
               };
               duplicateCheckDelay(params)
                 .then((res) => {
-                  res.success ? resolve() : reject(res.message || '校验失败');
+                  res.success ? resolve() : reject(res.message || 'Verification failed');
                 })
                 .catch((err) => {
-                  reject(err.message || '验证失败');
+                  reject(err.message || 'Authentication failed');
                 });
             });
           },
@@ -130,22 +130,22 @@ export const departRoleModalFormSchema: FormSchema[] = [
   },
   {
     field: 'description',
-    label: '描述',
+    label: 'describe',
     component: 'Input',
-    rules: [{ min: 0, max: 126, message: '长度不能超过 126 个字符', trigger: 'blur' }],
+    rules: [{ min: 0, max: 126, message: 'The length cannot exceed 126 characters', trigger: 'blur' }],
   },
 ];
 
-// 基本信息form
+// Basic informationform
 export function useBaseInfoForm(treeData: Ref<any[]>) {
   const descItems: DescItem[] = [
     {
       field: 'departName',
-      label: '机构名称',
+      label: 'Organization name',
     },
     {
       field: 'parentId',
-      label: '上级部门',
+      label: '上级department',
       render(val) {
         if (val) {
           let data = findTree(treeData.value, (item) => item.key == val);
@@ -156,40 +156,40 @@ export function useBaseInfoForm(treeData: Ref<any[]>) {
     },
     {
       field: 'orgCode',
-      label: '机构编码',
+      label: 'Institution code',
     },
     {
       field: 'orgCategory',
-      label: '机构类型',
+      label: 'Institution type',
       render(val) {
         if (val === '1') {
-          return '公司';
+          return 'company';
         } else if (val === '2') {
-          return '部门';
+          return 'department';
         } else if (val === '3') {
-          return '岗位';
+          return 'post';
         } else if(val === '4'){
-          return '子公司';
+          return '子company';
         }
         return val;
       },
     },
     {
       field: 'departOrder',
-      label: '排序',
+      label: 'sort',
     },
 
     {
       field: 'mobile',
-      label: '手机号',
+      label: 'Phone number',
     },
     {
       field: 'address',
-      label: '地址',
+      label: 'address',
     },
     {
       field: 'memo',
-      label: '备注',
+      label: 'Remark',
     },
   ];
 

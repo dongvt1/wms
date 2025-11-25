@@ -2,35 +2,35 @@ import { defHttp } from '/@/utils/http/axios';
 import { cloneObject } from '/@/utils/index';
 
 export const backEndUrl = {
-  // 获取启用的第三方App
+  // Get enabled third partiesApp
   getEnabledType: '/sys/thirdApp/getEnabledType',
-  // 企业微信
+  // Enterprise WeChat
   wechatEnterprise: {
     user: '/sys/thirdApp/sync/wechatEnterprise/user',
     depart: '/sys/thirdApp/sync/wechatEnterprise/depart',
   },
-  // 钉钉
+  // DingTalk
   dingtalk: {
     user: '/sys/thirdApp/sync/dingtalk/user',
     depart: '/sys/thirdApp/sync/dingtalk/depart',
   },
 };
-// 启用了哪些第三方App（在此缓存）
+// Which third parties are enabledApp（Cache here）
 let enabledTypes = null;
 
-// 获取启用的第三方App
+// Get enabled third partiesApp
 export const getEnabledTypes = async () => {
-  // 获取缓存
+  // Get cache
   if (enabledTypes != null) {
     return cloneObject(enabledTypes);
   } else {
     let { success, result } = await defHttp.get({ url: backEndUrl.getEnabledType }, { isTransformResponse: false });
     if (success) {
-      // 在此缓存
+      // Cache here
       enabledTypes = cloneObject(result);
       return result;
     } else {
-      console.warn('getEnabledType查询失败：');
+      console.warn('getEnabledTypeQuery failed：');
     }
   }
   return {};

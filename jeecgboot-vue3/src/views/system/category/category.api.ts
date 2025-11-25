@@ -14,22 +14,22 @@ enum Api {
   getChildListBatch = '/sys/category/getChildListBatch',
 }
 /**
- * 导出api
+ * Exportapi
  * @param params
  */
 export const getExportUrl = Api.exportXls;
 /**
- * 导入api
+ * importapi
  * @param params
  */
 export const getImportUrl = Api.importExcel;
 /**
- * 列表接口
+ * List interface
  * @param params
  */
 export const list = (params) => defHttp.get({ url: Api.list, params });
 /**
- * 删除
+ * delete
  */
 export const deleteCategory = (params, handleSuccess) => {
   return defHttp.delete({ url: Api.deleteCategory, params }, { joinParamsToUrl: true }).then(() => {
@@ -37,15 +37,15 @@ export const deleteCategory = (params, handleSuccess) => {
   });
 };
 /**
- * 批量删除
+ * 批量delete
  * @param params
  */
 export const batchDeleteCategory = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'confirmdelete',
+    content: '是否delete选中数据',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -54,7 +54,7 @@ export const batchDeleteCategory = (params, handleSuccess) => {
   });
 };
 /**
- * 保存或者更新
+ * Save or update
  * @param params
  */
 export const saveOrUpdateDict = (params, isUpdate) => {
@@ -62,17 +62,17 @@ export const saveOrUpdateDict = (params, isUpdate) => {
   return defHttp.post({ url: url, params });
 };
 /**
- * 查询全部树形节点数据
+ * Query all tree node data
  * @param params
  */
 export const loadTreeData = (params) => defHttp.get({ url: Api.loadTreeData, params });
 /**
- * 查询子节点数据
+ * Query child node data
  * @param params
  */
 export const getChildList = (params) => defHttp.get({ url: Api.getChildList, params });
 /**
- * 批量查询子节点数据
+ * 批量Query child node data
  * @param params
  */
 export const getChildListBatch = (params) => defHttp.get({ url: Api.getChildListBatch, params }, { isTransformResponse: false });

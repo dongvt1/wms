@@ -8,13 +8,13 @@ enum Api {
 }
 
 /**
- * 获取系统通知消息列表
+ * Get the system notification message list
  * @param params
  */
 export const listCementByUser = (params?) => defHttp.get({ url: Api.listCementByUser, params });
 
 /**
- * 获取用户近两个月未读消息数量
+ * Get the number of unread messages from the user in the past two months
  * @param params
  */
 export const getUnreadMessageCount = (params?) => defHttp.get({ url: Api.getUnreadMessageCount, params });
@@ -22,6 +22,6 @@ export const getUnreadMessageCount = (params?) => defHttp.get({ url: Api.getUnre
 export const editCementSend = (anntId, params?) => defHttp.put({ url: Api.editCementSend, params: { anntId, ...params } });
 
 /**
- * 清空全部未读消息
+ * Clear all unread messages
  */
 export const clearAllUnReadMessage = () => defHttp.post({ url: Api.clearAllUnReadMessage },{ isTransformResponse: false });

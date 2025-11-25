@@ -11,7 +11,7 @@ import { JVxeComponent } from '../types/JVxeComponent';
 import { useValidateRules } from './useValidateRules';
 import { JVxeTableMethods } from '../types';
 
-// handle 方法参数
+// handle method parameters
 export interface HandleArgs {
   props: JVxeTableProps;
   slots: any;
@@ -25,38 +25,38 @@ export interface HandleArgs {
 
 export function useColumns(props: JVxeTableProps, data: JVxeDataProps, methods: JVxeTableMethods, slots) {
   data.vxeColumns = computed(() => {
-    // update-begin--author:liaozhiyang---date:20250403---for：【issues/7812】linkageConfig改变了，vxetable没更新
-    // linkageConfig变化时也需要执行
+    // update-begin--author:liaozhiyang---date:20250403---for：【issues/7812】linkageConfigchanged，vxetableNot updated
+    // linkageConfigIt also needs to be executed when changing
     const linkageConfig = toRaw(props.linkageConfig);
     if (linkageConfig) {
       // console.log(linkageConfig);
     }
-    // update-end--author:liaozhiyang---date:20250403---for：【issues/7812】linkageConfig改变了，vxetable没更新
+    // update-end--author:liaozhiyang---date:20250403---for：【issues/7812】linkageConfigchanged，vxetableNot updated
     let columns: JVxeColumn[] = [];
     if (isArray(props.columns)) {
-      // handle 方法参数
+      // handle method parameters
       const args: HandleArgs = { props, slots, data, methods, columns };
       let seqColumn, selectionColumn, expandColumn, dragSortColumn;
 
       const handleColumn = (column: JVxeColumn, container: JVxeColumn[]) => {
-        // 排除未授权的列 1 = 显示/隐藏； 2 = 禁用
+        // Exclude unauthorized columns 1 = show/hide； 2 = Disable
         let auth = methods.getColAuth(column.key);
         if (auth?.type == '1' && !auth.isAuth) {
           return;
         } else if (auth?.type == '2' && !auth.isAuth) {
           column.disabled = true;
         }
-        // type 不填，默认为 normal
+        // type Leave blank，Default is normal
         if (column.type == null || isEmpty(column.type)) {
           column.type = JVxeTypes.normal;
         }
         let col: JVxeColumn = cloneDeep(column);
-        // 处理隐藏列
+        // 处理hide列
         if (col.type === JVxeTypes.hidden) {
           return handleInnerColumn(args, col, handleHiddenColumn);
         }
-        // 处理子级列
-        // 判断是否是分组列，如果当前是父级，则无需处理 render
+        // Process child columns
+        // Determine whether it is a grouping column，If it is currently the parent，no need to process render
         if (Array.isArray(col.children) && col.children.length > 0) {
           const children: JVxeColumn[] = [];
           col.children.forEach((child: JVxeColumn) => handleColumn(child, children));
@@ -64,7 +64,7 @@ export function useColumns(props: JVxeTableProps, data: JVxeDataProps, methods: 
           container.push(col);
           return;
         }
-        // 组件未注册，自动设置为 normal
+        // Component not registered，automatically set to normal
         if (!isRegistered(col.type)) {
           col.type = JVxeTypes.normal;
         }
@@ -78,12 +78,12 @@ export function useColumns(props: JVxeTableProps, data: JVxeDataProps, methods: 
           listeners: {
             trigger: (name, event) => methods.trigger(name, event),
             valueChange: (event) => methods.trigger('valueChange', event),
-            /** 重新排序行 */
+            /** Reorder rows */
             rowResort: (event) => {
               methods.doSort(event.oldIndex, event.newIndex);
               methods.trigger('dragged', event);
             },
-            /** 在当前行下面插入一行 */
+            /** Insert a row below the current row */
             rowInsertDown: (rowIndex) => methods.insertRows({}, rowIndex + 1),
           },
         };
@@ -112,9 +112,9 @@ export function useColumns(props: JVxeTableProps, data: JVxeDataProps, methods: 
       handleInnerColumn(args, selectionColumn, handleSelectionColumn);
       handleInnerColumn(args, expandColumn, handleExpandColumn);
       handleInnerColumn(args, dragSortColumn, handleDragSortColumn, true);
-      // update-begin--author:liaozhiyang---date:2024-05-30---for【TV360X-371】不可编辑组件必填缺少*号
+      // update-begin--author:liaozhiyang---date:2024-05-30---for【TV360X-371】Non-editable components are required and missing*Number
       customComponentAddStar(columns);
-      // update-end--author:liaozhiyang---date:2024-05-30---for：【TV360X-371】不可编辑组件必填缺少*号
+      // update-end--author:liaozhiyang---date:2024-05-30---for：【TV360X-371】Non-editable components are required and missing*Number
     }
     return columns;
   });
@@ -123,7 +123,7 @@ export function useColumns(props: JVxeTableProps, data: JVxeDataProps, methods: 
 /**
  * 2024-05-30
  * liaozhiyang
- * 不可编辑组件必填通过title人为加*号
+ * Non-editable components are required to passtitleArtificial addition*Number
  */
 function customComponentAddStar(columns) {
   columns.forEach((column) => {
@@ -151,7 +151,7 @@ function customComponentAddStar(columns) {
   });
 }
 
-/** 处理内置列 */
+/** Handle built-in columns */
 function handleInnerColumn(args: HandleArgs, col: JVxeColumn, handler: (args: HandleArgs) => void, assign?: boolean) {
   let renderOptions = col?.editRender || col?.cellRender;
   return handler({
@@ -162,7 +162,7 @@ function handleInnerColumn(args: HandleArgs, col: JVxeColumn, handler: (args: Ha
 }
 
 /**
- * 处理隐藏列
+ * 处理hide列
  */
 function handleHiddenColumn({ col, columns }: HandleArgs) {
   col!.params = cloneDeep(col);
@@ -173,10 +173,10 @@ function handleHiddenColumn({ col, columns }: HandleArgs) {
 }
 
 /**
- * 处理行号列
+ * 处理行Number列
  */
 function handleSeqColumn({ props, col, columns }: HandleArgs) {
-  // 判断是否开启了行号列
+  // 判断是否开启了行Number列
   if (props.rowNumber) {
     let column = {
       type: 'seq',
@@ -186,11 +186,11 @@ function handleSeqColumn({ props, col, columns }: HandleArgs) {
       fixed: props.rowNumberFixed,
       align: 'center',
     };
-    // update-begin--author:liaozhiyang---date:20240306---for：【QQYUN-8405】vxetable支持序号是否固定（移动端需要）
+    // update-begin--author:liaozhiyang---date:20240306---for：【QQYUN-8405】vxetable支持序Number是否固定（Mobile terminal needs）
     if (props.rowNumberFixed === 'none') {
       delete column.fixed;
     }
-    // update-end--author:liaozhiyang---date:20240306---for：QQYUN-8405】vxetable支持序号是否固定（移动端需要）
+    // update-end--author:liaozhiyang---date:20240306---for：QQYUN-8405】vxetable支持序Number是否固定（Mobile terminal needs）
     if (col) {
       Object.assign(col, column);
     } else {
@@ -200,13 +200,13 @@ function handleSeqColumn({ props, col, columns }: HandleArgs) {
 }
 
 /**
- * 处理可选择列
+ * Handle selectable columns
  */
 function handleSelectionColumn({ props, data, col, columns }: HandleArgs) {
-  // 判断是否开启了可选择行
-  // -update-begin--author:liaozhiyang---date:20240617---for：【TV360X-1002】详情页面行编辑不显示checkbox
+  // Determine whether selectable rows are enabled
+  // -update-begin--author:liaozhiyang---date:20240617---for：【TV360X-1002】详情页面行编辑不showcheckbox
   if (props.rowSelection && props.disabled == false) {
-    // -update-end--author:liaozhiyang---date:20240617---for：【TV360X-1002】详情页面行编辑不显示checkbox
+    // -update-end--author:liaozhiyang---date:20240617---for：【TV360X-1002】详情页面行编辑不showcheckbox
     let width = 45;
     if (data.statistics.has && !props.rowExpand && !props.dragSort) {
       width = 60;
@@ -217,11 +217,11 @@ function handleSelectionColumn({ props, data, col, columns }: HandleArgs) {
       fixed: 'left',
       align: 'center',
     };
-    // update-begin--author:liaozhiyang---date:20240509---for：【issues/1162】JVxeTable列过长（出现横向滚动条）时无法拖拽排序
+    // update-begin--author:liaozhiyang---date:20240509---for：【issues/1162】JVxeTableColumn too long（A horizontal scroll bar appears）Unable to drag and sort
     if (props.rowSelectionFixed === 'none') {
       delete column.fixed;
     }
-    // update-end--author:liaozhiyang---date:20240509---for：【issues/1162】JVxeTable列过长（出现横向滚动条）时无法拖拽排序
+    // update-end--author:liaozhiyang---date:20240509---for：【issues/1162】JVxeTableColumn too long（A horizontal scroll bar appears）Unable to drag and sort
     if (col) {
       Object.assign(col, column);
     } else {
@@ -231,10 +231,10 @@ function handleSelectionColumn({ props, data, col, columns }: HandleArgs) {
 }
 
 /**
- * 处理可展开行
+ * Handle expandable rows
  */
 function handleExpandColumn({ props, data, col, columns }: HandleArgs) {
-  // 是否可展开行
+  // Whether rows can be expanded
   if (props.rowExpand) {
     let width = 40;
     if (data.statistics.has && !props.dragSort) {
@@ -256,9 +256,9 @@ function handleExpandColumn({ props, data, col, columns }: HandleArgs) {
   }
 }
 
-/** 处理可排序列 */
+/** Handle sortable columns */
 function handleDragSortColumn({ props, data, col, columns, renderOptions }: HandleArgs) {
-  // 是否可拖动排序
+  // Is draggable sorting possible?
   if (props.dragSort) {
     let width = 40;
     if (data.statistics.has) {
@@ -269,19 +269,19 @@ function handleDragSortColumn({ props, data, col, columns, renderOptions }: Hand
       width: width,
       fixed: 'left',
       align: 'center',
-      // update-begin--author:liaozhiyang---date:20240417---for:【QQYUN-8785】online表单列位置的id未做限制，拖动其他列到id列上面，同步数据库时报错
+      // update-begin--author:liaozhiyang---date:20240417---for:【QQYUN-8785】onlineform column positionidNo restrictions，Drag other columns toidcolumn above，Error when synchronizing database
       params: {
         insertRow: props.insertRow,
         notAllowDrag: props.notAllowDrag,
         ...col?.params,
       },
-      // update-end--author:liaozhiyang---date:20240417---for:【QQYUN-8785】online表单列位置的id未做限制，拖动其他列到id列上面，同步数据库时报错
+      // update-end--author:liaozhiyang---date:20240417---for:【QQYUN-8785】onlineform column positionidNo restrictions，Drag other columns toidcolumn above，Error when synchronizing database
     };
-    // update-begin--author:liaozhiyang---date:20240506---for：【issues/1162】JVxeTable列过长（出现横向滚动条）时无法拖拽排序
+    // update-begin--author:liaozhiyang---date:20240506---for：【issues/1162】JVxeTableColumn too long（A horizontal scroll bar appears）Unable to drag and sort
     if (props.dragSortFixed === 'none') {
       delete column.fixed;
     }
-    // update-end--author:liaozhiyang---date:20240506---for：【issues/1162】JVxeTable列过长（出现横向滚动条）时无法拖拽排序
+    // update-end--author:liaozhiyang---date:20240506---for：【issues/1162】JVxeTableColumn too long（A horizontal scroll bar appears）Unable to drag and sort
     let cellRender = {
       name: JVxeTypePrefix + JVxeTypes.rowDragSort,
       sortKey: props.sortKey,
@@ -299,7 +299,7 @@ function handleDragSortColumn({ props, data, col, columns, renderOptions }: Hand
   }
 }
 
-/** 处理自定义组件列 */
+/** Handling custom component columns */
 function handlerCol(args: HandleArgs) {
   const { props, col, columns, enhanced } = args;
   if (!col) return;
@@ -307,7 +307,7 @@ function handlerCol(args: HandleArgs) {
   col.field = col.key;
   delete col.type;
   let renderName = 'cellRender';
-  // 渲染选项
+  // Rendering options
   let $renderOptions: any = { name: JVxeTypePrefix + type };
   if (enhanced?.switches.editRender) {
     if (!(enhanced.switches.visible || props.alwaysEdit)) {
@@ -316,9 +316,9 @@ function handlerCol(args: HandleArgs) {
     // $renderOptions.type = (enhanced.switches.visible || props.alwaysEdit) ? 'visible' : 'default'
   }
   col[renderName] = $renderOptions;
-  // update-begin--author:liaozhiyang---date:20240321---for：【QQYUN-5806】js增强改变下拉搜索options（添加customOptions为true不读字典，走自己的options）
+  // update-begin--author:liaozhiyang---date:20240321---for：【QQYUN-5806】jsEnhanced change drop-down searchoptions（Add tocustomOptionsfortrueDon't read the dictionary，Go your own wayoptions）
   !col.params.customOptions && handleDict(args);
-  // update-end--author:liaozhiyang---date:20240321---for：【QQYUN-5806】js增强改变下拉搜索options（添加customOptions为true不读字典，走自己的options）
+  // update-end--author:liaozhiyang---date:20240321---for：【QQYUN-5806】jsEnhanced change drop-down searchoptions（Add tocustomOptionsfortrueDon't read the dictionary，Go your own wayoptions）
   handleRules(args);
   handleStatistics(args);
   handleSlots(args);
@@ -336,25 +336,25 @@ function handlerCol(args: HandleArgs) {
 }
 
 /**
- * 处理字典
+ * Handle dictionaries
  */
 async function handleDict({ col, methods }: HandleArgs) {
   if (col && col.params.dictCode) {
-    /** 加载数据字典并合并到 options */
+    /** Load the data dictionary and merge into options */
     try {
-      // 查询字典
+      // Query Dictionary
       if (!isPromise(col.params.optionsPromise)) {
         col.params.optionsPromise = new Promise(async (resolve) => {
-          //update-begin-author:taoyan date:2022-6-1 for: VUEN-1180 【代码生成】子表不支持带条件？
+          //update-begin-author:taoyan date:2022-6-1 for: VUEN-1180 【code generation】Subtables do not support conditions？
           let dictCodeString = col.params.dictCode;
           if (dictCodeString) {
             dictCodeString = encodeURI(dictCodeString);
           }
           const dictOptions: any = await initDictOptions(dictCodeString);
-          //update-end-author:taoyan date:2022-6-1 for: VUEN-1180 【代码生成】子表不支持带条件？
+          //update-end-author:taoyan date:2022-6-1 for: VUEN-1180 【code generation】Subtables do not support conditions？
           let options = col.params.options ?? [];
           dictOptions.forEach((dict) => {
-            // 过滤重复数据
+            // Filter duplicate data
             if (options.findIndex((o) => o.value === dict.value) === -1) {
               options.push(dict);
             }
@@ -366,7 +366,7 @@ async function handleDict({ col, methods }: HandleArgs) {
       await nextTick();
       await methods.getXTable().updateData();
     } catch (e) {
-      console.group(`[JVxeTable] 查询字典 "${col.params.dictCode}" 时发生异常！`);
+      console.group(`[JVxeTable] Query Dictionary "${col.params.dictCode}" Exception occurs when！`);
       console.warn(e);
       console.groupEnd();
     }
@@ -374,7 +374,7 @@ async function handleDict({ col, methods }: HandleArgs) {
 }
 
 /**
- * 处理校验
+ * Handle verification
  */
 function handleRules(args: HandleArgs) {
   if (isArray(args.col?.validateRules)) {
@@ -383,10 +383,10 @@ function handleRules(args: HandleArgs) {
 }
 
 /**
- * 处理统计列
+ * Process statistical columns
  */
 function handleStatistics({ col, data }: HandleArgs) {
-  // sum = 求和、average = 平均值
+  // sum = Sum、average = average value
   if (col && isArray(col.statistics)) {
     data.statistics.has = true;
     col.statistics.forEach((item) => {
@@ -401,10 +401,10 @@ function handleStatistics({ col, data }: HandleArgs) {
 }
 
 /**
- * 处理插槽
+ * handle slot
  */
 function handleSlots({ slots, col, renderOptions }: HandleArgs) {
-  // slot 组件特殊处理
+  // slot Special handling of components
   if (col && col.params.type === JVxeTypes.slot) {
     if (!isEmpty(col.slotName) && slots.hasOwnProperty(col.slotName)) {
       renderOptions.slot = slots[col.slotName];
@@ -412,11 +412,11 @@ function handleSlots({ slots, col, renderOptions }: HandleArgs) {
   }
 }
 
-/** 处理联动列 */
+/** Process linked columns */
 function handleLinkage({ data, col, renderOptions, methods }: HandleArgs) {
-  // 处理联动列，联动列只能作用于 select 组件
+  // Process linked columns，Linked columns can only act on select components
   if (col && col.params.type === JVxeTypes.select && data.innerLinkageConfig != null) {
-    // 判断当前列是否是联动列
+    // Determine whether the current column is a linked column
     if (data.innerLinkageConfig.has(col.key)) {
       renderOptions.linkage = {
         config: data.innerLinkageConfig.get(col.key),

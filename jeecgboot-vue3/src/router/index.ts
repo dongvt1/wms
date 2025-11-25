@@ -5,7 +5,7 @@ import { $electron } from "@/electron";
 import { basicRoutes } from './routes';
 import {createRouter as createVueRouter, destroyRouter, router} from './router'
 
-// 白名单应该包含基本静态路由
+// The whitelist should contain basic static routes
 const WHITE_NAME_LIST: string[] = [];
 const getRouteNames = (array: any[]) =>
   array.forEach((item) => {
@@ -15,7 +15,7 @@ const getRouteNames = (array: any[]) =>
 getRouteNames(basicRoutes);
 
 /**
- * 创建路由实例
+ * Create routing instance
  */
 export function createRouter() {
   let router = createVueRouter({
@@ -23,11 +23,11 @@ export function createRouter() {
       strict: true,
       scrollBehavior: () => ({left: 0, top: 0}),
     },
-    // 如果是 Electron 环境，则使用 hash 路由
+    // in the case of Electron environment，then use hash routing
     $electron.isElectron(),
   )
 
-  // TODO 【QQYUN-4517】【表单设计器】记录分享路由守卫测试
+  // TODO 【QQYUN-4517】【form designer】记录分享routing守卫测试
   // @ts-ignore
   router.beforeEach(async (to, from, next) => {
     //console.group('【QQYUN-4517】beforeEach');

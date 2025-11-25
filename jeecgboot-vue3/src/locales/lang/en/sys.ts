@@ -101,7 +101,7 @@ export default {
     smsCode: 'SMS code',
     mobile: 'Mobile',
 
-    //重置密码页面英文
+    //Reset password page in English
     authentication:'authentication',
     resetLoginPassword:'reset login password',
     resetSuccess:'reset succeeded',

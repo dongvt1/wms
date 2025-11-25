@@ -88,14 +88,14 @@ const getBaseOptions = () => {
 };
 
 function createModalOptions(options: ModalOptionsPartial, icon: string): ModalOptionsPartial {
-  //update-begin-author:taoyan date:2023-1-10 for: 可以自定义图标 
+  //update-begin-author:taoyan date:2023-1-10 for: Icons can be customized 
   let titleIcon:any = ''
   if(options.icon){
     titleIcon = options.icon;
   }else{
     titleIcon = getIcon(icon)
   }
-  //update-end-author:taoyan date:2023-1-10 for: 可以自定义图标 
+  //update-end-author:taoyan date:2023-1-10 for: Icons can be customized 
   return {
     ...getBaseOptions(),
     ...options,
@@ -124,7 +124,7 @@ interface MOE extends Omit<ModalOptionsEx, 'iconType'> {
   iconType?: ModalOptionsEx['iconType'];
 }
 
-// 提示框，无需传入iconType，默认为warning
+// Prompt box，No need to pass iniconType，Default iswarning
 function createConfirmSync(options: MOE) {
   return new Promise((resolve) => {
     createConfirm({

@@ -1,6 +1,6 @@
 import { defHttp } from '/@/utils/http/axios';
 
-// 接口前缀
+// interface prefix
 const API_PREFIX = '/warehouse/category';
 
 export interface CategoryModel {
@@ -23,31 +23,31 @@ export interface CategoryListResult {
 }
 
 /**
- * 查询产品分类列表
- * @param params 查询参数
+ * Query product classification list
+ * @param params query parameters
  */
 export const categoryApi = {
-  // 列表
+  // list
   list: (params?: any) => defHttp.get<CategoryListResult>({ url: `${API_PREFIX}/list`, params }),
   
-  // 删除
+  // delete
   delete: (params: { id: string }) => defHttp.delete({ url: `${API_PREFIX}/delete`, params }),
   
-  // 批量删除
+  // 批量delete
   deleteBatch: (params: { ids: string }) => defHttp.delete({ url: `${API_PREFIX}/deleteBatch`, params }),
   
-  // 根据ID查询
+  // according toIDQuery
   getById: (params: { id: string }) => defHttp.get<CategoryModel>({ url: `${API_PREFIX}/queryById`, params }),
   
-  // 保存或更新
+  // Save or update
   save: (params: CategoryModel) => defHttp.post({ url: `${API_PREFIX}/add`, params }),
   
   update: (params: CategoryModel) => defHttp.put({ url: `${API_PREFIX}/edit`, params }),
   
-  // 导出excel
+  // Exportexcel
   exportXls: (params?: any) => {
     const url = `${API_PREFIX}/exportXls`;
-    // 使用window.open进行文件下载
+    // usewindow.openPerform file download
     if (params) {
       const queryString = Object.keys(params)
         .map(key => `${key}=${encodeURIComponent(params[key])}`)
@@ -58,7 +58,7 @@ export const categoryApi = {
     }
   },
   
-  // 导入excel
+  // importexcel
   importExcel: (params: any, onUploadProgress?: (progressEvent: any) => void) =>
     defHttp.uploadFile<any>(
       {
@@ -68,6 +68,6 @@ export const categoryApi = {
       params
     ),
   
-  // 获取分类树形结构
+  // Get the classification tree structure
   getTree: (params?: any) => defHttp.get<CategoryModel[]>({ url: `${API_PREFIX}/tree`, params }),
 };

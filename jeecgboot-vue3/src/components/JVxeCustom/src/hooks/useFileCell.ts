@@ -14,7 +14,7 @@ export function useFileCell(props, fileType: UploadTypeEnum, options?) {
   const { innerFile, handleChangeCommon, originColumn } = setup;
   const [registerModel, { openModal }] = useModal();
 
-  // 截取文件名
+  // Intercept file name
   const ellipsisFileName = computed(() => {
     let length = 5;
     let file = innerFile.value;
@@ -40,7 +40,7 @@ export function useFileCell(props, fileType: UploadTypeEnum, options?) {
 
   const maxCount = computed(() => {
     let maxCount = originColumn.value.maxCount;
-    // online 扩展JSON
+    // online ExpandJSON
     if (originColumn.value && originColumn.value.fieldExtendJson) {
       let json = JSON.parse(originColumn.value.fieldExtendJson);
       maxCount = json.uploadnum ? json.uploadnum : 0;
@@ -48,7 +48,7 @@ export function useFileCell(props, fileType: UploadTypeEnum, options?) {
     return maxCount ?? 0;
   });
 
-  // 点击更多按钮
+  // Click the more button
   function handleMoreOperation() {
     openModal(true, {
       removeConfirm: true,
@@ -61,20 +61,20 @@ export function useFileCell(props, fileType: UploadTypeEnum, options?) {
     });
   }
 
-  // 更多上传回调
+  // More upload callbacks
   function onModalChange(path) {
     if (path) {
-      // update-begin--author:liaozhiyang---date:20240524---for：【TV360X-235】富文本禁用状态下图片上传按钮文字看不清
+      // update-begin--author:liaozhiyang---date:20240524---for：【TV360X-235】The text of the image upload button cannot be seen clearly when rich text is disabled.
       if (innerFile.value === null) {
         innerFile.value = {};
       }
-      // update-end-author:liaozhiyang---date:20240524---for：【TV360X-235】富文本禁用状态下图片上传按钮文字看不清
+      // update-end-author:liaozhiyang---date:20240524---for：【TV360X-235】The text of the image upload button cannot be seen clearly when rich text is disabled.
       innerFile.value.path = path;
       handleChangeCommon(innerFile.value);
     } else {
-      //update-begin-author:liusq date:2023-06-05 for: [issues/530]JVxeTable 的JVxeTypes.image类型，无法全部删除上传图片
+      //update-begin-author:liusq date:2023-06-05 for: [issues/530]JVxeTable ofJVxeTypes.imagetype，Unable to delete all uploaded images
       handleChangeCommon(null);
-      //update-end-author:liusq date:2023-06-05 for:  [issues/530]JVxeTable 的JVxeTypes.image类型，无法全部删除上传图片
+      //update-end-author:liusq date:2023-06-05 for:  [issues/530]JVxeTable ofJVxeTypes.imagetype，Unable to delete all uploaded images
     }
   }
 

@@ -24,28 +24,28 @@ export enum Api {
   getUpdateDepartInfo = '/sys/user/getUpdateDepartInfo',
   doUpdateDepartInfo = '/sys/user/doUpdateDepartInfo',
   changeDepartChargePerson = '/sys/user/changeDepartChargePerson',
-  //根据部门id获取岗位信息
+  //According to departmentidGet job information
   getPositionByDepartId = '/sys/sysDepart/getPositionByDepartId',
-  //根据部门id获取岗位上下级关系
+  //According to departmentidObtain the relationship between superiors and subordinates of the position
   getRankRelation = '/sys/sysDepart/getRankRelation',
-  //异步获取部门和岗位
+  //Asynchronously obtain departments and positions
   queryDepartAndPostTreeSync = '/sys/sysDepart/queryDepartAndPostTreeSync',
-  //获取部门和岗位下的成员
+  //Get members under department and position
   queryByOrgCodeForAddressList = '/sys/user/queryByOrgCodeForAddressList',
 }
 
 /**
- * 获取部门树列表
+ * Get department tree list
  */
 export const queryDepartTreeSync = (params?) => defHttp.get({ url: Api.queryDepartTreeSync, params });
 
 /**
- * 获取部门和岗位树列表
+ * Get a list of departments and job trees
  */
 export const queryDepartAndPostTreeSync = (params?) => defHttp.get({ url: Api.queryDepartAndPostTreeSync, params });
 
 /**
- * 保存或者更新部门角色
+ * Save or update department roles
  */
 export const saveOrUpdateDepart = (params, isUpdate) => {
   if (isUpdate) {
@@ -56,7 +56,7 @@ export const saveOrUpdateDepart = (params, isUpdate) => {
 };
 
 /**
- * 批量删除部门角色
+ * Delete department roles in batches
  */
 export const deleteBatchDepart = (params, confirm = false) => {
   return new Promise((resolve, reject) => {
@@ -66,8 +66,8 @@ export const deleteBatchDepart = (params, confirm = false) => {
     if (confirm) {
       createConfirm({
         iconType: 'warning',
-        title: '删除',
-        content: '确定要删除吗？',
+        title: 'delete',
+        content: '确定要delete吗？',
         onOk: () => doDelete(),
         onCancel: () => reject(),
       });
@@ -78,75 +78,75 @@ export const deleteBatchDepart = (params, confirm = false) => {
 };
 
 /**
- * 获取权限树列表
+ * Get the permission tree list
  */
 export const queryRoleTreeList = (params?) => defHttp.get({ url: Api.roleQueryTreeList, params });
 /**
- * 查询部门权限
+ * Query department permissions
  */
 export const queryDepartPermission = (params?) => defHttp.get({ url: Api.queryDepartPermission, params });
 /**
- * 保存部门权限
+ * Save department permissions
  */
 export const saveDepartPermission = (params) => defHttp.post({ url: Api.saveDepartPermission, params });
 
 /**
- *  查询部门数据权限列表
+ *  Query department data permission list
  */
 export const queryDepartDataRule = (functionId, departId, params?) => {
   let url = `${Api.dataRule}/${unref(functionId)}/${unref(departId)}`;
   return defHttp.get({ url, params });
 };
 /**
- * 保存部门数据权限
+ * Save department data permissions
  */
 export const saveDepartDataRule = (params) => defHttp.post({ url: Api.dataRule, params });
 /**
- * 获取登录用户部门信息
+ * Get logged in user department information
  */
 export const getUserDeparts = (params?) => defHttp.get({ url: Api.getCurrentUserDeparts, params });
 /**
- * 切换选择部门
+ * Switch to select department
  */
 export const selectDepart = (params?) => defHttp.put({ url: Api.selectDepart, params });
 
 /**
- * 编辑部门前获取部门相关信息
+ * Obtain department-related information before editing a department
  * @param id
  */
 export const getUpdateDepartInfo = (id) => defHttp.get({ url: Api.getUpdateDepartInfo, params: {id} });
 
 /**
- * 编辑部门
+ * Editorial Department
  * @param params
  */
 export const doUpdateDepartInfo = (params) => defHttp.put({ url: Api.doUpdateDepartInfo, params });
 
 /**
- * 删除部门
+ * delete部门
  * @param id
  */
 export const deleteDepart = (id) => defHttp.delete({ url: Api.delete, params:{ id } }, { joinParamsToUrl: true });
 
 /**
- * 设置负责人 取消负责人
+ * Set up a person in charge Cancel the person in charge
  * @param params
  */
 export const changeDepartChargePerson = (params) => defHttp.put({ url: Api.changeDepartChargePerson, params });
 
 /**
- * 根据部门id获取岗位信息
+ * According to departmentidGet job information
  */
 export const getPositionByDepartId = (params) => defHttp.get({ url: Api.getPositionByDepartId, params }, { isTransformResponse: false });
 
 /**
- * 根据部门id获取岗位上下级关系
+ * According to departmentidObtain the relationship between superiors and subordinates of the position
  * @param params
  */
 export const getRankRelation = (params) => defHttp.get({ url: Api.getRankRelation, params }, { isTransformResponse: false });
 
 /**
- * 根据部门或岗位编码获取通讯录成员
+ * According to department或岗位编码获取通讯录成员
  * 
  * @param params
  */

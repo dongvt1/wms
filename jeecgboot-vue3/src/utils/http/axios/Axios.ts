@@ -75,7 +75,7 @@ export class VAxios {
 
     const axiosCanceler = new AxiosCanceler();
 
-    // 请求侦听器配置处理
+    // Request listener configuration handling
     this.axiosInstance.interceptors.request.use((config: AxiosRequestConfig) => {
       // If cancel repeat request is turned on, then cancel repeat request is prohibited
       // @ts-ignore
@@ -90,12 +90,12 @@ export class VAxios {
       return config;
     }, undefined);
 
-    // 请求拦截器错误捕获
+    // Request interceptor error catching
     requestInterceptorsCatch &&
       isFunction(requestInterceptorsCatch) &&
       this.axiosInstance.interceptors.request.use(undefined, requestInterceptorsCatch);
 
-    // 响应结果拦截器处理
+    // Response result interceptor processing
     this.axiosInstance.interceptors.response.use((res: AxiosResponse<any>) => {
       res && axiosCanceler.removePending(res.config);
       if (responseInterceptors && isFunction(responseInterceptors)) {
@@ -104,18 +104,18 @@ export class VAxios {
       return res;
     }, undefined);
 
-    // 响应结果拦截器错误捕获
+    // Response result interceptor error catching
     responseInterceptorsCatch &&
       isFunction(responseInterceptorsCatch) &&
       this.axiosInstance.interceptors.response.use(undefined, responseInterceptorsCatch);
   }
 
   /**
-   * 文件上传
+   * File upload
    */
-  //--@updateBy-begin----author:liusq---date:20211117------for:增加上传回调参数callback------
+  //--@updateBy-begin----author:liusq---date:20211117------for:Add upload callback parameterscallback------
   uploadFile<T = any>(config: AxiosRequestConfig, params: UploadFileParams, callback?: UploadFileCallBack) {
-    //--@updateBy-end----author:liusq---date:20211117------for:增加上传回调参数callback------
+    //--@updateBy-end----author:liusq---date:20211117------for:Add upload callback parameterscallback------
     const formData = new window.FormData();
     const customFilename = params.name || 'file';
 
@@ -151,14 +151,14 @@ export class VAxios {
         },
       })
       .then((res: any) => {
-        //--@updateBy-begin----author:liusq---date:20210914------for:上传判断是否包含回调方法------
+        //--@updateBy-begin----author:liusq---date:20210914------for:Determine whether the upload contains a callback method------
         if (callback?.success && isFunction(callback?.success)) {
           callback?.success(res?.data);
-          //--@updateBy-end----author:liusq---date:20210914------for:上传判断是否包含回调方法------
+          //--@updateBy-end----author:liusq---date:20210914------for:Determine whether the upload contains a callback method------
         } else if (callback?.isReturnResponse) {
-          //--@updateBy-begin----author:liusq---date:20211117------for:上传判断是否返回res信息------
+          //--@updateBy-begin----author:liusq---date:20211117------for:Upload to determine whether to returnresinformation------
           return Promise.resolve(res?.data);
-          //--@updateBy-end----author:liusq---date:20211117------for:上传判断是否返回res信息------
+          //--@updateBy-end----author:liusq---date:20211117------for:Upload to determine whether to returnresinformation------
         } else {
           if (res.data.success == true && res.data.code == 200) {
             createMessage.success(res.data.message);
@@ -169,7 +169,7 @@ export class VAxios {
       });
   }
 
-  // 支持表单数据
+  // Support form data
   supportFormData(config: AxiosRequestConfig) {
     const headers = config.headers || this.options.headers;
     const contentType = headers?.['Content-Type'] || headers?.['content-type'];
@@ -223,9 +223,9 @@ export class VAxios {
           if (transformRequestHook && isFunction(transformRequestHook)) {
             try {
               const ret = transformRequestHook(res, opt);
-              //zhangyafei---添加回调方法
+              //zhangyafei---Add callback method
               config.success && config.success(res.data);
-              //zhangyafei---添加回调方法
+              //zhangyafei---Add callback method
               resolve(ret);
             } catch (err) {
               reject(err || new Error('request error!'));
@@ -240,7 +240,7 @@ export class VAxios {
             return;
           }
           if (axios.isAxiosError(e)) {
-            // 在此处重写来自axios的错误消息
+            // Rewrite here fromaxioserror message
           }
           reject(e);
         });
@@ -249,7 +249,7 @@ export class VAxios {
 
 
   /**
-   * 【用于评论功能】自定义文件上传-请求
+   * 【for comment function】自定义File upload-ask
    * @param url
    * @param formData
    */

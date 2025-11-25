@@ -1,0 +1,61 @@
+-- MySQL dump 10.13  Distrib 8.0.44, for macos15 (arm64)
+--
+-- Host: 127.0.0.1    Database: wms
+-- ------------------------------------------------------
+-- Server version	8.0.42
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `test_order_customer`
+--
+
+DROP TABLE IF EXISTS `test_order_customer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `test_order_customer` (
+  `id` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `create_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Creator',
+  `create_time` datetime DEFAULT NULL COMMENT 'Creation date',
+  `update_by` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Updater',
+  `update_time` datetime DEFAULT NULL COMMENT 'Update date',
+  `sys_org_code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Department',
+  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Customer nameCharacter',
+  `sex` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'gender',
+  `age` int DEFAULT NULL COMMENT 'age',
+  `birthday` date DEFAULT NULL COMMENT 'Birthday',
+  `order_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'Orderid',
+  `address` varchar(300) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL COMMENT 'address',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `test_order_customer`
+--
+
+LOCK TABLES `test_order_customer` WRITE;
+/*!40000 ALTER TABLE `test_order_customer` DISABLE KEYS */;
+INSERT INTO `test_order_customer` VALUES ('1586285823409205250','admin','2022-10-29 17:16:26',NULL,NULL,'A01','90','1',90,'2022-09-28','1551943088862896130',NULL),('1586557969578553345','admin','2022-10-30 11:20:31',NULL,NULL,'A01','Xiao Wang','1',33,'2022-09-29','1586557968995545089',NULL),('1586557969578553346','admin','2022-10-30 11:17:51',NULL,NULL,'A01','effectiveness','2',333,'2022-10-16','1586557968995545089',NULL),('1589514956528386050','admin','2022-11-07 15:07:52',NULL,NULL,'A01','1111','1',22,'2022-11-02','1589514956490637313',NULL),('1589516804559699970','admin','2022-11-07 15:15:13',NULL,NULL,'A01','33',NULL,NULL,NULL,'1589516804530339842','120101'),('1589516832699285506','admin','2022-11-07 15:15:19',NULL,NULL,'A01','4434',NULL,NULL,NULL,'1589516804530339842',NULL),('1597149156416937985','admin','2022-11-28 16:43:27',NULL,NULL,'A01','33','1',33,'2022-11-03','1597149156089782273',NULL),('1683074969947033601','admin','2024-09-10 19:47:29',NULL,NULL,'A01','Yu Meixin','1',22,'2023-07-06','1683074969561157634',NULL);
+/*!40000 ALTER TABLE `test_order_customer` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-11-25 17:35:33

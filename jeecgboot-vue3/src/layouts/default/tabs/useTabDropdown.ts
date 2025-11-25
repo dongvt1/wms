@@ -24,10 +24,10 @@ export function useTabDropdown(tabContentProps: TabContentProps, getIsTabs: Comp
   const getTargetTab = computed((): RouteLocationNormalized => {
     return unref(getIsTabs) ? tabContentProps.tabItem : unref(currentRoute);
   });
-  // update-begin--author:liaozhiyang---date:20250701---for：【QQYUN-12994】门户
-  // 隐藏下拉菜单中的门户设计项
+  // update-begin--author:liaozhiyang---date:20250701---for：【QQYUN-12994】portal
+  // 隐藏下拉菜单中的portal设计项
   const { getHideHomeDesign, isHideHomeDesign } = useHideHomeDesign(currentRoute);
-  // update-end--author:liaozhiyang---date:20250701---for：【QQYUN-12994】门户
+  // update-end--author:liaozhiyang---date:20250701---for：【QQYUN-12994】portal
 
   /**
    * @description: drop-down list
@@ -45,13 +45,13 @@ export function useTabDropdown(tabContentProps: TabContentProps, getIsTabs: Comp
     const isCurItem = curItem ? curItem.path === path : false;
     const index = state.currentIndex;
     const refreshDisabled = !isCurItem;
-    // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+    // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
     // Close left
     const closeLeftDisabled = () => {
       if (index === 0) {
         return true;
       } else {
-        // 【TV360X-1039】当只有首页和另一个tab页时关闭左侧禁用
+        // 【TV360X-1039】When there is only the homepage and anothertabDisabled when page closes on left side
         const validTabList = tabStore.getTabList.filter((item) => !item?.meta?.affix);
         return validTabList[0].path === state.current?.path;
       }
@@ -61,7 +61,7 @@ export function useTabDropdown(tabContentProps: TabContentProps, getIsTabs: Comp
       if (tabStore.getTabList.length === 1) {
         return true;
       } else {
-        // 【TV360X-1039】当只有首页和另一个tab页时关闭其它禁用
+        // 【TV360X-1039】When there is only the homepage and anothertabTurn off other disabled
         const validTabList = tabStore.getTabList.filter((item) => !item?.meta?.affix);
         return validTabList.length == 1;
       }
@@ -69,11 +69,11 @@ export function useTabDropdown(tabContentProps: TabContentProps, getIsTabs: Comp
 
     // Close right
     const closeRightDisabled = index === tabStore.getTabList.length - 1 && tabStore.getLastDragEndIndex >= 0;
-    // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
-    // update-begin--author:liaozhiyang---date:20250701---for：【QQYUN-12994】门户
-    // 隐藏下拉菜单中的门户设计项
+    // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
+    // update-begin--author:liaozhiyang---date:20250701---for：【QQYUN-12994】portal
+    // 隐藏下拉菜单中的portal设计项
     getHideHomeDesign(isCurItem, path);
-    // update-end--author:liaozhiyang---date:20250701---for：【QQYUN-12994】门户
+    // update-end--author:liaozhiyang---date:20250701---for：【QQYUN-12994】portal
     const dropMenuList: DropMenu[] = [
       {
         icon: 'jam:refresh-reverse',
@@ -100,9 +100,9 @@ export function useTabDropdown(tabContentProps: TabContentProps, getIsTabs: Comp
         icon: 'mdi:arrow-left',
         event: MenuEventEnum.CLOSE_LEFT,
         text: t('layout.multipleTab.closeLeft'),
-        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         disabled: closeLeftDisabled(),
-        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         divider: false,
       },
       {
@@ -116,9 +116,9 @@ export function useTabDropdown(tabContentProps: TabContentProps, getIsTabs: Comp
         icon: 'material-symbols:arrows-outward',
         event: MenuEventEnum.CLOSE_OTHER,
         text: t('layout.multipleTab.closeOther'),
-        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         disabled: closeOtherDisabled(),
-        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
       },
       // {
       //   icon: 'clarity:minus-line',
@@ -157,33 +157,33 @@ export function useTabDropdown(tabContentProps: TabContentProps, getIsTabs: Comp
         break;
       // Close left
       case MenuEventEnum.CLOSE_LEFT:
-        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         closeLeft(state.current);
-        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         break;
       // Close right
       case MenuEventEnum.CLOSE_RIGHT:
-        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         closeRight(state.current);
-        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         break;
       // Close other
       case MenuEventEnum.CLOSE_OTHER:
-        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         closeOther(state.current);
-        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         break;
       // Close all
       case MenuEventEnum.CLOSE_ALL:
-        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         closeAll(state.current);
-        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         break;
       // Close all
       case MenuEventEnum.HOME_DESIGN:
-        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-begin--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         changeDesign();
-        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】非当前页右键关闭左侧、关闭右侧、关闭其它功能正常使用
+        // update-end--author:liaozhiyang---date:20240605---for：【TV360X-732】Right click on the non-current page to close the left side、close right、Turn off other functions and use them normally
         break;
     }
   }

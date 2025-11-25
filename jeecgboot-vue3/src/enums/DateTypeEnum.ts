@@ -1,5 +1,5 @@
 /**
- * 日期类型
+ * date type
  */
 export enum DateTypeEnum {
   Date = 'date',

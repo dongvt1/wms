@@ -4,24 +4,24 @@ export const schemas: FormSchema[] = [
   {
     field: 'title',
     component: 'Input',
-    label: '标题',
+    label: 'title',
     componentProps: {
-      placeholder: '给目标起个名字',
+      placeholder: 'Give the goal a name',
     },
     required: true,
   },
   {
     field: 'time',
     component: 'RangePicker',
-    label: '起止日期',
+    label: 'Start and end date',
     required: true,
   },
   {
     field: 'target',
     component: 'InputTextArea',
-    label: '目标描述',
+    label: 'Goal description',
     componentProps: {
-      placeholder: '请输入你的阶段性工作目标',
+      placeholder: 'Please enter your phased work goals',
       rows: 4,
     },
     required: true,
@@ -29,9 +29,9 @@ export const schemas: FormSchema[] = [
   {
     field: 'metrics',
     component: 'InputTextArea',
-    label: '衡量标准',
+    label: 'measure',
     componentProps: {
-      placeholder: '请输入衡量标准',
+      placeholder: 'Please entermeasure',
       rows: 4,
     },
     required: true,
@@ -39,52 +39,52 @@ export const schemas: FormSchema[] = [
   {
     field: 'client',
     component: 'Input',
-    label: '客户',
-    helpMessage: '目标的服务对象',
-    subLabel: '( 选填 )',
+    label: 'client',
+    helpMessage: 'target service recipients',
+    subLabel: '( Optional )',
     componentProps: {
-      placeholder: '请描述你服务的客户，内部客户直接 @姓名／工号',
+      placeholder: '请描述你服务的client，内部client直接 @Name／Job number',
     },
   },
   {
     field: 'inviteer',
     component: 'Input',
-    label: '邀评人',
-    subLabel: '( 选填 )',
+    label: 'Invite reviewers',
+    subLabel: '( Optional )',
     componentProps: {
-      placeholder: '请直接 @姓名／工号，最多可邀请 5 人',
+      placeholder: 'Please direct @Name／Job number，Maximum number of invites 5 people',
     },
   },
   {
     field: 'weights',
     component: 'InputNumber',
-    label: '权重',
-    subLabel: '( 选填 )',
+    label: 'weight',
+    subLabel: '( Optional )',
     componentProps: {
       formatter: (value: string) => (value ? `${value}%` : ''),
       parser: (value: string) => value.replace('%', ''),
-      placeholder: '请输入',
+      placeholder: 'Please enter',
     },
   },
   {
     field: 'disclosure',
     component: 'RadioGroup',
-    label: '目标公开',
+    label: 'target public',
     itemProps: {
-      extra: '客户、邀评人默认被分享',
+      extra: 'client、Invite reviewers默认被分享',
     },
     componentProps: {
       options: [
         {
-          label: '公开',
+          label: 'public',
           value: '1',
         },
         {
-          label: '部分公开',
+          label: '部分public',
           value: '2',
         },
         {
-          label: '不公开',
+          label: '不public',
           value: '3',
         },
       ],
@@ -98,19 +98,19 @@ export const schemas: FormSchema[] = [
       return model.disclosure === '2';
     },
     componentProps: {
-      placeholder: '公开给',
+      placeholder: 'public给',
       mode: 'multiple',
       options: [
         {
-          label: '同事1',
+          label: 'colleague1',
           value: '1',
         },
         {
-          label: '同事2',
+          label: 'colleague2',
           value: '2',
         },
         {
-          label: '同事3',
+          label: 'colleague3',
           value: '3',
         },
       ],

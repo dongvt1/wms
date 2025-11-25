@@ -1,11 +1,11 @@
 // /**
-//  *微应用apps
-//  * @name: 微应用名称 - 具有唯一性
-//  * @entry: 微应用入口.必选 - 通过该地址加载微应用，
-//  * @container: 微应用挂载节点 - 微应用加载完成后将挂载在该节点上
-//  * @activeRule: 微应用触发的路由规则 - 触发路由规则后将加载该微应用
+//  *microappapps
+//  * @name: microapp名称 - unique
+//  * @entry: microapp入口.Required - 通过该地址加载microapp，
+//  * @container: microapp挂载节点 - microapp加载完成后将挂载在该节点上
+//  * @activeRule: microapp触发的路由规则 - 触发路由规则后将加载该microapp
 //  */
-// //子应用列表
+// //Sub-application list
 // const _apps: object[] = [];
 // for (const key in import.meta.env) {
 //   if (key.includes('VITE_APP_SUB_')) {

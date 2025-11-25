@@ -8,7 +8,7 @@ export function useTableStyle(propsRef: ComputedRef<BasicTableProps>, prefixCls:
   /**
    * 2024-09-19
    * liaozhiyang
-   * 【issues/7200】basicTable选中后没有选中样式
+   * 【issues/7200】basicTableNo style selected after selection
    * */
   const isChecked = (propsRef, record) => {
     const getAutoCreateKey = () => {
@@ -18,7 +18,7 @@ export function useTableStyle(propsRef: ComputedRef<BasicTableProps>, prefixCls:
       const { rowKey } = unref(propsRef);
       return getAutoCreateKey() ? ROW_KEY : rowKey;
     };
-    // 获取行的key字段数据
+    // Get the rowkeyField data
     const getRecordKey = (record) => {
       const key = getRowKey();
       if (!key) {
@@ -45,11 +45,11 @@ export function useTableStyle(propsRef: ComputedRef<BasicTableProps>, prefixCls:
     if (rowClassName && isFunction(rowClassName)) {
       classNames.push(rowClassName(record, index));
     }
-    // update-begin--author:liaozhiyang---date:20240919---for：【issues/7200】basicTable选中后没有选中样式
+    // update-begin--author:liaozhiyang---date:20240919---for：【issues/7200】basicTableNo style selected after selection
     if (isChecked(propsRef, record)) {
       classNames.push('ant-table-row-selected');
     }
-    // update-end--author:liaozhiyang---date:20240919---for：【issues/7200】basicTable选中后没有选中样式
+    // update-end--author:liaozhiyang---date:20240919---for：【issues/7200】basicTableNo style selected after selection
     return classNames.filter((cls) => !!cls).join(' ');
   }
 

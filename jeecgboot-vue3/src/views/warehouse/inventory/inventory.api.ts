@@ -2,7 +2,7 @@ import { defHttp } from '/@/utils/http/axios';
 import { UploadFileParams } from '/#/axios';
 import { AxiosProgressEvent } from 'axios';
 
-// 接口前缀
+// interface prefix
 const API_PREFIX = '/warehouse/inventory';
 
 export interface InventoryModel {
@@ -131,41 +131,41 @@ export interface InventoryUpdateParams {
 }
 
 /**
- * 库存管理API
+ * Inventory managementAPI
  */
 export const inventoryApi = {
-  // 获取单个产品库存信息
+  // Get inventory information for a single product
   getByProductId: (params: { productId: string }) => 
     defHttp.get<InventoryModel>({ url: `${API_PREFIX}/product/${params.productId}` }),
   
-  // 获取所有产品库存列表
+  // Get an inventory list of all products
   list: (params?: any) => 
     defHttp.get<InventoryListResult>({ url: `${API_PREFIX}/list`, params }),
   
-  // 更新库存信息
+  // Update inventory information
   update: (params: InventoryUpdateParams) => 
     defHttp.put({ url: `${API_PREFIX}/update`, params }),
   
-  // 手动调整库存
+  // Adjust inventory manually
   adjust: (params: InventoryAdjustmentParams) => 
     defHttp.post({ url: `${API_PREFIX}/adjust`, params }),
   
-  // 获取库存交易历史
+  // Get inventory transaction history
   getTransactions: (params?: any) => 
     defHttp.get<InventoryTransactionListResult>({ url: `${API_PREFIX}/transactions`, params }),
   
-  // 获取库存调整历史
+  // Get inventory adjustment history
   getAdjustments: (params?: any) => 
     defHttp.get<InventoryAdjustmentListResult>({ url: `${API_PREFIX}/adjustments`, params }),
   
-  // 获取库存报告
+  // Get inventory report
   getReport: (params?: any) => 
     defHttp.get<InventoryReportListResult>({ url: `${API_PREFIX}/report`, params }),
   
-  // 导出库存报告
+  // Export inventory report
   exportReport: (params?: any) => {
     const url = `${API_PREFIX}/export`;
-    // 使用window.open进行文件下载
+    // usewindow.openPerform file download
     if (params) {
       const queryString = Object.keys(params)
         .map(key => `${key}=${encodeURIComponent(params[key])}`)
@@ -176,10 +176,10 @@ export const inventoryApi = {
     }
   },
   
-  // 导出库存数据 (兼容现有代码)
+  // Export inventory data (Compatible with existing code)
   export: (params?: any) => {
     const url = `${API_PREFIX}/export`;
-    // 使用window.open进行文件下载
+    // usewindow.openPerform file download
     if (params) {
       const queryString = Object.keys(params)
         .map(key => `${key}=${encodeURIComponent(params[key])}`)
@@ -190,80 +190,80 @@ export const inventoryApi = {
     }
   },
   
-  // 获取库存价值报告
+  // Get inventory value report
   getValueReport: () =>
     defHttp.get<any>({ url: `${API_PREFIX}/value-report` }),
   
-  // 获取低库存产品列表
+  // Get a list of low-stock products
   getLowStock: (params?: any) => 
     defHttp.get<InventoryListResult>({ url: `${API_PREFIX}/low-stock`, params }),
   
-  // 获取库存预警列表
+  // Get inventory alert list
   getAlerts: (params?: any) => 
     defHttp.get<InventoryAlertListResult>({ url: `${API_PREFIX}/alerts`, params }),
   
-  // 解决库存预警
+  // Resolve inventory alerts
   resolveAlert: (params: { alertId: string }) => 
     defHttp.put({ url: `${API_PREFIX}/alerts/resolve`, params }),
   
-  // 忽略库存预警
+  // Ignore stock alerts
   dismissAlert: (params: { alertId: string }) => 
     defHttp.put({ url: `${API_PREFIX}/alerts/dismiss`, params }),
   
-  // 批量解决库存预警
+  // 批量Resolve inventory alerts
   resolveAlertsBatch: (params: { alertIds: string[] }) => 
     defHttp.put({ url: `${API_PREFIX}/alerts/resolve-batch`, params }),
   
-  // 批量忽略库存预警
+  // 批量Ignore stock alerts
   dismissAlertsBatch: (params: { alertIds: string[] }) => 
     defHttp.put({ url: `${API_PREFIX}/alerts/dismiss-batch`, params }),
   
-  // 获取库存统计信息
+  // Get inventory statistics
   getStatistics: () => 
     defHttp.get<any>({ url: `${API_PREFIX}/statistics` }),
   
-  // 获取库存趋势数据
+  // Get inventory trend data
   getTrends: (params: { productId: string; days?: number }) => 
     defHttp.get<any>({ url: `${API_PREFIX}/trends`, params }),
   
-  // 搜索库存
+  // Search inventory
   search: (params?: any) => 
     defHttp.get<InventoryListResult>({ url: `${API_PREFIX}/search`, params }),
 };
 
 /**
- * 库存预警配置API
+ * Inventory alert configurationAPI
  */
 export const inventoryAlertConfigApi = {
-  // 获取预警配置列表
+  // Get the alert configuration list
   list: (params?: any) => 
     defHttp.get<any>({ url: `${API_PREFIX}/alert-configs`, params }),
   
-  // 获取单个产品预警配置
+  // Get single product alert configuration
   getByProductId: (params: { productId: string }) => 
     defHttp.get<any>({ url: `${API_PREFIX}/alert-configs/product/${params.productId}` }),
   
-  // 保存或更新预警配置
+  // Save or update alert configuration
   save: (params: any) => 
     defHttp.post({ url: `${API_PREFIX}/alert-configs/add`, params }),
   
-  // 更新预警配置
+  // Update alert configuration
   update: (params: any) => 
     defHttp.put({ url: `${API_PREFIX}/alert-configs/edit`, params }),
   
-  // 删除预警配置
+  // Delete alert configuration
   delete: (params: { id: string }) => 
     defHttp.delete({ url: `${API_PREFIX}/alert-configs/delete`, params }),
   
-  // 批量删除预警配置
+  // 批量Delete alert configuration
   deleteBatch: (params: { ids: string }) => 
     defHttp.delete({ url: `${API_PREFIX}/alert-configs/deleteBatch`, params }),
   
-  // 获取全局预警配置
+  // Get global alert configuration
   getGlobal: () => 
     defHttp.get<any>({ url: `${API_PREFIX}/alert-configs/global` }),
   
-  // 更新全局预警配置
+  // Update global alert configuration
   updateGlobal: (params: any) => 
     defHttp.put({ url: `${API_PREFIX}/alert-configs/global`, params }),
 };

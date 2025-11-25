@@ -4,30 +4,30 @@ import { render } from '/@/utils/common/renderUtils';
 
 export const columns: BasicColumn[] = [
   {
-    title: '订单号',
+    title: 'Order number',
     dataIndex: 'orderCode',
     width: 260,
   },
   {
-    title: '订单类型',
+    title: 'Order type',
     dataIndex: 'ctype',
     width: 160,
     customRender: ({ text }) => {
-      return text == '1' ? '国内订单' : text == '2' ? '国际订单' : '';
+      return text == '1' ? 'Domestic orders' : text == '2' ? 'international orders' : '';
     },
   },
   {
-    title: '订单日期',
+    title: 'order date',
     dataIndex: 'orderDate',
     width: 300,
   },
   {
-    title: '订单金额',
+    title: 'Order amount',
     width: 200,
     dataIndex: 'orderMoney',
   },
   {
-    title: '订单备注',
+    title: 'Order notes',
     width: 200,
     dataIndex: 'content',
   },
@@ -35,24 +35,24 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    label: '订单号',
+    label: 'Order number',
     field: 'orderCode',
     component: 'Input',
     colProps: { span: 6 },
   },
   {
-    label: '订单类型',
+    label: 'Order type',
     field: 'ctype',
     component: 'Select',
     componentProps: {
       options: [
         {
-          label: '国内订单',
+          label: 'Domestic orders',
           value: '1',
           key: '1',
         },
         {
-          label: '国际订单',
+          label: 'international orders',
           value: '2',
           key: '2',
         },
@@ -70,24 +70,24 @@ export const formSchema: FormSchema[] = [
     show: false,
   },
   {
-    label: '订单号',
+    label: 'Order number',
     field: 'orderCode',
     component: 'Input',
     required: true,
   },
   {
-    label: '订单类型',
+    label: 'Order type',
     field: 'ctype',
     component: 'Select',
     componentProps: {
       options: [
         {
-          label: '国内订单',
+          label: 'Domestic orders',
           value: '1',
           key: '1',
         },
         {
-          label: '国际订单',
+          label: 'international orders',
           value: '2',
           key: '2',
         },
@@ -95,7 +95,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '订单日期',
+    label: 'order date',
     field: 'orderDate',
     component: 'DatePicker',
     componentProps: {
@@ -103,12 +103,12 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '订单金额',
+    label: 'Order amount',
     field: 'orderMoney',
     component: 'InputNumber',
   },
   {
-    label: '订单备注',
+    label: 'Order notes',
     field: 'content',
     component: 'Input',
   },
@@ -116,12 +116,12 @@ export const formSchema: FormSchema[] = [
 
 export const customColumns: BasicColumn[] = [
   {
-    title: '客户名',
+    title: 'Customer name',
     dataIndex: 'name',
     width: 260,
   },
   {
-    title: '性别',
+    title: 'gender',
     dataIndex: 'sex',
     width: 100,
     customRender: ({ text }) => {
@@ -129,12 +129,12 @@ export const customColumns: BasicColumn[] = [
     },
   },
   {
-    title: '身份证号',
+    title: 'ID number',
     dataIndex: 'idcard',
     width: 300,
   },
   {
-    title: '电话',
+    title: 'Telephone',
     width: 200,
     dataIndex: 'telphone',
   },
@@ -148,27 +148,27 @@ export const customerFormSchema: FormSchema[] = [
     show: false,
   },
   {
-    label: '客户姓名',
+    label: 'Customer name',
     field: 'name',
     component: 'Input',
     required: true,
   },
   {
-    label: '性别',
+    label: 'gender',
     field: 'sex',
     component: 'JDictSelectTag',
     componentProps: {
       dictCode: 'sex',
-      placeholder: '请选择性别',
+      placeholder: '请选择gender',
     },
   },
   {
-    label: '身份证号码',
+    label: 'ID number码',
     field: 'idcard',
     component: 'Input',
   },
   {
-    label: '身份证扫描件',
+    label: 'Scanned copy of ID card',
     field: 'idcardPic',
     component: 'JImageUpload',
     componentProps: {
@@ -176,10 +176,10 @@ export const customerFormSchema: FormSchema[] = [
     },
   },
   {
-    label: '联系方式',
+    label: 'Contact information',
     field: 'telphone',
     component: 'Input',
-    rules: [{ required: false, pattern: /^1[3456789]\d{9}$/, message: '手机号码格式有误' }],
+    rules: [{ required: false, pattern: /^1[3456789]\d{9}$/, message: 'Mobile number format is wrong' }],
   },
   {
     label: 'orderId',
@@ -191,19 +191,19 @@ export const customerFormSchema: FormSchema[] = [
 
 export const ticketColumns: BasicColumn[] = [
   {
-    title: '航班号',
+    title: 'flight number',
     dataIndex: 'ticketCode',
   },
   {
-    title: '航班时间',
+    title: 'Flight time',
     dataIndex: 'tickectDate',
   },
   {
-    title: '创建人',
+    title: 'Creator',
     dataIndex: 'createBy',
   },
   {
-    title: '创建时间',
+    title: 'creation time',
     dataIndex: 'createTime',
   },
 ];
@@ -216,13 +216,13 @@ export const ticketFormSchema: FormSchema[] = [
     show: false,
   },
   {
-    label: '航班号',
+    label: 'flight number',
     field: 'ticketCode',
     component: 'Input',
     required: true,
   },
   {
-    label: '航班时间',
+    label: 'Flight time',
     field: 'tickectDate',
     component: 'DatePicker',
     componentProps: {

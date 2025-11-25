@@ -1,7 +1,7 @@
 import type { App } from 'vue';
 import { warn } from '/@/utils/log';
 import { registerDynamicRouter } from '/@/utils/monorepo/dynamicRouter';
-// 引入模块
+// Import module
 import PACKAGE_JEECG_ONLINE from '@jeecg/online';
 import PACKAGE_JEECG_AIFLOW from '@jeecg/aiflow';
 
@@ -15,26 +15,26 @@ const installOptions = {
   baseImport,
 };
 
-/** 注册模块 */
+/** Register module */
 function use(app: App, pkg) {
   app.use(pkg, installOptions);
   registerDynamicRouter(pkg.getViews);
 }
 
-// 模块里可使用的import
+// available in the moduleimport
 const importGlobs = [import.meta.glob('../../utils/**/*.{ts,js,tsx}'), import.meta.glob('../../hooks/**/*.{ts,js,tsx}')];
 
 /**
- * 基础项目导包
- * 目前支持导入如下
+ * Basic project guide package
+ * Currently, the following imports are supported:
  * /@/utils/**
  * /@/hooks/**
  *
- * @param path 文件路径，ts无需输入后缀名。如：/@/utils/common/compUtils
+ * @param path file path，tsNo need to enter suffix name。like：/@/utils/common/compUtils
  */
 async function baseImport(path: string) {
   if (path) {
-    // 将 /@/ 替换成 ../../
+    // Will /@/ Replace with ../../
     path = path.replace(/^\/@\//, '../../');
     for (const glob of importGlobs) {
       for (const key of Object.keys(glob)) {
@@ -43,7 +43,7 @@ async function baseImport(path: string) {
         }
       }
     }
-    warn(`引入失败：${path} 不存在`);
+    warn(`Introduction failed：${path} does not exist`);
   }
   return null;
 }

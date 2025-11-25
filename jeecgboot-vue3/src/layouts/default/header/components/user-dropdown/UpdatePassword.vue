@@ -54,7 +54,7 @@
     ],
     showActionButtonGroup: false,
     wrapperCol: null,
-    labelWidth: localeStore.getLocale == 'zh_CN' ? 100 : 160,
+    labelWidth: localeStore.getLocale == 'en' ? 100 : 160,
   });
   // update-end--author:liaozhiyang---date:20240124---for：【QQYUN-7970】internationalization
   //form assignment

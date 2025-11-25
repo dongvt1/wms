@@ -137,7 +137,7 @@ export interface DrawerProps extends DrawerFooterProps {
    * @type string
    */
   class?: string;
-  // 兼容老版本的写法（后续可能会删除，优先写class）
+  // Compatible with older version writing methods（It may be deleted later，Write firstclass）
   wrapClassName?: string;
 
   /**

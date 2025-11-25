@@ -5,7 +5,7 @@ import { cloneDeep } from 'lodash-es';
 
 export const renderQrCode = ({ canvas, content, width = 0, options: params = {} }: RenderQrCodeParams) => {
   const options = cloneDeep(params);
-  // 容错率，默认对内容少的二维码采用高容错率，内容多的二维码采用低容错率
+  // Fault tolerance，默认对内容少的二维码采用高Fault tolerance，内容多的二维码采用低Fault tolerance
   options.errorCorrectionLevel = options.errorCorrectionLevel || getErrorCorrectionLevel(content);
 
   return getOriginWidth(content, options).then((_width: number) => {
@@ -14,13 +14,13 @@ export const renderQrCode = ({ canvas, content, width = 0, options: params = {} 
   });
 };
 
-// 得到原QrCode的大小，以便缩放得到正确的QrCode大小
+// get the originalQrCodesize，so that the scaling gets correctQrCodesize
 function getOriginWidth(content: ContentType, options: QRCodeRenderersOptions) {
   const _canvas = document.createElement('canvas');
   return toCanvas(_canvas, content, options).then(() => _canvas.width);
 }
 
-// 对于内容少的QrCode，增大容错率
+// For those with little contentQrCode，增大Fault tolerance
 function getErrorCorrectionLevel(content: ContentType) {
   if (content.length > 36) {
     return 'M';

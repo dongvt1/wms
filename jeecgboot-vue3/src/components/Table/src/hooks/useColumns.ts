@@ -56,23 +56,23 @@ function handleIndexColumn(propsRef: ComputedRef<BasicTableProps>, getPagination
       columns.splice(indIndex, 1);
     }
   });
-  // update-begin--author:liaozhiyang---date:20240611---for：【TV360X-105】列展示设置问题[列展示复选框不应该判断序号列复选框的状态]
+  // update-begin--author:liaozhiyang---date:20240611---for：【TV360X-105】Column display setting issue[The column display checkbox should not determine the status of the serial number column checkbox]
   if (columns.length === 0 && showIndexColumn) {
     const indIndex = columns.findIndex((column) => column.flag === INDEX_COLUMN_FLAG);
     if (indIndex === -1) {
       pushIndexColumns = true;
     }
   }
-  // update-end--author:liaozhiyang---date:20240611---for：【TV360X-105】列展示设置问题[列展示复选框不应该判断序号列复选框的状态]
+  // update-end--author:liaozhiyang---date:20240611---for：【TV360X-105】Column display setting issue[The column display checkbox should not determine the status of the serial number column checkbox]
   if (!pushIndexColumns) return;
 
   const isFixedLeft = columns.some((item) => item.fixed === 'left');
 
   columns.unshift({
     flag: INDEX_COLUMN_FLAG,
-    // update-begin--author:liaozhiyang---date:20240724---for：【TV360X-1634】密度是宽松模式时，序号列表头换行了
+    // update-begin--author:liaozhiyang---date:20240724---for：【TV360X-1634】When density is relaxed mode，The header of the serial number list is newline
     width: propsRef.value.size === 'large' ? 65 : 50,
-    // update-end--author:liaozhiyang---date:20240724---for：【TV360X-1634】密度是宽松模式时，序号列表头换行了
+    // update-end--author:liaozhiyang---date:20240724---for：【TV360X-1634】When density is relaxed mode，The header of the serial number list is newline
     title: t('component.table.index'),
     align: 'center',
     customRender: ({ index }) => {
@@ -116,18 +116,18 @@ export function useColumns(
 
   const getColumnsRef = computed(() => {
     const columns = cloneDeep(unref(columnsRef));
-    // update-begin--author:liaozhiyang---date:20240724---for：【issues/6908】多语言无刷新切换时，BasicColumn和FormSchema里面的值不能正常切换
+    // update-begin--author:liaozhiyang---date:20240724---for：【issues/6908】When switching between multiple languages ​​without refreshing，BasicColumnandFormSchemaThe values ​​inside cannot be switched normally
     if (isArray(columns)) {
       columns.forEach((item) => {
         item.title = isFunction(item.title) ? item.title() : item.title;
       });
     }
-    // update-end--author:liaozhiyang---date:20240724---for：【issues/6908】多语言无刷新切换时，BasicColumn和FormSchema里面的值不能正常切换
+    // update-end--author:liaozhiyang---date:20240724---for：【issues/6908】When switching between multiple languages ​​without refreshing，BasicColumnandFormSchemaThe values ​​inside cannot be switched normally
     handleIndexColumn(propsRef, getPaginationRef, columns);
     handleActionColumn(propsRef, columns);
-    // update-begin--author:sunjianlei---date:220230630---for：【QQYUN-5571】自封装选择列，解决数据行选择卡顿问题
+    // update-begin--author:sunjianlei---date:220230630---for：【QQYUN-5571】Self-encapsulating selection column，Solve the problem of stuck data row selection
     handleCustomSelectColumn(columns);
-    // update-end--author:sunjianlei---date:220230630---for：【QQYUN-5571】自封装选择列，解决数据行选择卡顿问题
+    // update-end--author:sunjianlei---date:220230630---for：【QQYUN-5571】Self-encapsulating selection column，Solve the problem of stuck data row selection
 
     if (!columns) {
       return [];
@@ -163,13 +163,13 @@ export function useColumns(
     const columns = cloneDeep(viewColumns);
     const formatEditColumn = (columns) => {
       return columns.map((column) => {
-        // update-begin--author:liaozhiyang---date:20230718---for: 【issues-179】antd3 一些警告以及报错(针对表格)
+        // update-begin--author:liaozhiyang---date:20230718---for: 【issues-179】antd3 Some warnings and errors(For tables)
         if(column.slots?.customRender) {
-          // slots的备份，兼容老的写法，转成新写法避免控制台警告
+          // slotsbackup，Compatible with old writing methods，Convert to new writing method to avoid console warnings
           column.slotsBak = column.slots;
           delete column.slots;
         }
-        // update-end--author:liaozhiyang---date:20230718---for: 【issues-179】antd3 一些警告以及报错(针对表格)
+        // update-end--author:liaozhiyang---date:20230718---for: 【issues-179】antd3 Some warnings and errors(For tables)
 
         const { slots, customRender, format, edit, editRow, flag, title: metaTitle } = column;
 
@@ -178,11 +178,11 @@ export function useColumns(
           column.customTitle = column.title as string;
           Reflect.deleteProperty(column, 'title');
         }
-        //update-begin-author:taoyan date:20211203 for:【online报表】分组标题显示错误，都显示成了联系信息 LOWCOD-2343
+        //update-begin-author:taoyan date:20211203 for:【onlineReport】Group title display error，All displayed as contact information LOWCOD-2343
         if (column.children) {
           column.title = metaTitle;
         }
-        //update-end-author:taoyan date:20211203 for:【online报表】分组标题显示错误，都显示成了联系信息 LOWCOD-2343
+        //update-end-author:taoyan date:20211203 for:【onlineReport】Group title display error，All displayed as contact information LOWCOD-2343
 
         const isDefaultAction = [INDEX_COLUMN_FLAG, ACTION_COLUMN_FLAG].includes(flag!);
         if (!customRender && format && !edit && !isDefaultAction) {
@@ -195,18 +195,18 @@ export function useColumns(
         if ((edit || editRow) && !isDefaultAction) {
           column.customRender = renderEditCell(column);
         }
-        // update-begin--author:liaozhiyang---date:20241021---for：【pull/7333】修复分组表头可编辑表格失效问题
+        // update-begin--author:liaozhiyang---date:20241021---for：【pull/7333】Fixed the problem of the group header editable table failure
         if (column.children?.length) {
           formatEditColumn(column.children.filter((item) => hasPermission(column.auth) && isIfShow(column)));
         }
-        // update-end--author:liaozhiyang---date:20241021---for：【pull/7333】修复分组表头可编辑表格失效问题
+        // update-end--author:liaozhiyang---date:20241021---for：【pull/7333】Fixed the problem of the group header editable table failure
         return reactive(column);
       });
     };
-    // update-begin--author:liaozhiyang---date:20241021---for：【pull/7333】修复分组表头可编辑表格失效问题
+    // update-begin--author:liaozhiyang---date:20241021---for：【pull/7333】Fixed the problem of the group header editable table failure
     const result = formatEditColumn(columns.filter((item) => hasPermission(item.auth) && isIfShow(item)));
-    // update-end--author:liaozhiyang---date:20241021---for：【pull/7333】修复分组表头可编辑表格失效问题
-    // update-begin--author:liaozhiyang---date:20230919---for：【QQYUN-6387】展开写法（去掉报错）
+    // update-end--author:liaozhiyang---date:20241021---for：【pull/7333】Fixed the problem of the group header editable table failure
+    // update-begin--author:liaozhiyang---date:20230919---for：【QQYUN-6387】Expand writing method（Remove error report）
     if (propsRef.value.expandedRowKeys && !propsRef.value.isTreeTable) {
       let index = 0;
       const findIndex = result.findIndex((item) => item.key === CUS_SEL_COLUMN_KEY);
@@ -221,7 +221,7 @@ export function useColumns(
       result.splice(index, 0, expand);
     }
     return result;
-    // update-end--author:liaozhiyang---date:20230919---for：【QQYUN-6387】展开写法（去掉报错）
+    // update-end--author:liaozhiyang---date:20230919---for：【QQYUN-6387】Expand writing method（Remove error report）
   });
 
   watch(
@@ -244,7 +244,7 @@ export function useColumns(
     });
   }
 
-  // update-begin--author:sunjianlei---date:20220523---for: 【VUEN-1089】合并vben最新版代码，解决表格字段排序问题
+  // update-begin--author:sunjianlei---date:20220523---for: 【VUEN-1089】mergevbenLatest version of code，Solve table field sorting problem
   /**
    * set columns
    * @param columnList key｜column
@@ -282,7 +282,7 @@ export function useColumns(
       columnsRef.value = newColumns;
     }
   }
-  // update-end--author:sunjianlei---date:20220523---for: 【VUEN-1089】合并vben最新版代码，解决表格字段排序问题
+  // update-end--author:sunjianlei---date:20220523---for: 【VUEN-1089】mergevbenLatest version of code，Solve table field sorting problem
 
   function getColumns(opt?: GetColumnsParams) {
     const { ignoreIndex, ignoreAction, ignoreAuth, ignoreIfShow, sort } = opt || {};
@@ -293,11 +293,11 @@ export function useColumns(
     if (ignoreAction) {
       columns = columns.filter((item) => item.flag !== ACTION_COLUMN_FLAG);
     }
-    // update-begin--author:sunjianlei---date:220230630---for：【QQYUN-5571】自封装选择列，解决数据行选择卡顿问题
-    // 过滤自定义选择列
+    // update-begin--author:sunjianlei---date:220230630---for：【QQYUN-5571】Self-encapsulating selection column，Solve the problem of stuck data row selection
+    // Filter custom select columns
     columns = columns.filter((item) => item.key !== CUS_SEL_COLUMN_KEY);
-    // update-enb--author:sunjianlei---date:220230630---for：【QQYUN-5571】自封装选择列，解决数据行选择卡顿问题
-    // update-begin--author:liaozhiyang---date:20250729---for：【issues/8502】解决权限列在列表中不显示，列配置中还显示
+    // update-enb--author:sunjianlei---date:220230630---for：【QQYUN-5571】Self-encapsulating selection column，Solve the problem of stuck data row selection
+    // update-begin--author:liaozhiyang---date:20250729---for：【issues/8502】Solve the problem that permission columns are not displayed in the list，The column configuration also shows
     if (ignoreAuth) {
       columns = columns.filter((item) => {
         if (item.auth) {
@@ -317,7 +317,7 @@ export function useColumns(
         return true;
       });
     }
-    // update-end--author:liaozhiyang---date:20250729---for：【issues/8502】解决权限列在列表中不显示，列配置中还显示
+    // update-end--author:liaozhiyang---date:20250729---for：【issues/8502】Solve the problem that permission columns are not displayed in the list，The column configuration also shows
     if (sort) {
       columns = sortFixedColumn(columns);
     }

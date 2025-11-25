@@ -2,12 +2,12 @@ import { propTypes } from '/@/utils/propTypes';
 
 export const vxeProps = () => ({
   rowKey: propTypes.string.def('id'),
-  // 列信息
+  // Column information
   columns: {
     type: Array,
     required: true,
   },
-  // 数据源
+  // data source
   dataSource: {
     type: Array,
     required: true,
@@ -17,108 +17,108 @@ export const vxeProps = () => ({
     required: false,
     default: '',
   },
-  // 是否显示工具栏
+  // Whether to display the toolbar
   toolbar: propTypes.bool.def(false),
-  // 工具栏配置
+  // Toolbar configuration
   toolbarConfig: propTypes.object.def(() => ({
-    // prefix 前缀；suffix 后缀；
+    // prefix prefix；suffix suffix；
     slots: ['prefix', 'suffix'],
-    // add 新增按钮；remove 删除按钮；clearSelection 清空选择按钮；collapse 展开收起
+    // add Add button；remove delete button；clearSelection Clear selection button；collapse ExpandCollapse
     btns: ['add', 'remove', 'clearSelection'],
   })),
-  // 是否显示行号
+  // Whether to display line numbers
   rowNumber: propTypes.bool.def(false),
-  // 固定行号位置或者不固定 【QQYUN-8405】
+  // Fixed line number position or not fixed 【QQYUN-8405】
   rowNumberFixed: propTypes.oneOf(['left', 'none']).def('left'),
-  // update-begin--author:liaozhiyang---date:20240509---for：【issues/1162】JVxeTable列过长（出现横向滚动条）时无法拖拽排序
+  // update-begin--author:liaozhiyang---date:20240509---for：【issues/1162】JVxeTableColumn too long（A horizontal scroll bar appears）Unable to drag and sort
   dragSortFixed: propTypes.oneOf(['left', 'none']).def('left'),
   rowSelectionFixed: propTypes.oneOf(['left', 'none']).def('left'),
-  // update-end--author:liaozhiyang---date:20240509---for：【issues/1162】JVxeTable列过长（出现横向滚动条）时无法拖拽排序
-  // 是否可选择行
+  // update-end--author:liaozhiyang---date:20240509---for：【issues/1162】JVxeTableColumn too long（A horizontal scroll bar appears）Unable to drag and sort
+  // Is it possible to select rows?
   rowSelection: propTypes.bool.def(false),
-  // 选择行类型
+  // Select row type
   rowSelectionType: propTypes.oneOf(['checkbox', 'radio']).def('checkbox'),
-  // 是否可展开行
+  // Whether rows can be expanded
   rowExpand: propTypes.bool.def(false),
-  // 展开行配置
+  // Expand row configuration
   expandConfig: propTypes.object.def(() => ({})),
-  // 是否可插入行
+  // Whether rows can be inserted
   insertRow: propTypes.bool.def(true),
-  // 页面是否在加载中
+  // Is the page loading?
   loading: propTypes.bool.def(false),
-  // 表格高度
+  // table height
   height: propTypes.oneOfType([propTypes.number, propTypes.string]).def('auto'),
-  // 最大高度
+  // maximum height
   maxHeight: {
     type: Number,
     default: () => null,
   },
-  // 要禁用的行
+  // lines to disable
   disabledRows: propTypes.object.def(() => ({})),
-  // 是否禁用全部组件
+  // Whether to disable all components
   disabled: propTypes.bool.def(false),
-  // 是否可拖拽排序（有固定列的情况下无法拖拽排序，仅可上下排序）
+  // Whether it can be sorted by dragging and dropping（Unable to drag and drop sort when there are fixed columns，Can only be sorted up and down）
   dragSort: propTypes.bool.def(false),
-  // 排序字段保存的Key
+  // Sorting field savedKey
   sortKey: propTypes.string.def('orderNum'),
-  // 排序序号开始值，默认为 0
+  // Sorting sequence number starting value，Default is 0
   sortBegin: propTypes.number.def(0),
-  // 大小，可选值有：medium（中）、small（小）、mini（微）
+  // size，Optional values ​​are：medium（middle）、small（Small）、mini（micro）
   size: propTypes.oneOf(['medium', 'small', 'mini']).def('medium'),
-  // 是否显示边框线
+  // Whether to display border lines
   bordered: propTypes.bool.def(false),
-  // 自定义列配置 默认继承 setup.toolbar.custom
+  // Custom column configuration Default inheritance setup.toolbar.custom
   custom: propTypes.bool.def(false),
-  // 分页器参数，设置了即可显示分页器
+  // Pager parameters，Once set, the paginator can be displayed
   pagination: propTypes.object.def(() => ({})),
-  // 点击行时是否显示子表单
+  // Whether to display the subform when a row is clicked
   clickRowShowSubForm: propTypes.bool.def(false),
-  // 点击行时是否显示主表单
+  // Whether to display the main form when a row is clicked
   clickRowShowMainForm: propTypes.bool.def(false),
-  // 是否点击选中行，优先级最低
+  // 是否点击选middle行，lowest priority
   clickSelectRow: propTypes.bool.def(false),
-  // 是否开启 reload 数据效果
+  // Whether to turn on reload Data effect
   reloadEffect: propTypes.bool.def(false),
-  // 校验规则
+  // Verification rules
   editRules: propTypes.object.def(() => ({})),
-  // 是否异步删除行，如果你要实现异步删除，那么需要把这个选项开启，
-  // 在remove事件里调用confirmRemove方法才会真正删除（除非删除的全是新增的行）
+  // Whether to delete rows asynchronously，If you want to implement asynchronous deletion，Then you need to turn this option on，
+  // existremoveCalled in eventconfirmRemovemethod will actually delete（Unless all new lines are deleted）
   asyncRemove: propTypes.bool.def(false),
-  // 是否一直显示组件，如果为false则只有点击的时候才出现组件
-  // 注：该参数不能动态修改；如果行、列字段多的情况下，会根据机器性能造成不同程度的卡顿。
-  // TODO 新版vxe-table取消了 visible 参数，导致无法实现该功能
+  // Whether to always display components，if forfalseThe component will only appear when clicked
+  // Note：This parameter cannot be modified dynamically；if OK、When there are many columns and fields，It will cause different degrees of lagging depending on the performance of the machine.。
+  // TODO new versionvxe-tablecanceled visible parameter，As a result, this function cannot be implemented
   alwaysEdit: propTypes.bool.def(false),
-  // 联动配置，数组，详情配置见文档
+  // Linkage configuration，array，See the documentation for detailed configuration
   linkageConfig: propTypes.array.def(() => []),
-  // 是否开启使用 webSocket 无痕刷新
+  // Whether to turn on使用 webSocket Refresh without trace
   socketReload: propTypes.bool.def(false),
-  // 相同的socketKey更改时会互相刷新
+  // samesocketKeyRefresh each other when changing
   socketKey: propTypes.string.def('vxe-default'),
-  // 新增行时切换行的激活状态
+  // Toggle row activation status when adding new rows
   addSetActive: propTypes.bool.def(true),
-  // 是否开启键盘编辑
+  // Whether to turn on键盘编辑
   keyboardEdit: propTypes.bool.def(false),
-  // update-begin--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable 行编辑升级
-  // 横向虚拟滚动配置（不支持展开行）
-  // 【QQYUN-7676】x滚动条滚动时字典变成了id
+  // update-begin--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable Line editing upgrade
+  // Horizontal virtual scrolling configuration（Expanding rows is not supported）
+  // 【QQYUN-7676】xWhen the scroll bar scrolls, the dictionary becomesid
   scrollX: propTypes.object.def(() => ({ enabled: false })),
-  // 纵向虚拟滚动配置（不支持展开行）
+  // Vertical virtual scrolling configuration（Expanding rows is not supported）
   scrollY: propTypes.object.def(() => ({ enabled: true })),
-  // update-end--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable 行编辑升级
-  //【QQYUN-8566】缓存列设置的key（路由页面内唯一）
+  // update-end--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable Line editing upgrade
+  //【QQYUN-8566】Cache column settingskey（Unique within the routing page）
   cacheColumnsKey: propTypes.string.def(''),
-  // update-begin--author:liaozhiyang---date:20240417---for:【QQYUN-8785】online表单列位置的id未做限制，拖动其他列到id列上面，同步数据库时报错
+  // update-begin--author:liaozhiyang---date:20240417---for:【QQYUN-8785】onlineform column positionidNo restrictions，Drag other columns toidcolumn above，Error when synchronizing database
   rowClassName: {
     type: [String, Function],
     default: null,
   },
-  // 不允许拖拽的行 [{'key':field,'value':value}]
+  // Rows that are not allowed to be dragged [{'key':field,'value':value}]
   notAllowDrag: propTypes.array.def(() => []),
-  // update-end--author:liaozhiyang---date:20240417---for:【QQYUN-8785】online表单列位置的id未做限制，拖动其他列到id列上面，同步数据库时报错
+  // update-end--author:liaozhiyang---date:20240417---for:【QQYUN-8785】onlineform column positionidNo restrictions，Drag other columns toidcolumn above，Error when synchronizing database
 
-  // 新增按钮配置
+  // Add button配置
   addBtnCfg: propTypes.object,
-  // 删除按钮配置
+  // delete button配置
   removeBtnCfg: propTypes.object,
 });
 

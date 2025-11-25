@@ -11,43 +11,43 @@ import { filterObj } from '/@/utils/common/compUtils';
 import { isFunction } from '@/utils/is';
 const { handleExportXls, handleImportXls } = useMethods();
 
-// 定义 useListPage 方法所需参数
+// definition useListPage Parameters required by the method
 interface ListPageOptions {
-  // 样式作用域范围
+  // style scope
   designScope?: string;
-  // 【必填】表格参数配置
+  // 【Required】Table parameter configuration
   tableProps: TableProps;
-  // 是否分页
+  // Whether to paginate
   pagination?: boolean;
-  // 导出配置
+  // Export configuration
   exportConfig?: {
     url: string | (() => string);
-    // 导出文件名
+    // Export file name
     name?: string | (() => string);
-    //导出参数
+    //Export parameters
     params?: object | (() => object);
   };
-  // 导入配置
+  // Import configuration
   importConfig?: {
-    //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
+    //update-begin-author:taoyan date:20220507 for: erpcode generation Subtable The import address is dynamic
     url: string | (() => string);
-    //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
-    // 导出成功后的回调
+    //update-end-author:taoyan date:20220507 for: erpcode generation Subtable The import address is dynamic
+    // Callback after successful export
     success?: (fileInfo?: any) => void;
   };
 }
 
 interface IDoRequestOptions {
-  // 是否显示确认对话框，默认 true
+  // Whether to display a confirmation dialog box，default true
   confirm?: boolean;
-  // 是否自动刷新表格，默认 true
+  // Whether to automatically refresh the table，default true
   reload?: boolean;
-  // 是否自动清空选择，默认 true
+  // Whether to automatically clear the selection，default true
   clearSelection?: boolean;
 }
 
 /**
- * listPage页面公共方法
+ * listPagePage public methods
  *
  * @param options
  */
@@ -62,40 +62,40 @@ export function useListPage(options: ListPageOptions) {
 
   const [, { getForm, reload, setLoading }, { selectedRowKeys }] = tableContext;
 
-  // 导出 excel
+  // Export excel
   async function onExportXls() {
-    //update-begin---author:wangshuai ---date:20220411  for：导出新增自定义参数------------
+    //update-begin---author:wangshuai ---date:20220411  for：Export新增自definitionparameter------------
     let { url, name, params } = options?.exportConfig ?? {};
     let realUrl = typeof url === 'function' ? url() : url;
     if (realUrl) {
       let title = typeof name === 'function' ? name() : name;
-      //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导出报错，原因未知-
+      //update-begin-author:taoyan date:20220507 for: erpcode generation Subtable Export报错，Unknown reason-
       let paramsForm:any = {};
       try {
-        //update-begin-author:liusq---date:2025-03-20--for: [QQYUN-11627]代码生成原生表单，数据导出，前端报错，并且范围参数没有转换 #7962
-        //当useSearchFor不等于false的时候，才去触发validate
+        //update-begin-author:liusq---date:2025-03-20--for: [QQYUN-11627]code generation原生表单，数据Export，Front-end error，and the range parameter is not converted #7962
+        //whenuseSearchFornot equal tofalsewhen，Just trigger itvalidate
         if (options?.tableProps?.useSearchForm !== false) {
           paramsForm = await getForm().validate();
           console.log('paramsForm', paramsForm);
         }
-        //update-end-author:liusq---date:2025-03-20--for:[QQYUN-11627]代码生成原生表单，数据导出，前端报错，并且范围参数没有转换 #7962
+        //update-end-author:liusq---date:2025-03-20--for:[QQYUN-11627]code generation原生表单，数据Export，Front-end error，and the range parameter is not converted #7962
       } catch (e) {
         console.warn(e);
       }
-      //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导出报错，原因未知-
+      //update-end-author:taoyan date:20220507 for: erpcode generation Subtable Export报错，Unknown reason-
 
-      //update-begin-author:liusq date:20230410 for:[/issues/409]导出功能没有按排序结果导出,设置导出默认排序，创建时间倒序
+      //update-begin-author:liusq date:20230410 for:[/issues/409]Export功能没有按排序结果Export,设置Exportdefault排序，Creation time in reverse order
       if(!paramsForm?.column){
          Object.assign(paramsForm,{column:'createTime',order:'desc'});
       }
-      //update-begin-author:liusq date:20230410 for: [/issues/409]导出功能没有按排序结果导出,设置导出默认排序，创建时间倒序
+      //update-begin-author:liusq date:20230410 for: [/issues/409]Export功能没有按排序结果Export,设置Exportdefault排序，Creation time in reverse order
 
-      //如果参数不为空，则整合到一起
-      //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导出动态设置mainId
+      //If the parameter is not empty，are integrated together
+      //update-begin-author:taoyan date:20220507 for: erpcode generation Subtable Export动态设置mainId
       if (params) {
-        //update-begin-author:liusq---date:2025-03-20--for: [QQYUN-11627]代码生成原生表单，数据导出，前端报错，并且范围参数没有转换 #7962
+        //update-begin-author:liusq---date:2025-03-20--for: [QQYUN-11627]code generation原生表单，数据Export，Front-end error，and the range parameter is not converted #7962
         const realParams = isFunction(params) ? await params() : { ...(params || {}) };
-        //update-end-author:liusq---date:2025-03-20--for:[QQYUN-11627]代码生成原生表单，数据导出，前端报错，并且范围参数没有转换 #7962
+        //update-end-author:liusq---date:2025-03-20--for:[QQYUN-11627]code generation原生表单，数据Export，Front-end error，and the range parameter is not converted #7962
         Object.keys(realParams).map((k) => {
           let temp = (realParams as object)[k];
           if (temp) {
@@ -103,37 +103,37 @@ export function useListPage(options: ListPageOptions) {
           }
         });
       }
-      //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导出动态设置mainId
+      //update-end-author:taoyan date:20220507 for: erpcode generation Subtable Export动态设置mainId
       if (selectedRowKeys.value && selectedRowKeys.value.length > 0) {
         paramsForm['selections'] = selectedRowKeys.value.join(',');
       }
       console.log()
       return handleExportXls(title as string, realUrl, filterObj(paramsForm));
-      //update-end---author:wangshuai ---date:20220411  for：导出新增自定义参数--------------
+      //update-end---author:wangshuai ---date:20220411  for：Export新增自definitionparameter--------------
     } else {
-      $message.createMessage.warn('没有传递 exportConfig.url 参数');
+      $message.createMessage.warn('no delivery exportConfig.url parameter');
       return Promise.reject();
     }
   }
 
-  // 导入 excel
+  // import excel
   function onImportXls(file) {
     let { url, success } = options?.importConfig ?? {};
-    //update-begin-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
+    //update-begin-author:taoyan date:20220507 for: erpcode generation Subtable The import address is dynamic
     let realUrl = typeof url === 'function' ? url() : url;
     if (realUrl) {
       return handleImportXls(file, realUrl, success || reload);
-      //update-end-author:taoyan date:20220507 for: erp代码生成 子表 导入地址是动态的
+      //update-end-author:taoyan date:20220507 for: erpcode generation Subtable The import address is dynamic
     } else {
-      $message.createMessage.warn('没有传递 importConfig.url 参数');
+      $message.createMessage.warn('no delivery importConfig.url parameter');
       return Promise.reject();
     }
   }
 
   /**
-   * 通用请求处理方法，可自动刷新表格，自动清空选择
-   * @param api 请求api
-   * @param options 是否显示确认框
+   * Common request handling methods，Automatically refresh the table，Automatically clear selection
+   * @param api askapi
+   * @param options Whether to display a confirmation box
    */
   function doRequest(api: () => Promise<any>, options?: IDoRequestOptions) {
     return new Promise((resolve, reject) => {
@@ -157,8 +157,8 @@ export function useListPage(options: ListPageOptions) {
       if (options?.confirm ?? true) {
         $message.createConfirm({
           iconType: 'warning',
-          title: '删除',
-          content: '确定要删除吗？',
+          title: 'delete',
+          content: '确定要delete吗？',
           onOk: () => execute(),
           onCancel: () => reject(),
         });
@@ -168,7 +168,7 @@ export function useListPage(options: ListPageOptions) {
     });
   }
 
-  /** 执行单个删除操作 */
+  /** 执行单个deleteoperate */
   function doDeleteRecord(api: () => Promise<any>) {
     return doRequest(api, { confirm: false, clearSelection: false });
   }
@@ -184,16 +184,16 @@ export function useListPage(options: ListPageOptions) {
   };
 }
 
-// 定义表格所需参数
+// definition表格所需parameter
 type TableProps = Partial<DynamicProps<BasicTableProps>>;
 type UseTableMethod = TableActionType & {
   getForm: () => FormActionType;
 };
 
 /**
- * useListTable 列表页面标准表格参数
+ * useListTable 列表页面标准表格parameter
  *
- * @param tableProps 表格参数
+ * @param tableProps 表格parameter
  */
 export function useListTable(tableProps: TableProps): [
   (instance: TableActionType, formInstance: UseTableMethod) => void,
@@ -206,7 +206,7 @@ export function useListTable(tableProps: TableProps): [
     selectedRowKeys: Ref<any[]>;
   }
 ] {
-  // 自适应列配置
+  // Adaptive column configuration
   const adaptiveColProps: Partial<ColEx> = {
     xs: 24, // <576px
     sm: 12, // ≥576px
@@ -217,19 +217,19 @@ export function useListTable(tableProps: TableProps): [
   };
   const defaultTableProps: TableProps = {
     rowKey: 'id',
-    // 使用查询条件区域
+    // Use search criteria area
     useSearchForm: true,
-    // 查询条件区域配置
+    // Query condition area configuration
     formConfig: {
-      // 紧凑模式
+      // compact mode
       compact: true,
-      // label默认宽度
+      // labeldefault宽度
       // labelWidth: 120,
-      // 按下回车后自动提交
+      // Automatically submit after pressing Enter
       autoSubmitOnEnter: true,
-      // 默认 row 配置
+      // default row Configuration
       rowProps: { gutter: 8 },
-      // 默认 col 配置
+      // default col Configuration
       baseColProps: {
         ...adaptiveColProps,
       },
@@ -242,66 +242,66 @@ export function useListTable(tableProps: TableProps): [
         xxl: 6,
       },
       wrapperCol: {},
-      // 是否显示 展开/收起 按钮
+      // Whether to display Expand/close button
       showAdvancedButton: true,
-      // 超过指定列数默认折叠
+      // 超过指定列数default折叠
       autoAdvancedCol: 3,
-      // 操作按钮配置
+      // operatebuttonConfiguration
       actionColOptions: {
         ...adaptiveColProps,
         style: { textAlign: 'left' },
       },
     },
-    // 斑马纹
+    // zebra print
     striped: false,
-    // 是否可以自适应高度
+    // Is it possible to adjust the height?
     canResize: true,
-    // 表格最小高度
-    // update-begin--author:liaozhiyang---date:20240603---for【TV360X-861】列表查询区域不可往上滚动
+    // table minimum height
+    // update-begin--author:liaozhiyang---date:20240603---for【TV360X-861】The list query area cannot be scrolled up.
     minHeight: 300,
-    // update-end--author:liaozhiyang---date:20240603---for【TV360X-861】列表查询区域不可往上滚动
-    // 点击行选中
+    // update-end--author:liaozhiyang---date:20240603---for【TV360X-861】The list query area cannot be scrolled up.
+    // Click on row to select
     clickToRowSelect: false,
-    // 是否显示边框
+    // Whether to display边框
     bordered: true,
-    // 是否显示序号列
+    // Whether to display序号列
     showIndexColumn: false,
-    // 显示表格设置
+    // Show table settings
     showTableSetting: true,
-    // 表格全屏设置
+    // Table full screen setting
     tableSetting: {
       fullScreen: false,
     },
-    // 是否显示操作列
+    // Whether to displayOperation column
     showActionColumn: true,
-    // 操作列
+    // Operation column
     actionColumn: {
       width: 120,
-      title: '操作',
-      //是否锁定操作列取值 right ,left,false
+      title: 'operate',
+      //是否锁定Operation column取值 right ,left,false
       fixed: false,
       dataIndex: 'action',
       slots: { customRender: 'action' },
     },
   };
-  // 合并用户个性化配置
+  // 合并用户个性化Configuration
   if (tableProps) {
-    //update-begin---author:wangshuai---date:2024-04-28---for:【issues/6180】前端代码配置表变查询条件显示列不生效---
+    //update-begin---author:wangshuai---date:2024-04-28---for:【issues/6180】前端代码Configuration表变查询条件显示列不生效---
     if(tableProps.formConfig){
       setTableProps(tableProps.formConfig);
     }
-    //update-end---author:wangshuai---date:2024-04-28---for:【issues/6180】前端代码配置表变查询条件显示列不生效---
-    // merge 方法可深度合并对象
+    //update-end---author:wangshuai---date:2024-04-28---for:【issues/6180】前端代码Configuration表变查询条件显示列不生效---
+    // merge Methods to merge objects deeply
     merge(defaultTableProps, tableProps);
   }
 
-  // 发送请求之前调用的方法
+  // 发送ask之前调用的方法
   function beforeFetch(params) {
-    // 默认以 createTime 降序排序
+    // default以 createTime Sort descending
     return Object.assign({ column: 'createTime', order: 'desc' }, params);
   }
 
-  // 合并方法
+  // merge method
   Object.assign(defaultTableProps, { beforeFetch });
   if (typeof tableProps.beforeFetch === 'function') {
     defaultTableProps.beforeFetch = function (params) {
@@ -312,17 +312,17 @@ export function useListTable(tableProps: TableProps): [
     };
   }
 
-  // 当前选择的行
+  // when前选择的行
   const selectedRowKeys = ref<any[]>([]);
-  // 选择的行记录
+  // Selected row records
   const selectedRows = ref<Recordable[]>([]);
 
-  // 表格选择列配置
+  // 表格选择列Configuration
   const rowSelection: any = tableProps?.rowSelection ?? {};
   const defaultRowSelection = reactive({
     ...rowSelection,
     type: rowSelection.type ?? 'checkbox',
-    // 选择列宽度，默认 50
+    // Select column width，default 50
     columnWidth: rowSelection.columnWidth ?? 50,
     selectedRows: selectedRows,
     selectedRowKeys: selectedRowKeys,
@@ -337,7 +337,7 @@ export function useListTable(tableProps: TableProps): [
   delete defaultTableProps.rowSelection;
 
   /**
-   * 设置表格参数
+   * 设置表格parameter
    *
    * @param formConfig
    */

@@ -173,9 +173,9 @@ export interface ColumnProps<T> {
    * @type object
    */
   customHeaderCell?: (column: ColumnProps<T>) => object;
-  // update-begin--author:liaozhiyang---date:20240425---for：【pull/1201】添加antd的TableSummary功能兼容老的summary（表尾合计）
+  // update-begin--author:liaozhiyang---date:20240425---for：【pull/1201】Add toantdofTableSummary功能兼容老ofsummary（Total at the end of the table）
   customSummaryRender?: CustomRenderFunction<T> | VNodeChild | JSX.Element;
-  // update-end--author:liaozhiyang---date:20240425---for：【pull/1201】添加antd的TableSummary功能兼容老的summary（表尾合计）
+  // update-end--author:liaozhiyang---date:20240425---for：【pull/1201】Add toantdofTableSummary功能兼容老ofsummary（Total at the end of the table）
 
   /**
    * Callback executed when the confirm filter button is clicked, Use as a filter event when using template or jsx

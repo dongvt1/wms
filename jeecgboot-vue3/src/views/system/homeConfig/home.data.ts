@@ -1,41 +1,41 @@
 import { FormSchema } from '/@/components/Table';
 
-//列配置
+//column configuration
 export const columns = [
   {
-    title: '关联类型(用户/角色)',
+    title: 'Association type(user/Role)',
     dataIndex: 'relationType_dictText',
     width: 80,
     slots: { customRender: 'relationType' },
   },
   {
-    title: '用户/角色编码',
+    title: 'user/Role编码',
     dataIndex: 'roleCode',
     width: 80,
     slots: { customRender: 'roleCode' },
   },
   {
-    title: '首页路由',
+    title: 'Home page routing',
     dataIndex: 'url',
     width: 100,
   },
   {
-    title: '组件地址',
+    title: 'Component address',
     dataIndex: 'component',
     width: 100,
   },
   {
-    title: '是否开启',
+    title: 'Whether to turn on',
     dataIndex: 'status',
     slots: { customRender: 'status' },
     width: 60,
   },
 ];
-//查询配置
+//Query configuration
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'relationType',
-    label: '关联类型',
+    label: 'Association type',
     component: 'JDictSelectTag',
     componentProps: {
       dictCode: 'relation_type',
@@ -43,8 +43,8 @@ export const searchFormSchema: FormSchema[] = [
   },
   {
     field: 'route',
-    label: '是否路由菜单',
-    helpMessage: '非路由菜单设置成首页，需开启',
+    label: 'Whether to route menu',
+    helpMessage: 'Set the non-routing menu to the homepage，Need to be turned on',
     component: 'Switch',
     show: false,
   },
@@ -59,7 +59,7 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'relationType',
-    label: '关联类型',
+    label: 'Association type',
     component: 'JDictSelectTag',
     required: true,
     defaultValue: 'ROLE',
@@ -69,7 +69,7 @@ export const formSchema: FormSchema[] = [
     },
   },
   {
-    label: '角色编码',
+    label: 'Role编码',
     field: 'roleCode',
     component: 'JSelectRole',
     required: true,
@@ -80,7 +80,7 @@ export const formSchema: FormSchema[] = [
     ifShow: ({ values }) => values.relationType == 'ROLE',
   },
   {
-    label: '用户编码',
+    label: 'user编码',
     field: 'userCode',
     component: 'JSelectUser',
     required: true,
@@ -90,35 +90,35 @@ export const formSchema: FormSchema[] = [
     ifShow: ({ values }) => values.relationType == 'USER',
   },
   {
-    label: '首页路由',
+    label: 'Home page routing',
     field: 'url',
     component: 'Input',
     required: true,
   },
   {
-    label: '组件地址',
+    label: 'Component address',
     field: 'component',
     component: 'Input',
     componentProps: {
-      placeholder: '请输入前端组件',
+      placeholder: 'Please enter the front-end component',
     },
     required: true,
   },
   {
-    label: '优先级',
+    label: 'priority',
     field: 'priority',
     component: 'InputNumber',
   },
   {
     field: 'route',
-    label: '是否路由菜单',
-    helpMessage: '非路由菜单设置成首页，需开启',
+    label: 'Whether to route menu',
+    helpMessage: 'Set the non-routing menu to the homepage，Need to be turned on',
     component: 'Switch',
     defaultValue: true,
     show: false,
   },
   {
-    label: '是否开启',
+    label: 'Whether to turn on',
     field: 'status',
     component: 'JSwitch',
     defaultValue: '1',

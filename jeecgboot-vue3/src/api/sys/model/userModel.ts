@@ -31,19 +31,19 @@ export interface LoginResultModel {
  */
 export interface GetUserInfoModel {
   roles: RoleInfo[];
-  // 用户id
+  // userid
   userId: string | number;
-  // 用户名
+  // user名
   username: string;
-  // 真实名字
+  // real name
   realname: string;
-  // 头像
+  // avatar
   avatar: string;
-  // 介绍
+  // introduce
   desc?: string;
-  // 用户信息
+  // user信息
   userInfo?: any;
-  // 缓存字典项
+  // Caching dictionary items
   sysAllDictItems?: any;
 }
 

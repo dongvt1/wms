@@ -6,7 +6,7 @@ enum Api {
 }
 
 /**
- * 查询日志列表
+ * Query log list
  * @param params
  */
 export const getLogList = (params) => {
@@ -15,7 +15,7 @@ export const getLogList = (params) => {
 
 
 /**
- * 导出api
+ * Exportapi
  * @param params
  */
 export const getExportUrl = Api.exportXls;

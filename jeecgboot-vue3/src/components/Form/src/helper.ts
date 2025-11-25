@@ -7,7 +7,7 @@ import { isNumber, isObject } from '/@/utils/is';
 const { t } = useI18n();
 
 /**
- * @description: 生成placeholder
+ * @description: generateplaceholder
  */
 export function createPlaceholderMessage(component: ComponentType) {
   if (component.includes('Input') || component.includes('Complete')) {
@@ -23,7 +23,7 @@ export function createPlaceholderMessage(component: ComponentType) {
     component.includes('Radio') ||
     component.includes('Switch')
   ) {
-    // return `请选择${label}`;
+    // return `Please select${label}`;
     return t('common.chooseText');
   }
   return '';
@@ -36,12 +36,12 @@ function genType() {
 }
 
 export function setComponentRuleType(rule: ValidationRule, component: ComponentType, valueFormat: string) {
-  //update-begin---author:wangshuai---date:2024-02-01---for:【QQYUN-8176】编辑表单中,校验必填时,如果组件是ApiSelect,打开编辑页面时,即使该字段有值,也会提示请选择---
-  //https://github.com/vbenjs/vue-vben-admin/pull/3082 github修复原文
+  //update-begin---author:wangshuai---date:2024-02-01---for:【QQYUN-8176】In edit form,When verification is required,If the component isApiSelect,When opening the edit page,Even if the field has a value,也会提示Please select---
+  //https://github.com/vbenjs/vue-vben-admin/pull/3082 githubRepair the original text
   if (Reflect.has(rule, 'type')) {
     return;
   }
-  //update-end---author:wangshuai---date:2024-02-01---for:【QQYUN-8176】编辑表单中,校验必填时,如果组件是ApiSelect,打开编辑页面时,即使该字段有值,也会提示请选择---
+  //update-end---author:wangshuai---date:2024-02-01---for:【QQYUN-8176】In edit form,When verification is required,If the component isApiSelect,When opening the edit page,Even if the field has a value,也会提示Please select---
   if (['DatePicker', 'MonthPicker', 'WeekPicker', 'TimePicker'].includes(component)) {
     rule.type = valueFormat ? 'string' : 'object';
   } else if (['RangePicker', 'Upload', 'CheckboxGroup', 'TimePicker'].includes(component)) {
@@ -70,19 +70,19 @@ export function handleInputNumberValue(component?: ComponentType, val?: any) {
 /** 
 *liaozhiyang
 *2023-12-26
-*某些组件的传值需要把字符串类型转成数值类型
+*The value transfer of some components requires converting the string type into a numeric type.
 */ 
 export function handleInputStringValue(component?: ComponentType, val?: any) {
   if (!component) return val;
-  // update-begin--author:liaozhiyang---date:20240517---for：【TV360X-13】InputNumber设置精确3位小数传入''变成了0.00
+  // update-begin--author:liaozhiyang---date:20240517---for：【TV360X-13】InputNumberPrecise settings3Pass in decimal places''became0.00
   if (['InputNumber'].includes(component) && typeof val === 'string' && val != '') {
     return Number(val);
   }
-  // update-end--author:liaozhiyang---date:20240517---for：【TV360X-13】InputNumber设置精确3位小数传入''变成了0.00
+  // update-end--author:liaozhiyang---date:20240517---for：【TV360X-13】InputNumberPrecise settings3Pass in decimal places''became0.00
   return val;
 }
 
 /**
- * 时间字段
+ * time field
  */
 export const dateItemType = genType();

@@ -20,11 +20,11 @@ export interface ListItem {
   color?: string;
 }
 
-// tab的list
+// taboflist
 export const settingList = [
   {
     key: '1',
-    name: '个人信息',
+    name: 'personal information',
     component: 'BaseSetting',
     icon:'ant-design:user-outlined',
     img1: geren1,
@@ -32,7 +32,7 @@ export const settingList = [
   },
   {
     key: '2',
-    name: '我的组织',
+    name: '我of组织',
     component: 'TenantSetting',
     isSlot:false,
     icon:'ant-design:team-outlined',
@@ -41,7 +41,7 @@ export const settingList = [
   },
    {
     key: '3',
-    name: '账号安全',
+    name: 'Account security',
     component: 'AccountSetting',
     icon:'ant-design:lock-outlined',
     img1: anquan1,
@@ -49,7 +49,7 @@ export const settingList = [
   },
   {
     key: '4',
-    name: '第三方APP',
+    name: 'third partyAPP',
     component: 'WeChatDingSetting',
     icon: 'ant-design:contacts-outlined',
     img1: app1,
@@ -59,20 +59,20 @@ export const settingList = [
 
 
 /**
- * 用户表单
+ * userform
  */
 export const formSchema: FormSchema[] = [
   {
     field: 'realname',
     component: 'Input',
-    label: '姓名',
+    label: 'Name',
     colProps: { span: 24 },
     required:true
   },
   {
     field: 'birthday',
     component: 'DatePicker',
-    label: '生日',
+    label: 'Birthday',
     colProps: { span: 24 },
     componentProps:{
       showTime:false,
@@ -83,16 +83,16 @@ export const formSchema: FormSchema[] = [
   {
     field: 'sex',
     component: 'RadioGroup',
-    label: '性别',
+    label: 'gender',
     colProps: { span: 24 },
     componentProps:{
       options: [
         {
-          label: '男',
+          label: 'male',
           value: 1,
         },
         {
-          label: '女',
+          label: 'female',
           value: 2,
         },
       ],
@@ -101,7 +101,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'relTenantIds',
     component: 'JDictSelectTag',
-    label: '租户',
+    label: 'tenant',
     colProps: { span: 24 },
     componentProps:{
       mode:'multiple',
@@ -112,7 +112,7 @@ export const formSchema: FormSchema[] = [
   {
     field: 'post',
     component: 'JDictSelectTag',
-    label: '职位',
+    label: 'Position',
     colProps: { span: 24 },
     componentProps:{
       mode:'multiple',
@@ -128,36 +128,36 @@ export const formSchema: FormSchema[] = [
   },
 ]
 
-//密码弹窗
+//Password pop-up window
 export const formPasswordSchema: FormSchema[] = [
   {
-    label: '用户账号',
+    label: 'User account',
     field: 'username',
     component: 'Input',
     componentProps: { readOnly: true },
   },
   {
-    label: '旧密码',
+    label: 'Old Password',
     field: 'oldpassword',
     component: 'InputPassword',
     required: true,
   },
   {
-    label: '新密码',
+    label: 'New Password',
     field: 'password',
     component: 'StrengthMeter',
     componentProps: {
-      placeholder: '请输入新密码',
+      placeholder: '请输入New Password',
     },
     rules: [
       {
         required: true,
-        message: '请输入新密码',
+        message: '请输入New Password',
       },
     ],
   },
   {
-    label: '确认新密码',
+    label: '确认New Password',
     field: 'confirmpassword',
     component: 'InputPassword',
     dynamicRules: ({ values }) => rules.confirmPassword(values, true),

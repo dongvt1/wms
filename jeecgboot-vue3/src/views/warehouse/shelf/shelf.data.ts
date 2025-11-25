@@ -2,7 +2,7 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Form';
 import { warehouseAreaApi } from '../area/area.api';
 
-// 仓库货架表单配置
+// Warehouse shelf form configuration
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'shelfCode',
@@ -41,7 +41,7 @@ export const searchFormSchema: FormSchema[] = [
   },
 ];
 
-// 仓库货架表格列配置
+// Warehouse shelf table column configuration
 export const columns: BasicColumn[] = [
   {
     title: 'Shelf Code',
@@ -110,7 +110,7 @@ export const columns: BasicColumn[] = [
   } as BasicColumn,
 ];
 
-// 表单配置
+// Form configuration
 export const formSchema: FormSchema[] = [
   {
     field: 'shelfCode',
@@ -170,7 +170,7 @@ export const formSchema: FormSchema[] = [
   },
 ];
 
-// 获取仓库区域选项
+// Get warehouse area options
 export async function getWarehouseAreaOptions() {
   try {
     const result = await warehouseAreaApi.list({ pageSize: 999 });
@@ -179,7 +179,7 @@ export async function getWarehouseAreaOptions() {
       value: item.id,
     }));
   } catch (error) {
-    console.error('获取仓库区域列表失败:', error);
+    console.error('Failed to obtain warehouse area list:', error);
     return [];
   }
 }

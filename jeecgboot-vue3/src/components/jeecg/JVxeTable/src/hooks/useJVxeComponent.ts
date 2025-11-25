@@ -11,41 +11,41 @@ import { getAreaTextByCode } from "@/components/Form/src/utils/Area";
 
 export function useJVxeCompProps() {
   return {
-    // 组件类型
+    // Component type
     type: propTypes.string,
-    // 渲染类型
+    // Rendering type
     renderType: propTypes.string.def('default'),
-    // 渲染参数
+    // Rendering parameters
     params: propTypes.object,
-    // 渲染自定义选项
+    // Rendering customization options
     renderOptions: propTypes.object,
   };
 }
 
 export function useJVxeComponent(props: JVxeComponent.Props) {
   const value = computed(() => {
-    // update-begin--author:liaozhiyang---date:20240430---for：【QQYUN-9125】oracle数据库日期类型字段会默认带上时分秒
+    // update-begin--author:liaozhiyang---date:20240430---for：【QQYUN-9125】oracleDatabase date type fields will have hours, minutes and seconds by default.
     const val = props.params.row[props.params.column.property];
     if (props.type === 'date' && typeof val === 'string') {
       return val.split(' ').shift();
     } else {
       return val;
     }
-    // update-end--author:liaozhiyang---date:20240430---for：【QQYUN-9125】oracle数据库日期类型字段会默认带上时分秒
+    // update-end--author:liaozhiyang---date:20240430---for：【QQYUN-9125】oracleDatabase date type fields will have hours, minutes and seconds by default.
   });
   const innerValue = ref(value.value);
   const row = computed(() => props.params.row);
   const rows = computed(() => props.params.data);
   const column = computed(() => props.params.column);
-  // 用户配置的原始 column
+  // User configured original column
   const originColumn = computed(() => column.value.params);
   const rowIndex = computed(() => props.params._rowIndex);
   const columnIndex = computed(() => props.params._columnIndex);
-  // 表格数据长度
+  // Table data length
   const fullDataLength = computed(() => props.params.$table.internalData.tableFullData.length);
-  // 是否正在滚动中
+  // Is it scrolling?
   const scrolling = computed(() => !!props.renderOptions.scrolling);
-  // 当有formatter时，优先使用formatter
+  // When there isformatterhour，priority useformatter
   const innerLabel = computed(() => {
     if(typeof column.value?.formatter === 'function'){
       return column.value.formatter({
@@ -62,61 +62,61 @@ export function useJVxeComponent(props: JVxeComponent.Props) {
 
     let cellProps = {};
 
-    // 输入占位符
+    // Input placeholder
     cellProps['placeholder'] = replaceProps(col, col.placeholder);
 
-    // 解析props
+    // parseprops
     if (isObject(col.props)) {
       Object.keys(col.props).forEach((key) => {
         cellProps[key] = replaceProps(col, col.props[key]);
       });
     }
 
-    // 判断是否是禁用的列
+    // Determine whether it is a disabled column
     cellProps['disabled'] = isBoolean(col['disabled']) ? col['disabled'] : cellProps['disabled'];
-    // 判断是否禁用行
+    // Determine whether a row is disabled
     if (renderOptions.isDisabledRow(row.value, rowIndex.value)) {
       cellProps['disabled'] = true;
     }
-    // update-begin--author:liaozhiyang---date:20240528---for：【TV360X-291】没勾选同步数据库禁用排序功能
+    // update-begin--author:liaozhiyang---date:20240528---for：【TV360X-291】Uncheck the sync database to disable the sorting function
     if (col.props && col.props.isDisabledCell) {
       if (col.props.isDisabledCell({ row: row.value, rowIndex: rowIndex.value, column: col, columnIndex: columnIndex.value })) {
         cellProps['disabled'] = true;
       }
     }
-    // update-end--author:liaozhiyang---date:20240528---for：【TV360X-291】没勾选同步数据库禁用排序功能
-    // 判断是否禁用所有组件
+    // update-end--author:liaozhiyang---date:20240528---for：【TV360X-291】Uncheck the sync database to disable the sorting function
+    // Determine whether to disable all components
     if (renderOptions.disabled === true) {
       cellProps['disabled'] = true;
-      // update-begin--author:liaozhiyang---date:20240607---for：【TV360X-1068】行编辑整体禁用时上传按钮不显示
+      // update-begin--author:liaozhiyang---date:20240607---for：【TV360X-1068】行编辑整体禁用hour上传按钮不显示
       cellProps['disabledTable'] = true;
-      // update-end--author:liaozhiyang---date:20240607---for：【TV360X-1068】行编辑整体禁用时上传按钮不显示
+      // update-end--author:liaozhiyang---date:20240607---for：【TV360X-1068】行编辑整体禁用hour上传按钮不显示
     }
-    //update-begin-author:taoyan date:2022-5-25 for: VUEN-1111 一对多子表 部门选择 不应该级联
+    //update-begin-author:taoyan date:2022-5-25 for: VUEN-1111 one-to-many subtable Department selection Should not cascade
     if (col.checkStrictly === true) {
       cellProps['checkStrictly'] = true;
     }
-    //update-end-author:taoyan date:2022-5-25 for: VUEN-1111 一对多子表 部门选择 不应该级联
+    //update-end-author:taoyan date:2022-5-25 for: VUEN-1111 one-to-many subtable Department selection Should not cascade
 
-    //update-begin-author:taoyan date:2022-5-27 for: 用户组件 控制单选多选新的参数配置
+    //update-begin-author:taoyan date:2022-5-27 for: User component Control single-select and multi-select new parameter configurations
     if (col.isRadioSelection === true) {
       cellProps['isRadioSelection'] = true;
     } else if (col.isRadioSelection === false) {
       cellProps['isRadioSelection'] = false;
     }
-    //update-end-author:taoyan date:2022-5-27 for: 用户组件 控制单选多选新的参数配置
+    //update-end-author:taoyan date:2022-5-27 for: User component Control single-select and multi-select new parameter configurations
 
     return cellProps;
   });
 
   const listeners = computed(() => {
     let listeners = Object.assign({}, props.renderOptions.listeners || {});
-    // 默认change事件
+    // defaultchangeevent
     if (!listeners.change) {
       listeners.change = async (event) => {
         vModel(event.value, row, column);
         await nextTick();
-        // 处理 change 事件相关逻辑（例如校验）
+        // deal with change event相关逻辑（For example, check）
         props.params.$table.updateStatus(props.params);
       };
     }
@@ -139,45 +139,45 @@ export function useJVxeComponent(props: JVxeComponent.Props) {
   };
   const ctx = { props, context };
 
-  // 获取组件增强
+  // Get component enhancements
   let enhanced = getEnhanced(props.type);
 
   watch(
     value,
     (newValue) => {
-      // -update-begin--author:liaozhiyang---date:20241210---for：【issues/7497】隐藏某一列后，字典没翻译，恢复后正常
-      // TODO 先这样修复解决问题，根因后期再看看
+      // -update-begin--author:liaozhiyang---date:20241210---for：【issues/7497】After hiding a column，Dictionary does not translate，Normal after recovery
+      // TODO First fix and solve the problem like this，We’ll look at the root cause later
       enhanced = getEnhanced(props.type);
-      // -update-end--author:liaozhiyang---date:20241210---for：【issues/7497】隐藏某一列后，字典没翻译，恢复后
-      // 验证值格式
+      // -update-end--author:liaozhiyang---date:20241210---for：【issues/7497】After hiding a column，Dictionary does not translate，After recovery
+      // Validate value format
       let getValue = enhanced.getValue(newValue, ctx);
       if (newValue !== getValue) {
-        // 值格式不正确，重新赋值
+        // Value format is incorrect，reassign
         newValue = getValue;
         vModel(newValue, row, column);
       }
       innerValue.value = enhanced.setValue(newValue, ctx);
-      // update-begin--author:liaozhiyang---date:20240509---for：【QQYUN-9205】一对多(jVxetable组件date)支持年，年月，年度度，年周
+      // update-begin--author:liaozhiyang---date:20240509---for：【QQYUN-9205】one to many(jVxetablecomponentsdate)Years of support，years，Annual，year week
       if (props.type === 'date' && props.renderType === JVxeRenderType.spaner && enhanced.translate.enabled === true) {
         if (isFunction(enhanced.translate.handler)) {
           innerValue.value = enhanced.translate.handler(newValue, ctx);
         }
         return;
       }
-      // update-end--author:liaozhiyang---date:20240509---for：【QQYUN-9205】一对多(jVxetable组件date)支持年，年月，年度度，年周
+      // update-end--author:liaozhiyang---date:20240509---for：【QQYUN-9205】one to many(jVxetablecomponentsdate)Years of support，years，Annual，year week
 
-      //update-begin---author:wangshuai---date:2024-09-18---for:【issues/7203】自动生成一对多表单代码中，省市区回显问题---
+      //update-begin---author:wangshuai---date:2024-09-18---for:【issues/7203】自动生成one to many表单代码中，Provincial and city echo issues---
       if (props.type === 'pca' && props.renderType === JVxeRenderType.spaner) {
         innerValue.value = getAreaTextByCode(newValue);
         return;
       }
-      //update-end---author:wangshuai---date:2024-09-18---for:【issues/7203】自动生成一对多表单代码中，省市区回显问题---
+      //update-end---author:wangshuai---date:2024-09-18---for:【issues/7203】自动生成one to many表单代码中，Provincial and city echo issues---
 
-      // 判断是否启用翻译
+      // Determine whether translation is enabled
       if (props.renderType === JVxeRenderType.spaner && enhanced.translate.enabled === true) {
         if (isFunction(enhanced.translate.handler)) {
           let res = enhanced.translate.handler(newValue, ctx);
-          // 异步翻译，可解决字典查询慢的问题
+          // Asynchronous translation，Can solve the problem of slow dictionary query
           if (isPromise(res)) {
             res.then((v) => (innerValue.value = v));
           } else {
@@ -189,15 +189,15 @@ export function useJVxeComponent(props: JVxeComponent.Props) {
     { immediate: true }
   );
 
-  /** 通用处理 change 事件 */
+  /** 通用deal with change event */
   function handleChangeCommon($value, force = false) {
     const newValue = enhanced.getValue($value, ctx);
     const oldValue = value.value;
-    // update-begin--author:liaozhiyang---date:20230718---for：【issues-5025】JVueTable的事件 @valueChange重复触发问题
+    // update-begin--author:liaozhiyang---date:20230718---for：【issues-5025】JVueTable的event @valueChangeRepeated triggering problem
     const execute = force ? true : newValue !== oldValue;
     if (execute) {
       trigger('change', { value: newValue });
-      // 触发valueChange事件
+      // triggervalueChangeevent
       parentTrigger('valueChange', {
         type: props.type,
         value: newValue,
@@ -207,16 +207,16 @@ export function useJVxeComponent(props: JVxeComponent.Props) {
         columnIndex: columnIndex.value,
       });
     }
-    // update-end--author:liaozhiyang---date:20230718---for：【issues-5025】JVueTable的事件 @valueChange重复触发问题
+    // update-end--author:liaozhiyang---date:20230718---for：【issues-5025】JVueTable的event @valueChangeRepeated triggering problem
   }
 
-  /** 通用处理 blur 事件 */
+  /** 通用deal with blur event */
   function handleBlurCommon($value) {
-    // update-begin--author:liaozhiyang---date:20230817---for：【issues/636】JVxeTable加上blur事件
+    // update-begin--author:liaozhiyang---date:20230817---for：【issues/636】JVxeTableplusblurevent
     const newValue = enhanced.getValue($value, ctx);
     const oldValue = value.value;
     //trigger('blur', { value });
-    // 触发blur事件
+    // triggerblurevent
     parentTrigger('blur', {
       type: props.type,
       value: newValue,
@@ -225,14 +225,14 @@ export function useJVxeComponent(props: JVxeComponent.Props) {
       rowIndex: rowIndex.value,
       columnIndex: columnIndex.value,
     });
-    // update-end--author:liaozhiyang---date:20230817---for：【issues/636】JVxeTable加上blur事件
+    // update-end--author:liaozhiyang---date:20230817---for：【issues/636】JVxeTableplusblurevent
   }
 
   /**
-   * 如果事件存在的话，就触发
-   * @param name 事件名
-   * @param event 事件参数
-   * @param args 其他附带参数
+   * 如果event存在的话，就trigger
+   * @param name event名
+   * @param event event参数
+   * @param args Other incidental parameters
    */
   function trigger(name, event?, args: any[] = []) {
     let listener = listeners.value[name];
@@ -252,7 +252,7 @@ export function useJVxeComponent(props: JVxeComponent.Props) {
   function packageEvent(name, event: any = {}) {
     event.row = row.value;
     event.column = column.value;
-    // online增强参数兼容
+    // onlineEnhanced parameter compatibility
     event.column['key'] = column.value['property'];
     // event.cellTarget = this
     if (!event.type) {
@@ -261,7 +261,7 @@ export function useJVxeComponent(props: JVxeComponent.Props) {
     if (!event.cellType) {
       event.cellType = props.type;
     }
-    // 是否校验表单，默认为true
+    // Whether to verify the form，default为true
     if (isBoolean(event.validate)) {
       event.validate = true;
     }
@@ -269,7 +269,7 @@ export function useJVxeComponent(props: JVxeComponent.Props) {
   }
 
   /**
-   * 防样式冲突类名生成器
+   * Anti-style conflict class name generator
    * @param scope
    */
   function useCellDesign(scope: string) {
@@ -285,7 +285,7 @@ export function useJVxeComponent(props: JVxeComponent.Props) {
 }
 
 /**
- * 获取组件默认增强
+ * 获取componentsdefault增强
  */
 export function useDefaultEnhanced(): JVxeComponent.EnhancedPartial {
   return {
@@ -308,7 +308,7 @@ export function useDefaultEnhanced(): JVxeComponent.EnhancedPartial {
     translate: {
       enabled: false,
       handler(value, ctx) {
-        // 默认翻译方法
+        // default翻译方法
         if (ctx) {
           return filterDictText(unref(ctx.context.column).params.options, value);
         } else {

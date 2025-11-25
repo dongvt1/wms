@@ -12,11 +12,11 @@ export function useItemLabelWidth(schemaItemRef: Ref<FormSchema>, propsRef: Ref<
 
     const { labelWidth: globalLabelWidth, labelCol: globalLabelCol, wrapperCol: globWrapperCol,layout } = unref(propsRef);
 
-    // update-begin--author:sunjianlei---date:20211104---for: 禁用全局 labelWidth，不自动设置 textAlign --------
+    // update-begin--author:sunjianlei---date:20211104---for: disable globally labelWidth，Do not set automatically textAlign --------
     if (disabledLabelWidth) {
       return { labelCol, wrapperCol };
     }
-    // update-begin--author:sunjianlei---date:20211104---for: 禁用全局 labelWidth，不自动设置 textAlign --------
+    // update-begin--author:sunjianlei---date:20211104---for: disable globally labelWidth，Do not set automatically textAlign --------
 
     // If labelWidth is set globally, all items setting
     if (!globalLabelWidth && !labelWidth && !globalLabelCol) {
@@ -31,9 +31,9 @@ export function useItemLabelWidth(schemaItemRef: Ref<FormSchema>, propsRef: Ref<
 
     if (width) {
       width = isNumber(width) ? `${width}px` : width;
-      // update-begin--author:liaozhiyang---date:20240717---for：【issues/6865】配置单个的labelWidth不生效
+      // update-begin--author:liaozhiyang---date:20240717---for：【issues/6865】Configure a singlelabelWidthNot effective
       col = {};
-      // update-end--author:liaozhiyang---date:20240717---for：【issues/6865】配置单个的labelWidth不生效
+      // update-end--author:liaozhiyang---date:20240717---for：【issues/6865】Configure a singlelabelWidthNot effective
     }
 
     return {

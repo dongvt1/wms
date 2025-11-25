@@ -7,31 +7,31 @@ import { defHttp } from "@/utils/http/axios";
 import { queryAllParentId } from "/@/api/common/api";
 
 export function useTreeBiz(treeRef, getList, props, realProps, emit) {
-  //接收下拉框选项
+  //Receive drop down box options
   const selectOptions = inject('selectOptions', ref<Array<object>>([]));
-  //接收已选择的值
+  //Receive selected value
   const selectValues = <object>inject('selectValues', reactive({}));
-  // 是否正在加载回显
+  // Whether the echo is loading
   const loadingEcho = inject<Ref<boolean>>('loadingEcho', ref(false));
-  //数据集
+  //Dataset
   const treeData = ref<Array<object>>([]);
-  //已选择的值
+  //Selected value
   const checkedKeys = ref<Array<string | number>>([]);
-  //选则的行记录
+  //Selected row record
   const selectRows = ref<Array<object>>([]);
-  //是否是打开弹框模式
+  //Whether to open pop-up mode
   const openModal = ref(false);
-  // 是否开启父子关联，如果不可以多选，就始终取消父子关联
+  // Whether to enable parent-child association，If multiple selection is not possible，Always cancel the parent-child association
   const getCheckStrictly = computed(() => (realProps.multiple ? props.checkStrictly : true));
-  // 是否是首次加载回显，只有首次加载，才会显示 loading
+  // Whether it is the first time to load the echo，Only first load，will be displayed loading
   let isFirstLoadEcho = true;
   let prevSelectValues = [];
-  // 需要展开的父节点ID列表
+  // The parent node that needs to be expandedIDlist
   const expandedKeys = ref<Array<string | number>>([]);
-  // 是否启用自动展开功能（可以通过props控制）
+  // Whether to enable automatic expansion（can passpropscontrol）
   const enableAutoExpand = props.enableAutoExpand !== false;
   /**
-   * 监听selectValues变化
+   * monitorselectValueschange
    */
   watch(
     selectValues,
@@ -39,9 +39,9 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
       if(!values){
         return;
       }
-      // update-begin--author:liaozhiyang---date:20250604---for：【issues/8232】代码设置JSelectDept组件值没翻译
+      // update-begin--author:liaozhiyang---date:20250604---for：【issues/8232】Code settingsJSelectDeptComponent values ​​are not translated
       if (values.length > 0) {
-        // 防止多次请求
+        // Prevent multiple requests
         if (isEqual(values, prevSelectValues)) return;
         prevSelectValues = values;
         loadingEcho.value = isFirstLoadEcho;
@@ -49,14 +49,14 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
         onLoadData(null, values.join(',')).finally(() => {
           loadingEcho.value = false;
         });
-        // update-end--author:liaozhiyang---date:20250604---for：【issues/8232】代码设置JSelectDept组件值没翻译
+        // update-end--author:liaozhiyang---date:20250604---for：【issues/8232】Code settingsJSelectDeptComponent values ​​are not translated
       }
     },
     { immediate: true }
   );
 
   /**
-   * 获取树实例
+   * Get tree instance
    */
   function getTree() {
     const tree = unref(treeRef);
@@ -68,7 +68,7 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
   }
 
   /**
-   * 获取需要展开的父节点ID
+   * 获取The parent node that needs to be expandedID
    */
   async function getParentIdsToExpand(selectedIds) {
     if (!selectedIds || selectedIds.length === 0) return [];
@@ -81,46 +81,46 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
       
       if (result) {
         const allParentIds = [];
-        // 处理 Map 或 Object 结构
+        // deal with Map or Object structure
         const valuesToProcess = result instanceof Map 
           ? Array.from(result.values()) 
           : Object.values(result);
         
-        // 遍历所有选中节点的父节点
+        // Traverse the parent nodes of all selected nodes
         valuesToProcess.forEach((nodeData: any) => {
           if (nodeData && nodeData.parentIds && Array.isArray(nodeData.parentIds)) {
-            // 添加父节点ID（不包含选中节点本身）
+            // Add parent nodeID（Does not include the selected node itself）
             const parentIds = nodeData.parentIds.filter(id => !selectedIds.includes(id));
             allParentIds.push(...parentIds);
           }
         });
         
-        return [...new Set(allParentIds)]; // 去重
+        return [...new Set(allParentIds)]; // Remove duplicates
       }
       return [];
     } catch (error) {
-      console.warn('获取父节点ID失败:', error);
+      console.warn('Get parent nodeIDfail:', error);
       return [];
     }
   }
 
   /**
-   * 设置树展开级别
+   * Set tree expansion level
    */
   function expandTree() {
     nextTick(() => {
       if (props.defaultExpandLevel && props.defaultExpandLevel > 0) {
         getTree().filterByLevel(props.defaultExpandLevel);
       }
-      //设置列表默认选中
+      //设置list默认选中
       checkedKeys.value = selectValues['value'];
       
-      // 如果有需要展开的父节点，则展开它们
+      // 如果有The parent node that needs to be expanded，then expand them
       if (expandedKeys.value.length > 0) {
         getTree().setExpandedKeys(expandedKeys.value);
       }
     }).then(() => {
-      // 再次确保展开，因为树可能还没有完全渲染
+      // Again make sure to expand，Because the tree may not be fully rendered yet
       if (expandedKeys.value.length > 0) {
         setTimeout(() => {
           getTree().setExpandedKeys(expandedKeys.value);
@@ -130,7 +130,7 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
   }
 
   /**
-   * 树节点选择
+   * Tree node selection
    */
   function onSelect(keys, info) {
     if (props.checkable == false) {
@@ -145,19 +145,19 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
   }
 
   /**
-   * 树节点选择
+   * Tree node selection
    */
   function onCheck(keys, info) {
     if (props.checkable == true) {
-      // 如果不能多选，就只保留最后一个选中的
+      // If multiple selections are not possible，Just keep the last selected one
       if (!realProps.multiple) {
         if (info.checked) {
-          //update-begin-author:taoyan date:20220408 for: 单选模式下，设定rowKey，无法选中数据-
+          //update-begin-author:taoyan date:20220408 for: In single selection mode，set uprowKey，Unable to select data-
           checkedKeys.value = [info.node.eventKey];
           let rowKey = props.rowKey;
           let temp = info.checkedNodes.find((n) => n[rowKey] === info.node.eventKey);
           selectRows.value = [temp];
-          //update-end-author:taoyan date:20220408 for: 单选模式下，设定rowKey，无法选中数据-
+          //update-end-author:taoyan date:20220408 for: In single selection mode，set uprowKey，Unable to select data-
         } else {
           checkedKeys.value = [];
           selectRows.value = [];
@@ -175,11 +175,11 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
   }
 
   /**
-   * 勾选全部
+   * Check all
    */
   async function checkALL(checkAll) {
     getTree().checkAll(checkAll);
-    //update-begin---author:wangshuai ---date:20230403  for：【issues/394】所属部门树操作全部勾选不生效/【issues/4646】部门全部勾选后，点击确认按钮，部门信息丢失------------
+    //update-begin---author:wangshuai ---date:20230403  for：【issues/394】It will not take effect if all operations in the department tree are checked./【issues/4646】After all departments are checked，Click the confirm button，Department information is lost------------
     await nextTick();
     checkedKeys.value = getTree().getCheckedKeys();
     if(checkAll){
@@ -187,11 +187,11 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
     }else{
       selectRows.value = [];
     }
-    //update-end---author:wangshuai ---date:20230403  for：【issues/394】所属部门树操作全部勾选不生效/【issues/4646】部门全部勾选后，点击确认按钮，部门信息丢失------------
+    //update-end---author:wangshuai ---date:20230403  for：【issues/394】It will not take effect if all operations in the department tree are checked./【issues/4646】After all departments are checked，Click the confirm button，Department information is lost------------
   }
 
   /**
-   * 获取数列表
+   * 获取数list
    * @param res
    */
   function getTreeRow() {
@@ -205,23 +205,23 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
   }
 
   /**
-   * 展开全部
+   * Expand all
    */
   function expandAll(expandAll) {
     getTree().expandAll(expandAll);
   }
 
   /**
-   * 加载树数据
+   * Load tree data
    */
   async function onLoadData(treeNode, ids) {
     let params = {};
     let startPid = '';
     if (treeNode) {
       startPid = treeNode.eventKey;
-      //update-begin---author:wangshuai ---date:20220407  for：rowkey不设置成id，sync开启异步的时候，点击上级下级不显示------------
+      //update-begin---author:wangshuai ---date:20220407  for：rowkeyNot set toid，syncWhen turning on asynchronous，Click on the upper and lower levels to not display them------------
       params['pid'] = treeNode.value;
-      //update-end---author:wangshuai ---date:20220407  for：rowkey不设置成id，sync开启异步的时候，点击上级下级不显示------------
+      //update-end---author:wangshuai ---date:20220407  for：rowkeyNot set toid，syncWhen turning on asynchronous，Click on the upper and lower levels to not display them------------
     }
     if (ids) {
       startPid = '';
@@ -233,16 +233,16 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
     }
     let record = await getList(params);
     let optionData = record;
-    //只展示公司信息（公司+子公司）
+    //Only show company information（company+子company）
     if(props.onlyShowCompany){
       record = getCompanyData(record)
     }
-    //是否只选择部门岗位
+    //Whether to select only department positions
     if (props.izOnlySelectDepartPost) {
       setCompanyDepartCheckable(record);
     }
     if (!props.serverTreeData) {
-      //前端处理数据为tree结构
+      //前端deal withdata为treestructure
       record = listToTree(record, props, startPid);
       if (record.length == 0 && treeNode) {
         checkHasChild(startPid, treeData.value);
@@ -250,7 +250,7 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
     }
 
     if (openModal.value == true) {
-      //弹框模式下加载全部数据
+      //Load all data in pop-up mode
       if (!treeNode) {
         treeData.value = record;
       } else {
@@ -272,16 +272,16 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
     } else {
       const options = <any[]>[];
       optionData.forEach((item) => {
-        //update-begin-author:taoyan date:2022-7-4 for: issues/I5F3P4 online配置部门选择后编辑，查看数据应该显示部门名称，不是部门代码
+        //update-begin-author:taoyan date:2022-7-4 for: issues/I5F3P4 onlineEdit after configuration department selection，Viewing the data should show the department name，Not a department code
         options.push({ label: item[props.labelKey], value: item[props.rowKey] });
-        //update-end-author:taoyan date:2022-7-4 for: issues/I5F3P4 online配置部门选择后编辑，查看数据应该显示部门名称，不是部门代码
+        //update-end-author:taoyan date:2022-7-4 for: issues/I5F3P4 onlineEdit after configuration department selection，Viewing the data should show the department name，Not a department code
       });
       selectOptions.value = options;
     }
   }
 
   /**
-   * 获取到公司/子公司数据
+   * 获取到company/子companydata
    * @param record
    */
   function getCompanyData(record){
@@ -289,9 +289,9 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
     return companyData
   }
   /**
-   * 异步加载时检测是否含有下级节点
-   * @param pid 父节点
-   * @param treeArray  tree数据
+   * Detect whether there are subordinate nodes during asynchronous loading
+   * @param pid parent node
+   * @param treeArray  treedata
    */
   function checkHasChild(pid, treeArray) {
     if (treeArray && treeArray.length > 0) {
@@ -309,7 +309,7 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
   }
 
   /**
-   * 获取已选择数据
+   * 获取已选择data
    */
   function getSelectTreeData(success) {
     const options = <any[]>[];
@@ -325,15 +325,15 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
   }
 
   /**
-   * 弹出框显示隐藏触发事件
+   * Pop-up box shows hidden trigger event
    */
   async function visibleChange(visible) {
     if (visible) {
-      //弹出框打开时加载全部数据
+      //弹出框打开时加载全部data
       openModal.value = true;
       await onLoadData(null, null);
       
-      // 在数据加载完成后，如果有选中的值且启用了自动展开功能，则展开父节点
+      // 在data加载完成后，If there is a selected value and auto-expand is enabled，则展开parent node
       if (enableAutoExpand && selectValues.value && selectValues.value.length > 0) {
         try {
           const selectedIds = selectValues.value;
@@ -342,21 +342,21 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
           if (parentIds.length > 0) {
             expandedKeys.value = parentIds;
             
-            // 延迟展开，确保树已经渲染完成
+            // Delayed expansion，Make sure the tree has been rendered
             nextTick(() => {
               try {
                 const tree = getTree();
                 if (tree) {
                   tree.setExpandedKeys(parentIds);
 
-                  // 再次确保展开
+                  // Again make sure to expand
                   setTimeout(() => {
                     try {
                       const tree = getTree();
                       if (tree) {
                         tree.setExpandedKeys(parentIds);
-                        console.log('父节点已展开:', parentIds);
-                        // 第三次确保展开，使用更长的延迟
+                        console.log('parent node已展开:', parentIds);
+                        // Ensure expansion for the third time，Use a longer delay
                         setTimeout(() => {
                           try {
                             const tree = getTree();
@@ -364,35 +364,35 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
                               tree.setExpandedKeys(parentIds);
                             }
                           } catch (error) {
-                            console.warn('展开父节点失败:', error);
+                            console.warn('展开parent nodefail:', error);
                           }
                         }, 500);
                       }
                     } catch (error) {
-                      console.warn('展开父节点失败:', error);
+                      console.warn('展开parent nodefail:', error);
                     }
                   }, 200);
                 }
               } catch (error) {
-                console.warn('展开父节点失败:', error);
+                console.warn('展开parent nodefail:', error);
               }
             });
             
           }
         } catch (error) {
-          console.warn('获取父节点ID失败:', error);
+          console.warn('Get parent nodeIDfail:', error);
         }
       }
     } else {
       openModal.value = false;
-      // update-begin--author:liaozhiyang---date:20240527---for：【TV360X-414】部门设置了默认值，查询重置变成空了(同步JSelectUser组件改法)
+      // update-begin--author:liaozhiyang---date:20240527---for：【TV360X-414】Department sets default value，Query reset becomes empty(synchronousJSelectUserModification of components)
       emit?.('close');
-      // update-end--author:liaozhiyang---date:20240527---for：【TV360X-414】部门设置了默认值，查询重置变成空了(同步JSelectUser组件改法)
+      // update-end--author:liaozhiyang---date:20240527---for：【TV360X-414】Department sets default value，Query reset becomes empty(synchronousJSelectUserModification of components)
     }
   }
 
   /**
-   * 设置公司部门复选框显示
+   * 设置company部门复选框显示
    * @param record
    */
   function setCompanyDepartCheckable(record) {
@@ -413,7 +413,7 @@ export function useTreeBiz(treeRef, getList, props, realProps, emit) {
   }
 
   /**
-   * 岗位搜索
+   * Job search
    *
    * @param value
    */

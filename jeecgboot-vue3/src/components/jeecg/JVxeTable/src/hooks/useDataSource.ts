@@ -9,11 +9,11 @@ export function useDataSource(props, data: JVxeDataProps, methods: JVxeTableMeth
       data.disabledRowIds = [];
       data.vxeDataSource.value = cloneDeep(props.dataSource);
       data.vxeDataSource.value.forEach((row, rowIndex) => {
-        // 判断是否是禁用行
+        // Determine whether the line is disabled
         if (methods.isDisabledRow(row, rowIndex)) {
           data.disabledRowIds.push(row.id);
         }
-        // 处理联动回显数据
+        // Processing linkage echo data
         methods.handleLinkageBackData(row);
       });
       await waitRef(refs.gridRef);

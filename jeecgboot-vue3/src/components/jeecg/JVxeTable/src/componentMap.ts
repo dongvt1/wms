@@ -19,16 +19,16 @@ import JVxeTextareaCell from './components/cells/JVxeTextareaCell.vue';
 // import JVxeUserSelectCell from './components/cells/JVxeUserSelectCell.vue'
 
 let componentMap = new Map<JVxeTypes | string, JVxeVueComponent>();
-// update-begin--author:liaozhiyang---date:20231208---for：【issues/860】生成的一对多代码，热更新之后点击新增卡死[暂时先解决]
+// update-begin--author:liaozhiyang---date:20231208---for：【issues/860】Generated one-to-many code，After hot update, clicking Add is stuck.[Solve it for now]
 const JVxeComponents = 'JVxeComponents__';
 if (import.meta.env.DEV && componentMap.size === 0 && window[JVxeComponents] && window[JVxeComponents].size > 0) {
   componentMap = window[JVxeComponents];
 }
-// update-end--author:liaozhiyang---date:20231027---for：【issues/860】生成的一对多代码，热更新之后点击新增卡死[暂时先解决]
-/** span 组件结尾 */
+// update-end--author:liaozhiyang---date:20231027---for：【issues/860】Generated one-to-many code，After hot update, clicking Add is stuck.[Solve it for now]
+/** span end of component */
 export const spanEnds: string = ':span';
 
-/** 定义不能用于注册的关键字 */
+/** Define keywords that cannot be used for registration */
 export const excludeKeywords: Array<JVxeTypes> = [
   JVxeTypes.hidden,
   JVxeTypes.rowNumber,
@@ -38,37 +38,37 @@ export const excludeKeywords: Array<JVxeTypes> = [
 ];
 
 /**
- * 注册组件
+ * Register component
  *
- * @param type 组件 type
- * @param component Vue组件
- * @param spanComponent 显示组件，可空，默认为 JVxeNormalCell 组件
+ * @param type components type
+ * @param component Vuecomponents
+ * @param spanComponent 显示components，available，Default is JVxeNormalCell components
  */
 export function addComponent(type: JVxeTypes, component: JVxeVueComponent, spanComponent?: JVxeVueComponent) {
   if (excludeKeywords.includes(type)) {
-    throw new Error(`【addComponent】不能使用"${type}"作为组件的name，因为这是关键字。`);
+    throw new Error(`【addComponent】Cannot be used"${type}"作为components的name，Because this is the keyword。`);
   }
   if (componentMap.has(type)) {
-    throw new Error(`【addComponent】组件"${type}"已存在`);
+    throw new Error(`【addComponent】components"${type}"Already exists`);
   }
   componentMap.set(type, component);
   if (spanComponent) {
     componentMap.set(type + spanEnds, spanComponent);
   }
-  // update-begin--author:liaozhiyang---date:20231208---for：【issues/860】生成的一对多代码，热更新之后点击新增卡死[暂时先解决]
+  // update-begin--author:liaozhiyang---date:20231208---for：【issues/860】Generated one-to-many code，After hot update, clicking Add is stuck.[Solve it for now]
   import.meta.env.DEV && (window[JVxeComponents] = componentMap);
-  // update-end--author:liaozhiyang---date:20231208---for：【issues/860】生成的一对多代码，热更新之后点击新增卡死[暂时先解决]
+  // update-end--author:liaozhiyang---date:20231208---for：【issues/860】Generated one-to-many code，After hot update, clicking Add is stuck.[Solve it for now]
 }
 
 export function deleteComponent(type: JVxeTypes) {
   componentMap.delete(type);
   componentMap.delete(type + spanEnds);
-  // update-begin--author:liaozhiyang---date:20231208---for：【issues/860】生成的一对多代码，热更新之后点击新增卡死[暂时先解决]
+  // update-begin--author:liaozhiyang---date:20231208---for：【issues/860】Generated one-to-many code，After hot update, clicking Add is stuck.[Solve it for now]
   import.meta.env.DEV && (window[JVxeComponents] = componentMap);
-  // update-end--author:liaozhiyang---date:20231208---for：【issues/860】生成的一对多代码，热更新之后点击新增卡死[暂时先解决]
+  // update-end--author:liaozhiyang---date:20231208---for：【issues/860】Generated one-to-many code，After hot update, clicking Add is stuck.[Solve it for now]
 }
 
-/** 定义内置自定义组件 */
+/** 定义内置自定义components */
 export function definedComponent() {
   addComponent(JVxeTypes.slot, JVxeSlotCell);
   addComponent(JVxeTypes.normal, JVxeNormalCell);
@@ -79,8 +79,8 @@ export function definedComponent() {
   addComponent(JVxeTypes.radio, JVxeRadioCell);
   addComponent(JVxeTypes.checkbox, JVxeCheckboxCell);
   addComponent(JVxeTypes.select, JVxeSelectCell);
-  addComponent(JVxeTypes.selectSearch, JVxeSelectCell); // 下拉搜索
-  addComponent(JVxeTypes.selectMultiple, JVxeSelectCell); // 下拉多选
+  addComponent(JVxeTypes.selectSearch, JVxeSelectCell); // Drop down search
+  addComponent(JVxeTypes.selectMultiple, JVxeSelectCell); // Drop-down multiple selection
   addComponent(JVxeTypes.date, JVxeDateCell);
   addComponent(JVxeTypes.datetime, JVxeDateCell);
   addComponent(JVxeTypes.time, JVxeTimeCell);
@@ -95,14 +95,14 @@ export function definedComponent() {
 }
 
 /**
- * 清空注册的组件
+ * 清空注册的components
  */
 export function clearComponent() {
   componentMap.clear();
 
-  // update-begin--author:liaozhiyang---date:20231208---for：【issues/860】生成的一对多代码，热更新之后点击新增卡死[暂时先解决]
+  // update-begin--author:liaozhiyang---date:20231208---for：【issues/860】Generated one-to-many code，After hot update, clicking Add is stuck.[Solve it for now]
   import.meta.env.DEV && (window[JVxeComponents] = componentMap);
-  // update-end--author:liaozhiyang---date:20231208---for：【issues/860】生成的一对多代码，热更新之后点击新增卡死[暂时先解决]
+  // update-end--author:liaozhiyang---date:20231208---for：【issues/860】Generated one-to-many code，After hot update, clicking Add is stuck.[Solve it for now]
 }
 
 export { componentMap };

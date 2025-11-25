@@ -14,16 +14,16 @@ enum Api {
   bindThirdAppAccount = '/sys/thirdApp/bindThirdAppAccount',
   deleteThirdAccount = '/sys/thirdApp/deleteThirdAccount',
   agreeOrRefuseJoinTenant = '/sys/tenant/agreeOrRefuseJoinTenant',
-  //更改手机号
+  //Change mobile number
   changePhone = '/sys/user/changePhone',
-  //用户注销
+  //User logout
   userLogOff = '/sys/user/userLogOff',
-  //没有绑定手机号用的修改密码请求地址
+  //There is no password change request address bound to the mobile phone number.
   updatePasswordNotBindPhone = '/sys/user/updatePasswordNotBindPhone',
 }
 
 /**
- * 用户编辑
+ * User edit
  * @param params
  */
 export const userEdit = (params) => {
@@ -31,7 +31,7 @@ export const userEdit = (params) => {
 }
 
 /**
- * 获取用户信息
+ * Get user information
  * @param params
  */
 export const getUserData = () => {
@@ -39,7 +39,7 @@ export const getUserData = () => {
 }
 
 /**
- * 获取多个职务信息
+ * Get multiple job information
  * @param params
  */
 export const queryNameByCodes = (params) => {
@@ -47,7 +47,7 @@ export const queryNameByCodes = (params) => {
 }
 
 /**
- * 修改手机号
+ * Modify mobile phone number
  * @param params
  */
 export const updateMobile = (params) => {
@@ -55,7 +55,7 @@ export const updateMobile = (params) => {
 }
 
 /**
- * 修改密码
+ * Change password
  * @param params
  */
 export const updateUserPassword = (params) => {
@@ -63,7 +63,7 @@ export const updateUserPassword = (params) => {
 }
 
 /**
- * 修改密码
+ * Change password
  * @param params
  */
 export const updatePasswordNotBindPhone = (params) => {
@@ -71,7 +71,7 @@ export const updatePasswordNotBindPhone = (params) => {
 }
 
 /**
- * 通过用户id获取租户列表
+ * by useridGet tenant list
  * @param params
  */
 export const getTenantListByUserId = (params) => {
@@ -79,7 +79,7 @@ export const getTenantListByUserId = (params) => {
 };
 
 /**
- * 取消申请
+ * Cancel application
  * @param params
  */
 export const cancelApplyTenant = (params) => {
@@ -87,7 +87,7 @@ export const cancelApplyTenant = (params) => {
 };
 
 /**
- * 用户退出租户
+ * User exits tenant
  * @param params
  */
 export const exitUserTenant = (params)=>{
@@ -95,7 +95,7 @@ export const exitUserTenant = (params)=>{
 }
 
 /**
- * 变更租户拥有者
+ * Change tenant owner
  * @param params
  */
 export const changeOwenUserTenant = (params)=>{
@@ -103,7 +103,7 @@ export const changeOwenUserTenant = (params)=>{
 }
 
 /**
- * 获取账号第三方信息通过第三方类型
+ * Obtain account third-party information through third-party type
  * @param params
  */
 export const getThirdAccountByUserId = (params) => {
@@ -111,7 +111,7 @@ export const getThirdAccountByUserId = (params) => {
 };
 
 /**
- * 根据第三方uuid绑定账号
+ * according to third partiesuuidBind account
  * @param params
  */
 export const bindThirdAppAccount = (params) => {
@@ -119,7 +119,7 @@ export const bindThirdAppAccount = (params) => {
 };
 
 /**
- * 根据第三方uuid绑定账号
+ * according to third partiesuuidBind account
  * @param params
  */
 export const deleteThirdAccount = (params) => {
@@ -127,7 +127,7 @@ export const deleteThirdAccount = (params) => {
 };
 
 /**
- * 同意和拒绝加入租户
+ * Agree and refuse to join tenants
  * @param params
  */
 export const agreeOrRefuseJoinTenant = (params) => {
@@ -135,7 +135,7 @@ export const agreeOrRefuseJoinTenant = (params) => {
 };
 
 /**
- * 更改手机号
+ * Change mobile number
  * @param params
  */
 export const changePhone = (params) => {
@@ -143,7 +143,7 @@ export const changePhone = (params) => {
 };
 
 /**
- * 用户注销
+ * User logout
  * @param params
  */
 export const userLogOff = (params) => {

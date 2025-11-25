@@ -7,7 +7,7 @@ import { warn } from '/@/utils/log';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { getTenantId, getToken } from "/@/utils/auth";
 import { URL_HASH_TAB, _eval } from '/@/utils';
-//引入online lib路由
+//introduceonline librouting
 import { packageViews } from '/@/utils/monorepo/dynamicRouter';
 import {useI18n} from "/@/hooks/web/useI18n";
 
@@ -19,7 +19,7 @@ const LayoutMap = new Map<string, () => Promise<typeof import('*.vue')>>();
 
 LayoutMap.set('LAYOUT', LAYOUT);
 LayoutMap.set('IFRAME', IFRAME);
-//微前端qiankun
+//micro frontendqiankun
 LayoutMap.set('LayoutsContent', LayoutContent);
 
 let dynamicViewsModules: Record<string, () => Promise<Recordable>>;
@@ -28,59 +28,59 @@ let dynamicViewsModules: Record<string, () => Promise<Recordable>>;
 function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
   if (!dynamicViewsModules) {
     dynamicViewsModules = import.meta.glob('../../views/**/*.{vue,tsx}');
-    //合并online lib路由
+    //mergeonline librouting
     dynamicViewsModules = Object.assign({}, dynamicViewsModules, packageViews);
   }
   if (!routes) return;
   routes.forEach((item) => {
 
-    //【jeecg-boot/issues/I5N2PN】左侧动态菜单怎么做国际化处理  2022-10-09
-    //菜单支持国际化翻译
+    //【jeecg-boot/issues/I5N2PN】How to internationalize the dynamic menu on the left  2022-10-09
+    //The menu supports international translation
     if (item?.meta?.title) {
       const { t } = useI18n();
       if(item.meta.title.includes('t(\'') && t){
-        // update-begin--author:liaozhiyang---date:20230906---for：【QQYUN-6390】eval替换成new Function，解决build警告
+        // update-begin--author:liaozhiyang---date:20230906---for：【QQYUN-6390】evalReplace withnew Function，solvebuildwarn
         item.meta.title = new Function('t', `return ${item.meta.title}`)(t);
-        // update-end--author:liaozhiyang---date:20230906---for：【QQYUN-6390】eval替换成new Function，解决build警告
+        // update-end--author:liaozhiyang---date:20230906---for：【QQYUN-6390】evalReplace withnew Function，solvebuildwarn
       }
     }
-    // update-begin--author:sunjianlei---date:20210918---for:适配旧版路由选项 --------
-    // @ts-ignore 适配隐藏路由
+    // update-begin--author:sunjianlei---date:20210918---for:adaptation旧版routing选项 --------
+    // @ts-ignore adaptation隐藏routing
     if (item?.hidden) {
       item.meta.hideMenu = true;
-      //是否隐藏面包屑
+      //Whether to hide breadcrumbs
       item.meta.hideBreadcrumb = true;
     }
-    // @ts-ignore 添加忽略路由配置
+    // @ts-ignore 添加忽略routing配置
     if (item?.route == 0) {
       item.meta.ignoreRoute = true;
     }
-    // @ts-ignore 添加是否缓存路由配置
+    // @ts-ignore 添加是否缓存routing配置
     item.meta.ignoreKeepAlive = !item?.meta.keepAlive;
     let token = getToken();
     let tenantId = getTenantId();
-    // URL支持{{ window.xxx }}占位符变量
-    //update-begin---author:wangshuai ---date:20220711  for：[VUEN-1638]菜单tenantId需要动态生成------------
+    // URLsupport{{ window.xxx }}placeholder variable
+    //update-begin---author:wangshuai ---date:20220711  for：[VUEN-1638]menutenantIdNeed to be dynamically generated------------
     item.component = (item.component || '').replace(/{{([^}}]+)?}}/g, (s1, s2) => _eval(s2)).replace('${token}', token).replace('${tenantId}', tenantId);
-    //update-end---author:wangshuai ---date:20220711  for：[VUEN-1638]菜单tenantId需要动态生成------------
-    // 适配 iframe
+    //update-end---author:wangshuai ---date:20220711  for：[VUEN-1638]menutenantIdNeed to be dynamically generated------------
+    // adaptation iframe
     if (/^\/?http(s)?/.test(item.component as string)) {
       item.component = item.component.substring(1, item.component.length);
     }
     if (/^http(s)?/.test(item.component as string)) {
       if (item.meta?.internalOrExternal) {
-        // @ts-ignore 外部打开
+        // @ts-ignore Open externally
         item.path = item.component;
-        // update-begin--author:sunjianlei---date:20220408---for: 【VUEN-656】配置外部网址打不开，原因是带了#号，需要替换一下
+        // update-begin--author:sunjianlei---date:20220408---for: 【VUEN-656】Configure external URL cannot be opened，The reason is that I brought#Number，Need to replace
         item.path = item.path.replace('#', URL_HASH_TAB);
-        // update-end--author:sunjianlei---date:20220408---for: 【VUEN-656】配置外部网址打不开，原因是带了#号，需要替换一下
+        // update-end--author:sunjianlei---date:20220408---for: 【VUEN-656】Configure external URL cannot be opened，The reason is that I brought#Number，Need to replace
       } else {
-        // @ts-ignore 内部打开
+        // @ts-ignore Open internally
         item.meta.frameSrc = item.component;
       }
       delete item.component;
     }
-    // update-end--author:sunjianlei---date:20210918---for:适配旧版路由选项 --------
+    // update-end--author:sunjianlei---date:20210918---for:adaptation旧版routing选项 --------
     if (!item.component && item.meta?.frameSrc) {
       item.component = 'IFRAME';
     }
@@ -91,14 +91,14 @@ function asyncImportRoute(routes: AppRouteRecordRaw[] | undefined) {
       if (layoutFound) {
         item.component = layoutFound;
       } else {
-        // update-end--author:zyf---date:20220307--for:VUEN-219兼容后台返回动态首页,目的适配跟v2版本配置一致 --------
+        // update-end--author:zyf---date:20220307--for:VUEN-219Compatible with the background and return to the dynamic homepage,目ofadaptation跟v2Version configuration is consistent --------
         if (component.indexOf('dashboard/') > -1) {
-          //当数据标sys_permission中component没有拼接index时前端需要拼接
+          //When the data marksys_permissionmiddlecomponentNo splicingindexWhen the front end needs to be spliced
           if (component.indexOf('/index') < 0) {
             component = component + '/index';
           }
         }
-        // update-end--author:zyf---date:20220307---for:VUEN-219兼容后台返回动态首页,目的适配跟v2版本配置一致 --------
+        // update-end--author:zyf---date:20220307---for:VUEN-219Compatible with the background and return to the dynamic homepage,目ofadaptation跟v2Version configuration is consistent --------
         item.component = dynamicImport(dynamicViewsModules, component as string);
       }
     } else if (name) {
@@ -148,7 +148,7 @@ export function transformObjToRoute<T = AppRouteModule>(routeList: AppRouteModul
         route.meta = meta;
       }
     } else {
-      warn('请正确配置路由：' + route?.name + '的component属性');
+      warn('请正确配置routing：' + route?.name + 'ofcomponentproperty');
     }
     route.children && asyncImportRoute(route.children);
   });
@@ -156,7 +156,7 @@ export function transformObjToRoute<T = AppRouteModule>(routeList: AppRouteModul
 }
 
 /**
- *  将多级路由转换为二级
+ *  将多级routing转换为二级
  */
 export function flatMultiLevelRoutes(routeModules: AppRouteModule[]) {
   const modules: AppRouteModule[] = cloneDeep(routeModules);
@@ -170,7 +170,7 @@ export function flatMultiLevelRoutes(routeModules: AppRouteModule[]) {
   return modules;
 }
 
-//提升路由级别
+//提升routing级别
 function promoteRouteLevel(routeModule: AppRouteModule) {
   // Use vue-router to splice menus
   let router: Router | null = createRouter({
@@ -222,7 +222,7 @@ function isMultipleRoute(routeModule: AppRouteModule) {
   return flag;
 }
 /**
- * 组件地址前加斜杠处理
+ * Add a slash before the component address
  * @updateBy:lsq
  * @updateDate:2021-09-08
  */

@@ -29,7 +29,7 @@ export function useTitle() {
       if (route.name === REDIRECT_NAME) {
         return;
       }
-      // update-begin--author:liaozhiyang---date:20231110---for：【QQYUN-6938】online菜单名字和页面title不一致
+      // update-begin--author:liaozhiyang---date:20231110---for：【QQYUN-6938】onlineMenu name and pagetitleinconsistent
       if (route.params && Object.keys(route.params).length) {
         if (!menus.value) {
           menus.value = await getMenus();
@@ -46,7 +46,7 @@ export function useTitle() {
         const tTitle = t(route?.meta?.title as string);
         pageTitle.value = tTitle ? ` ${tTitle} - ${title} ` : `${title}`;
       }
-      // update-end--author:liaozhiyang---date:20231110---for：【QQYUN-6938】online菜单名字和页面title不一致
+      // update-end--author:liaozhiyang---date:20231110---for：【QQYUN-6938】onlineMenu name and pagetitleinconsistent
     },
     { immediate: true }
   );
@@ -54,7 +54,7 @@ export function useTitle() {
 /** 
  2023-11-09
  liaozhiyang
- 获取路由匹配模式的真实页面名字
+ Get the real page name of the route matching pattern
 */
 function getMatchingRouterName(menus, path) {
   for (let i = 0, len = menus.length; i < len; i++) {

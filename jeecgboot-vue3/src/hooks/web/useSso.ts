@@ -1,4 +1,4 @@
-// 单点登录核心类
+// Single sign-on core class
 import { getToken } from '/@/utils/auth';
 import { getUrlParam } from '/@/utils';
 import { useGlobSetting } from '/@/hooks/setting';
@@ -7,12 +7,12 @@ import { useUserStore } from '/@/store/modules/user';
 const globSetting = useGlobSetting();
 const openSso = globSetting.openSso;
 export function useSso() {
-  //update-begin---author:wangshuai---date:2024-01-03---for:【QQYUN-7805】SSO登录强制用http #957---
+  //update-begin---author:wangshuai---date:2024-01-03---for:【QQYUN-7805】SSOLogin mandatoryhttp #957---
   let locationUrl = document.location.protocol +"//" + window.location.host + '/';
-  //update-end---author:wangshuai---date:2024-01-03---for:【QQYUN-7805】SSO登录强制用http #957---
+  //update-end---author:wangshuai---date:2024-01-03---for:【QQYUN-7805】SSOLogin mandatoryhttp #957---
 
   /**
-   * 单点登录
+   * Single sign-on
    */
   async function ssoLogin() {
     if (openSso == 'true') {
@@ -36,7 +36,7 @@ export function useSso() {
   }
 
   /**
-   * 退出登录
+   * Log out
    */
   async function ssoLoginOut() {
     window.location.href = globSetting.casBaseUrl + '/logout?service=' + encodeURIComponent(locationUrl);

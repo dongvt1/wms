@@ -258,7 +258,7 @@ class ChineseTranslator:
         """
         # Find all relevant files
         # extensions = ['java', 'vue', 'js']
-        extensions = ['sql']
+        extensions = ['ts']
         files = self.find_files(directory, extensions)
         
         print(f"Found {len(files)} files to process")

@@ -2,14 +2,14 @@ import { ModalOptionsPartial } from '/@/hooks/web/useMessage';
 import { RenderCallbackParams, Rule } from '/@/components/Form';
 
 export interface JPromptProps extends ModalOptionsPartial {
-  // 输入框是否必填
+  // Is the input box required?
   required?: boolean;
-  // 校验
+  // check
   rules?: Rule[];
-  // 动态校验
+  // 动态check
   dynamicRules?: (renderCallbackParams: RenderCallbackParams) => Rule[];
-  // 占位字符
+  // placeholder character
   placeholder?: string;
-  // 输入框默认值
+  // Input box default value
   defaultValue?: string;
 }

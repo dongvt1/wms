@@ -3,44 +3,44 @@ import { unref, isRef } from 'vue';
 import { isFunction } from '/@/utils/is';
 
 type dispatchEventOptions = {
-  // JVxeTable 的 props
+  // JVxeTable of props
   props;
-  // 触发的 event 事件对象
+  // 触发of event event object
   $event;
-  // 行、列
+  // OK、List
   row?;
   column?;
-  // JVxeTable的vue3实例
+  // JVxeTableofvue3Example
   instance?: ComponentInternalInstance | any;
-  // 要寻找的className
+  // 要寻找ofclassName
   className: string;
-  // 重写找到dom后的处理方法
+  // Rewrite founddom后of处理方法
   handler?: Fn;
-  // 是否直接执行click方法而不是模拟click事件
+  // 是否直接执OKclickmethod instead of mockclickevent
   isClick?: boolean;
 };
 
-/** 模拟触发事件 */
+/** 模拟触发event */
 export function dispatchEvent(options: dispatchEventOptions) {
   const { props, $event, row, column, instance, className, handler, isClick } = options;
   if ((!$event || !$event.path) && !instance) {
     return;
   }
-  // alwaysEdit 下不模拟触发事件，否者会导致触发两次
+  // alwaysEdit 下不模拟触发event，Otherwise it will trigger twice
   if (props && props.alwaysEdit) {
     return;
   }
   let getCell = () => {
     let paths: HTMLElement[] = [...($event?.path ?? [])];
-    // 通过 instance 获取 cell dom对象
+    // pass instance Get cell domobject
     if (row && column) {
       let selector = `table.vxe-table--body tbody tr[rowid='${row.id}'] td[colid='${column.id}']`;
       let cellDom = instance!.vnode?.el?.querySelector(selector);
-      // -update-begin--author:liaozhiyang---date:20230830---for：【QQYUN-6390】解决online新增字段警告（兼容下）
+      // -update-begin--author:liaozhiyang---date:20230830---for：【QQYUN-6390】solveonlineNew field warning（Compatible）
       if (!cellDom) {
         cellDom = instance!.$el?.querySelector(selector);
       }
-      // -update-begin--author:liaozhiyang---date:20230830---for：【QQYUN-6390】解决online新增字段警告（兼容下）
+      // -update-begin--author:liaozhiyang---date:20230830---for：【QQYUN-6390】solveonlineNew field warning（Compatible）
       if (cellDom) {
         paths.unshift(cellDom);
       }
@@ -87,7 +87,7 @@ export function dispatchEvent(options: dispatchEventOptions) {
         if (isFunction(handler)) {
           handler(element);
         } else {
-          // 模拟触发点击事件
+          // 模拟触发点击event
           if (isClick) {
             element.click();
           } else {
@@ -97,11 +97,11 @@ export function dispatchEvent(options: dispatchEventOptions) {
       }
     }, 10);
   } else {
-    console.warn('【JVxeTable】dispatchEvent 获取 cell 失败');
+    console.warn('【JVxeTable】dispatchEvent Get cell fail');
   }
 }
 
-/** 绑定 VxeTable 数据 */
+/** binding VxeTable data */
 export function vModel(value, row, column: Ref<any> | string) {
   // @ts-ignore
   let property = isRef(column) ? column.value.property : column;
@@ -111,12 +111,12 @@ export function vModel(value, row, column: Ref<any> | string) {
 /**
  * liaozhiyang
  * 2024-06-20
- * 判断当前行编辑是否使用了虚拟滚动（并不是开启了就是，还得满足数据数量大于gt值）
+ * 判断当前OK编辑是否使用了虚拟滚动（It’s not that it’s turned on，还得满足data数量大于gtvalue）
  */
 export function isEnabledVirtualYScroll(props, xTable): boolean {
   let isRealEnabledVirtual = false;
   const isEnabledVScroll = props?.scrollY?.enabled;
-  // 100是底层的默认值
+  // 100是底层of默认value
   const gtYNum = props?.scrollY?.gt || 100;
   if (isEnabledVScroll) {
     const tableFullData = xTable.internalData.tableFullData;

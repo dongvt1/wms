@@ -20,13 +20,13 @@ enum Api {
 }
 
 /**
- * 列表接口
+ * List interface
  * @param params
  */
 export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
- * 删除
+ * delete
  */
 export const deleteOne = (params, handleSuccess) => {
   return defHttp.delete({ url: Api.deleteOne, params }, { joinParamsToUrl: true }).then(() => {
@@ -34,15 +34,15 @@ export const deleteOne = (params, handleSuccess) => {
   });
 };
 /**
- * 批量删除
+ * 批量delete
  * @param params
  */
 export const batchDelete = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'confirmdelete',
+    content: '是否delete选中数据',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -51,7 +51,7 @@ export const batchDelete = (params, handleSuccess) => {
   });
 };
 /**
- * 保存或者更新
+ * Save or update
  * @param params
  */
 export const saveOrUpdate = (params, isUpdate) => {
@@ -60,13 +60,13 @@ export const saveOrUpdate = (params, isUpdate) => {
 };
 
 /**
- * 列表接口
+ * List interface
  * @param params
  */
 export const customList = (params) => defHttp.get({ url: Api.customList, params });
 
 /**
- * 删除
+ * delete
  */
 export const deleteCustomer = (params, handleSuccess) => {
   return defHttp.delete({ url: Api.deleteCustomer, params }, { joinParamsToUrl: true }).then(() => {
@@ -74,15 +74,15 @@ export const deleteCustomer = (params, handleSuccess) => {
   });
 };
 /**
- * 批量删除
+ * 批量delete
  * @param params
  */
 export const deleteBatchCustomer = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'confirmdelete',
+    content: '是否delete选中数据',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatchCustomer, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -91,7 +91,7 @@ export const deleteBatchCustomer = (params, handleSuccess) => {
   });
 };
 /**
- * 保存或者更新
+ * Save or update
  * @param params
  */
 export const saveOrUpdateCustomer = (params, isUpdate) => {
@@ -99,13 +99,13 @@ export const saveOrUpdateCustomer = (params, isUpdate) => {
   return defHttp.post({ url: url, params });
 };
 /**
- * 列表接口
+ * List interface
  * @param params
  */
 export const ticketList = (params) => defHttp.get({ url: Api.ticketList, params });
 
 /**
- * 删除
+ * delete
  */
 export const deleteTicket = (params, handleSuccess) => {
   return defHttp.delete({ url: Api.deleteTicket, params }, { joinParamsToUrl: true }).then(() => {
@@ -113,15 +113,15 @@ export const deleteTicket = (params, handleSuccess) => {
   });
 };
 /**
- * 批量删除
+ * 批量delete
  * @param params
  */
 export const deleteBatchTicket = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'confirmdelete',
+    content: '是否delete选中数据',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatchTicket, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -130,7 +130,7 @@ export const deleteBatchTicket = (params, handleSuccess) => {
   });
 };
 /**
- * 保存或者更新
+ * Save or update
  * @param params
  */
 export const saveOrUpdateTicket = (params, isUpdate) => {

@@ -14,71 +14,71 @@ export function useData(props: JVxeTableProps): JVxeDataProps {
     scroll: reactive({ top: 0, left: 0 }),
     scrolling: ref(false),
     defaultVxeProps: reactive({
-      // update-begin--author:liaozhiyang---date:20240607---for：【TV360X-327】vxetable警告
+      // update-begin--author:liaozhiyang---date:20240607---for：【TV360X-327】vxetablewarn
       // rowId: props.rowKey,
       rowConfig: {
         keyField: props.rowKey,
-        // 高亮hover的行
+        // Highlighthoverof rows
         isHover: true,
       },
-      // update-end--author:liaozhiyang---date:20240607---for：【TV360X-327】vxetable警告
+      // update-end--author:liaozhiyang---date:20240607---for：【TV360X-327】vxetablewarn
 
-      // --- 【issues/209】自带的tooltip会错位，所以替换成原生的title ---
-      // 溢出隐藏并显示tooltip
+      // --- 【issues/209】Comes with ittooltipWill be misplaced，So replace it with the original onetitle ---
+      // overflow hide and showtooltip
       showOverflow: "title",
-      // 表头溢出隐藏并显示tooltip
+      // 表头overflow hide and showtooltip
       showHeaderOverflow: "title",
-      // --- 【issues/209】自带的tooltip会错位，所以替换成原生的title ---
+      // --- 【issues/209】Comes with ittooltipWill be misplaced，So replace it with the original onetitle ---
 
       showFooterOverflow: true,
-      // 可编辑配置
+      // Editable configuration
       editConfig: {
         trigger: 'click',
         mode: 'cell',
-        // update-begin--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable 行编辑升级
+        // update-begin--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable Line editing upgrade
         //activeMethod: () => !props.disabled,
         beforeEditMethod: () => !props.disabled,
-        // update-end--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable 行编辑升级
+        // update-end--author:liaozhiyang---date:20231013---for：【QQYUN-5133】JVxeTable Line editing upgrade
       },
       expandConfig: {
         iconClose: 'vxe-icon-arrow-right',
         iconOpen: 'vxe-icon-arrow-down',
         ...props.expandConfig,
       },
-      // 虚拟滚动配置，y轴大于xx条数据时启用虚拟滚动
+      // Virtual scrolling configuration，yaxis is greater thanxxEnable virtual scrolling when striping data
       scrollY: {
         gt: 30,
       },
       scrollX: {
         gt: 20,
-        // 暂时关闭左右虚拟滚动
+        // Temporarily turn off left and right virtual scrolling
         enabled: false,
       },
       radioConfig: {
-        // 保留勾选状态
+        // Keep checked
         reserve: true,
         highlight: true,
       },
       checkboxConfig: {
-        // 保留勾选状态
+        // Keep checked
         reserve: true,
         highlight: true,
       },
       mouseConfig: { selected: false },
       keyboardConfig: {
-        // 删除键功能
+        // Delete key function
         isDel: false,
-        // Esc键关闭编辑功能
+        // Esckey to close the editing function
         isEsc: true,
-        // Tab 键功能
+        // Tab Key function
         isTab: true,
-        // 任意键进入编辑（功能键除外）
+        // Press any key to enter editing（Except function keys）
         isEdit: true,
-        // 方向键功能
+        // 方向Key function
         isArrow: true,
-        // 回车键功能
+        // 回车Key function
         isEnter: true,
-        // 如果功能被支持，用于 column.type=checkbox|radio，开启空格键切换复选框或单选框状态功能
+        // If the feature is supported，used for column.type=checkbox|radio，Enable the space bar to switch the check box or radio button status function
         isChecked: true,
       },
     }),

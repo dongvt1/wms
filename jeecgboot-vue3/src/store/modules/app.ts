@@ -22,9 +22,9 @@ interface AppState {
   projectConfig: ProjectConfig | null;
   // When the window shrinks, remember some states, and restore these states when the window is restored
   beforeMiniInfo: BeforeMiniState;
-  // 页面跳转临时参数存储
+  // Page jump temporary parameter storage
   messageHrefParams: any,
-  // 应用参数
+  // Application parameters
   mainAppProps: MainAppProps,
 }
 let timeId: TimeoutHandle;
@@ -43,19 +43,19 @@ export const useAppStore = defineStore({
       return this.pageLoading;
     },
     getDarkMode(): 'light' | 'dark' | string {
-      // liaozhiyang---date:20250411---for：【QQYUN-11956】修复projectSetting中配置主题模式不生效
+      // liaozhiyang---date:20250411---for：【QQYUN-11956】repairprojectSettingThe theme mode configured in Medium does not take effect
       const getSettingTheme = () => {
         const theme = setting.themeMode;
         if (theme) {
           if (theme == ThemeEnum.DARK) {
-            // 为了index.html页面loading时是暗黑
+            // forindex.htmlpageloadingIt's dark
             localStorage.setItem(APP_DARK_MODE_KEY_, theme);
           }
           return theme;
         }
         return '';
       };
-      // liaozhiyang---date:20250411---for：【QQYUN-11956】修复projectSetting中配置主题模式不生效
+      // liaozhiyang---date:20250411---for：【QQYUN-11956】repairprojectSettingThe theme mode configured in Medium does not take effect
       return this.darkMode || localStorage.getItem(APP_DARK_MODE_KEY_) || getSettingTheme() || darkMode;
     },
 
@@ -125,9 +125,9 @@ export const useAppStore = defineStore({
 
     setProjectConfig(config: DeepPartial<ProjectConfig>): void {
       this.projectConfig = deepMerge(this.projectConfig || {}, config);
-      // update-begin--author:liaozhiyang---date:20240408---for：【QQYUN-8922】设置导航栏模式没存本地，刷新就还原了
+      // update-begin--author:liaozhiyang---date:20240408---for：【QQYUN-8922】Setting the navigation bar mode is not saved locally，Refresh and restore
       Persistent.setLocal(PROJ_CFG_KEY, this.projectConfig, true);
-      // update-end--author:liaozhiyang---date:20240408---for：【QQYUN-8922】设置导航栏模式没存本地，刷新就还原了
+      // update-end--author:liaozhiyang---date:20240408---for：【QQYUN-8922】Setting the navigation bar mode is not saved locally，Refresh and restore
     },
 
     async resetAllState() {
@@ -150,7 +150,7 @@ export const useAppStore = defineStore({
       this.messageHrefParams = params;
     },
 
-    // 设置主应用参数
+    // 设置主Application parameters
     setMainAppProps(args: MainAppProps)  {
       this.mainAppProps.hideHeader = args.hideHeader ?? false;
       this.mainAppProps.hideSider = args.hideSider ?? false;

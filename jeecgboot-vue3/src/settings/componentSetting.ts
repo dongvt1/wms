@@ -1,31 +1,31 @@
-// 用于配置某些组件的常规配置，而无需修改组件
+// General configuration for configuring certain components，without modifying components
 
 import type { SorterResult } from '../components/Table';
 
 export default {
-  // 表格配置
+  // Table configuration
   table: {
-    // 表格接口请求通用配置，可在组件prop覆盖
-    // 支持 xxx.xxx.xxx格式
+    // Table interface requests common configuration，Available in componentspropcover
+    // support xxx.xxx.xxxFormat
     fetchSetting: {
-      // 传给后台的当前页字段
+      // The current page field passed to the background
       pageField: 'pageNo',
-      // 传给后台的每页显示多少条的字段
+      // How many fields are passed to the background to display on each page?
       sizeField: 'pageSize',
-      // 接口返回表格数据的字段
+      // The interface returns fields of form data
       listField: 'records',
-      // 接口返回表格总数的字段
+      // The interface returns the fields of the total number of tables
       totalField: 'total',
     },
-    // 可选的分页选项
+    // Optional paging options
     pageSizeOptions: ['10', '50', '80', '100'],
-    // 表格默认尺寸
+    // table default size
     defaultSize: 'middle',
-    //默认每页显示多少条
+    //How many items are displayed per page by default
     defaultPageSize: 10,
-    // 默认排序方法
+    // Default sort method
     defaultSortFn: (sortInfo: SorterResult) => {
-      //update-begin-author:taoyan date:2022-10-21 for: VUEN-2199【表单设计器】多字段排序
+      //update-begin-author:taoyan date:2022-10-21 for: VUEN-2199【form designer】Sort by multiple fields
       if(sortInfo instanceof Array){
         let sortInfoArray:any[] = []
         for(let item of sortInfo){
@@ -41,23 +41,23 @@ export default {
         let info = getSort(sortInfo)
         return info || {}
       }
-      //update-end-author:taoyan date:2022-10-21 for: VUEN-2199【表单设计器】多字段排序
+      //update-end-author:taoyan date:2022-10-21 for: VUEN-2199【form designer】Sort by multiple fields
     },
-    // 自定义过滤方法
+    // Custom filtering method
     defaultFilterFn: (data: Partial<Recordable<string[]>>) => {
       return data;
     },
-    // update-begin--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTable加上scrollToFirstRowOnChange类型定义
+    // update-begin--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTableplusscrollToFirstRowOnChangetype definition
     scrollToFirstRowOnChange: false,
-    // update-end--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTable加上scrollToFirstRowOnChange类型定义
+    // update-end--author:liaozhiyang---date:20240424---for：【issues/1188】BasicTableplusscrollToFirstRowOnChangetype definition
   },
-  // 滚动组件配置
+  // Scroll component configuration
   scrollbar: {
-    // 是否使用原生滚动样式
-    // 开启后，菜单，弹窗，抽屉会使用原生滚动条组件
+    // Whether to use native scrolling style
+    // After opening，menu，Pop-up window，The drawer will use the native scrollbar component
     native: false,
   },
-  //表单配置
+  //Form configuration
   form: {
     labelCol: {
       xs: { span: 24 },
@@ -69,13 +69,13 @@ export default {
       xs: { span: 24 },
       sm: { span: 18 },
     },
-    //表单默认冒号
+    //form default colon
     colon: true,
   },
 };
 
 /**
- * 获取排序信息
+ * Get sorting information
  * @param item
  */
 function getSort(item){
@@ -83,9 +83,9 @@ function getSort(item){
   if (field && order) {
     let sortType = 'ascend' == order ? 'asc' : 'desc';
     return {
-      // 排序字段
+      // sort field
       column: field,
-      // 排序方式 asc/desc
+      // sort by asc/desc
       order: sortType,
     };
   }

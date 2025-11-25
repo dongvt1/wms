@@ -17,7 +17,7 @@ export enum Api {
 export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
- * 批量删除
+ * Batch delete
  * @param params
  * @param confirm
  */
@@ -29,8 +29,8 @@ export const deleteBatch = (params, confirm = false) => {
     if (confirm) {
       createConfirm({
         iconType: 'warning',
-        title: '删除',
-        content: '确定要删除吗？',
+        title: 'delete',
+        content: '确定要delete吗？',
         onOk: () => doDelete(),
         onCancel: () => reject(),
       });
@@ -41,7 +41,7 @@ export const deleteBatch = (params, confirm = false) => {
 };
 
 /**
- * 保存或者更改消息模板
+ * Save or change message templates
  */
 export const saveOrUpdate = (params, isUpdate) => {
   if (unref(isUpdate)) {

@@ -18,9 +18,9 @@ export function useTableForm(
       ...formConfig,
       submitButtonOptions: { loading: unref(getLoading), ...submitButtonOptions },
       compact: true,
-      //update-begin-author:liusq---date:20230605--for: [issues/568]设置 autoSubmitOnEnter: false 不生效 ---
+      //update-begin-author:liusq---date:20230605--for: [issues/568]set up autoSubmitOnEnter: false Not effective ---
       autoSubmitOnEnter: autoSubmitOnEnter,
-      //update-end-author:liusq---date:20230605--for: [issues/568]设置 autoSubmitOnEnter: false 不生效 ---
+      //update-end-author:liusq---date:20230605--for: [issues/568]set up autoSubmitOnEnter: false Not effective ---
     };
   });
 

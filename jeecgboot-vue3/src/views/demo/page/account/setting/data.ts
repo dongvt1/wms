@@ -10,31 +10,31 @@ export interface ListItem {
   color?: string;
 }
 
-// tab的list
+// taboflist
 export const settingList = [
   {
     key: '1',
-    name: '基本设置',
+    name: 'Basic settings',
     component: 'BaseSetting',
   },
   {
     key: '2',
-    name: '安全设置',
+    name: 'Security settings',
     component: 'SecureSetting',
   },
   /* {
     key: '3',
-    name: '账号绑定',
+    name: 'Account binding',
     component: 'AccountBind',
   },
   {
     key: '4',
-    name: '新消息通知',
+    name: 'New message notification',
     component: 'MsgNotify',
   },*/
 ];
 
-// 基础设置 form
+// Basic settings form
 export const baseSetschemas: FormSchema[] = [
   {
     label: '',
@@ -45,22 +45,22 @@ export const baseSetschemas: FormSchema[] = [
   {
     field: 'realname',
     component: 'Input',
-    label: '昵称',
+    label: 'Nick name',
     colProps: { span: 18 },
   },
   {
     field: 'sex',
-    label: '性别',
+    label: 'gender',
     component: 'JDictSelectTag',
     componentProps: {
       dictCode: 'sex',
-      placeholder: '请选择性别',
+      placeholder: '请选择gender',
       stringToNumber: true,
     },
     colProps: { span: 18 },
   },
   {
-    label: '生日',
+    label: 'Birthday',
     field: 'birthday',
     component: 'DatePicker',
     colProps: { span: 18 },
@@ -68,100 +68,100 @@ export const baseSetschemas: FormSchema[] = [
   {
     field: 'email',
     component: 'Input',
-    label: '邮箱',
+    label: 'Mail',
     colProps: { span: 18 },
   },
   {
     field: 'phone',
     component: 'Input',
-    label: '联系电话',
+    label: 'Contact number',
     dynamicRules: ({ model, schema }) => {
       return [
         { ...rules.duplicateCheckRule('sys_user', 'phone', model, schema, false)[0] },
-        { pattern: /^1[3456789]\d{9}$/, message: '手机号码格式有误' },
+        { pattern: /^1[3456789]\d{9}$/, message: 'Mobile number format is wrong' },
       ];
     },
     colProps: { span: 18 },
   },
 ];
 
-// 安全设置 list
+// Security settings list
 export const secureSettingList: ListItem[] = [
   {
     key: '1',
-    title: '账户密码',
-    description: '当前密码强度：：强',
-    extra: '修改',
+    title: 'Account password',
+    description: 'Current password strength：：powerful',
+    extra: 'Revise',
   },
   {
     key: '2',
-    title: '密保手机',
-    description: '已绑定手机：：138****8293',
-    extra: '修改',
+    title: 'Security mobile phone',
+    description: 'Mobile phone bound：：138****8293',
+    extra: 'Revise',
   },
   {
     key: '3',
-    title: '密保问题',
-    description: '未设置密保问题，密保问题可有效保护账户安全',
-    extra: '修改',
+    title: 'Security issues',
+    description: '未设置Security issues，Security issues可有效保护账户安全',
+    extra: 'Revise',
   },
   {
     key: '4',
-    title: '备用邮箱',
-    description: '已绑定邮箱：：ant***sign.com',
-    extra: '修改',
+    title: '备用Mail',
+    description: '已bindingMail：：ant***sign.com',
+    extra: 'Revise',
   },
   {
     key: '5',
-    title: 'MFA 设备',
-    description: '未绑定 MFA 设备，绑定后，可以进行二次确认',
-    extra: '修改',
+    title: 'MFA equipment',
+    description: 'Not bound MFA equipment，After binding，A second confirmation is possible',
+    extra: 'Revise',
   },
 ];
 
-// 账号绑定 list
+// Account binding list
 export const accountBindList: ListItem[] = [
   {
     key: '1',
-    title: '绑定淘宝',
-    description: '当前未绑定淘宝账号',
-    extra: '绑定',
+    title: 'Bind Taobao',
+    description: '当前Not bound淘宝账号',
+    extra: 'binding',
     avatar: 'ri:taobao-fill',
     color: '#ff4000',
   },
   {
     key: '2',
-    title: '绑定支付宝',
-    description: '当前未绑定支付宝账号',
-    extra: '绑定',
+    title: 'binding支付宝',
+    description: '当前Not bound支付宝账号',
+    extra: 'binding',
     avatar: 'fa-brands:alipay',
     color: '#2eabff',
   },
   {
     key: '3',
-    title: '绑定钉钉',
-    description: '当前未绑定钉钉账号',
-    extra: '绑定',
+    title: 'binding钉钉',
+    description: '当前Not bound钉钉账号',
+    extra: 'binding',
     avatar: 'ri:dingding-fill',
     color: '#2eabff',
   },
 ];
 
-// 新消息通知 list
+// New message notification list
 export const msgNotifyList: ListItem[] = [
   {
     key: '1',
-    title: '账户密码',
-    description: '其他用户的消息将以站内信的形式通知',
+    title: 'Account password',
+    description: '其他用户of消息将以站内信of形式通知',
   },
   {
     key: '2',
-    title: '系统消息',
-    description: '系统消息将以站内信的形式通知',
+    title: 'System messages',
+    description: 'System messages将以站内信of形式通知',
   },
   {
     key: '3',
-    title: '待办任务',
-    description: '待办任务将以站内信的形式通知',
+    title: 'To-do tasks',
+    description: 'To-do tasks将以站内信of形式通知',
   },
 ];

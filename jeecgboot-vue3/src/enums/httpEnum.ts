@@ -31,7 +31,7 @@ export enum ContentTypeEnum {
 }
 
 /**
- * 请求header
+ * askheader
  * @description:  contentTyp
  */
 export enum ConfigEnum {
@@ -41,10 +41,10 @@ export enum ConfigEnum {
   TIMESTAMP = 'X-TIMESTAMP',
   // Sign
   Sign = 'X-Sign',
-  // 租户id
+  // tenantid
   TENANT_ID = 'X-Tenant-Id',
-  // 版本
+  // Version
   VERSION = 'X-Version',
-  // 低代码应用ID
+  // low code applicationsID
   X_LOW_APP_ID = 'X-Low-App-ID',
 }

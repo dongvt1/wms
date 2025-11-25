@@ -1,8 +1,8 @@
 import { isObject, isString } from '/@/utils/is';
 import dayjs from "dayjs";
-// update-begin--author:liaozhiyang---date:20240426---for：【QQYUN-9138】系统用户保存的时间没有秒
+// update-begin--author:liaozhiyang---date:20240426---for：【QQYUN-9138】The time saved by the system user does not have seconds
 const DATE_TIME_FORMAT = 'YYYY-MM-DD HH:mm:ss';
-// update-end--author:liaozhiyang---date:20240426---for：【QQYUN-9138】系统用户保存的时间没有秒
+// update-end--author:liaozhiyang---date:20240426---for：【QQYUN-9138】The time saved by the system user does not have seconds
 
 export function joinTimestamp<T extends boolean>(join: boolean, restful: T): T extends true ? string : object;
 
@@ -26,7 +26,7 @@ export function formatRequestDate(params: Recordable) {
   }
 
   for (const key in params) {
-    // 判断是否是dayjs实例
+    // Determine whether it isdayjsExample
     if (dayjs.isDayjs(params[key])) {
       params[key] = params[key].format(DATE_TIME_FORMAT);
     }

@@ -4,7 +4,7 @@ import { VALIDATE_FAILED, validateFormModelAndTables } from '/@/utils/common/vxe
 
 export function useJvxeMethod(requestAddOrEdit, classifyIntoFormData, tableRefs, activeKey, refKeys, validateSubForm?) {
   const formRef = ref();
-  /** 查询某个tab的数据 */
+  /** Query atabdata */
   function requestSubTableData(url, params, tab, success) {
     tab.loading = true;
     defHttp
@@ -25,29 +25,29 @@ export function useJvxeMethod(requestAddOrEdit, classifyIntoFormData, tableRefs,
       });
   }
 
-  /* --- handle 事件 --- */
+  /* --- handle event --- */
 
-  /** ATab 选项卡切换事件 */
+  /** ATab 选项卡切换event */
   function handleChangeTabs(key) {
-    // 自动重置scrollTop状态，防止出现白屏
+    // automatic resetscrollTopstate，Prevent white screen from appearing
     tableRefs[key]?.value?.resetScrollTop(0);
   }
 
-  /** 获取所有的editableTable实例*/
+  /** get alleditableTableExample*/
   function getAllTable() {
     let values = Object.values(tableRefs);
     return Promise.all(values);
   }
-  /** 确定按钮点击事件 */
+  /** 确定按钮点击event */
   function handleSubmit() {
-    /** 触发表单验证 */
+    /** Trigger form validation */
     getAllTable()
       .then((tables) => {
         let values = formRef.value.getFieldsValue();
         return validateFormModelAndTables(formRef.value.validate, values, tables, formRef.value.getProps, false);
       })
       .then((allValues) => {
-        /** 一次性验证一对一的所有子表 */
+        /** Verify all child tables one-to-one at once */
         return validateSubForm && typeof validateSubForm === 'function' ? validateSubForm(allValues) : validateAllSubOne(allValues);
       })
       .then((allValues) => {
@@ -55,22 +55,22 @@ export function useJvxeMethod(requestAddOrEdit, classifyIntoFormData, tableRefs,
           throw throwNotFunction('classifyIntoFormData');
         }
         let formData = classifyIntoFormData(allValues);
-        // 发起请求
+        // Make a request
         return requestAddOrEdit(formData);
       })
       .catch((e) => {
         if (e.error === VALIDATE_FAILED) {
-          // 如果有未通过表单验证的子表，就自动跳转到它所在的tab
-          //update-begin-author:taoyan date:2022-11-22 for: VUEN-2866【代码生成】Tab风格 一对多子表校验不通过时，点击提交表单空白了，流程附加页面也有此问题
+          // If there are subtables that fail form validation，will automatically jump to where it istab
+          //update-begin-author:taoyan date:2022-11-22 for: VUEN-2866【code generation】Tabstyle When one-to-many subtable verification fails，Click submit and the form is blank，The process additional page also has this problem
           if(e.paneKey){
             activeKey.value = e.paneKey
           }else{
-            //update-begin-author:liusq date:2024-06-12 for: TV360X-478 一对多tab，校验未通过时，tab没有跳转
+            //update-begin-author:liusq date:2024-06-12 for: TV360X-478 one to manytab，When the verification fails，tabNo jump
             activeKey.value = e.subIndex == null ? (e.index == null ? unref(activeKey) : refKeys.value[e.index]) : Object.keys(tableRefs)[e.subIndex];
-            //update-end-author:liusq date:2024-06-12  for: TV360X-478 一对多tab，校验未通过时，tab没有跳转
+            //update-end-author:liusq date:2024-06-12  for: TV360X-478 one to manytab，When the verification fails，tabNo jump
           }
-          //update-end-author:taoyan date:2022-11-22 for: VUEN-2866【代码生成】Tab风格 一对多子表校验不通过时，点击提交表单空白了，流程附加页面也有此问题
-          //update-begin---author:wangshuai---date:2024-06-17---for:【TV360X-1064】非原生提交表单滚动校验没通过的项---
+          //update-end-author:taoyan date:2022-11-22 for: VUEN-2866【code generation】Tabstyle When one-to-many subtable verification fails，Click submit and the form is blank，The process additional page also has this problem
+          //update-begin---author:wangshuai---date:2024-06-17---for:【TV360X-1064】Items that failed the rolling verification of the non-native submission form---
           if (e?.errorFields) {
             const firstField = e.errorFields[0];
             if (firstField) {
@@ -78,13 +78,13 @@ export function useJvxeMethod(requestAddOrEdit, classifyIntoFormData, tableRefs,
             }
           }
           return Promise.reject(e?.errorFields);
-          //update-end---author:wangshuai---date:2024-06-17---for:【TV360X-1064】非原生提交表单滚动校验没通过的项---
+          //update-end---author:wangshuai---date:2024-06-17---for:【TV360X-1064】Items that failed the rolling verification of the non-native submission form---
         } else {
           console.error(e);
         }
       });
   }
-  //校验所有子表表单
+  //Validate all subforms
   function validateAllSubOne(allValues) {
     return new Promise((resolve) => {
       resolve(allValues);
@@ -94,22 +94,22 @@ export function useJvxeMethod(requestAddOrEdit, classifyIntoFormData, tableRefs,
 
   /** not a function */
   function throwNotFunction(name) {
-    return `${name} 未定义或不是一个函数`;
+    return `${name} undefined or not a function`;
   }
 
   /** not a array */
   function throwNotArray(name) {
-    return `${name} 未定义或不是一个数组`;
+    return `${name} undefined or not an array`;
   }
   return [handleChangeTabs, handleSubmit, requestSubTableData, formRef];
 }
 
-//update-begin-author:taoyan date:2022-6-16 for: 代码生成-原生表单用
+//update-begin-author:taoyan date:2022-6-16 for: code generation-For native forms
 /**
- * 校验多个表单和子表table，用于原生的antd-vue的表单
- * @param activeKey 子表表单/vxe-table 所在tabs的 activeKey
- * @param refMap 子表表单/vxe-table对应的ref对象 map结构
- * 示例：
+ * Validate multiple forms and subformstable，for nativeantd-vueform
+ * @param activeKey Subform/vxe-table locationtabsof activeKey
+ * @param refMap Subform/vxe-table对应ofrefobject mapstructure
+ * Example：
  * useValidateAntFormAndTable(activeKey, {
  *   'tableA': tableARef,
  *   'formB': formBRef
@@ -117,7 +117,7 @@ export function useJvxeMethod(requestAddOrEdit, classifyIntoFormData, tableRefs,
  */
 export function useValidateAntFormAndTable(activeKey, refMap) {
   /**
-   * 获取所有子表数据
+   * Get all child table data
    */
   async function getSubFormAndTableData() {
     let formData = {};
@@ -142,7 +142,7 @@ export function useValidateAntFormAndTable(activeKey, refMap) {
   }
 
   /**
-   * 转换数据用 如果有数组转成逗号分割的格式
+   * For converting data 如果有数组转成逗号分割of格式
    * @param data
    */
   function transformData(data) {
@@ -157,7 +157,7 @@ export function useValidateAntFormAndTable(activeKey, refMap) {
   }
 
   /**
-   * 子表table
+   * Subtabletable
    * @param instance
    * @param key
    */
@@ -167,14 +167,14 @@ export function useValidateAntFormAndTable(activeKey, refMap) {
       return instance.getTableData();
     } else {
       activeKey.value = key;
-      // 自动重置scrollTop状态，防止出现白屏
+      // automatic resetscrollTopstate，Prevent white screen from appearing
       instance.resetScrollTop(0);
       return Promise.reject(1);
     }
   }
 
   /**
-   * 子表表单
+   * Subform
    * @param instance
    * @param key
    */
@@ -194,4 +194,4 @@ export function useValidateAntFormAndTable(activeKey, refMap) {
     transformData,
   };
 }
-//update-end-author:taoyan date:2022-6-16 for: 代码生成-原生表单用
+//update-end-author:taoyan date:2022-6-16 for: code generation-For native forms

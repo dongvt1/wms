@@ -1,7 +1,7 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Form';
 
-// 产品分类表单配置
+// Product category form configuration
 export const categorySearchFormSchema: FormSchema[] = [
   {
     field: 'name',
@@ -24,7 +24,7 @@ export const categorySearchFormSchema: FormSchema[] = [
   },
 ];
 
-// 产品分类表格列配置
+// Product category table column configuration
 export const categoryColumns: BasicColumn[] = [
   {
     title: 'Category Name',
@@ -75,7 +75,7 @@ export const categoryColumns: BasicColumn[] = [
   } as BasicColumn,
 ];
 
-// 产品分类表单配置
+// Product category form configuration
 export const categoryFormSchema: FormSchema[] = [
   {
     field: 'name',

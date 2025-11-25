@@ -7,10 +7,10 @@ const glob = useGlobSetting();
 const _PRELOAD_UTILS = ElectronEnum.ELECTRON_API;
 
 export const $electron = {
-  // 当前是否为Electron平台
+  // Is the currentElectronplatform
   isElectron: () => glob.isElectronPlatform,
 
-  // 通过浏览器打开链接
+  // Open link via browser
   openInBrowser: bindUtils('openInBrowser') as (url: string) => void,
 
   resolveRoutePath,
@@ -24,23 +24,23 @@ function bindUtils(n: string) {
   return () => console.warn(`Electron preload util ${n} is not a function`);
 }
 
-// 解析路由路径
+// Parse routing path
 function resolveRoutePath(path: string) {
   return window.location.origin + window.location.pathname + router.resolve(path).href;
 }
 
 /**
- * 配置Electron
+ * ConfigurationElectron
  */
 export function setupElectron(_: App) {
-  // 非Electron平台不执行
+  // NoElectronplatform不执行
   if (!$electron.isElectron()) {
     return;
   }
   hookWindowOpen();
-  // update-begin--author:liaozhiyang---date:20250725---for：【JHHB-13】桌面应用消息通知
+  // update-begin--author:liaozhiyang---date:20250725---for：【JHHB-13】Desktop app message notifications
   hookNavigate();
-  // update-end--author:liaozhiyang---date:20250725---for：【JHHB-13】桌面应用消息通知
+  // update-end--author:liaozhiyang---date:20250725---for：【JHHB-13】Desktop app message notifications
 }
 function hookNavigate() {
   // @ts-ignore
@@ -49,25 +49,25 @@ function hookNavigate() {
   });
 }
 function hookWindowOpen() {
-  // 保存原生方法引用
+  // Save native method reference
   const originFunc = window.open;
-  // 重写window.open方法
+  // rewritewindow.openmethod
   window['open'] = function (url, windowName, windowFeatures) {
     url = typeof url === 'string' ? url.trim() : '';
     if (!url) {
       throw new Error('window.open: url is required');
     }
-    // 判断是否以http或https开头
+    // Determine whether tohttporhttpsbeginning
     if (/^https?:\/\//.test(url)) {
-      // 判断是否为本地地址
+      // Determine whether it is a local address
       if (url.startsWith(window.location.origin) || url.startsWith(window['_CONFIG']['domianURL'])) {
-        // 直接打开
+        // Open directly
         return originFunc(url, windowName, windowFeatures);
       }
-      // 调用Electron进行外部浏览器打开
+      // callElectronOpen external browser
       return $electron.openInBrowser(url) as any;
     }
-    // 自定义逻辑
+    // Custom logic
     return originFunc(url, windowName, windowFeatures)
   }
 }

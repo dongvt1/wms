@@ -4,76 +4,76 @@ import { rules} from '/@/utils/helper/validator';
 import { render } from '/@/utils/common/renderUtils';
 import {JVxeTypes,JVxeColumn} from '/@/components/jeecg/JVxeTable/types'
 import { getWeekMonthQuarterYear } from '/@/utils';
-//列表数据
+//List data
 export const columns: BasicColumn[] = [
    {
-    title: '接口名称',
+    title: 'Interface name',
     align:"center",
     dataIndex: 'name'
    },
    {
-    title: '请求方法',
+    title: 'Request method',
     align:"center",
     dataIndex: 'requestMethod'
    },
    {
-    title: '接口地址',
+    title: 'interface address',
     align:"center",
     dataIndex: 'requestUrl'
    },
    {
-    title: 'IP 黑名单',
+    title: 'IP blacklist',
     align:"center",
     dataIndex: 'blackList'
    },
    // {
-   //  title: '状态',
+   //  title: 'state',
    //  align:"center",
    //  dataIndex: 'status'
    // },
    {
-    title: '创建人',
+    title: 'Creator',
     align:"center",
     dataIndex: 'createBy'
    },
    {
-    title: '创建时间',
+    title: 'creation time',
     align:"center",
     dataIndex: 'createTime'
    },
 ];
-//查询数据
+//Query data
 export const searchFormSchema: FormSchema[] = [
   {
-    label: "接口名称",
+    label: "Interface name",
     field: "name",
     component: 'JInput',
   },
   {
-    label: "创建人",
+    label: "Creator",
     field: "createBy",
     component: 'JInput',
   },
 ];
-//表单数据
+//form data
 export const formSchema: FormSchema[] = [
   {
-    label: '接口名称',
+    label: 'Interface name',
     field: 'name',
     component: 'Input',
     dynamicRules: ({model,schema}) => {
           return [
-                 { required: true, message: '请输入接口名称!'},
+                 { required: true, message: 'Please enterInterface name!'},
           ];
      },
   },
   {
-    label: '原始地址',
+    label: 'original address',
     field: 'originUrl',
     component: 'Input',
   },
   {
-    label: '请求方法',
+    label: 'Request method',
     field: 'requestMethod',
     component: 'JSearchSelect',
     componentProps:{
@@ -112,41 +112,41 @@ export const formSchema: FormSchema[] = [
      },
     dynamicRules: ({model,schema}) => {
           return [
-                 { required: true, message: '请输入请求方法!'},
+                 { required: true, message: 'Please enterRequest method!'},
           ];
      },
   },
   {
-    label: '接口地址',
+    label: 'interface address',
     field: 'requestUrl',
     component: 'Input',
     dynamicDisabled:true
   },
   {
-    label: 'IP 黑名单',
+    label: 'IP blacklist',
     field: 'blackList',
     component: 'Input',
   },
   {
-    label: '请求体内容',
+    label: 'Request body content',
     component:"Input",
     field: 'body'
   },
   {
-    label: '删除标识',
+    label: 'delete identifier',
     field: 'delFlag',
     component: 'Input',
     defaultValue:0,
     show:false
   },
   {
-    label: '状态',
+    label: 'state',
     field: 'status',
     component: 'Input',
     defaultValue:"1",
     show:false
   },
-	// TODO 主键隐藏字段，目前写死为ID
+	// TODO Primary key hidden field，Currently written to death asID
 	{
 	  label: '',
 	  field: 'id',
@@ -154,8 +154,8 @@ export const formSchema: FormSchema[] = [
 	  show: false
 	},
 ];
-//子表单数据
-//子表列表数据
+//子form data
+//子表List data
 export const openApiHeaderColumns: BasicColumn[] = [
    // {
    //  title: 'apiId',
@@ -163,27 +163,27 @@ export const openApiHeaderColumns: BasicColumn[] = [
    //  dataIndex: 'apiId'
    // },
    {
-    title: '请求头Key',
+    title: 'Request headerKey',
     align:"center",
     dataIndex: 'headerKey'
    },
    {
-    title: '是否必填',
+    title: 'Is it required?',
     align:"center",
     dataIndex: 'required_dictText'
    },
    {
-    title: '默认值',
+    title: 'default value',
     align:"center",
     dataIndex: 'defaultValue'
    },
    {
-    title: '备注',
+    title: 'Remark',
     align:"center",
     dataIndex: 'note'
    },
 ];
-//子表列表数据
+//子表List data
 export const openApiParamColumns: BasicColumn[] = [
    // {
    //  title: 'apiId',
@@ -191,68 +191,68 @@ export const openApiParamColumns: BasicColumn[] = [
    //  dataIndex: 'apiId'
    // },
    {
-    title: '参数Key',
+    title: 'parameterKey',
     align:"center",
     dataIndex: 'paramKey'
    },
    {
-    title: '是否必填',
+    title: 'Is it required?',
     align:"center",
     dataIndex: 'required_dictText'
    },
    {
-    title: '默认值',
+    title: 'default value',
     align:"center",
     dataIndex: 'defaultValue'
    },
    {
-    title: '备注',
+    title: 'Remark',
     align:"center",
     dataIndex: 'note'
    },
 ];
-//子表表格配置
+//Subtable table configuration
 export const openApiHeaderJVxeColumns: JVxeColumn[] = [
     // {
     //   title: 'apiId',
     //   key: 'apiId',
     //   type: JVxeTypes.input,
     //   width:"200px",
-    //   placeholder: '请输入${title}',
+    //   placeholder: 'Please enter${title}',
     //   defaultValue:'',
     // },
     {
-      title: '请求头Key',
+      title: 'Request headerKey',
       key: 'headerKey',
       type: JVxeTypes.input,
       width:"200px",
-      placeholder: '请输入${title}',
+      placeholder: 'Please enter${title}',
       defaultValue:'',
     },
     {
-      title: '是否必填',
+      title: 'Is it required?',
       key: 'required',
       type: JVxeTypes.checkbox,
       options:[],
       // dictCode:"yn",
       width:"100px",
-      placeholder: '请输入${title}',
+      placeholder: 'Please enter${title}',
       defaultValue:'',
       customValue: ['1','0']
     },
     {
-      title: '默认值',
+      title: 'default value',
       key: 'defaultValue',
       type: JVxeTypes.input,
       width:"200px",
-      placeholder: '请输入${title}',
+      placeholder: 'Please enter${title}',
       defaultValue:'',
     },
     {
-      title: '备注',
+      title: 'Remark',
       key: 'note',
       type: JVxeTypes.input,
-      placeholder: '请输入${title}',
+      placeholder: 'Please enter${title}',
       defaultValue:'',
     },
   ]
@@ -262,84 +262,84 @@ export const openApiParamJVxeColumns: JVxeColumn[] = [
     //   key: 'apiId',
     //   type: JVxeTypes.input,
     //   width:"200px",
-    //   placeholder: '请输入${title}',
+    //   placeholder: 'Please enter${title}',
     //   defaultValue:'',
     // },
     {
-      title: '参数Key',
+      title: 'parameterKey',
       key: 'paramKey',
       type: JVxeTypes.input,
       width:"200px",
-      placeholder: '请输入${title}',
+      placeholder: 'Please enter${title}',
       defaultValue:'',
     },
     {
-      title: '是否必填',
+      title: 'Is it required?',
       key: 'required',
       type: JVxeTypes.checkbox,
       options:[],
       // dictCode:"yn",
       width:"100px",
-      placeholder: '请输入${title}',
+      placeholder: 'Please enter${title}',
       defaultValue:'',
       customValue: ['1','0']
     },
     {
-      title: '默认值',
+      title: 'default value',
       key: 'defaultValue',
       type: JVxeTypes.input,
       width:"200px",
-      placeholder: '请输入${title}',
+      placeholder: 'Please enter${title}',
       defaultValue:'',
     },
     {
-      title: '备注',
+      title: 'Remark',
       key: 'note',
       type: JVxeTypes.input,
-      placeholder: '请输入${title}',
+      placeholder: 'Please enter${title}',
       defaultValue:'',
     },
   ]
 
-// 高级查询数据
+// 高级Query data
 export const superQuerySchema = {
-  name: {title: '接口名称',order: 0,view: 'text', type: 'string',},
-  requestMethod: {title: '请求方法',order: 1,view: 'list', type: 'string',dictCode: '',},
-  requestUrl: {title: '接口地址',order: 2,view: 'text', type: 'string',},
-  blackList: {title: 'IP 黑名单',order: 3,view: 'text', type: 'string',},
-  status: {title: '状态',order: 5,view: 'number', type: 'number',},
-  createBy: {title: '创建人',order: 6,view: 'text', type: 'string',},
-  createTime: {title: '创建时间',order: 7,view: 'datetime', type: 'string',},
-  //子表高级查询
+  name: {title: 'Interface name',order: 0,view: 'text', type: 'string',},
+  requestMethod: {title: 'Request method',order: 1,view: 'list', type: 'string',dictCode: '',},
+  requestUrl: {title: 'interface address',order: 2,view: 'text', type: 'string',},
+  blackList: {title: 'IP blacklist',order: 3,view: 'text', type: 'string',},
+  status: {title: 'state',order: 5,view: 'number', type: 'number',},
+  createBy: {title: 'Creator',order: 6,view: 'text', type: 'string',},
+  createTime: {title: 'creation time',order: 7,view: 'datetime', type: 'string',},
+  //Subtable advanced query
   openApiHeader: {
-    title: '请求头表',
+    title: 'Request header表',
     view: 'table',
     fields: {
         // apiId: {title: 'apiId',order: 0,view: 'text', type: 'string',},
-        headerKey: {title: '请求头Key',order: 1,view: 'text', type: 'string',},
-        required: {title: '是否必填',order: 2,view: 'number', type: 'number',dictCode: 'yn',},
-        defaultValue: {title: '默认值',order: 3,view: 'text', type: 'string',},
-        note: {title: '备注',order: 4,view: 'text', type: 'string',},
+        headerKey: {title: 'Request headerKey',order: 1,view: 'text', type: 'string',},
+        required: {title: 'Is it required?',order: 2,view: 'number', type: 'number',dictCode: 'yn',},
+        defaultValue: {title: 'default value',order: 3,view: 'text', type: 'string',},
+        note: {title: 'Remark',order: 4,view: 'text', type: 'string',},
     }
   },
   openApiParam: {
-    title: '请求参数部分',
+    title: '请求parameter部分',
     view: 'table',
     fields: {
         // apiId: {title: 'apiId',order: 0,view: 'text', type: 'string',},
-        paramKey: {title: '参数Key',order: 1,view: 'text', type: 'string',},
-        required: {title: '是否必填',order: 2,view: 'number', type: 'number',dictCode: 'yn',},
-        defaultValue: {title: '默认值',order: 3,view: 'text', type: 'string',},
-        note: {title: '备注',order: 4,view: 'text', type: 'string',},
+        paramKey: {title: 'parameterKey',order: 1,view: 'text', type: 'string',},
+        required: {title: 'Is it required?',order: 2,view: 'number', type: 'number',dictCode: 'yn',},
+        defaultValue: {title: 'default value',order: 3,view: 'text', type: 'string',},
+        note: {title: 'Remark',order: 4,view: 'text', type: 'string',},
     }
   },
 };
 
 /**
-* 流程表单调用这个方法获取formSchema
+* The process form calls this method to obtainformSchema
 * @param param
 */
 export function getBpmFormSchema(_formData): FormSchema[]{
-  // 默认和原始表单保持一致 如果流程中配置了权限数据，这里需要单独处理formSchema
+  // The default is the same as the original form If permission data is configured in the process，This needs to be dealt with separatelyformSchema
   return formSchema;
 }

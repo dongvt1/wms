@@ -6,7 +6,7 @@ import { Tag } from 'ant-design-vue';
 
 export const columns: BasicColumn[] = [
   {
-    title: '请求时间',
+    title: 'Request time',
     dataIndex: 'timestamp',
     width: 50,
     customRender({ text }) {
@@ -14,7 +14,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '请求方法',
+    title: 'Request method',
     dataIndex: 'request.method',
     width: 20,
     customRender({ record, column }) {
@@ -36,7 +36,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '请求URL',
+    title: 'askURL',
     dataIndex: 'request.uri',
     width: 200,
     customRender({ record, column }) {
@@ -44,7 +44,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '响应状态',
+    title: 'response status',
     dataIndex: 'response.status',
     width: 50,
     customRender({ record, column }) {
@@ -65,7 +65,7 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '请求耗时',
+    title: 'ask耗时',
     dataIndex: 'timeTaken',
     width: 50,
     customRender({ record, column }) {

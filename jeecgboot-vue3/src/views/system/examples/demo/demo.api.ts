@@ -12,15 +12,15 @@ enum Api {
   importExcel = '/test/jeecgDemo/importExcel',
 }
 /**
- * 导出api
+ * Exportapi
  */
 export const getExportUrl = Api.exportXls;
 /**
- * 导入api
+ * importapi
  */
 export const getImportUrl = Api.importExcel;
 /**
- * 查询示例列表
+ * Query example list
  * @param params
  */
 export const getDemoList = (params) => {
@@ -28,7 +28,7 @@ export const getDemoList = (params) => {
 };
 
 /**
- * 保存或者更新示例
+ * Save or update example
  * @param params
  */
 export const saveOrUpdateDemo = (params, isUpdate) => {
@@ -37,7 +37,7 @@ export const saveOrUpdateDemo = (params, isUpdate) => {
 };
 
 /**
- * 查询示例详情
+ * Query sample details
  * @param params
  */
 export const getDemoById = (params) => {
@@ -45,7 +45,7 @@ export const getDemoById = (params) => {
 };
 
 /**
- * 删除示例
+ * Delete example
  * @param params
  */
 export const deleteDemo = (params, handleSuccess) => {
@@ -55,15 +55,15 @@ export const deleteDemo = (params, handleSuccess) => {
 };
 
 /**
- * 批量删除示例
+ * 批量Delete example
  * @param params
  */
 export const batchDeleteDemo = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm deletion',
+    content: 'Whether to delete selected data',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();

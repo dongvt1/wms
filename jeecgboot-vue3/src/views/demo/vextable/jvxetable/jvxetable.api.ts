@@ -8,7 +8,7 @@ enum Api {
 export const orderCustomerList = Api.orderCustomerList;
 export const orderTicketList = Api.orderTicketList;
 /**
- * 保存或者更新
+ * Save or update
  * @param params
  */
 export const saveOrUpdate = (params, isUpdate) => {

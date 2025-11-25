@@ -3,39 +3,39 @@ import { useMessage } from '/@/hooks/web/useMessage';
 import { isEmpty } from '@/utils/is';
 
 export function useSelectBiz(getList, props, emit?) {
-  //接收下拉框选项
+  //Receive drop down box options
   const selectOptions = inject('selectOptions', ref<Array<object>>([]));
-  //接收已选择的值
+  //Receive selected value
   const selectValues = <object>inject('selectValues', reactive({ value: [], change: false }));
-  // 是否正在加载回显
+  // Whether the echo is loading
   const loadingEcho = inject<Ref<boolean>>('loadingEcho', ref(false));
-  //数据集
+  //Dataset
   const dataSource = ref<Array<object>>([]);
-  //已选择的值
+  //Selected value
   const checkedKeys = ref<Array<string | number>>([]);
-  //选则的行记录
+  //Selected row record
   const selectRows = ref<Array<object>>([]);
-  //提示弹窗
+  //Prompt pop-up window
   const $message = useMessage();
-  // 是否是首次加载回显，只有首次加载，才会显示 loading
+  // Whether it is the first time to load the echo，Only first load，will be displayed loading
   let isFirstLoadEcho = true;
 
   /**
-   * 监听selectValues变化
+   * monitorselectValueschange
    */
   watch(
     selectValues,
     () => {
-      //update-begin-author:liusq---date:2023-10-19--for: [issues/788]判断有设置数值才去加载
+      //update-begin-author:liusq---date:2023-10-19--for: [issues/788]Make sure there is a set value before loading.
       //if (selectValues['change'] == false && !isEmpty(selectValues['value'])) {
       if (selectValues['change'] == false && !isEmpty(selectValues['value'])) {
-        //update-end-author:liusq---date:2023-10-19--for: [issues/788]判断有设置数值才去加载
-        //update-begin---author:wangshuai ---date:20220412  for：[VUEN-672]发文草稿箱编辑时拟稿人显示用户名------------
-        // update-begin-author:liaozhiyang---date:2024-11-11--for:【issues/7405】部门选择用户同时全部选择两页用户，回显到父页面。第二页用户显示的不是真是姓名
+        //update-end-author:liusq---date:2023-10-19--for: [issues/788]Make sure there is a set value before loading.
+        //update-begin---author:wangshuai ---date:20220412  for：[VUEN-672]The user name of the drafter is displayed when editing in the draft box.------------
+        // update-begin-author:liaozhiyang---date:2024-11-11--for:【issues/7405】Select users by department and select all users on two pages at the same time，echo back to parent page。The user displayed on the second page is not their real name
         let params = { isMultiTranslate: 'true', pageSize: selectValues.value?.length };
-        // update-end-author:liaozhiyang---date:2024-10-11--for:【issues/7405】部门选择用户同时全部选择两页用户，回显到父页面。第二页用户显示的不是真是姓名
+        // update-end-author:liaozhiyang---date:2024-10-11--for:【issues/7405】Select users by department and select all users on two pages at the same time，echo back to parent page。The user displayed on the second page is not their real name
         params[props.rowKey] = selectValues['value'].join(',');
-        //update-end---author:wangshuai ---date:20220412  for：[VUEN-672]发文草稿箱编辑时拟稿人显示用户名--------------
+        //update-end---author:wangshuai ---date:20220412  for：[VUEN-672]The user name of the drafter is displayed when editing in the draft box.--------------
         loadingEcho.value = isFirstLoadEcho;
         isFirstLoadEcho = false;
         getDataSource(params, true)
@@ -44,17 +44,17 @@ export function useSelectBiz(getList, props, emit?) {
             loadingEcho.value = isFirstLoadEcho;
           });
       }
-      //设置列表默认选中
-      // update-begin--author:liaozhiyang---date:20250423---for：【QQYUN-12155】弹窗中勾选，再点取消，值被选中了
+      //Settings list selected by default
+      // update-begin--author:liaozhiyang---date:20250423---for：【QQYUN-12155】Check in the pop-up window，Click Cancel again，value is selected
       checkedKeys['value'] = [...selectValues['value']];
-      // update-end--author:liaozhiyang---date:20250423---for：【QQYUN-12155】弹窗中勾选，再点取消，值被选中了
+      // update-end--author:liaozhiyang---date:20250423---for：【QQYUN-12155】Check in the pop-up window，Click Cancel again，value is selected
     },
     { immediate: true }
   );
 
   async function onSelectChange(selectedRowKeys: (string | number)[], selectRow) {
     checkedKeys.value = selectedRowKeys;
-    //判断全选的问题checkedKeys和selectRows必须一致
+    //Judgment Select All QuestionscheckedKeysandselectRowsMust be consistent
     if (props.showSelected && unref(checkedKeys).length !== unref(selectRow).length) {
       let { records } = await getList({
         code: unref(checkedKeys).join(','),
@@ -67,23 +67,23 @@ export function useSelectBiz(getList, props, emit?) {
   }
 
   /**
-   * 选择列配置
+   * Select column configuration
    */
   const rowSelection = {
-    //update-begin-author:liusq---date:20220517--for: 动态设置rowSelection的type值,默认是'checkbox' ---
+    //update-begin-author:liusq---date:20220517--for: Dynamic settingsrowSelectionoftypevalue,The default is'checkbox' ---
     type: props.isRadioSelection ? 'radio' : 'checkbox',
-    //update-end-author:liusq---date:20220517--for: 动态设置rowSelection的type值,默认是'checkbox' ---
+    //update-end-author:liusq---date:20220517--for: Dynamic settingsrowSelectionoftypevalue,The default is'checkbox' ---
     columnWidth: 20,
     selectedRowKeys: checkedKeys,
     onChange: onSelectChange,
-    //update-begin-author:wangshuai---date:20221102--for: [VUEN-2562]用户选择，跨页选择后，只有当前页人员 ---
-    //table4.4.0新增属性选中之后是否清空上一页下一页的数据，默认false
+    //update-begin-author:wangshuai---date:20221102--for: [VUEN-2562]User selection，After cross-page selection，Only people on the current page ---
+    //table4.4.0新增属性选中之后是否清空上一页下一页of数据，defaultfalse
     preserveSelectedRowKeys:true,
-    //update-end-author:wangshuai---date:20221102--for: [VUEN-2562]用户选择，跨页选择后，只有当前页人员 ---
+    //update-end-author:wangshuai---date:20221102--for: [VUEN-2562]User selection，After cross-page selection，Only people on the current page ---
   };
 
   /**
-   * 序号列配置
+   * Serial number column configuration
    */
   const indexColumnProps = {
     dataIndex: 'index',
@@ -91,9 +91,9 @@ export function useSelectBiz(getList, props, emit?) {
   };
 
   /**
-   * 加载列表数据集
+   * 加载列表Dataset
    * @param params
-   * @param flag 是否是默认回显模式加载
+   * @param flag 是否是default回显模式加载
    */
   async function getDataSource(params, flag) {
     let { records } = await getList(params);
@@ -111,31 +111,31 @@ export function useSelectBiz(getList, props, emit?) {
       code: selectValues['value'].join(','),
       pageSize: selectValues['value'].length,
     });
-    // update-begin--author:liaozhiyang---date:20250423---for：【QQYUN-12155】弹窗中勾选，再点取消，值被选中了
+    // update-begin--author:liaozhiyang---date:20250423---for：【QQYUN-12155】Check in the pop-up window，Click Cancel again，value is selected
     checkedKeys['value'] = [...selectValues['value']];
-    // update-end--author:liaozhiyang---date:20250423---for：【QQYUN-12155】弹窗中勾选，再点取消，值被选中了
+    // update-end--author:liaozhiyang---date:20250423---for：【QQYUN-12155】Check in the pop-up window，Click Cancel again，value is selected
     selectRows['value'] = records;
   }
 
   /**
-   * 弹出框显示隐藏触发事件
+   * Pop-up box shows hidden trigger event
    */
   async function visibleChange(visible) {
     if (visible) {
-      // update-begin--author:liaozhiyang---date:20250423---for：【QQYUN-12179】弹窗勾选了值，点击取消再次打开弹窗遗留了上次的勾选的值
+      // update-begin--author:liaozhiyang---date:20250423---for：【QQYUN-12179】弹窗勾选了value，点击取消再次打开弹窗遗留了上次of勾选ofvalue
       checkedKeys['value'] = [...selectValues['value']];
-      // update-begin--author:liaozhiyang---date:20250423---for：【QQYUN-12179】弹窗勾选了值，点击取消再次打开弹窗遗留了上次的勾选的值
-      //设置列表默认选中
+      // update-begin--author:liaozhiyang---date:20250423---for：【QQYUN-12179】弹窗勾选了value，点击取消再次打开弹窗遗留了上次of勾选ofvalue
+      //Settings list selected by default
       props.showSelected && initSelectRows();
     } else {
-      // update-begin--author:liaozhiyang---date:20240517---for：【QQYUN-9366】用户选择组件取消和关闭会把选择数据带入
+      // update-begin--author:liaozhiyang---date:20240517---for：【QQYUN-9366】User selection组件取消and关闭会把选择数据带入
       emit?.('close');
-      // update-end--author:liaozhiyang---date:20240517---for：【QQYUN-9366】用户选择组件取消和关闭会把选择数据带入
+      // update-end--author:liaozhiyang---date:20240517---for：【QQYUN-9366】User selection组件取消and关闭会把选择数据带入
     }
   }
 
   /**
-   * 确定选择
+   * Confirm selection
    */
   function getSelectResult(success) {
     let options = <any[]>[];
@@ -148,19 +148,19 @@ export function useSelectBiz(getList, props, emit?) {
     });
     selectOptions.value = options;
     if (props.maxSelectCount && values.length > props.maxSelectCount) {
-      $message.createMessage.warning(`最多只能选择${props.maxSelectCount}条数据`);
+      $message.createMessage.warning(`At most, you can only choose${props.maxSelectCount}piece of data`);
       return false;
     }
     success && success(options, values);
   }
-  //删除已选择的信息
+  //删除已选择of信息
   function handleDeleteSelected(record) {
-    //update-begin---author:wangshuai ---date:20230404  for：【issues/424】开启右侧列表后，在右侧列表中删除用户时，逻辑有问题------------
+    //update-begin---author:wangshuai ---date:20230404  for：【issues/424】After opening the list on the right，When deleting a user from the list on the right，Logic problem------------
     checkedKeys.value = checkedKeys.value.filter((item) => item != record[props.rowKey]);
     selectRows.value = selectRows.value.filter((item) => item[props.rowKey] !== record[props.rowKey]);
-    //update-end---author:wangshuai ---date:20230404  for：【issues/424】开启右侧列表后，在右侧列表中删除用户时，逻辑有问题------------
+    //update-end---author:wangshuai ---date:20230404  for：【issues/424】After opening the list on the right，When deleting a user from the list on the right，Logic problem------------
   }
-  //清空选择项
+  //Clear selections
   function reset() {
     checkedKeys.value = [];
     selectRows.value = [];

@@ -1,7 +1,7 @@
 import { defHttp } from '/@/utils/http/axios';
 import { UploadFileParams } from '/#/axios';
 
-// 接口前缀
+// interface prefix
 const API_PREFIX = '/warehouse/area';
 
 export interface WarehouseAreaModel {
@@ -25,31 +25,31 @@ export interface WarehouseAreaListResult {
 }
 
 /**
- * 查询仓库区域列表
- * @param params 查询参数
+ * Query warehouse area list
+ * @param params query parameters
  */
 export const warehouseAreaApi = {
-  // 列表
+  // list
   list: (params?: any) => defHttp.get<WarehouseAreaListResult>({ url: `${API_PREFIX}/list`, params }),
   
-  // 删除
+  // delete
   delete: (params: { id: string }) => defHttp.delete({ url: `${API_PREFIX}/delete`, params }),
   
-  // 批量删除
+  // 批量delete
   deleteBatch: (params: { ids: string }) => defHttp.delete({ url: `${API_PREFIX}/deleteBatch`, params }),
   
-  // 根据ID查询
+  // according toIDQuery
   getById: (params: { id: string }) => defHttp.get<WarehouseAreaModel>({ url: `${API_PREFIX}/queryById`, params }),
   
-  // 保存或更新
+  // Save or update
   save: (params: WarehouseAreaModel) => defHttp.post({ url: `${API_PREFIX}/add`, params }),
   
   update: (params: WarehouseAreaModel) => defHttp.put({ url: `${API_PREFIX}/edit`, params }),
   
-  // 导出excel
+  // Exportexcel
   exportXls: (params?: any) => {
     const url = `${API_PREFIX}/exportXls`;
-    // 使用window.open进行文件下载
+    // usewindow.openPerform file download
     if (params) {
       const queryString = Object.keys(params)
         .map(key => `${key}=${encodeURIComponent(params[key])}`)
@@ -60,7 +60,7 @@ export const warehouseAreaApi = {
     }
   },
   
-  // 导入excel
+  // importexcel
   importExcel: (params: UploadFileParams, onUploadProgress?: (progressEvent: ProgressEvent) => void) =>
     defHttp.uploadFile<any>(
       {

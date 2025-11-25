@@ -16,15 +16,15 @@ enum Api {
 }
 
 /**
- * 导出api
+ * Exportapi
  */
 export const getExportUrl = Api.exportXlsUrl;
 /**
- * 导入api
+ * importapi
  */
 export const getImportUrl = Api.importExcelUrl;
 /**
- * 查询任务列表
+ * Query task list
  * @param params
  */
 export const getQuartzList = (params) => {
@@ -32,7 +32,7 @@ export const getQuartzList = (params) => {
 };
 
 /**
- * 保存或者更新任务
+ * Save or update tasks
  * @param params
  */
 export const saveOrUpdateQuartz = (params, isUpdate) => {
@@ -41,7 +41,7 @@ export const saveOrUpdateQuartz = (params, isUpdate) => {
 };
 
 /**
- * 查询任务详情
+ * Query task details
  * @param params
  */
 export const getQuartzById = (params) => {
@@ -49,7 +49,7 @@ export const getQuartzById = (params) => {
 };
 
 /**
- * 删除任务
+ * Delete task
  * @param params
  */
 export const deleteQuartz = (params, handleSuccess) => {
@@ -59,7 +59,7 @@ export const deleteQuartz = (params, handleSuccess) => {
 };
 
 /**
- * 启动
+ * start up
  * @param params
  */
 export const resumeJob = (params, handleSuccess) => {
@@ -69,7 +69,7 @@ export const resumeJob = (params, handleSuccess) => {
 };
 
 /**
- * 暂停
+ * pause
  * @param params
  */
 export const pauseJob = (params, handleSuccess) => {
@@ -79,7 +79,7 @@ export const pauseJob = (params, handleSuccess) => {
 };
 
 /**
- * 立即执行
+ * Execute immediately
  * @param params
  */
 export const executeImmediately = (params, handleSuccess) => {
@@ -89,15 +89,15 @@ export const executeImmediately = (params, handleSuccess) => {
 };
 
 /**
- * 批量删除任务
+ * 批量Delete task
  * @param params
  */
 export const batchDeleteQuartz = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm deletion',
+    content: 'Whether to delete selected data',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();

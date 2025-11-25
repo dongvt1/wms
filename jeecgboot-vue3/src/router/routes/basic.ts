@@ -16,9 +16,9 @@ export const PAGE_NOT_FOUND_ROUTE: AppRouteRecordRaw = {
   children: [
     {
       path: '/:path(.*)*',
-      // update-begin--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0版本路由name:PageNotFound同名导致登录进不去
+      // update-begin--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0version routingname:PageNotFoundThe same name makes it impossible to log in.
       name: PAGE_NOT_FOUND_NAME_404,
-      // update-end--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0版本路由name:PageNotFound同名导致登录进不去
+      // update-end--author:liaozhiyang---date:202401127---for：【issues/7500】vue-router4.5.0version routingname:PageNotFoundThe same name makes it impossible to log in.
       component: EXCEPTION_COMPONENT,
       meta: {
         title: 'ErrorPage',

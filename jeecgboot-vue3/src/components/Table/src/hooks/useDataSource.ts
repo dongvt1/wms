@@ -11,9 +11,9 @@ interface ActionType {
   getPaginationInfo: ComputedRef<boolean | PaginationProps>;
   setPagination: (info: Partial<PaginationProps>) => void;
   setLoading: (loading: boolean) => void;
-  // update-begin--author:sunjianlei---date:220220419---for：由于 getFieldsValue 返回的不是逗号分割的数据，所以改用 validate
+  // update-begin--author:sunjianlei---date:220220419---for：because getFieldsValue The data returned is not comma separated.，So use instead validate
   validate: () => Recordable;
-  // update-end--author:sunjianlei---date:220220419---for：由于 getFieldsValue 返回的不是逗号分割的数据，所以改用 validate
+  // update-end--author:sunjianlei---date:220220419---for：because getFieldsValue The data returned is not comma separated.，So use instead validate
   clearSelectedRowKeys: () => void;
   tableData: Ref<Recordable[]>;
 }
@@ -133,11 +133,11 @@ export function useDataSource(
     if (row) {
       for (const field in row) {
         if (Reflect.has(record, field)) row[field] = record[field];
-        //update-begin---author:wangshuai---date:2024-06-11---for:【TV360X-437】树表 部分组件编辑完后，列表未刷新---
+        //update-begin---author:wangshuai---date:2024-06-11---for:【TV360X-437】tree table After editing some components，List not refreshed---
         if (Reflect.has(record, field + '_dictText')) {
           row[field + '_dictText'] = record[field + '_dictText'];
         }
-        //update-end---author:wangshuai---date:2024-06-11---for:【TV360X-437】树表 部分组件编辑完后，列表未刷新---
+        //update-end---author:wangshuai---date:2024-06-11---for:【TV360X-437】tree table After editing some components，List not refreshed---
       }
       return row;
     }
@@ -238,7 +238,7 @@ export function useDataSource(
 
       const { sortInfo = {}, filterInfo } = searchState;
 
-      // 扩展默认排序多字段数组写法
+      // Extended default sorting multi-field array writing method
       let defSortInfo: Recordable<any> | undefined = {};
       if (defSort && Array.isArray(defSort) && defSort.length > 0) {
         defSortInfo['defSortString'] = JSON.stringify(defSort);
@@ -248,7 +248,7 @@ export function useDataSource(
 
       let params: Recordable = {
         ...pageParams,
-        // 由于 getFieldsValue 返回的不是逗号分割的数据，所以改用 validate
+        // because getFieldsValue The data returned is not comma separated.，So use instead validate
         ...(useSearchForm ? await validate() : {}),
         ...searchInfo,
         ...defSortInfo,
@@ -261,14 +261,14 @@ export function useDataSource(
       if (beforeFetch && isFunction(beforeFetch)) {
         params = (await beforeFetch(params)) || params;
       }
-      // update-begin--author:liaozhiyang---date:20240227---for：【QQYUN-8316】table查询条件,请求剔除空字符串字段
+      // update-begin--author:liaozhiyang---date:20240227---for：【QQYUN-8316】tableQuery conditions,Request to remove empty string fields
       for (let item of Object.entries(params)) {
         const [key, val] = item;
         if (val === '') {
           delete params[key];
         };
       };
-      // update-end--author:liaozhiyang---date:20240227---for：【QQYUN-8316】table查询条件,请求剔除空字符串字段
+      // update-end--author:liaozhiyang---date:20240227---for：【QQYUN-8316】tableQuery conditions,Request to remove empty string fields
       const res = await api(params);
       rawDataSourceRef.value = res;
 
@@ -277,7 +277,7 @@ export function useDataSource(
       let resultItems: Recordable[] = isArrayResult ? res : get(res, listField);
       const resultTotal: number = isArrayResult ? 0 : get(res, totalField);
 
-      // 假如数据变少，导致总页数变少并小于当前选中页码，通过getPaginationRef获取到的页码是不正确的，需获取正确的页码再次执行
+      // If the data becomes less，As a result, the total number of pages becomes smaller and smaller than the currently selected page number.，passgetPaginationRefThe page number obtained is incorrect，Need to obtain the correct page number and execute again
       if (resultTotal) {
         const currentTotalPage = Math.ceil(Number(resultTotal) / pageSize);
         if (current > currentTotalPage) {

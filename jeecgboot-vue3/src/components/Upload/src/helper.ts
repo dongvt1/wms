@@ -1,31 +1,31 @@
 export function checkFileType(file: File, accepts: string[]) {
-  // update-begin--author:liaozhiyang---date:20250318---for：【issues/7954】BasicUpload组件上传文件，限制上传格式校验出错
+  // update-begin--author:liaozhiyang---date:20250318---for：【issues/7954】BasicUploadComponent upload file，Limit upload format verification error
   const mimePatterns: string[] = [];
   const suffixList: string[] = [];
-  // 分类处理 accepts
+  // Classification processing accepts
   for (const item of accepts) {
     if (item.includes('/')) {
       mimePatterns.push(item);
     } else {
-      // 支持.png 或 png（带点后缀或者不带点后缀）
+      // support.png or png（带点后缀or者不带点后缀）
       const suffix = item.startsWith('.') ? item.slice(1) : item;
       suffixList.push(suffix);
     }
   }
-  // 后缀匹配逻辑
+  // Suffix matching logic
   let suffixMatch = false;
   if (suffixList.length > 0) {
     const suffixRegex = new RegExp(`\\.(${suffixList.join('|')})$`, 'i');
     suffixMatch = suffixRegex.test(file.name);
   }
-  // MIME类型匹配逻辑
+  // MIMEType matching logic
   let mimeMatch = false;
   if (mimePatterns.length > 0 && file.type) {
     mimeMatch = mimePatterns.some((pattern) => {
-      // 先转义特殊字符，再处理通配符
+      // Escape special characters first，Reprocessing wildcards
       const regexPattern = pattern
-        .replace(/[.+?^${}()|[\]\\]/g, '\\$&') // 先转义特殊字符
-        .replace(/\*/g, '.*'); // 再替换通配符
+        .replace(/[.+?^${}()|[\]\\]/g, '\\$&') // Escape special characters first
+        .replace(/\*/g, '.*'); // Then replace the wildcard
       const regex = new RegExp(`^${regexPattern}$`, 'i');
       return regex.test(file.type);
     });
@@ -37,7 +37,7 @@ export function checkFileType(file: File, accepts: string[]) {
   } else if (suffixList.length) {
     return suffixMatch;
   }
-  // update-end--author:liaozhiyang---date:20250318---for：【issues/7954】BasicUpload组件上传文件，限制上传格式校验出错
+  // update-end--author:liaozhiyang---date:20250318---for：【issues/7954】BasicUploadComponent upload file，Limit upload format verification error
 }
 
 export function checkImgType(file: File) {

@@ -2,18 +2,18 @@ import { BasicColumn, FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '日志内容',
+    title: 'Log content',
     dataIndex: 'logContent',
     width: 100,
     align: 'left',
   },
   {
-    title: '操作人ID',
+    title: 'operatorID',
     dataIndex: 'userid',
     width: 80,
   },
   {
-    title: '操作人',
+    title: 'operator',
     dataIndex: 'username',
     width: 80,
   },
@@ -23,30 +23,30 @@ export const columns: BasicColumn[] = [
     width: 80,
   },
   {
-    title: '耗时(毫秒)',
+    title: 'time consuming(millisecond)',
     dataIndex: 'costTime',
     width: 80,
   },
   {
-    title: '创建时间',
+    title: 'creation time',
     dataIndex: 'createTime',
     sorter: true,
     width: 80,
   },
   {
-    title: '客户端类型',
+    title: 'client type',
     dataIndex: 'clientType_dictText',
     width: 60,
   },
 ];
 
 /**
- * 操作日志需要操作类型
+ * Operation log requires operation type
  */
 export const operationLogColumn: BasicColumn[] = [
   ...columns,
   {
-    title: '操作类型',
+    title: 'Operation type',
     dataIndex: 'operateType_dictText',
     width: 40,
   },
@@ -54,23 +54,23 @@ export const operationLogColumn: BasicColumn[] = [
 
 export const exceptionColumns: BasicColumn[] = [
   {
-    title: '异常标题',
+    title: 'Exception title',
     dataIndex: 'logContent',
     width: 100,
     align: 'left',
   },
   {
-    title: '请求地址',
+    title: 'Request address',
     dataIndex: 'requestUrl',
     width: 100,
   },
   {
-    title: '请求参数',
+    title: 'Request parameters',
     dataIndex: 'method',
     width: 60,
   },
   {
-    title: '操作人',
+    title: 'operator',
     dataIndex: 'username',
     width: 60,
     customRender: ({ record }) => {
@@ -79,7 +79,7 @@ export const exceptionColumns: BasicColumn[] = [
       if(!pname && !pid){
         return "";
       }
-      return pname + " (账号: "+ pid + " )";
+      return pname + " (account: "+ pid + " )";
     },
   },
   {
@@ -88,13 +88,13 @@ export const exceptionColumns: BasicColumn[] = [
     width: 60,
   },
   {
-    title: '创建时间',
+    title: 'creation time',
     dataIndex: 'createTime',
     sorter: true,
     width: 60,
   },
   {
-    title: '客户端类型',
+    title: 'client type',
     dataIndex: 'clientType_dictText',
     width: 60,
   },
@@ -103,14 +103,14 @@ export const exceptionColumns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'keyWord',
-    label: '搜索日志',
+    label: 'Search log',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
     field: 'fieldTime',
     component: 'RangePicker',
-    label: '创建时间',
+    label: 'creation time',
     componentProps: {
       valueType: 'Date',
     },
@@ -124,7 +124,7 @@ export const operationSearchFormSchema: FormSchema[] = [
   ...searchFormSchema,
   {
     field: 'operateType',
-    label: '操作类型',
+    label: 'Operation type',
     component: 'JDictSelectTag',
     colProps: { span: 4 },
     componentProps: {

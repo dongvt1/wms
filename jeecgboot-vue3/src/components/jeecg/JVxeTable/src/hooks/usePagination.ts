@@ -9,7 +9,7 @@ export function usePagination(props: JVxeTableProps, methods: JVxeTableMethods) 
     pageSize: 10,
     pageSizeOptions: ['10', '20', '30'],
     showTotal: (total, range) => {
-      return range[0] + '-' + range[1] + ' 共 ' + total + ' 条';
+      return range[0] + '-' + range[1] + ' common ' + total + ' strip';
     },
     showQuickJumper: true,
     showSizeChanger: true,
@@ -41,7 +41,7 @@ export function usePagination(props: JVxeTableProps, methods: JVxeTableMethods) 
     methods.trigger('pageChange', { current, pageSize });
   }
 
-  /** 渲染分页器 */
+  /** Rendering the paginator */
   function renderPagination() {
     if (props.pagination && !isEmpty(props.pagination)) {
       return h(
@@ -52,9 +52,9 @@ export function usePagination(props: JVxeTableProps, methods: JVxeTableMethods) 
         [
           h(Pagination, {
             ...bindProps.value,
-            // update-begin--author:liaozhiyang---date:20250423---for：【issues/8137】vxetable表格禁用后分页隐藏了
+            // update-begin--author:liaozhiyang---date:20250423---for：【issues/8137】vxetablePagination is hidden after the table is disabled
             disabled: false,
-            // update-end--author:liaozhiyang---date:20250423---for：【issues/8137】vxetable表格禁用后分页隐藏了
+            // update-end--author:liaozhiyang---date:20250423---for：【issues/8137】vxetablePagination is hidden after the table is disabled
             onChange: handleChange,
             onShowSizeChange: handleShowSizeChange,
           }),

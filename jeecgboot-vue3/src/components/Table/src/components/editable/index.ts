@@ -15,13 +15,13 @@ export function renderEditCell(column: BasicColumn) {
   return ({ text: value, record, index }: Params) => {
     toRaw(record).onValid = async () => {
       if (isArray(record?.validCbs)) {
-        // update-begin--author:liaozhiyang---date:20240424---for：【issues/1165】解决canResize为true时第一行校验不过
+        // update-begin--author:liaozhiyang---date:20240424---for：【issues/1165】solvecanResizefortrueThe first line cannot be verified
         const validFns = (record?.validCbs || []).map((item) => {
           const [fn] = Object.values(item);
           // @ts-ignore
           return fn();
         });
-        // update-end--author:liaozhiyang---date:20240424---for：【issues/1165】解决canResize为true时第一行校验不过
+        // update-end--author:liaozhiyang---date:20240424---for：【issues/1165】solvecanResizefortrueThe first line cannot be verified
         const res = await Promise.all(validFns);
         return res.every((item) => !!item);
       } else {

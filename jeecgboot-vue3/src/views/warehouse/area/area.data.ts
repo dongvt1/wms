@@ -1,7 +1,7 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Form';
 
-// 仓库区域表单配置
+// Warehouse area form configuration
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'areaCode',
@@ -30,7 +30,7 @@ export const searchFormSchema: FormSchema[] = [
   },
 ];
 
-// 表单配置
+// Form configuration
 export const formSchema: FormSchema[] = [
   {
     field: 'areaCode',
@@ -79,7 +79,7 @@ export const formSchema: FormSchema[] = [
   },
 ];
 
-// 仓库区域表格列配置
+// Warehouse area table column configuration
 export const columns: BasicColumn[] = [
   {
     title: 'Area Code',

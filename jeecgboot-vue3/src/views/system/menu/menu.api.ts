@@ -15,7 +15,7 @@ enum Api {
 }
 
 /**
- * 列表接口
+ * List interface
  * @param params
  */
 export const list = (params) => {
@@ -23,7 +23,7 @@ export const list = (params) => {
 }
 
 /**
- * 删除菜单
+ * delete menu
  */
 export const deleteMenu = (params, handleSuccess) => {
   return defHttp.delete({ url: Api.delete, params }, { joinParamsToUrl: true }).then(() => {
@@ -31,15 +31,15 @@ export const deleteMenu = (params, handleSuccess) => {
   });
 };
 /**
- * 批量删除菜单
+ * 批量delete menu
  * @param params
  */
 export const batchDeleteMenu = (params, handleSuccess) => {
   Modal.confirm({
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm deletion',
+    content: 'Whether to delete selected data',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({ url: Api.deleteBatch, data: params }, { joinParamsToUrl: true }).then(() => {
         handleSuccess();
@@ -48,7 +48,7 @@ export const batchDeleteMenu = (params, handleSuccess) => {
   });
 };
 /**
- * 保存或者更新菜单
+ * Save or update menu
  * @param params
  */
 export const saveOrUpdateMenu = (params, isUpdate) => {
@@ -56,12 +56,12 @@ export const saveOrUpdateMenu = (params, isUpdate) => {
   return defHttp.post({ url: url, params });
 };
 /**
- * 菜单数据权限列表接口
+ * 菜单数据权限List interface
  * @param params
  */
 export const dataRuleList = (params) => defHttp.get({ url: Api.ruleList, params });
 /**
- * 保存或者更新数据规则
+ * Save or update data rules
  * @param params
  */
 export const saveOrUpdateRule = (params, isUpdate) => {
@@ -70,7 +70,7 @@ export const saveOrUpdateRule = (params, isUpdate) => {
 };
 
 /**
- * 删除数据权限
+ * Delete data permission
  */
 export const deleteRule = (params, handleSuccess) => {
   return defHttp.delete({ url: Api.ruleDelete, params }, { joinParamsToUrl: true }).then(() => {
@@ -78,19 +78,19 @@ export const deleteRule = (params, handleSuccess) => {
   });
 };
 /**
- * 根据code获取字典数值
+ * according tocodeGet dictionary value
  * @param params
  */
 export const ajaxGetDictItems = (params) => defHttp.get({ url: `/sys/dict/getDictItems/${params.code}` });
 
 /**
- * 唯一校验
+ * Unique verification
  * @param params
  */
 export const getCheckPermDuplication = (params) => defHttp.get({ url: Api.checkPermDuplication, params }, { isTransformResponse: false });
 
 /**
- * 校验菜单是否存在
+ * Verify that the menu exists
  * @param model
  * @param schema
  * @param required
@@ -103,7 +103,7 @@ export const checkPermDuplication=(model, schema, required?)=>{
           return Promise.resolve();
         }
         if (!value && required) {
-          return Promise.reject(`请输入${schema.label}`);
+          return Promise.reject(`Please enter${schema.label}`);
         }
         return new Promise<void>((resolve, reject) => {
           getCheckPermDuplication({
@@ -111,9 +111,9 @@ export const checkPermDuplication=(model, schema, required?)=>{
             url:model.url,
             alwaysShow:model.alwaysShow
           }).then((res) => {
-              res.success ? resolve() : reject(res.message || '校验失败');
+              res.success ? resolve() : reject(res.message || 'Verification failed');
           }).catch((err) => {
-              reject(err.message || '验证失败');
+              reject(err.message || 'Authentication failed');
           });
         });
       },

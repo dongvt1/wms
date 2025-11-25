@@ -6,9 +6,9 @@ import { unref } from 'vue';
 import { isObject, isFunction, isString } from '/@/utils/is';
 import Big from 'big.js';
 import dayjs from "dayjs";
-// update-begin--author:sunjianlei---date:20220408---for: 【VUEN-656】配置外部网址打不开，原因是带了#号，需要替换一下
+// update-begin--author:sunjianlei---date:20220408---for: 【VUEN-656】Configure external URL cannot be opened，The reason is that I brought#Number，Need to replace
 export const URL_HASH_TAB = `__AGWE4H__HASH__TAG__PWHRG__`;
-// update-end--author:sunjianlei---date:20220408---for: 【VUEN-656】配置外部网址打不开，原因是带了#号，需要替换一下
+// update-end--author:sunjianlei---date:20220408---for: 【VUEN-656】Configure external URL cannot be opened，The reason is that I brought#Number，Need to replace
 
 export const noop = () => {};
 
@@ -41,20 +41,20 @@ export function setObjToUrlParams(baseUrl: string, obj: any): string {
 export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
   let key: string;
   for (key in target) {
-    // update-begin--author:liaozhiyang---date:20240329---for：【QQYUN-7872】online表单label较长优化
+    // update-begin--author:liaozhiyang---date:20240329---for：【QQYUN-7872】onlineformlabelLong optimization
     if (isObject(src[key]) && isObject(target[key])) {
       src[key] = deepMerge(src[key], target[key]);
     } else {
-      // update-begin--author:liaozhiyang---date:20250318---for：【issues/7940】componentProps写成函数形式时，updateSchema写成对象时，参数没合并
+      // update-begin--author:liaozhiyang---date:20250318---for：【issues/7940】componentPropsWhen written in functional form，updateSchemaWhen written as an object，Parameters are not merged
       try {
         if (isFunction(src[key]) && isObject(src[key]()) && isObject(target[key])) {
-          // src[key]是函数且返回对象，且target[key]是对象
+          // src[key]is a function and returns an object，andtarget[key]is an object
           src[key] = deepMerge(src[key](), target[key]);
         } else if (isObject(src[key]) && isFunction(target[key]) && isObject(target[key]())) {
-          // target[key]是函数且返回对象，且src[key]是对象
+          // target[key]is a function and returns an object，andsrc[key]is an object
           src[key] = deepMerge(src[key], target[key]());
         } else if (isFunction(src[key]) && isFunction(target[key]) && isObject(src[key]()) && isObject(target[key]())) {
-          // src[key]是函数且返回对象，target[key]是函数且返回对象
+          // src[key]is a function and returns an object，target[key]is a function and returns an object
           src[key] = deepMerge(src[key](), target[key]());
         } else {
           src[key] = target[key];
@@ -62,9 +62,9 @@ export function deepMerge<T = any>(src: any = {}, target: any = {}): T {
       } catch (error) {
         src[key] = target[key];
       }
-      // update-end--author:liaozhiyang---date:20250318---for：【issues/7940】componentProps写成函数形式时，updateSchema写成对象时，参数没合并
+      // update-end--author:liaozhiyang---date:20250318---for：【issues/7940】componentPropsWhen written in functional form，updateSchemaWhen written as an object，Parameters are not merged
     }
-    // update-end--author:liaozhiyang---date:20240329---for：【QQYUN-7872】online表单label较长优化
+    // update-end--author:liaozhiyang---date:20240329---for：【QQYUN-7872】onlineformlabelLong optimization
   }
   return src;
 }
@@ -92,7 +92,7 @@ export function getDynamicProps<T, U>(props: T): Partial<U> {
 }
 
 /**
- * 获取表单字段值数据类型
+ * Getform字段值数据类型
  * @param props
  * @param field
  * @updateBy:zyf
@@ -108,7 +108,7 @@ export function getValueType(props, field) {
 }
 
 /**
- * 获取表单字段值数据类型
+ * Getform字段值数据类型
  * @param schema
  * @param formAction
  */
@@ -116,20 +116,20 @@ export function getValueTypeBySchema(schema: FormSchema, formAction: FormActionT
   let valueType = 'string';
   if (schema) {
     const componentProps = formAction.getSchemaComponentProps(schema);
-    // update-begin--author:liaozhiyang---date:20250825---for：【issues/8738】componentProps是函数时获取不到valueType
+    // update-begin--author:liaozhiyang---date:20250825---for：【issues/8738】componentPropsCannot be obtained when it is a functionvalueType
     if (isFunction(componentProps)) {
       const result = componentProps(schema);
       valueType = result?.valueType ?? valueType;
     } else {
       valueType = componentProps?.valueType ? componentProps?.valueType : valueType;
     }
-    // update-end--author:liaozhiyang---date:20250825---for：【issues/8738】componentProps是函数时获取不到valueType
+    // update-end--author:liaozhiyang---date:20250825---for：【issues/8738】componentPropsCannot be obtained when it is a functionvalueType
   }
   return valueType;
 }
 
 /**
- * 通过picker属性获取日期数据
+ * passpickerProperty gets date data
  * @param data
  * @param picker
  */
@@ -138,9 +138,9 @@ export function getDateByPicker(data, picker) {
     return data;
   }
   /**
-   * 需要把年、年月、设置成这段时间内的第一天（[年季度]不需要处理antd回传的就是该季度的第一天，[年周]也不处理）
-   * 例如日期格式是年，传给数据库的时间必须是20240101
-   * 例如日期格式是年月（选择了202502），传给数据库的时间必须是20250201
+   * need to put years、years、Set to the first day of this period（[year quarter]No processing requiredantdWhat is returned is the first day of the quarter，[year week]Not processed either）
+   * For example, the date format is year，The time passed to the database must be20240101
+   * 例如date格式是years（selected202502），The time passed to the database must be20250201
    */
   if (picker === 'year') {
     return dayjs(data).set('month', 0).set('date', 1).format('YYYY-MM-DD');
@@ -167,16 +167,16 @@ export function getRawRoute(route: RouteLocationNormalized): RouteLocationNormal
   };
 }
 /**
- * 深度克隆对象、数组
- * @param obj 被克隆的对象
- * @return 克隆后的对象
+ * Deep clone object、array
+ * @param obj cloned object
+ * @return cloned object
  */
 export function cloneObject(obj) {
   return JSON.parse(JSON.stringify(obj));
 }
 
 export const withInstall = <T>(component: T, alias?: string) => {
-  //console.log("---初始化---", component)
+  //console.log("---initialization---", component)
 
   const comp = component as any;
   comp.install = (app: App) => {
@@ -190,7 +190,7 @@ export const withInstall = <T>(component: T, alias?: string) => {
 };
 
 /**
- * 获取url地址参数
+ * GeturlAddress parameters
  * @param paraName
  */
 export function getUrlParam(paraName) {
@@ -215,9 +215,9 @@ export function getUrlParam(paraName) {
 }
 
 /**
- * 休眠（setTimeout的promise版）
- * @param ms 要休眠的时间，单位：毫秒
- * @param fn callback，可空
+ * hibernate（setTimeoutofpromiseversion）
+ * @param ms 要hibernateof时间，unit：millisecond
+ * @param fn callback，available
  * @return Promise
  */
 export function sleep(ms: number, fn?: Fn) {
@@ -230,11 +230,11 @@ export function sleep(ms: number, fn?: Fn) {
 }
 
 /**
- * 不用正则的方式替换所有值
- * @param text 被替换的字符串
- * @param checker  替换前的内容
- * @param replacer 替换后的内容
- * @returns {String} 替换后的字符串
+ * 不use正则of方式replace所有值
+ * @param text 被replaceof字符串
+ * @param checker  replace前of内容
+ * @param replacer replace后of内容
+ * @returns {String} replace后of字符串
  */
 export function replaceAll(text, checker, replacer) {
   let lastText = text;
@@ -246,7 +246,7 @@ export function replaceAll(text, checker, replacer) {
 }
 
 /**
- * 获取URL上参数
+ * GetURLupper parameters
  * @param url
  */
 export function getQueryVariable(url) {
@@ -265,7 +265,7 @@ export function getQueryVariable(url) {
   return s;
 }
 /**
- * 判断是否显示办理按钮
+ * Determine whether to display the processing button
  * @param bpmStatus
  * @returns {*}
  */
@@ -276,62 +276,62 @@ export function showDealBtn(bpmStatus) {
   return false;
 }
 /**
- * 数字转大写
+ * Convert numbers to uppercase
  * @param value
  * @returns {*}
  */
 export function numToUpper(value) {
   if (value != '') {
-    let unit = new Array('仟', '佰', '拾', '', '仟', '佰', '拾', '', '角', '分');
+    let unit = new Array('thousand', 'Hundred', 'pickup', '', 'thousand', 'Hundred', 'pickup', '', 'horn', 'point');
     const toDx = (n) => {
       switch (n) {
         case '0':
-          return '零';
+          return 'zero';
         case '1':
-          return '壹';
+          return 'one';
         case '2':
-          return '贰';
+          return 'two';
         case '3':
-          return '叁';
+          return 'three';
         case '4':
-          return '肆';
+          return 'Four';
         case '5':
-          return '伍';
+          return 'Wu';
         case '6':
-          return '陆';
+          return 'land';
         case '7':
-          return '柒';
+          return 'seven';
         case '8':
-          return '捌';
+          return 'eight';
         case '9':
-          return '玖';
+          return 'Jiu';
       }
     };
     let lth = value.toString().length;
-    // update-begin--author:liaozhiyang---date:20241202---for：【issues/7493】numToUpper方法返回解决错误
+    // update-begin--author:liaozhiyang---date:20241202---for：【issues/7493】numToUpperMethod returns to resolve error
     value = new Big(value).times(100);
-    // update-end--author:liaozhiyang---date:20241202---for：【issues/7493】numToUpper方法返回解决错误
+    // update-end--author:liaozhiyang---date:20241202---for：【issues/7493】numToUpperMethod returns to resolve error
     value += '';
     let length = value.length;
     if (lth <= 8) {
       let result = '';
       for (let i = 0; i < length; i++) {
         if (i == 2) {
-          result = '元' + result;
+          result = 'Yuan' + result;
         } else if (i == 6) {
-          result = '万' + result;
+          result = 'Ten thousand' + result;
         }
         if (value.charAt(length - i - 1) == 0) {
           if (i != 0 && i != 1) {
-            if (result.charAt(0) != '零' && result.charAt(0) != '元' && result.charAt(0) != '万') {
-              result = '零' + result;
+            if (result.charAt(0) != 'zero' && result.charAt(0) != 'Yuan' && result.charAt(0) != 'Ten thousand') {
+              result = 'zero' + result;
             }
           }
           continue;
         }
         result = toDx(value.charAt(length - i - 1)) + unit[unit.length - i - 1] + result;
       }
-      result += result.charAt(result.length - 1) == '元' ? '整' : '';
+      result += result.charAt(result.length - 1) == 'Yuan' ? 'all' : '';
       return result;
     } else {
       return null;
@@ -340,7 +340,7 @@ export function numToUpper(value) {
   return null;
 }
 
-//update-begin-author:taoyan date:2022-6-8 for:解决老的vue2动态导入文件语法 vite不支持的问题
+//update-begin-author:taoyan date:2022-6-8 for:solve老ofvue2Dynamic import file syntax vite不supportof问题
 const allModules = import.meta.glob('../views/**/*.vue');
 export function importViewsFile(path): Promise<any> {
   if (path.startsWith('/')) {
@@ -364,24 +364,24 @@ export function importViewsFile(path): Promise<any> {
       }
     }
     if (flag) {
-      reject('该文件不存在:' + page);
+      reject('The file does not exist:' + page);
     }
   });
 }
-//update-end-author:taoyan date:2022-6-8 for:解决老的vue2动态导入文件语法 vite不支持的问题
+//update-end-author:taoyan date:2022-6-8 for:solve老ofvue2Dynamic import file syntax vite不supportof问题
 
 
 /**
- * 跳转至积木报表的 预览页面
+ * 跳转至积木报表of Preview page
  * @param url
  * @param id
  * @param token
  */
 export function goJmReportViewPage(url, id, token) {
-  // update-begin--author:liaozhiyang---date:20230904---for：【QQYUN-6390】eval替换成new Function，解决build警告
-  // URL支持{{ window.xxx }}占位符变量
+  // update-begin--author:liaozhiyang---date:20230904---for：【QQYUN-6390】evalReplace withnew Function，solvebuildwarn
+  // URLsupport{{ window.xxx }}placeholder variable
   url = url.replace(/{{([^}]+)?}}/g, (_s1, s2) => _eval(s2))
-  // update-end--author:liaozhiyang---date:20230904---for：【QQYUN-6390】eval替换成new Function，解决build警告
+  // update-end--author:liaozhiyang---date:20230904---for：【QQYUN-6390】evalReplace withnew Function，solvebuildwarn
   if (url.includes('?')) {
     url += '&'
   } else {
@@ -393,7 +393,7 @@ export function goJmReportViewPage(url, id, token) {
 }
 
 /**
- * 获取随机颜色
+ * Get随机颜色
  */
 export function getRandomColor(index?) {
 
@@ -440,7 +440,7 @@ export function getRefPromise(componentRef) {
 /**
  * 2023-09-04
  * liaozhiyang
- * 用new Function替换eval
+ * usenew Functionreplaceeval
  */
 export function _eval(str: string) {
  return new Function(`return ${str}`)();
@@ -449,29 +449,29 @@ export function _eval(str: string) {
 /**
  * 2024-04-30
  * liaozhiyang
- * 通过时间或者时间戳获取对应antd的年、月、周、季度。
+ * pass时间或者时间戳Get对应antdof年、moon、week、quarter。
  */
 export function getWeekMonthQuarterYear(date) {
-  // 获取 ISO 周数的函数
+  // Get ISO week数of函数
   const getISOWeek = (date) => {
     const jan4 = new Date(date.getFullYear(), 0, 4);
-    const oneDay = 86400000; // 一天的毫秒数
+    const oneDay = 86400000; // 一天ofmillisecond数
     return Math.ceil(((date - jan4.getTime()) / oneDay + jan4.getDay() + 1) / 7);
   };
-  // 将时间戳转换为日期对象
+  // Convert timestamp to date object
   const dateObj = new Date(date);
-  // 计算周
+  // 计算week
   const week = getISOWeek(dateObj);
-  // 计算月
-  const month = dateObj.getMonth() + 1; // 月份是从0开始的，所以要加1
-  // 计算季度
+  // 计算moon
+  const month = dateObj.getMonth() + 1; // moon份是从0startof，So add1
+  // 计算quarter
   const quarter = Math.floor(dateObj.getMonth() / 3) + 1;
-  // 计算年
+  // Calculation year
   const year = dateObj.getFullYear();
   return {
     year: `${year}`,
     month: `${year}-${month.toString().padStart(2, '0')}`,
-    week: `${year}-${week}周`,
+    week: `${year}-${week}week`,
     quarter: `${year}-Q${quarter}`,
   };
 }
@@ -479,7 +479,7 @@ export function getWeekMonthQuarterYear(date) {
 /**
  * 2024-05-17
  * liaozhiyang
- * 设置挂载的modal元素有可能会有多个，需要找到对应的。
+ * 设置挂载ofmodalYuan素有可能会有多个，需要找到对应of。
  */
 export const setPopContainer = (node, selector) => {
   if (typeof selector === 'string') {
@@ -515,59 +515,59 @@ export const setPopContainer = (node, selector) => {
 /**
  * 2024-06-14
  * liaozhiyang
- * 根据控件显示条件
- * label、value通用，title、val给权限管理用的
+ * According to control display conditions
+ * label、value通use，title、val给权限管理useof
  */
 export function useConditionFilter() {
 
-  // 通用条件
+  // 通use条件
   const commonConditionOptions = [
-    {label: '为空', value: 'empty', val: 'EMPTY'},
-    {label: '不为空', value: 'not_empty', val: 'NOT_EMPTY'},
+    {label: 'is empty', value: 'empty', val: 'EMPTY'},
+    {label: '不is empty', value: 'not_empty', val: 'NOT_EMPTY'},
   ]
 
-  // 数值、日期
+  // numerical value、date
   const numberConditionOptions = [
-    { label: '等于', value: 'eq', val: '=' },
-    { label: '在...中', value: 'in', val: 'IN', title: '包含' },
-    { label: '不等于', value: 'ne', val: '!=' },
-    { label: '大于', value: 'gt', val: '>' },
-    { label: '大于等于', value: 'ge', val: '>=' },
-    { label: '小于', value: 'lt', val: '<' },
-    { label: '小于等于', value: 'le', val: '<=' },
+    { label: 'equal', value: 'eq', val: '=' },
+    { label: 'exist...middle', value: 'in', val: 'IN', title: 'Include' },
+    { label: '不equal', value: 'ne', val: '!=' },
+    { label: 'greater than', value: 'gt', val: '>' },
+    { label: 'greater thanequal', value: 'ge', val: '>=' },
+    { label: 'less than', value: 'lt', val: '<' },
+    { label: 'less thanequal', value: 'le', val: '<=' },
     ...commonConditionOptions,
   ];
 
-  // 文本、密码、多行文本、富文本、markdown
+  // text、password、多行text、富text、markdown
   const inputConditionOptions = [
-    { label: '等于', value: 'eq', val: '=' },
-    { label: '模糊', value: 'like', val: 'LIKE' },
-    { label: '以..开始', value: 'right_like', title: '右模糊', val: 'RIGHT_LIKE' },
-    { label: '以..结尾', value: 'left_like', title: '左模糊', val: 'LEFT_LIKE' },
-    { label: '在...中', value: 'in', val: 'IN', title: '包含' },
-    { label: '不等于', value: 'ne', val: '!=' },
+    { label: 'equal', value: 'eq', val: '=' },
+    { label: 'Vague', value: 'like', val: 'LIKE' },
+    { label: 'by..start', value: 'right_like', title: '右Vague', val: 'RIGHT_LIKE' },
+    { label: 'by..ending', value: 'left_like', title: '左Vague', val: 'LEFT_LIKE' },
+    { label: 'exist...middle', value: 'in', val: 'IN', title: 'Include' },
+    { label: '不equal', value: 'ne', val: '!=' },
     ...commonConditionOptions,
   ];
 
-  // 下拉、单选、多选、开关、用户、部门、关联记录、省市区、popup、popupDict、下拉多选、下拉搜索、分类字典、自定义树
+  // drop down、Single choice、Multiple choice、switch、use户、department、associated records、Provinces and municipalities、popup、popupDict、drop downMultiple choice、drop down搜索、point类字典、Custom tree
   const selectConditionOptions = [
-    { label: '等于', value: 'eq', val: '=' },
-    { label: '在...中', value: 'in', val: 'IN', title: '包含' },
-    { label: '不等于', value: 'ne', val: '!=' },
+    { label: 'equal', value: 'eq', val: '=' },
+    { label: 'exist...middle', value: 'in', val: 'IN', title: 'Include' },
+    { label: '不equal', value: 'ne', val: '!=' },
     ...commonConditionOptions,
   ];
 
   const def = [
-    { label: '等于', value: 'eq', val: '=' },
-    { label: '模糊', value: 'like', val: 'LIKE' },
-    { label: '以..开始', value: 'right_like', title: '右模糊', val: 'RIGHT_LIKE' },
-    { label: '以..结尾', value: 'left_like', title: '左模糊', val: 'LEFT_LIKE' },
-    { label: '在...中', value: 'in', val: 'IN', title: '包含' },
-    { label: '不等于', value: 'ne', val: '!=' },
-    { label: '大于', value: 'gt', val: '>' },
-    { label: '大于等于', value: 'ge', val: '>=' },
-    { label: '小于', value: 'lt', val: '<' },
-    { label: '小于等于', value: 'le', val: '<=' },
+    { label: 'equal', value: 'eq', val: '=' },
+    { label: 'Vague', value: 'like', val: 'LIKE' },
+    { label: 'by..start', value: 'right_like', title: '右Vague', val: 'RIGHT_LIKE' },
+    { label: 'by..ending', value: 'left_like', title: '左Vague', val: 'LEFT_LIKE' },
+    { label: 'exist...middle', value: 'in', val: 'IN', title: 'Include' },
+    { label: '不equal', value: 'ne', val: '!=' },
+    { label: 'greater than', value: 'gt', val: '>' },
+    { label: 'greater thanequal', value: 'ge', val: '>=' },
+    { label: 'less than', value: 'lt', val: '<' },
+    { label: 'less thanequal', value: 'le', val: '<=' },
     ...commonConditionOptions,
   ];
 
@@ -601,7 +601,7 @@ export function useConditionFilter() {
       case 'sel_tree':
         return selectConditionOptions;
       case 'date':
-      // number是虚拟的
+      // number是虚拟of
       case 'number':
         return numberConditionOptions;
       default:
@@ -610,7 +610,7 @@ export function useConditionFilter() {
   };
   return { filterCondition };
 }
-// 获取url中的参数
+// Geturlmiddleof参数
 export const getUrlParams = (url) => {
   const result = {
     url: '',
@@ -632,8 +632,8 @@ export const getUrlParams = (url) => {
 
 /* 20250325
  * liaozhiyang
- * 分割url字符成数组
- * 【issues/7990】图片参数中包含逗号会错误的识别成多张图
+ * point割url字符成array
+ * 【issues/7990】图片参数middleInclude逗Number会错误of识别成多张图
  * */
 export const split = (str) => {
   if (isString(str)) {
@@ -644,17 +644,17 @@ export const split = (str) => {
       let currentUrl = '';
       for (const part of parts) {
         if (part.startsWith('http://') || part.startsWith('https://')) {
-          // 如果遇到新的URL开头，保存当前URL并开始新的URL
+          // 如果遇到新ofURLbeginning，save currentURL并start新ofURL
           if (currentUrl) {
             urls.push(currentUrl);
           }
           currentUrl = part;
         } else {
-          // 否则，是当前URL的一部分（如参数）
+          // otherwise，is currentURLof一部point（Such as parameters）
           currentUrl += ',' + part;
         }
       }
-      // 添加最后一个URL
+      // add lastURL
       if (currentUrl) {
         urls.push(currentUrl);
       }

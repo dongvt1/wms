@@ -6,14 +6,14 @@ export enum Api {
   queryDepartTreeSync = '/sys/sysDepart/queryDepartAndPostTreeSync',
 }
 /**
- * 获取部门树列表
+ * Get department tree list
  */
 export const queryDepartTreeSync = (params?) => defHttp.get({ url: Api.queryDepartTreeSync, params });
 /**
- * 部门用户信息
+ * Department user information
  */
 export const list = (params?) => defHttp.get({ url: Api.list, params });
 /**
- * 职务list
+ * Positionlist
  */
 export const positionList = (params?) => defHttp.get({ url: Api.positionList, params });

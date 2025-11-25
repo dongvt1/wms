@@ -9,76 +9,76 @@ export namespace JVxeComponent {
     context?: any;
   }
 
-  /** 组件增强类型 */
+  /** Component enhancement type */
   export interface Enhanced {
-    // 注册参数（详见：https://xuliangzhan_admin.gitee.io/vxe-table/v4/table/renderer/edit）
+    // Registration parameters（See details：https://xuliangzhan_admin.gitee.io/vxe-table/v4/table/renderer/edit）
     installOptions: {
-      // 自动聚焦的 class 类名
+      // autofocus class Class name
       autofocus?: string;
     } & Recordable;
-    // 事件拦截器（用于兼容）
+    // event interceptor（for compatibility）
     interceptor: {
-      // 已实现：event.clearActived
-      // 说明：比如点击了某个组件的弹出层面板之后，此时被激活单元格不应该被自动关闭，通过返回 false 可以阻止默认的行为。
+      // Realized：event.clearActived
+      // illustrate：For example, after clicking the pop-up layer panel of a component，The activated cell should not be automatically closed at this time，by returning false Default behavior can be prevented。
       'event.clearActived'?: (params, event, target, ctx?: EnhancedCtx) => boolean;
-      // 自定义：event.clearActived.className
-      // 说明：比原生的多了一个参数：className，用于判断点击的元素的样式名（递归到顶层）
+      // Customize：event.clearActived.className
+      // illustrate：One more parameter than the original one：className，The style name used to determine the clicked element（Recurse to top level）
       'event.clearActived.className'?: (params, event, target, ctx?: EnhancedCtx) => boolean;
     };
-    // 【功能开关】
+    // 【Function switch】
     switches: {
-      // 是否使用 editRender 模式（仅当前组件，并非全局）
-      // 如果设为true，则表头上方会出现一个可编辑的图标
+      // Whether to use editRender model（Only current component，Not the overall situation）
+      // If set totrue，An editable icon will appear above the header.
       editRender?: boolean;
-      // false = 组件触发后可视）；true = 组件一直可视
+      // false = Visible after component is triggered）；true = Components are always visible
       visible?: boolean;
     };
-    // 【切面增强】切面事件处理，一般在某些方法执行后同步执行
+    // 【Section enhancement】Aspect event handling，Generally executed synchronously after certain methods are executed
     aopEvents: {
-      // 单元格被激活编辑时会触发该事件
+      // This event is triggered when the cell is activated for editing.
       editActived?: (this: ComponentInternalInstance, ...args) => any;
-      // 单元格编辑状态下被关闭时会触发该事件
+      // This event will be triggered when the cell is closed in editing state.
       editClosed?: (this: ComponentInternalInstance, ...args) => any;
-      // 返回值决定单元格是否可以编辑
+      // The return value determines whether the cell can be edited
       activeMethod?: (this: ComponentInternalInstance, ...args) => boolean;
     };
-    // 【翻译增强】可以实现例如select组件保存的value，但是span模式下需要显示成text
+    // 【Translation enhancement】It is possible to implement for exampleselectComponent savedvalue，butspanmodel下需要显示成text
     translate: {
-      // 是否启用翻译
+      // Whether to enable translation
       enabled?: boolean;
       /**
-       * 【翻译处理方法】如果handler留空，则使用默认的翻译方法
+       * 【Translation processing method】ifhandlerLeave blank，then use the default translation method
        *
-       * @param value 需要翻译的值
-       * @returns{*} 返回翻译后的数据
+       * @param value Value to be translated
+       * @returns{*} Return translated data
        */
       handler?: (value, ctx?: EnhancedCtx) => any;
     };
     /**
-     * 【获取值增强】组件抛出的值
+     * 【Get value enhancement】The value thrown by the component
      *
-     * @param value 保存到数据库里的值
-     * @returns{*} 返回处理后的值
+     * @param value value saved in database
+     * @returns{*} Return the processed value
      */
     getValue: (value, ctx?: EnhancedCtx) => any;
     /**
-     * 【设置值增强】设置给组件的值
+     * 【Setting value enhancement】The value set to the component
      *
-     * @param value 组件触发的值
-     * @returns{*} 返回处理后的值
+     * @param value The value that the component triggers
+     * @returns{*} Return the processed value
      */
     setValue: (value, ctx?: EnhancedCtx) => any;
     /**
-     * 【新增行增强】在用户点击新增时触发的事件，返回新行的默认值
+     * 【New line enhancement】Event triggered when user clicks Add，Returns the default value for new rows
      *
-     * @param defaultValue 默认值
-     * @param row 行数据
-     * @param column 列配置，.params 是用户配置的参数
-     * @param $table vxe 实例
-     * @param renderOptions 渲染选项
-     * @param params 可以在这里获取 $table
+     * @param defaultValue default value
+     * @param row row data
+     * @param column column configuration，.params Is a parameter configured by the user
+     * @param $table vxe Example
+     * @param renderOptions Rendering options
+     * @param params Available here $table
      *
-     * @returns 返回新值
+     * @returns Return new value
      */
     createValue: (defaultValue: any, ctx?: EnhancedCtx) => any;
   }

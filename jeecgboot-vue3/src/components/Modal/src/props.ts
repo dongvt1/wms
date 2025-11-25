@@ -86,6 +86,6 @@ export const basicProps = Object.assign({}, modalProps, {
 
   zIndex: { type: Number },
   maxHeight: { type: Number },
-  // 是否开启评论区域
+  // Whether to enable the comment area
   enableComment: { type: Boolean, default: false },
 });

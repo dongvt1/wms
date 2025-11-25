@@ -3,177 +3,177 @@ import { defHttp } from '/@/utils/http/axios';
 
 export const schemas: FormSchema[] = [
   {
-    label: '验证码',
+    label: 'Verification code',
     field: 'code',
     component: 'InputCountDown',
     componentProps: {
-      //'default': 默认, 'large': 最大, 'small': 最小
+      //'default': default, 'large': maximum, 'small': smallest
       size:'default',
-      //倒计时
+      //Countdown
       count: 120,
     },
   },
   {
-    label: 'Api下拉选择',
+    label: 'Apidrop down selection',
     field: 'apiSelect',
     component: 'ApiSelect',
     componentProps: {
-      //multiple: 多选；不填写为单选
+      //multiple: Multiple choice；Leave blank as single choice
       mode: 'multiple',
-      //请求api,返回结果{ result: { records:[{'id':'1',name:'scott'},{'id':'2',name:'小张'}] }}
+      //askapi,Return results{ result: { records:[{'id':'1',name:'scott'},{'id':'2',name:'Xiao Zhang'}] }}
       api: () => defHttp.get({ url: '/test/jeecgDemo/list' }),
-      //数值转成String
+      //Numerical value converted toString
       numberToString: false,
-      //标题字段
+      //title field
       labelField: 'name',
-      //值字段
+      //value field
       valueField: 'id',
-      //请求参数
+      //ask参数
       params: {},
-      //返回结果字段
+      //Return resultsField
       resultField: 'records',
     },
   },
   {
-    label: 'Api树选择',
+    label: 'Apitree selection',
     field: 'apiSelect',
     component: 'ApiTreeSelect',
     componentProps: {
-      /* 请求api,返回结果
-         { result: { list: [{ title:'选项0',value:'0',key:'0',
-           children: [ {"title": "选项0-0","value": "0-0","key": "0-0"},...]
+      /* askapi,Return results
+         { result: { list: [{ title:'Options0',value:'0',key:'0',
+           children: [ {"title": "Options0-0","value": "0-0","key": "0-0"},...]
            }, ...]
          }} */
       api: () => defHttp.get({ url: '/mock/tree/getDemoOptions' }),
-      //请求参数
+      //ask参数
       params: {},
-      //返回结果字段
+      //Return resultsField
       resultField: 'list',
     },
   },
   {
-    label: '校验密码强度',
+    label: 'Check password strength',
     field: 'pwd',
     component: 'StrengthMeter',
     componentProps: {
-      //是否显示密码文本框
+      //Whether to display the password text box
       showInput: true,
-      //是否禁用
+      //Whether to disable
       disabled: false,
     },
   },
   {
-    label: '省市县联动',
+    label: 'Provincial, city and county linkage',
     field: 'province',
     component: 'JAreaLinkage',
     componentProps: {
-      //是否显示区县，默认true,否则只显示省
+      //Whether to display districts and counties，defaulttrue,Otherwise, only the province will be displayed
       showArea: true,
-      //是否是全部文本，默认false
+      //Is it all text，defaultfalse
       showAll: true,
     },
   },
   {
-    label: '岗位选择',
+    label: 'Job selection',
     field: 'post',
     component: 'JSelectPosition',
     componentProps: {
-      //是否右侧显示选中列表
+      //Whether to display the selected list on the right
       showSelected: true,
-      //最大选择数量
+      //maximum选择数量
       maxSelectCount: 1,
-      //岗位标题
-      modalTitle: '岗位',
+      //Job title
+      modalTitle: 'post',
     },
   },
   {
-    label: '角色选择',
+    label: 'Character selection',
     field: 'role',
     component: 'JSelectRole',
     componentProps: {
-      //请求参数 如params:{"code":"001"}
+      //ask参数 likeparams:{"code":"001"}
       params: {},
-      //是否单选,默认false
+      //Single choice or not,defaultfalse
       isRadioSelection: true,
-      //角色标题
-      modalTitle: '角色',
+      //character title
+      modalTitle: 'Role',
     },
   },
   {
-    label: '用户选择',
+    label: 'User selection',
     field: 'user',
     component: 'JSelectUser',
     componentProps: {
-      //取值字段配置,一般为主键字段
+      //取value fieldConfiguration,Generally the primary key field
       rowKey: 'username',
-      //显示字段配置
+      //Show field configuration
       labelKey: 'realname',
-      //是否显示选择按钮
+      //Whether to display the select button
       showButton: false,
-      //用户标题
-      modalTitle: '用户',
+      //user title
+      modalTitle: 'user',
     },
   },
   {
-    label: '图片上传',
+    label: 'Image upload',
     field: 'uploadImage',
     component: 'JImageUpload',
     componentProps: {
-      //按钮显示文字
-      text:'图片上传',
-      //支持两种基本样式picture和picture-card
+      //Button display text
+      text:'Image upload',
+      //Supports two basic stylespictureandpicture-card
       listType:'picture-card',
-      //用于控制文件上传的业务路径,默认temp
+      //Business path used to control file uploads,defaulttemp
       bizPath:'temp',
-      //是否禁用
+      //Whether to disable
       disabled:false,
-      //最大上传数量
+      //maximum上传数量
       fileMax:1,
     },
   },
   {
-    label: '字典标签',
+    label: 'dictionary tag',
     field: 'dictTags',
     component: 'JDictSelectTag',
     componentProps: {
-      //字典code配置，比如通过性别字典编码：sex，也可以使用demo,name,id 表名,名称,值的方式
+      //dictionarycodeConfiguration，比likepass性别dictionarycoding：sex，Can also be useddemo,name,id table name,name,value way
       dictCode:'sex',
-      //支持radio(单选按钮)、radioButton(单选按钮 btn风格)、select(下拉框)
+      //supportradio(radio button)、radioButton(radio button btnstyle)、select(drop down box)
       type:'radioButton'
     },
   },
   {
-    label: '部门选择',
+    label: 'Department selection',
     field: 'dept',
     component: 'JSelectDept',
     componentProps: {
-      //是否开启异步加载
+      //Whether to enable asynchronous loading
       sync: false,
-      //是否显示复选框
+      //Whether to show checkbox
       checkable: true,
-      //是否显示选择按钮
+      //Whether to display the select button
       showButton: false,
-      //父子节点选中状态不再关联
+      //The selected status of the parent and child nodes is no longer associated.
       checkStrictly: true,
-      //选择框标题
-      modalTitle: '部门选择',
+      //Select box title
+      modalTitle: 'Department selection',
     },
   },
   {
-    label: '省市县级联动',
+    label: 'Provincial, city and county level linkage',
     field: 'provinceArea',
     component: 'JAreaSelect',
     componentProps: {
-      //级别 1 只显示省 2 省市 3 省市区
+      //level 1 Show only provinces 2 Province and city 3 Province and city区
       level:3
     },
   },
   {
-    label: '富文本',
+    label: 'rich text',
     field: 'editor',
     component: 'JEditor',
     componentProps: {
-      //是否禁用
+      //Whether to disable
       disabled: false
     },
   },
@@ -182,12 +182,12 @@ export const schemas: FormSchema[] = [
     field: 'markdown',
     component: 'JMarkdownEditor',
     componentProps: {
-      //是否禁用
+      //Whether to disable
       disabled: false
     },
   },
   {
-    label: '可输入下拉框',
+    label: '可输入drop down box',
     field: 'inputSelect',
     component: 'JSelectInput',
     componentProps: {
@@ -195,60 +195,60 @@ export const schemas: FormSchema[] = [
         { label: 'Default', value: 'default' },
         { label: 'IFrame', value: 'iframe' },
       ],
-      //是否为搜索模式
+      //Whether it is search mode
       showSearch: true,
-      //是否禁用
+      //Whether to disable
       disabled: false
     },
   },
   {
-    label: '代码编辑器组件',
+    label: 'Code editor component',
     field: 'jCode',
     component: 'JCodeEditor',
     componentProps: {
-      //高度，默认auto
+      //high，defaultauto
       height:'150px',
-      //是否禁用
+      //Whether to disable
       disabled:false,
-      //是否全屏
+      //Whether to full screen
       fullScreen:false,
-      //全屏之后的坐标
+      //coordinates after full screen
       zIndex: 999,
-      //代码主题，目前只支持idea,可在组件自行扩展
+      //code theme，目前只supportidea,Can be expanded by the component itself
       theme:'idea',
-      //代码提示
+      //Code tips
       keywords:['console'],
-      //语言如（javascript,vue,markdown）可在组件自行扩展
+      //语言like（javascript,vue,markdown）Can be expanded by the component itself
       language:'javascript'
     },
   },
   {
-    label: '分类字典树',
+    label: '分类dictionary树',
     field: 'dictTree',
     component: 'JCategorySelect',
     componentProps: {
-      //占位内容
-      placeholder:'请选择分类字典树',
-      //查询条件，如“{'name':'笔记本'}”
+      //Placeholder content
+      placeholder:'请选择分类dictionary树',
+      //Query conditions，like“{'name':'notebook'}”
       condition:"",
-      //是否多选
+      //yesnoMultiple choice
       multiple: false,
-      //起始选择code，见配置的分类字典的类型编码
+      //Starting selectioncode，见Configuration的分类dictionary的类型coding
       pcode: 'A04',
-      //父级id
+      //parentid
       pid:'',
-      //返回key
+      //returnkey
       back:'id',
     },
   },
   {
-    label: '下拉多选',
+    label: '下拉Multiple choice',
     field: 'selectMultiple',
     component: 'JSelectMultiple',
     componentProps: {
-      //字典code配置，比如通过性别字典编码：sex，也可以使用demo,name,id 表名,名称,值的方式
+      //dictionarycodeConfiguration，比likepass性别dictionarycoding：sex，Can also be useddemo,name,id table name,name,value way
       dictCode:'company_rank',
-      //是否只读
+      //Is it read-only?
       readOnly:false,
     },
   },
@@ -260,11 +260,11 @@ export const schemas: FormSchema[] = [
       const {setFieldsValue} = formActionType;
       return{
         setFieldsValue:setFieldsValue,
-        //online报表编码
+        //onlineReport coding
         code:"demo",
-        //是否为多选
+        //yesno为Multiple choice
         multi:false,
-        //字段配置
+        //FieldConfiguration
         fieldConfig: [
           { source: 'name', target: 'popup' },
         ],
@@ -272,180 +272,180 @@ export const schemas: FormSchema[] = [
     },
   },
   {
-    label: '开关自定义',
+    label: 'Switch customization',
     field: 'switch',
     component: 'JSwitch',
     componentProps:{
-      //取值 options
+      //value options
       options:['Y','N'],
-      //文本option
-      labelOptions:['是', '否'],
-      //是否启用下拉
+      //textoption
+      labelOptions:['yes', 'no'],
+      //yesno启用下拉
       query: false,
-      //是否禁用
+      //Whether to disable
       disabled: false,
     },
   },
   {
-    label: '定时表达式选择',
+    label: 'Timing expression selection',
     field: 'timing',
     component: 'JEasyCron',
     componentProps:{
-      //是否隐藏参数秒和年设置，如果隐藏，那么参数秒和年将会全部忽略掉。
+      //yesno隐藏参数秒and年设置，like果隐藏，那么参数秒and年将会全部忽略掉。
       hideSecond: false,
-      //是否隐藏参数年设置，如果隐藏，那么参数年将会全部忽略掉
+      //yesno隐藏参数年设置，like果隐藏，Then all parameter years will be ignored
       hideYear: false,
-      //是否禁用
+      //Whether to disable
       disabled: false,
-      //获取预览执行时间列表的函数，格式为：remote (cron值, time时间戳, cb回调函数)
+      //Function to get preview execution time list，The format is：remote (cronvalue, timeTimestamp, cbcallback function)
       remote:(cron,time,cb)=>{}
     },
   },
   {
-    label: '分类字典树',
+    label: '分类dictionary树',
     field: 'treeDict',
     component: 'JTreeDict',
     componentProps:{
-      //指定当前组件需要存储的字段 可选: id(主键)和code(编码)
+      //Specify the fields that the current component needs to store Optional: id(primary key)andcode(coding)
       field:'id',
-      //是否为异步
+      //yesno为异步
       async: true,
-      //是否禁用
+      //Whether to disable
       disabled: false,
-      //指定一个节点的编码,加载该节点下的所有字典数据,若不指定，默认加载所有数据
+      //指定一个节点的coding,加载该节点下的所有dictionary数据,If not specified，default加载所有数据
       parentCode:'A04'
     },
   },
   {
-    label: '多行输入窗口',
+    label: 'Multi-line input window',
     field: 'inputPop',
     component: 'JInputPop',
     componentProps:{
-      //标题
-      title:'多行输入窗口',
-      //弹窗显示位置
+      //title
+      title:'Multi-line input window',
+      //Pop-up window display position
       position:'bottom',
     },
   },
   {
-    label: '多选',
+    label: 'Multiple choice',
     field: 'multipleChoice',
     component: 'JCheckbox',
     componentProps:{
-      //字典code配置，比如通过职位字典编码：company_rank，也可以使用demo,name,id 表名,名称,值的方式
+      //dictionarycodeConfiguration，比likepass职位dictionarycoding：company_rank，Can also be useddemo,name,id table name,name,value way
       dictCode:'company_rank',
-      //是否禁用
+      //Whether to disable
       disabled: false,
-      //没有字典code可以使用option来定义
+      //没有dictionarycodeCan be usedoptionto define
       // options:[
       //   {label:'CE0',value:'1'}
       // ]
     },
   },
   {
-    label: '下拉树选择',
+    label: '下拉tree selection',
     field: 'treeCusSelect',
     component: 'JTreeSelect',
     componentProps: {
-      //字典code配置，比如通过性别字典编码：sex，也可以使用sys_permission,name,id 表名,名称,值的方式
+      //dictionarycodeConfiguration，比likepass性别dictionarycoding：sex，Can also be usedsys_permission,name,id table name,name,value way
       dict: 'sys_permission,name,id',
-      //父级id字段
+      //parentidField
       pidField: 'parent_id',
     },
   },
   {
-    label: '根据部门选择用户组件',
+    label: '根据Department selectionuser组件',
     field: 'userByDept',
     component: 'JSelectUserByDept',
     componentProps: {
-      //是否显示选择按钮
+      //Whether to display the select button
       showButton: true,
-      //选择框标题
-      modalTitle: '部门用户选择'
+      //Select box title
+      modalTitle: '部门User selection'
     },
   },
   {
-    label: '文件上传',
+    label: 'File upload',
     field: 'uploadFile',
     component: 'JUpload',
     componentProps: {
-      //是否显示选择按钮
-      text: '文件上传',
-      //最大上传数
+      //Whether to display the select button
+      text: 'File upload',
+      //maximum上传数
       maxCount: 2,
-      //是否显示下载按钮
+      //yesno显示下载按钮
       download: true,
     },
   },
   {
-    label: '字典表搜索',
+    label: 'dictionary表搜索',
     field: 'dictSearchSelect',
     component: 'JSearchSelect',
     componentProps: {
-      //字典code配置，通过 demo,name,id 表名,名称,值的方式
+      //dictionarycodeConfiguration，pass demo,name,id table name,name,value way
       dict: 'demo,name,id',
-      //是否异步加载
+      //yesno异步加载
       async: true,
-      //当async设置为true时有效，表示异步查询时，每次获取数据的数量，默认10
+      //whenasyncset totruevalid when，When indicating an asynchronous query，The number of data obtained each time，default10
       pageSize:3
     },
   },
   {
-    label: '动态创建input框',
+    label: 'Dynamically createdinputbox',
     field: 'jAddInput',
     component: 'JAddInput',
     componentProps: {
-      //自定义超过多少行才会显示删除按钮，默认为1
+      //Customize the number of rows before the delete button is displayed，default为1
       min:1
     },
   },
   {
-    label: '用户选择组件',
+    label: 'User selection组件',
     field: 'userCusSelect',
     component: 'UserSelect',
     componentProps: {
-      //是否多选
+      //yesnoMultiple choice
       multi: true,
-      //从用户表中选择一列，其值作为该控件的存储值，默认id列
+      //从user表中选择一List，其value作为该控件的存储value，defaultidList
       store: 'id',
-      //是否排除我自己(当前登录用户)
+      //yesno排除我自己(when前登录user)
       izExcludeMy: false,
-      //是否禁用
+      //Whether to disable
       disabled: false,
     },
   },  
   {
-    label: '选择角色组件',
+    label: '选择Role组件',
     field: 'roleSelect',
     component: 'RoleSelect',
     componentProps: {
-      //最大选择数量  
+      //maximum选择数量  
       maxSelectCount: 4,
-      //是否单选
+      //Single choice or not
       multi: true
     },
   },  
   {
-    label: '数值范围输入框',
+    label: '数value范围输入box',
     field: 'rangeNumber',
     component: 'JRangeNumber',
   }, 
   {
-    label: '远程Api单选框组',
+    label: 'remoteApi单选box组',
     field: 'apiRadioGroup',
     component: 'ApiRadioGroup',
     componentProps:{
-      //请求接口返回结果{ result:{ list: [ name: '选项0',id: '1' ] }}
+      //ask接口Return results{ result:{ list: [ name: 'Options0',id: '1' ] }}
       api:()=> defHttp.get({ url: '/mock/select/getDemoOptions' }),
-      //请求参数
+      //ask参数
       params:{},
-      //是否为按钮风格类型，默认false
+      //yesno为按钮style类型，defaultfalse
       isBtn: false,
-      //返回集合名称
+      //return集合name
       resultField: 'list',
-      //标题字段名称
+      //title fieldname
       labelField: 'name',
-      //值字段名称
+      //value fieldname
       valueField: 'id',
     }
   },

@@ -3,38 +3,38 @@ import { render } from '/@/utils/common/renderUtils';
 
 export const columns: BasicColumn[] = [
   {
-    title: '标题',
+    title: 'title',
     dataIndex: 'titile',
     width: 100,
     align: 'left',
   },
   {
-    title: '消息类型',
+    title: 'Message type',
     dataIndex: 'msgCategory',
     width: 80,
     customRender: ({ text }) => {
       return render.renderDictNative(
         text,
         [
-          { label: '通知公告', value: '1', color: 'blue' },
-          { label: '系统消息', value: '2' },
+          { label: 'Notices and Announcements', value: '1', color: 'blue' },
+          { label: 'System messages', value: '2' },
         ],
         true
       );
     },
   },
   {
-    title: '发布人',
+    title: 'Posted by',
     dataIndex: 'sender',
     width: 80,
   },
   {
-    title: '发布时间',
+    title: 'Release time',
     dataIndex: 'sendTime',
     width: 80,
   },
   {
-    title: '优先级',
+    title: 'priority',
     dataIndex: 'priority',
     width: 80,
     customRender: ({ text }) => {
@@ -43,15 +43,15 @@ export const columns: BasicColumn[] = [
     },
   },
   {
-    title: '阅读状态',
+    title: 'reading status',
     dataIndex: 'readFlag',
     width: 80,
     customRender: ({ text }) => {
       return render.renderDictNative(
         text,
         [
-          { label: '未读', value: '0', color: 'red' },
-          { label: '已读', value: '1' },
+          { label: 'unread', value: '0', color: 'red' },
+          { label: 'Read', value: '1' },
         ],
         true
       );
@@ -62,19 +62,19 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'titile',
-    label: '标题',
+    label: 'title',
     component: 'Input',
     colProps: { span: 6 },
   },
   {
     field: 'sender',
-    label: '发布人',
+    label: 'Posted by',
     component: 'Input',
     colProps: { span: 6 },
   },
   {
     field: 'sendTime',
-    label: '发布时间',
+    label: 'Release time',
     component: 'RangeDate',
     componentProps: {
       valueType: 'Date',
@@ -83,12 +83,12 @@ export const searchFormSchema: FormSchema[] = [
   },
   {
     field: 'msgCategory',
-    label: '消息类型',
+    label: 'Message type',
     component: 'Select',
     componentProps: {
       options: [
-        { label: '通知公告', value: '1' },
-        { label: '系统消息', value: '2' },
+        { label: 'Notices and Announcements', value: '1' },
+        { label: 'System messages', value: '2' },
       ],
     },
     colProps: { span: 6 },

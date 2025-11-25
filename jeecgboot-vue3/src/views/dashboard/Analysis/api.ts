@@ -5,12 +5,12 @@ enum Api {
   visitInfo = '/sys/visitInfo',
 }
 /**
- * 日志统计信息
+ * Log statistics
  * @param params
  */
 export const getLoginfo = (params) => defHttp.get({ url: Api.loginfo, params }, { isTransformResponse: false });
 /**
- * 访问量信息
+ * Visit information
  * @param params
  */
 export const getVisitInfo = (params) => defHttp.get({ url: Api.visitInfo, params }, { isTransformResponse: false });

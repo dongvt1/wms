@@ -12,14 +12,14 @@ export enum Api {
   importXls = 'sys/message/sysMessageTemplate/importExcel',
   save = '/sys/message/sysMessageTemplate/add',
   edit = '/sys/message/sysMessageTemplate/edit',
-  // 发送测试
+  // Send test
   send = '/sys/message/sysMessageTemplate/sendMsg',
 }
 
 export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
- * 批量删除
+ * Batch delete
  * @param params
  * @param confirm
  */
@@ -31,8 +31,8 @@ export const deleteBatch = (params, confirm = false) => {
     if (confirm) {
       createConfirm({
         iconType: 'warning',
-        title: '删除',
-        content: '确定要删除吗？',
+        title: 'delete',
+        content: '确定要delete吗？',
         onOk: () => doDelete(),
         onCancel: () => reject(),
       });
@@ -43,7 +43,7 @@ export const deleteBatch = (params, confirm = false) => {
 };
 
 /**
- * 保存或者更改消息模板
+ * Save or change message templates
  */
 export const saveOrUpdate = (params, isUpdate) => {
   if (unref(isUpdate)) {
@@ -54,7 +54,7 @@ export const saveOrUpdate = (params, isUpdate) => {
 };
 
 /**
- * 发送消息测试
+ * Send message test
  * @param params
  */
 export const sendMessageTest = (params) => defHttp.post({ url: Api.send, params });

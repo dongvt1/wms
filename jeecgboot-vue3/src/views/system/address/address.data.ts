@@ -3,38 +3,38 @@ import { BasicColumn } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '姓名',
+    title: 'Name',
     dataIndex: 'realname',
     width: 150,
   },
   {
-    title: '工号',
+    title: 'Job number',
     dataIndex: 'workNo',
     width: 100,
   },
   {
-    title: '部门',
+    title: 'department',
     dataIndex: 'orgCodeTxt',
     width: 200,
   },
   {
-    title: '主岗位',
+    title: 'main post',
     dataIndex: 'mainDepPostId_dictText',
     width: 200,
   },
   {
-    title: '职务',
+    title: 'Position',
     dataIndex: 'post',
     width: 150,
     slots: { customRender: 'post' },
   },
   {
-    title: '手机',
+    title: 'cell phone',
     width: 150,
     dataIndex: 'phone',
   },
   {
-    title: '邮箱',
+    title: 'Mail',
     width: 150,
     dataIndex: 'email',
   },
@@ -42,13 +42,13 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    label: '姓名',
+    label: 'Name',
     field: 'realname',
     component: 'Input',
     colProps: { span: 6 },
   },
   {
-    label: '工号',
+    label: 'Job number',
     field: 'workNo',
     component: 'Input',
     colProps: { span: 6 },

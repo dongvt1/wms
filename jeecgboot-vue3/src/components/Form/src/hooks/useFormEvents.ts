@@ -57,7 +57,7 @@ export function useFormEvents({
       const schema = unref(getSchema).find((item) => item.field === key);
       let value = values[key];
 
-      //antd3升级后，online表单时间控件选中值报js错 TypeError: Reflect.has called on non-object
+      //antd3After upgrade，onlineForm time control selected value reportjswrong TypeError: Reflect.has called on non-object
       if(!(values instanceof Object)){
         return;
       }
@@ -65,9 +65,9 @@ export function useFormEvents({
       const hasKey = Reflect.has(values, key);
 
       value = handleInputNumberValue(schema?.component, value);
-      // update-begin--author:liaozhiyang---date:20231226---for：【QQYUN-7535】popup回填字段inputNumber组件验证错误
+      // update-begin--author:liaozhiyang---date:20231226---for：【QQYUN-7535】popupBackfill fieldsinputNumber组件验证wrong误
       value = handleInputStringValue(schema?.component, value);
-      // update-end--author:liaozhiyang---date:20231226---for：【QQYUN-7535】popup回填字段inputNumber组件验证错误
+      // update-end--author:liaozhiyang---date:20231226---for：【QQYUN-7535】popupBackfill fieldsinputNumber组件验证wrong误
       // 0| '' is allow
       if (hasKey && fields.includes(key)) {
         // time type
@@ -96,7 +96,7 @@ export function useFormEvents({
   }
 
   /**
-   *  根据字段名获取schema
+   *  Get based on field nameschema
    * @param field
    */
   function getSchemaByField(field: string): Nullable<FormSchema> {
@@ -257,8 +257,8 @@ export function useFormEvents({
     if (!formEl) return;
     try {
       const values = await validate();
-      //update-begin---author:zhangdaihao   Date:20140212  for：[bug号]树机构调整------------
-      //--updateBy-begin----author:zyf---date:20211206------for:对查询表单提交的数组处理成字符串------
+      //update-begin---author:zhangdaihao   Date:20140212  for：[bugNumber]Tree structure adjustment------------
+      //--updateBy-begin----author:zyf---date:20211206------for:Process the array submitted by the query form into a string------
       for (let key in values) {
         if (values[key] instanceof Array) {
           let valueType = getValueType(getProps, key);
@@ -267,15 +267,15 @@ export function useFormEvents({
           }
         }
       }
-      //--updateBy-end----author:zyf---date:20211206------for:对查询表单提交的数组处理成字符串------
+      //--updateBy-end----author:zyf---date:20211206------for:Process the array submitted by the query form into a string------
       const res = handleFormValues(values);
       emit('submit', res);
     } catch (error) {
-      //update-begin-author:taoyan date:2022-11-4 for: 列表查询表单会触发校验错误导致重置失败，原因不明
+      //update-begin-author:taoyan date:2022-11-4 for: 列表查询表单会触发校验wrong误导致重置失败，Unknown reason
       emit('submit', {});
       console.error('query form validate error, please ignore!', error)
       //throw new Error(error);
-      //update-end-author:taoyan date:2022-11-4 for: 列表查询表单会触发校验错误导致重置失败，原因不明
+      //update-end-author:taoyan date:2022-11-4 for: 列表查询表单会触发校验wrong误导致重置失败，Unknown reason
     }
   }
 

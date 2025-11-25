@@ -8,26 +8,26 @@ import { getToken } from '/@/utils/auth';
 
 // vxe socket
 const vs = {
-  // 页面唯一 id，用于标识同一用户，不同页面的websocket
+  // Page unique id，Used to identify the same user，different pageswebsocket
   pageId: buildUUID(),
-  // webSocket 对象
+  // webSocket object
   ws: null,
-  // 一些常量
+  // some constants
   constants: {
-    // 消息类型
+    // Message type
     TYPE: 'type',
-    // 消息数据
+    // message data
     DATA: 'data',
-    // 消息类型：心跳检测
+    // Message type：Heartbeat detection
     TYPE_HB: 'heart_beat',
-    // 消息类型：更新vxe table数据
+    // Message type：renewvxe tabledata
     TYPE_UVT: 'update_vxe_table',
   },
-  // 心跳检测
+  // Heartbeat detection
   heartCheck: {
-    // 间隔时间，间隔多久发送一次心跳消息
+    // Interval time，How often to send heartbeat messages
     interval: 10000,
-    // 心跳消息超时时间，心跳消息多久没有回复后重连
+    // Heartbeat message timeout，How long does it take for heartbeat messages to be reconnected after no reply?
     timeout: 6000,
     timeoutTimer: -1,
     clear() {
@@ -36,30 +36,30 @@ const vs = {
     },
     start() {
       vs.sendMessage(vs.constants.TYPE_HB, '');
-      // 如果超过一定时间还没重置，说明后端主动断开了
+      // If it has not been reset after a certain period of time，It means that the backend is actively disconnected.
       this.timeoutTimer = window.setTimeout(() => {
         vs.reconnect();
       }, this.timeout);
       return this;
     },
-    // 心跳消息返回
+    // Heartbeat message return
     back() {
       this.clear();
       window.setTimeout(() => this.start(), this.interval);
     },
   },
 
-  /** 初始化 WebSocket */
+  /** initialization WebSocket */
   initialWebSocket() {
     if (this.ws === null) {
       const userId = useUserStore().getUserInfo?.id;
       const domainURL = useGlobSetting().uploadUrl!;
       const domain = domainURL.replace('https://', 'wss://').replace('http://', 'ws://');
       const url = `${domain}/vxeSocket/${userId}/${this.pageId}`;
-      //update-begin-author:taoyan date:2022-4-24 for: v2.4.6 的 websocket 服务端，存在性能和安全问题。 #3278
+      //update-begin-author:taoyan date:2022-4-24 for: v2.4.6 of websocket Server，There are performance and security issues。 #3278
       let token = (getToken() || '') as string;
       this.ws = new WebSocket(url, [token]);
-      //update-end-author:taoyan date:2022-4-24 for: v2.4.6 的 websocket 服务端，存在性能和安全问题。 #3278
+      //update-end-author:taoyan date:2022-4-24 for: v2.4.6 of websocket Server，There are performance and security issues。 #3278
       this.ws.onopen = this.on.open.bind(this);
       this.ws.onerror = this.on.error.bind(this);
       this.ws.onmessage = this.on.message.bind(this);
@@ -67,7 +67,7 @@ const vs = {
     }
   },
 
-  // 发送消息
+  // Send message
   sendMessage(type, message) {
     try {
       let ws = this.ws;
@@ -80,13 +80,13 @@ const vs = {
         );
       }
     } catch (err: any) {
-      console.warn('【JVxeWebSocket】发送消息失败：(' + err.code + ')');
+      console.warn('【JVxeWebSocket】Send message失败：(' + err.code + ')');
     }
   },
 
-  /** 绑定全局VXE表格 */
+  /** Bind globalVXEsheet */
   tableMap: new Map(),
-  /** 添加绑定 */
+  /** Add binding */
   addBind(map, key, value: VmArgs) {
     let binds = map.get(key);
     if (isArray(binds)) {
@@ -95,7 +95,7 @@ const vs = {
       map.set(key, [value]);
     }
   },
-  /** 移除绑定 */
+  /** Remove binding */
   removeBind(map, key, value: VmArgs) {
     let binds = map.get(key);
     if (isArray(binds)) {
@@ -113,7 +113,7 @@ const vs = {
       map.delete(key);
     }
   },
-  // 呼叫绑定的表单
+  // 呼叫绑定of表单
   callBind(map, key, callback) {
     let binds = map.get(key);
     if (isArray(binds)) {
@@ -122,7 +122,7 @@ const vs = {
   },
 
   lockReconnect: false,
-  /** 尝试重连 */
+  /** Try to reconnect */
   reconnect() {
     if (this.lockReconnect) return;
     this.lockReconnect = true;
@@ -131,7 +131,7 @@ const vs = {
         this.ws.close();
       }
       this.ws = null;
-      console.info('【JVxeWebSocket】尝试重连...');
+      console.info('【JVxeWebSocket】Try to reconnect...');
       this.initialWebSocket();
       this.lockReconnect = false;
     }, 5000);
@@ -139,50 +139,50 @@ const vs = {
 
   on: {
     open() {
-      console.info('【JVxeWebSocket】连接成功');
+      console.info('【JVxeWebSocket】Connection successful');
       this.heartCheck.start();
     },
     error(e) {
-      console.warn('【JVxeWebSocket】连接发生错误:', e);
+      console.warn('【JVxeWebSocket】Connection error occurred:', e);
       this.reconnect();
     },
     message(e) {
-      // 解析消息
+      // Parse the message
       let json;
       try {
         json = JSON.parse(e.data);
       } catch (e: any) {
-        console.warn('【JVxeWebSocket】收到无法解析的消息:', e.data);
+        console.warn('【JVxeWebSocket】收到无法解析of消息:', e.data);
         return;
       }
       let type = json[this.constants.TYPE];
       let data = json[this.constants.DATA];
       switch (type) {
-        // 心跳检测
+        // Heartbeat detection
         case this.constants.TYPE_HB:
           this.heartCheck.back();
           break;
-        // 更新form数据
+        // renewformdata
         case this.constants.TYPE_UVT:
           this.callBind(this.tableMap, data.socketKey, (args) => this.onVM.onUpdateTable(args, ...data.args));
           break;
         default:
-          console.warn('【JVxeWebSocket】收到不识别的消息类型:' + type);
+          console.warn('【JVxeWebSocket】收到不识别ofMessage type:' + type);
           break;
       }
     },
     close(e) {
-      console.info('【JVxeWebSocket】连接被关闭:', e);
+      console.info('【JVxeWebSocket】connection closed:', e);
       this.reconnect();
     },
   },
 
   onVM: {
-    /** 收到更新表格的消息 */
+    /** 收到renewsheetof消息 */
     onUpdateTable({ props, data, methods }: VmArgs, row, caseId) {
       if (data.caseId !== caseId) {
         const tableRow = methods.getIfRowById(row.id).row;
-        // 局部保更新数据
+        // 局部保renewdata
         if (tableRow) {
           if (props.reloadEffect) {
             data.reloadEffectRowKeysMap[row.id] = true;
@@ -218,7 +218,7 @@ export function useWebSocket(props: JVxeTableProps, data: JVxeDataProps, methods
     { immediate: true }
   );
 
-  /** 发送socket消息更新行 */
+  /** sendsocket消息renew行 */
   function socketSendUpdateRow(row) {
     vs.sendMessage(vs.constants.TYPE_UVT, {
       socketKey: props.socketKey,

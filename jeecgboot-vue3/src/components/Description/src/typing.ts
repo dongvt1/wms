@@ -24,7 +24,7 @@ export interface DescriptionProps extends DescriptionsProps {
    */
   schema: DescItem[];
   /**
-   * 数据
+   * data
    * @type object
    */
   data: Recordable;

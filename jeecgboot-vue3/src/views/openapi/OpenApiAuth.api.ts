@@ -18,40 +18,40 @@ enum Api {
 }
 
 /**
- * 获取API
+ * GetAPI
  * @param params
  */
 export const apiList = Api.apiList;
 /**
- * 权限添加
+ * Permission added
  * @param params
  */
 export const permissionAdd = Api.permissionAdd;
 /**
- * 生成AKSK
+ * generateAKSK
  * @param params
  */
 export const genAKSK = Api.genAKSK;
 
 /**
- * 导出api
+ * Exportapi
  * @param params
  */
 export const getExportUrl = Api.exportXls;
 
 /**
- * 导入api
+ * importapi
  */
 export const getImportUrl = Api.importExcel;
 
 /**
- * 列表接口
+ * List interface
  * @param params
  */
 export const list = (params) => defHttp.get({ url: Api.list, params });
 
 /**
- * 删除单个
+ * Delete a single
  * @param params
  * @param handleSuccess
  */
@@ -62,17 +62,17 @@ export const deleteOne = (params,handleSuccess) => {
 }
 
 /**
- * 批量删除
+ * Batch delete
  * @param params
  * @param handleSuccess
  */
 export const batchDelete = (params, handleSuccess) => {
   createConfirm({
     iconType: 'warning',
-    title: '确认删除',
-    content: '是否删除选中数据',
-    okText: '确认',
-    cancelText: '取消',
+    title: 'Confirm deletion',
+    content: 'Whether to delete selected data',
+    okText: 'confirm',
+    cancelText: 'Cancel',
     onOk: () => {
       return defHttp.delete({url: Api.deleteBatch, data: params}, {joinParamsToUrl: true}).then(() => {
         handleSuccess();
@@ -82,7 +82,7 @@ export const batchDelete = (params, handleSuccess) => {
 }
 
 /**
- * 保存或者更新
+ * Save or update
  * @param params
  * @param isUpdate
  */
@@ -94,18 +94,18 @@ export const saveOrUpdate = (params, isUpdate) => {
 }
 
 /**
- * 全部权限列表接口
+ * 全部权限List interface
  * @param params
  */
 export const getApiList = (params) => defHttp.get({ url: Api.apiList, params }, { isTransformResponse: false });
 
 /**
- * 获取已授权项目的接口
+ * Get已授权项目的接口
  * @param params
  */
 export const getPermissionList = (params) => defHttp.get({ url: Api.permissionList, params });
 /**
- * 授权保存方法
+ * Authorization saving method
  * @param params
  * @param isUpdate
  */
@@ -113,7 +113,7 @@ export const permissionAddFunction = (params) => {
   return defHttp.post({ url: Api.permissionAdd, params }, { isTransformResponse: false });
 }
 /**
- * 授权保存方法
+ * Authorization saving method
  * @param params
  * @param isUpdate
  */

@@ -2,20 +2,20 @@ import { BasicColumn } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '参数',
+    title: 'parameter',
     dataIndex: 'param',
     width: 80,
     align: 'left',
     slots: { customRender: 'param' },
   },
   {
-    title: '描述',
+    title: 'describe',
     dataIndex: 'text',
     slots: { customRender: 'text' },
     width: 80,
   },
   {
-    title: '当前值',
+    title: 'current value',
     dataIndex: 'value',
     slots: { customRender: 'value' },
     width: 80,

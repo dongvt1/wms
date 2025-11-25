@@ -7,29 +7,29 @@ import { RouteParams } from 'vue-router';
 import { toRaw } from 'vue';
 
 export function getAllParentPath<T = Recordable>(treeData: T[], path: string) {
-  // update-begin--author:sunjianlei---date:220230426---for：【issues/478】修复菜单展开合并BUG
-  // 原代码
+  // update-begin--author:sunjianlei---date:220230426---for：【issues/478】Fix menu expansion mergeBUG
+  // Original code
   // const menuList = findPath(treeData, (n) => n.path === path) as Menu[];
-  // 先匹配不包含隐藏菜单的路径
+  // Match paths that do not contain hidden menus first
   let menuList = findMenuPath(treeData, path, false);
-  // 如果没有匹配到，再匹配包含隐藏菜单的路径
+  // If no match is found，Then match the path containing the hidden menu
   if(!(menuList?.length)) {
     menuList = findMenuPath(treeData, path, true)
   }
-  // update-end--author:sunjianlei---date:220230426---for：【issues/478】修复菜单展开合并BUG
+  // update-end--author:sunjianlei---date:220230426---for：【issues/478】Fix menu expansion mergeBUG
   return (menuList || []).map((item) => item.path);
 }
 
 /**
- * 查找菜单路径
+ * Find menu path
  *
  * @param treeData
  * @param path
- * @param matchHide 是否匹配隐藏菜单
+ * @param matchHide Whether to match hidden menu
  */
 function findMenuPath<T = Recordable>(treeData: T[], path: string, matchHide: boolean) {
   return findPath(treeData, (n) => {
-    // 隐藏菜单不参与匹配
+    // Hidden menu does not participate in matching
     if(!matchHide && n.hideMenu) {
       return false;
     }
@@ -37,18 +37,18 @@ function findMenuPath<T = Recordable>(treeData: T[], path: string, matchHide: bo
   }) as Menu[];
 }
 
-// 路径处理
+// Path handling
 function joinParentPath(menus: Menu[], parentPath = '') {
   for (let index = 0; index < menus.length; index++) {
     const menu = menus[index];
     // https://next.router.vuejs.org/guide/essentials/nested-routes.html
     // Note that nested paths that start with / will be treated as a root path.
-    // 请注意，以 / 开头的嵌套路径将被视为根路径。
+    // please note，by / Nested paths starting with will be treated as root paths。
     // This allows you to leverage the component nesting without having to use a nested URL.
-    // 这允许你利用组件嵌套，而无需使用嵌套 URL。
+    // This allows you to take advantage of component nesting，without using nested URL。
     if (!(menu.path.startsWith('/') || isUrl(menu.path))) {
       // path doesn't start with /, nor is it a url, join parent path
-      // 路径不以 / 开头，也不是 url，加入父路径
+      // 路径不by / beginning，Neither url，Add parent path
       menu.path = `${parentPath}/${menu.path}`;
     }
     if (menu?.children?.length) {
@@ -67,13 +67,13 @@ export function transformMenuModule(menuModule: MenuModule): Menu {
   return menuList[0];
 }
 
-// 将路由转换成菜单
+// Convert routes into menus
 export function transformRouteToMenu(routeModList: AppRouteModule[], routerMapping = false) {
-  // 借助 lodash 深拷贝
+  // With the help of lodash deep copy
   const cloneRouteModList = cloneDeep(routeModList);
   const routeList: AppRouteRecordRaw[] = [];
 
-  // 对路由项进行修改
+  // Modify routing items
   cloneRouteModList.forEach((item) => {
     if (routerMapping && item.meta.hideChildrenInMenu && typeof item.redirect === 'string') {
       item.path = item.redirect;
@@ -86,7 +86,7 @@ export function transformRouteToMenu(routeModList: AppRouteModule[], routerMappi
       routeList.push(item);
     }
   });
-  // 提取树指定结构
+  // Extract the specified structure of the tree
   const list = treeMap(routeList, {
     conversion: (node: AppRouteRecordRaw) => {
       const { meta: { title, hideMenu = false } = {} } = node;
@@ -103,7 +103,7 @@ export function transformRouteToMenu(routeModList: AppRouteModule[], routerMappi
       };
     },
   });
-  // 路径处理
+  // Path handling
   joinParentPath(list);
   return cloneDeep(list);
 }

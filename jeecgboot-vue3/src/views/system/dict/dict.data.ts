@@ -6,17 +6,17 @@ import { h } from "vue";
 
 export const columns: BasicColumn[] = [
   {
-    title: '字典名称',
+    title: 'Dictionary name',
     dataIndex: 'dictName',
     width: 240,
   },
   {
-    title: '字典编码',
+    title: 'dictionary encoding',
     dataIndex: 'dictCode',
     width: 240,
   },
   {
-    title: '描述',
+    title: 'describe',
     dataIndex: 'description',
     // width: 120
   },
@@ -24,17 +24,17 @@ export const columns: BasicColumn[] = [
 
 export const recycleBincolumns: BasicColumn[] = [
   {
-    title: '字典名称',
+    title: 'Dictionary name',
     dataIndex: 'dictName',
     width: 120,
   },
   {
-    title: '字典编码',
+    title: 'dictionary encoding',
     dataIndex: 'dictCode',
     width: 120,
   },
   {
-    title: '描述',
+    title: 'describe',
     dataIndex: 'description',
     width: 120,
   },
@@ -42,13 +42,13 @@ export const recycleBincolumns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    label: '字典名称',
+    label: 'Dictionary name',
     field: 'dictName',
     component: 'JInput',
     colProps: { span: 6 },
   },
   {
-    label: '字典编码',
+    label: 'dictionary encoding',
     field: 'dictCode',
     component: 'JInput',
     colProps: { span: 6 },
@@ -63,13 +63,13 @@ export const formSchema: FormSchema[] = [
     show: false,
   },
   {
-    label: '字典名称',
+    label: 'Dictionary name',
     field: 'dictName',
     required: true,
     component: 'Input',
   },
   {
-    label: '字典编码',
+    label: 'dictionary encoding',
     field: 'dictCode',
     component: 'Input',
     dynamicDisabled: ({ values }) => {
@@ -78,7 +78,7 @@ export const formSchema: FormSchema[] = [
     dynamicRules: ({ model, schema }) => rules.duplicateCheckRule('sys_dict', 'dict_code', model, schema, true),
   },
   {
-    label: '描述',
+    label: 'describe',
     field: 'description',
     component: 'Input',
   },
@@ -86,17 +86,17 @@ export const formSchema: FormSchema[] = [
 
 export const dictItemColumns: BasicColumn[] = [
   {
-    title: '名称',
+    title: 'name',
     dataIndex: 'itemText',
     width: 80,
   },
   {
-    title: '数据值',
+    title: 'data value',
     dataIndex: 'itemValue',
     width: 80,
   },
   {
-    title: '字典颜色',
+    title: 'Dictionary colors',
     dataIndex: 'itemColor',
     width: 80,
     align:'center',
@@ -110,12 +110,12 @@ export const dictItemColumns: BasicColumn[] = [
 
 export const dictItemSearchFormSchema: FormSchema[] = [
   {
-    label: '名称',
+    label: 'name',
     field: 'itemText',
     component: 'Input',
   },
   {
-    label: '状态',
+    label: 'state',
     field: 'status',
     component: 'JDictSelectTag',
     componentProps: {
@@ -133,13 +133,13 @@ export const itemFormSchema: FormSchema[] = [
     show: false,
   },
   {
-    label: '名称',
+    label: 'name',
     field: 'itemText',
     required: true,
     component: 'Input',
   },
   {
-    label: '数据值',
+    label: 'data value',
     field: 'itemValue',
     component: 'Input',
     dynamicRules: ({ values, model }) => {
@@ -148,10 +148,10 @@ export const itemFormSchema: FormSchema[] = [
           required: true,
           validator: (_, value) => {
             if (!value) {
-              return Promise.reject('请输入数据值');
+              return Promise.reject('请输入data value');
             }
             if (new RegExp("[`~!@#$^&*()=|{}'.<>《》/?！￥（）—【】‘；：”“。，、？]").test(value)) {
-              return Promise.reject('数据值不能包含特殊字符！');
+              return Promise.reject('data value不能包含特殊字符！');
             }
             return new Promise<void>((resolve, reject) => {
               let params = {
@@ -161,10 +161,10 @@ export const itemFormSchema: FormSchema[] = [
               };
               dictItemCheck(params)
                 .then((res) => {
-                  res.success ? resolve() : reject(res.message || '校验失败');
+                  res.success ? resolve() : reject(res.message || 'Verification failed');
                 })
                 .catch((err) => {
-                  reject(err.message || '验证失败');
+                  reject(err.message || 'Authentication failed');
                 });
             });
           },
@@ -173,25 +173,25 @@ export const itemFormSchema: FormSchema[] = [
     },
   },
   {
-    label: '颜色值',
+    label: 'color value',
     field: 'itemColor',
     component: 'Input',
     slot:'itemColor'
   },
   {
-    label: '描述',
+    label: 'describe',
     field: 'description',
     component: 'Input',
   },
   {
     field: 'sortOrder',
-    label: '排序',
+    label: 'sort',
     component: 'InputNumber',
     defaultValue: 1,
   },
   {
     field: 'status',
-    label: '是否启用',
+    label: 'Whether to enable',
     defaultValue: 1,
     component: 'JDictSelectTag',
     componentProps: {
