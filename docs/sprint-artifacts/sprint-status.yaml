@@ -48,7 +48,7 @@ development_status:
   epic-2: contexted
     2-1-customer-management: done
     2-2-order-management: review
-    2-3-order-processing: ready-for-dev
+     2-3-order-processing: review
     2-4-supplier-management: ready-for-dev
   epic-2-retrospective: optional
   epic-3: contexted
