@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.planning.mapper.ProductionStageMapper">
+
+    <select id="selectByWorkOrderId" resultType="org.jeecg.modules.planning.entity.ProductionStage">
+        SELECT * FROM wh_production_stage WHERE work_order_id = #{workOrderId} ORDER BY stage_order ASC
+    </select>
+
+    <delete id="deleteByWorkOrderId">
+        DELETE FROM wh_production_stage WHERE work_order_id = #{workOrderId}
+    </delete>
+
+</mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.planning.mapper.ApprovedVendorMapper">
+
+    <select id="selectByItemMasterId" resultType="org.jeecg.modules.planning.entity.ApprovedVendor">
+        SELECT * FROM wh_approved_vendor
+        WHERE item_master_id = #{itemMasterId}
+        ORDER BY priority ASC, create_time DESC
+    </select>
+
+</mapper>

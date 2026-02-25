@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.jeecg.modules.planning.mapper.BomItemMapper">
+
+    <select id="selectByBomId" resultType="org.jeecg.modules.planning.entity.BomItem">
+        SELECT bi.*, p.name AS material_name, p.code AS material_code
+        FROM wh_bom_item bi
+        LEFT JOIN product p ON p.id = bi.material_id
+        WHERE bi.bom_id = #{bomId}
+        ORDER BY bi.item_type ASC
+    </select>
+
+    <select id="selectBomItemsWithChildren" resultType="java.util.Map">
+        SELECT bi.*,
+               p.name AS material_name,
+               p.code AS material_code,
+               cb.bom_code AS child_bom_code,
+               cb.bom_name AS child_bom_name
+        FROM wh_bom_item bi
+        LEFT JOIN product p ON p.id = bi.material_id
+        LEFT JOIN wh_bom cb ON cb.id = bi.child_bom_id
+        WHERE bi.bom_id = #{bomId}
+        ORDER BY bi.item_type ASC
+    </select>
+
+    <delete id="deleteByBomId">
+        DELETE FROM wh_bom_item WHERE bom_id = #{bomId}
+    </delete>
+
+</mapper>

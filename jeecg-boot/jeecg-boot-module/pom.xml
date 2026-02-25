@@ -14,7 +14,9 @@
 
     <modules>
         <module>jeecg-module-demo</module>
-        <module>jeecg-module-warehouse</module>
+        <module>warehouse</module>
+        <module>qms</module>
+        <module>planning</module>
     </modules>
 
 
