@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.modules.planning.mapper.ProductionLineMapper">
+
+    <select id="selectByStatus" resultType="com.cy.modules.planning.entity.ProductionLine">
+        SELECT * FROM wh_production_line WHERE status = #{status} ORDER BY create_time DESC
+    </select>
+
+</mapper>
