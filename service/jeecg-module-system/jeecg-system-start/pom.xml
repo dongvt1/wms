@@ -25,24 +25,10 @@
             <version>${jeecgboot.version}</version>
         </dependency>
 
-        <!-- WMS Warehouse 模块 -->
+        <!-- WMS Module (warehouse, qms, planning) -->
         <dependency>
             <groupId>org.jeecgframework.boot3</groupId>
-            <artifactId>warehouse</artifactId>
-            <version>${jeecgboot.version}</version>
-        </dependency>
-
-        <!-- WMS QMS 模块 -->
-        <dependency>
-            <groupId>org.jeecgframework.boot3</groupId>
-            <artifactId>qms</artifactId>
-            <version>${jeecgboot.version}</version>
-        </dependency>
-
-        <!-- WMS Planning 模块 -->
-        <dependency>
-            <groupId>org.jeecgframework.boot3</groupId>
-            <artifactId>planning</artifactId>
+            <artifactId>qcwhpl</artifactId>
             <version>${jeecgboot.version}</version>
         </dependency>
         

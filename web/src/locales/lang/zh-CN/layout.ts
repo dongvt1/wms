@@ -46,7 +46,7 @@ export default {
     topMenuAlignRight: 'center',
     topMenuAlignCenter: 'On the right',
     // menu trigger
-    menuTriggerNone: 'Don't show',
+    menuTriggerNone: "Don't show",
     menuTriggerBottom: 'bottom',
     menuTriggerTop: 'top',
     // menu type

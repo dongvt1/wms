@@ -40,8 +40,7 @@ import org.jeecg.common.util.*;
 import org.jeecg.common.util.dynamic.db.FreemarkerParseFactory;
 import org.jeecg.config.firewall.SqlInjection.IDictTableWhiteListHandler;
 import org.jeecg.config.mybatis.MybatisPlusSaasConfig;
-import org.jeecg.modules.airag.flow.service.IAiragFlowService;
-import org.jeecg.modules.airag.flow.vo.api.FlowRunParams;
+
 import org.jeecg.modules.message.entity.SysMessageTemplate;
 import org.jeecg.modules.message.handle.impl.DdSendMsgHandle;
 import org.jeecg.modules.message.handle.impl.EmailSendMsgHandle;
@@ -143,8 +142,6 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 	@Autowired
 	private ISysAnnouncementService sysAnnouncementService;
 
-    @Autowired
-    IAiragFlowService airagFlowService;
 
 	@Override
 	//@SensitiveDecode
@@ -2029,15 +2026,8 @@ public class SysBaseApiImpl implements ISysBaseAPI {
 
     @Override
     public Object runAiragFlow(AiragFlowDTO airagFlowDTO) {
-        if(oConvertUtils.isEmpty(airagFlowDTO.getFlowId())) {
-            throw new JeecgBootException("processID不能is empty");
-        }
-        FlowRunParams params = new FlowRunParams();
-        params.setFlowId(airagFlowDTO.getFlowId());
-        params.setInputParams(airagFlowDTO.getInputParams());
-        params.setResponseMode("blocking");
-        Result<Object> o = (Result<Object>)airagFlowService.runFlow(params);
-        return o.getResult();
+        log.warn("runAiragFlow: AI RAG module is disabled. Returning null.");
+        return null;
     }
 
     /**

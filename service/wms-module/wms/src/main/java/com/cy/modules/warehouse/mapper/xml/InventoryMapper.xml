@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.modules.warehouse.mapper.InventoryMapper">
+
+    <!-- Result Map -->
+    <resultMap id="InventoryResultMap" type="com.cy.modules.warehouse.entity.Inventory">
+        <id     column="id"                  jdbcType="VARCHAR"   property="id" />
+        <result column="create_by"           jdbcType="VARCHAR"   property="createBy" />
+        <result column="create_time"         jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_by"           jdbcType="VARCHAR"   property="updateBy" />
+        <result column="update_time"         jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="sys_org_code"        jdbcType="VARCHAR"   property="sysOrgCode" />
+        <result column="product_id"          jdbcType="VARCHAR"   property="productId" />
+        <result column="quantity"            jdbcType="INTEGER"   property="quantity" />
+        <result column="reserved_quantity"   jdbcType="INTEGER"   property="reservedQuantity" />
+        <result column="available_quantity"  jdbcType="INTEGER"   property="availableQuantity" />
+        <result column="last_updated"        jdbcType="TIMESTAMP" property="lastUpdated" />
+        <result column="updated_by"          jdbcType="VARCHAR"   property="updatedBy" />
+    </resultMap>
+
+    <!-- Inventory with product info result map -->
+    <resultMap id="InventoryWithProductResultMap" type="com.cy.modules.warehouse.entity.Inventory" extends="InventoryResultMap">
+        <result column="product_name"    jdbcType="VARCHAR" property="productName" />
+        <result column="product_code"    jdbcType="VARCHAR" property="productCode" />
+        <result column="min_stock_level" jdbcType="INTEGER" property="minStockLevel" />
+        <result column="price"           jdbcType="DECIMAL" property="price" />
+        <result column="total_value"     jdbcType="DECIMAL" property="totalValue" />
+    </resultMap>
+
+    <!-- Get inventory by product ID -->
+    <select id="getByProductId" parameterType="java.lang.String" resultMap="InventoryResultMap">
+        SELECT * FROM inventory WHERE product_id = #{productId}
+    </select>
+
+    <!-- Update inventory quantity -->
+    <update id="updateQuantity" parameterType="map">
+        UPDATE inventory 
+        SET quantity = #{quantity}, 
+            reserved_quantity = #{reservedQuantity}, 
+            available_quantity = #{availableQuantity}, 
+            last_updated = NOW(), 
+            updated_by = #{updatedBy} 
+        WHERE product_id = #{productId}
+    </update>
+
+    <!-- Get products with low stock -->
+    <select id="getLowStockProducts" resultMap="InventoryWithProductResultMap">
+        SELECT i.*, 
+               p.name as product_name, 
+               p.code as product_code,
+               p.min_stock_level 
+        FROM inventory i 
+        JOIN product p ON i.product_id = p.id 
+        WHERE i.available_quantity &lt;= p.min_stock_level AND p.status = 1
+    </select>
+
+    <!-- Get inventory value report -->
+    <select id="getInventoryValueReport" resultMap="InventoryWithProductResultMap">
+        SELECT i.*, 
+               p.name as product_name, 
+               p.code as product_code,
+               p.price, 
+               (i.quantity * p.price) as total_value 
+        FROM inventory i 
+        JOIN product p ON i.product_id = p.id 
+        WHERE p.status = 1
+    </select>
+
+</mapper>

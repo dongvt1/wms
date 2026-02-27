@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.modules.warehouse.mapper.StockTransactionItemMapper">
+
+    <!-- Result Map -->
+    <resultMap id="StockTransactionItemResultMap" type="com.cy.modules.warehouse.entity.StockTransactionItem">
+        <id     column="id"               jdbcType="VARCHAR"   property="id" />
+        <result column="create_by"        jdbcType="VARCHAR"   property="createBy" />
+        <result column="create_time"      jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_by"        jdbcType="VARCHAR"   property="updateBy" />
+        <result column="update_time"      jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="sys_org_code"     jdbcType="VARCHAR"   property="sysOrgCode" />
+        <result column="transaction_id"   jdbcType="VARCHAR"   property="transactionId" />
+        <result column="product_id"       jdbcType="VARCHAR"   property="productId" />
+        <result column="quantity"         jdbcType="INTEGER"   property="quantity" />
+        <result column="unit_price"       jdbcType="DECIMAL"   property="unitPrice" />
+        <result column="total_price"      jdbcType="DECIMAL"   property="totalPrice" />
+        <result column="from_location_id" jdbcType="VARCHAR"   property="fromLocationId" />
+        <result column="to_location_id"   jdbcType="VARCHAR"   property="toLocationId" />
+        <result column="batch_number"     jdbcType="VARCHAR"   property="batchNumber" />
+        <result column="expiry_date"      jdbcType="TIMESTAMP" property="expiryDate" />
+    </resultMap>
+
+    <!-- Transaction item with product info result map -->
+    <resultMap id="StockTransactionItemWithProductResultMap" type="com.cy.modules.warehouse.entity.StockTransactionItem" extends="StockTransactionItemResultMap">
+        <result column="product_name" jdbcType="VARCHAR" property="productName" />
+        <result column="product_code" jdbcType="VARCHAR" property="productCode" />
+    </resultMap>
+
+    <!-- Get items by transaction ID -->
+    <select id="getByTransactionId" parameterType="java.lang.String" resultMap="StockTransactionItemResultMap">
+        SELECT * FROM stock_transaction_items 
+        WHERE transaction_id = #{transactionId}
+    </select>
+
+    <!-- Get items by product ID -->
+    <select id="getByProductId" parameterType="java.lang.String" resultMap="StockTransactionItemResultMap">
+        SELECT * FROM stock_transaction_items 
+        WHERE product_id = #{productId} 
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- Get items with product info -->
+    <select id="getItemsWithProductInfo" resultMap="StockTransactionItemWithProductResultMap">
+        SELECT sti.*, p.name as product_name, p.code as product_code 
+        FROM stock_transaction_items sti 
+        JOIN product p ON sti.product_id = p.id 
+        ORDER BY sti.create_time DESC
+    </select>
+
+</mapper>

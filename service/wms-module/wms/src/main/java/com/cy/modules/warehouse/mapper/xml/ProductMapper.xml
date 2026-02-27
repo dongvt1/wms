@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.modules.warehouse.mapper.ProductMapper">
+
+    <!-- Result Map -->
+    <resultMap id="ProductResultMap" type="com.cy.modules.warehouse.entity.Product">
+        <id     column="id"              jdbcType="VARCHAR"   property="id" />
+        <result column="create_by"       jdbcType="VARCHAR"   property="createBy" />
+        <result column="create_time"     jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_by"       jdbcType="VARCHAR"   property="updateBy" />
+        <result column="update_time"     jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="sys_org_code"    jdbcType="VARCHAR"   property="sysOrgCode" />
+        <result column="code"            jdbcType="VARCHAR"   property="code" />
+        <result column="name"            jdbcType="VARCHAR"   property="name" />
+        <result column="description"     jdbcType="VARCHAR"   property="description" />
+        <result column="price"           jdbcType="DECIMAL"   property="price" />
+        <result column="category_id"     jdbcType="VARCHAR"   property="categoryId" />
+        <result column="min_stock_level" jdbcType="INTEGER"   property="minStockLevel" />
+        <result column="image"           jdbcType="VARCHAR"   property="image" />
+        <result column="status"          jdbcType="INTEGER"   property="status" />
+        <result column="current_stock"   jdbcType="INTEGER"   property="currentStock" />
+    </resultMap>
+
+    <!-- Get products by category ID -->
+    <select id="selectByCategoryId" resultMap="ProductResultMap">
+        SELECT * FROM product WHERE category_id = #{categoryId} AND status = #{status} ORDER BY create_time ASC
+    </select>
+
+    <!-- Get products by status -->
+    <select id="selectByStatus" resultMap="ProductResultMap">
+        SELECT * FROM product WHERE status = #{status} ORDER BY create_time ASC
+    </select>
+
+    <!-- Search products by code or name -->
+    <select id="searchProducts" resultMap="ProductResultMap">
+        SELECT * FROM product 
+        WHERE (code LIKE CONCAT('%', #{keyword}, '%') OR name LIKE CONCAT('%', #{keyword}, '%'))
+        AND status = 1
+        ORDER BY create_time DESC
+    </select>
+
+    <!-- Get products with low stock -->
+    <select id="selectLowStockProducts" resultMap="ProductResultMap">
+        SELECT * FROM product 
+        WHERE current_stock &lt; min_stock_level 
+        AND status = 1
+        ORDER BY current_stock ASC
+    </select>
+
+    <!-- Update current stock -->
+    <update id="updateCurrentStock">
+        UPDATE product SET current_stock = #{currentStock} WHERE id = #{id}
+    </update>
+
+</mapper>
