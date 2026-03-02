@@ -20,7 +20,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Chi tiết thay đổi trong ECN")
-@TableName("wh_ecn_item")
+@TableName("pl_ecn_item")
 public class EcnItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -28,16 +28,16 @@ public class EcnItem implements Serializable {
     @Schema(description = "ID")
     private String id;
 
-    /** FK tới wh_ecn.id */
-    @Schema(description = "FK tới wh_ecn.id")
+    /** FK tới pl_ecn.id */
+    @Schema(description = "FK tới pl_ecn.id")
     private String ecnId;
 
     /** Loại thay đổi: add, remove, modify */
     @Schema(description = "Loại thay đổi: add, remove, modify")
     private String changeType;
 
-    /** FK tới wh_bom_item.id (cho modify/remove) */
-    @Schema(description = "FK tới wh_bom_item.id (cho modify/remove)")
+    /** FK tới pl_bom_item.id (cho modify/remove) */
+    @Schema(description = "FK tới pl_bom_item.id (cho modify/remove)")
     private String bomItemId;
 
     /** ID linh kiện cũ */

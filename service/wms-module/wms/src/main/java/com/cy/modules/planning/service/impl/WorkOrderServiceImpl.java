@@ -2,13 +2,16 @@ package com.cy.modules.planning.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cy.modules.planning.entity.*;
+import com.cy.modules.common.entity.Bom;
+import com.cy.modules.common.entity.BomItem;
+import com.cy.modules.planning.entity.ProductionLog;
+import com.cy.modules.planning.entity.ProductionStage;
+import com.cy.modules.planning.entity.WorkOrder;
 import com.cy.modules.planning.mapper.ProductionLogMapper;
 import com.cy.modules.planning.mapper.ProductionStageMapper;
 import com.cy.modules.planning.mapper.WorkOrderMapper;
 import lombok.extern.slf4j.Slf4j;
-import com.cy.modules.planning.service.BomService;
-import com.cy.modules.warehouse.service.InventoryService;
+import com.cy.modules.common.service.BomService;
 import com.cy.modules.planning.service.WorkOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -135,12 +138,12 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
         if (bom == null) return "Không tìm thấy thông tin BOM";
 
         // Calculate ratio: actualQuantity / bom.outputQuantity
-        BigDecimal ratio = actualQuantity.divide(bom.getOutputQuantity(), 6, BigDecimal.ROUND_HALF_UP);
+        BigDecimal ratio = actualQuantity.divide(bom.getOutputQuantity(), 6, java.math.RoundingMode.HALF_UP);
 
         // Deduct materials from inventory
         if (items != null) {
             for (BomItem item : items) {
-                BigDecimal consumedQty = item.getQuantity().multiply(ratio).setScale(3, BigDecimal.ROUND_HALF_UP);
+                BigDecimal consumedQty = item.getQuantity().multiply(ratio).setScale(3, java.math.RoundingMode.HALF_UP);
                 try {
                     String result = inventoryService.adjustInventory(
                             item.getMaterialId(),

@@ -4,14 +4,14 @@
 
     <select id="selectByRoutingId" resultType="com.cy.modules.planning.entity.RoutingStep">
         SELECT rs.*, wc.center_name AS work_center_name, wc.center_code AS work_center_code
-        FROM wh_routing_step rs
-        LEFT JOIN wh_work_center wc ON wc.id = rs.work_center_id
+        FROM pl_routing_step rs
+        LEFT JOIN pl_work_center wc ON wc.id = rs.work_center_id
         WHERE rs.routing_id = #{routingId}
         ORDER BY rs.step_order ASC
     </select>
 
     <delete id="deleteByRoutingId">
-        DELETE FROM wh_routing_step WHERE routing_id = #{routingId}
+        DELETE FROM pl_routing_step WHERE routing_id = #{routingId}
     </delete>
 
 </mapper>

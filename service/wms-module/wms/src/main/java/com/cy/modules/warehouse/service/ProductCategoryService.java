@@ -1,7 +1,7 @@
 package com.cy.modules.warehouse.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.cy.modules.warehouse.entity.ProductCategory;
+import com.cy.modules.common.entity.ProductCategory;
 
 import java.util.List;
 

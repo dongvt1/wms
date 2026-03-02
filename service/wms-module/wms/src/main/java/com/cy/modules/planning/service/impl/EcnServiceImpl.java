@@ -2,9 +2,12 @@ package com.cy.modules.planning.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cy.modules.planning.entity.*;
-import com.cy.modules.planning.mapper.*;
-import com.cy.modules.planning.entity.*;
+import com.cy.modules.common.entity.Bom;
+import com.cy.modules.common.entity.BomItem;
+import com.cy.modules.common.entity.BomRevision;
+import com.cy.modules.planning.entity.Ecn;
+import com.cy.modules.planning.entity.EcnApproval;
+import com.cy.modules.planning.entity.EcnItem;
 import com.cy.modules.planning.mapper.*;
 import com.cy.modules.planning.service.EcnService;
 import org.springframework.beans.factory.annotation.Autowired;

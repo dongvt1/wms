@@ -1,13 +1,13 @@
-package qms.service.impl;
+package com.cy.modules.qms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import qms.entity.QmsChecklistItem;
-import qms.entity.QmsChecklistTemplate;
-import qms.mapper.QmsChecklistItemMapper;
-import qms.mapper.QmsChecklistTemplateMapper;
-import qms.service.QmsChecklistTemplateService;
+import com.cy.modules.qms.entity.QmsChecklistItem;
+import com.cy.modules.qms.entity.QmsChecklistTemplate;
+import com.cy.modules.qms.mapper.QmsChecklistItemMapper;
+import com.cy.modules.qms.mapper.QmsChecklistTemplateMapper;
+import com.cy.modules.qms.service.QmsChecklistTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -20,7 +20,7 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Trung tâm sản xuất (Work Center)")
-@TableName("wh_work_center")
+@TableName("pl_work_center")
 public class WorkCenter extends JeecgEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -40,7 +40,7 @@ public class WorkCenter extends JeecgEntity implements Serializable {
     private String centerType;
 
     /** ID dây chuyền (tuỳ chọn) */
-    @Excel(name = "Dây chuyền", width = 25, dictTable = "wh_production_line", dicText = "line_name", dicCode = "id")
+    @Excel(name = "Dây chuyền", width = 25, dictTable = "pl_production_line", dicText = "line_name", dicCode = "id")
     @Schema(description = "ID dây chuyền sản xuất (tuỳ chọn)")
     private String productionLineId;
 

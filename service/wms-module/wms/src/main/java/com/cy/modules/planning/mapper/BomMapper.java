@@ -3,12 +3,11 @@ package com.cy.modules.planning.mapper;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.cy.modules.planning.entity.Bom;
+import com.cy.modules.common.entity.Bom;
 
 /**
- * @Description: BOM Mapper
+ * @Description: BOM Mapper – planning module (delegate to common entity)
  * @Author: BMad
- * @Date: 2026-02-25
  */
 public interface BomMapper extends BaseMapper<Bom> {
 

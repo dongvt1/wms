@@ -22,12 +22,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Nhà sản xuất được phê duyệt (AML)")
-@TableName("wh_approved_manufacturer")
+@TableName("pl_approved_manufacturer")
 public class ApprovedManufacturer extends JeecgEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /** FK tới wh_item_master.id */
-    @Schema(description = "FK tới wh_item_master.id")
+    /** FK tới pl_item_master.id */
+    @Schema(description = "FK tới pl_item_master.id")
     private String itemMasterId;
 
     /** Tên nhà sản xuất */

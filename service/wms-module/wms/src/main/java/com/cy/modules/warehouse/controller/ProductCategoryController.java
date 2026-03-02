@@ -11,7 +11,7 @@ import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
-import com.cy.modules.warehouse.entity.ProductCategory;
+import com.cy.modules.common.entity.ProductCategory;
 import com.cy.modules.warehouse.service.ProductCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

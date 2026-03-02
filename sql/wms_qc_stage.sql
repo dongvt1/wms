@@ -52,7 +52,7 @@ CREATE TABLE IF NOT EXISTS `qms_qc_stage_param` (
 CREATE TABLE IF NOT EXISTS `qms_qc_session` (
     `id`               VARCHAR(36)   NOT NULL COMMENT 'ID',
     `session_code`     VARCHAR(50)   NOT NULL COMMENT 'Mã phiên kiểm tra (SKyyyyMMddNNN)',
-    `work_order_id`    VARCHAR(36)   NOT NULL COMMENT 'FK → wh_work_order',
+    `work_order_id`    VARCHAR(36)   NOT NULL COMMENT 'FK → pl_work_order',
     `stage_id`         VARCHAR(36)   NOT NULL COMMENT 'FK → qms_qc_stage',
     `stage_name`       VARCHAR(200)  NULL     COMMENT 'Tên công đoạn (snapshot)',
     `inspector`        VARCHAR(100)  NULL     COMMENT 'Người kiểm tra',
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `qms_qc_session_value_item` (
 CREATE TABLE IF NOT EXISTS `qms_qc_review` (
     `id`               VARCHAR(36)   NOT NULL COMMENT 'ID',
     `review_code`      VARCHAR(50)   NOT NULL COMMENT 'Mã review (RVyyyyMMddNNN)',
-    `work_order_id`    VARCHAR(36)   NOT NULL COMMENT 'FK → wh_work_order',
+    `work_order_id`    VARCHAR(36)   NOT NULL COMMENT 'FK → pl_work_order',
     `total_sessions`   INT           NOT NULL DEFAULT 0 COMMENT 'Tổng số phiên kiểm tra',
     `passed_sessions`  INT           NOT NULL DEFAULT 0 COMMENT 'Số phiên đạt',
     `failed_sessions`  INT           NOT NULL DEFAULT 0 COMMENT 'Số phiên không đạt',

@@ -1,13 +1,13 @@
-package qms.service.impl;
+package com.cy.modules.qms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import qms.entity.IqcInspection;
-import qms.entity.IqcInspectionResult;
-import qms.mapper.IqcInspectionMapper;
-import qms.mapper.IqcInspectionResultMapper;
-import qms.service.IqcInspectionService;
+import com.cy.modules.qms.entity.IqcInspection;
+import com.cy.modules.qms.entity.IqcInspectionResult;
+import com.cy.modules.qms.mapper.IqcInspectionMapper;
+import com.cy.modules.qms.mapper.IqcInspectionResultMapper;
+import com.cy.modules.qms.service.IqcInspectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

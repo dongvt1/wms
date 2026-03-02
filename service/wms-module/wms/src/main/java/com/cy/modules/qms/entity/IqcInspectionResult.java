@@ -1,4 +1,4 @@
-package qms.entity;
+package com.cy.modules.qms.entity;
 
 import java.io.Serializable;
 import com.baomidou.mybatisplus.annotation.IdType;

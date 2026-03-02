@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Nhật ký sản xuất")
-@TableName("wh_production_log")
+@TableName("pl_production_log")
 public class ProductionLog implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -1,8 +1,8 @@
-package qms.service;
+package com.cy.modules.qms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import qms.entity.IqcInspection;
-import qms.entity.IqcInspectionResult;
+import com.cy.modules.qms.entity.IqcInspection;
+import com.cy.modules.qms.entity.IqcInspectionResult;
 
 import java.util.List;
 import java.util.Map;

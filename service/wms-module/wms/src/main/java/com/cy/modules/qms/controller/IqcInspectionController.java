@@ -1,4 +1,4 @@
-package qms.controller;
+package com.cy.modules.qms.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -11,9 +11,9 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
-import qms.entity.IqcInspection;
-import qms.entity.IqcInspectionResult;
-import qms.service.IqcInspectionService;
+import com.cy.modules.qms.entity.IqcInspection;
+import com.cy.modules.qms.entity.IqcInspectionResult;
+import com.cy.modules.qms.service.IqcInspectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

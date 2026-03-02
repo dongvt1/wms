@@ -22,7 +22,7 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Công đoạn sản xuất")
-@TableName("wh_production_stage")
+@TableName("pl_production_stage")
 public class ProductionStage implements Serializable {
     private static final long serialVersionUID = 1L;
 

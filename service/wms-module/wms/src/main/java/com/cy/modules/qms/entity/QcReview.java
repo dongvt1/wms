@@ -1,4 +1,4 @@
-package qms.entity;
+package com.cy.modules.qms.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -23,7 +23,7 @@ public class QcReview extends JeecgEntity implements Serializable {
     @Schema(description = "Mã review (RVyyyyMMddNNN)")
     private String reviewCode;
 
-    @Schema(description = "FK → wh_work_order")
+    @Schema(description = "FK → pl_work_order")
     private String workOrderId;
 
     @Schema(description = "Tổng số phiên kiểm tra")

@@ -1,7 +1,7 @@
 package com.cy.modules.warehouse.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.cy.modules.warehouse.entity.Product;
+import com.cy.modules.common.entity.Product;
 
 import java.util.List;
 import org.springframework.web.multipart.MultipartFile;

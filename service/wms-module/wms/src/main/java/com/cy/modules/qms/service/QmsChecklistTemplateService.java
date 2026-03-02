@@ -1,8 +1,8 @@
-package qms.service;
+package com.cy.modules.qms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import qms.entity.QmsChecklistItem;
-import qms.entity.QmsChecklistTemplate;
+import com.cy.modules.qms.entity.QmsChecklistItem;
+import com.cy.modules.qms.entity.QmsChecklistTemplate;
 
 import java.util.List;
 import java.util.Map;

@@ -22,7 +22,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Engineering Change Notice (ECN)")
-@TableName("wh_ecn")
+@TableName("pl_ecn")
 public class Ecn extends JeecgEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -40,8 +40,8 @@ public class Ecn extends JeecgEntity implements Serializable {
     @Schema(description = "Mô tả chi tiết")
     private String description;
 
-    /** FK tới wh_bom.id */
-    @Schema(description = "FK tới wh_bom.id")
+    /** FK tới pl_bom.id */
+    @Schema(description = "FK tới pl_bom.id")
     private String bomId;
 
     /** Phiên bản BOM trước thay đổi */

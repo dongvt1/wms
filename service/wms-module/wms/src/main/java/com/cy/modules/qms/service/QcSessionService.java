@@ -1,7 +1,7 @@
-package qms.service;
+package com.cy.modules.qms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import qms.entity.QcSession;
+import com.cy.modules.qms.entity.QcSession;
 
 import java.util.List;
 import java.util.Map;

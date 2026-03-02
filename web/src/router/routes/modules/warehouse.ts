@@ -45,6 +45,14 @@ const warehouse: AppRouteModule = {
         title: 'Order Management',
       },
     },
+    {
+      path: 'bom',
+      name: 'BomManagement',
+      component: () => import('/@/views/planning/BomList.vue'),
+      meta: {
+        title: 'Định mức NVL (BOM)',
+      },
+    },
   ],
 };
 

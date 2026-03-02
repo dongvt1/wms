@@ -20,7 +20,7 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Quy trình công nghệ (Routing)")
-@TableName("wh_routing")
+@TableName("pl_routing")
 public class Routing extends JeecgEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -40,7 +40,7 @@ public class Routing extends JeecgEntity implements Serializable {
     private String productId;
 
     /** ID BOM (tuỳ chọn) */
-    @Excel(name = "BOM", width = 25, dictTable = "wh_bom", dicText = "bom_name", dicCode = "id")
+    @Excel(name = "BOM", width = 25, dictTable = "pl_bom", dicText = "bom_name", dicCode = "id")
     @Schema(description = "ID BOM liên quan (tuỳ chọn)")
     private String bomId;
 

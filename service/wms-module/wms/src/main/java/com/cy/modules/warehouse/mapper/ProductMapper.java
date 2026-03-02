@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.cy.modules.warehouse.entity.Product;
+import com.cy.modules.common.entity.Product;
 
 /**
  * @Description: Mapper sản phẩm

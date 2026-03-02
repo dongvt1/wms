@@ -23,7 +23,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Lệnh sản xuất")
-@TableName("wh_work_order")
+@TableName("pl_work_order")
 public class WorkOrder extends JeecgEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -33,12 +33,12 @@ public class WorkOrder extends JeecgEntity implements Serializable {
     private String orderCode;
 
     /** ID BOM */
-    @Excel(name = "BOM", width = 25, dictTable = "wh_bom", dicText = "bom_name", dicCode = "id")
+    @Excel(name = "BOM", width = 25, dictTable = "pl_bom", dicText = "bom_name", dicCode = "id")
     @Schema(description = "ID BOM")
     private String bomId;
 
     /** ID dây chuyền */
-    @Excel(name = "Dây chuyền", width = 25, dictTable = "wh_production_line", dicText = "line_name", dicCode = "id")
+    @Excel(name = "Dây chuyền", width = 25, dictTable = "pl_production_line", dicText = "line_name", dicCode = "id")
     @Schema(description = "ID dây chuyền sản xuất")
     private String productionLineId;
 

@@ -1,8 +1,8 @@
-package qms.service;
+package com.cy.modules.qms.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import qms.entity.QcStage;
-import qms.entity.QcStageParam;
+import com.cy.modules.qms.entity.QcStage;
+import com.cy.modules.qms.entity.QcStageParam;
 
 import java.util.List;
 import java.util.Map;

@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `qms_iqc_inspection_result` (
 CREATE TABLE IF NOT EXISTS `qms_pqc_inspection` (
     `id`                 VARCHAR(36)    NOT NULL COMMENT 'ID',
     `inspection_code`    VARCHAR(50)    NOT NULL COMMENT 'Mã phiếu PQC (PQCyyyyMMddNNN)',
-    `work_order_id`      VARCHAR(36)    NULL     COMMENT 'FK → wh_work_order',
+    `work_order_id`      VARCHAR(36)    NULL     COMMENT 'FK → pl_work_order',
     `product_id`         VARCHAR(36)    NOT NULL COMMENT 'FK → product (thành phẩm)',
     `template_id`        VARCHAR(36)    NULL     COMMENT 'FK → qms_checklist_template',
     `stage_id`           VARCHAR(36)    NULL     COMMENT 'FK → qms_qc_stage (tùy chọn)',

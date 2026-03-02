@@ -1,12 +1,12 @@
-package qms.service.impl;
+package com.cy.modules.qms.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import qms.entity.QcReview;
-import qms.entity.QcSession;
-import qms.mapper.QcReviewMapper;
-import qms.mapper.QcSessionMapper;
-import qms.service.QcReviewService;
+import com.cy.modules.qms.entity.QcReview;
+import com.cy.modules.qms.entity.QcSession;
+import com.cy.modules.qms.mapper.QcReviewMapper;
+import com.cy.modules.qms.mapper.QcSessionMapper;
+import com.cy.modules.qms.service.QcReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

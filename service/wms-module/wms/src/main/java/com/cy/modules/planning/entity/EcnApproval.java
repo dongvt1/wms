@@ -22,12 +22,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Phê duyệt ECN theo bộ phận")
-@TableName("wh_ecn_approval")
+@TableName("pl_ecn_approval")
 public class EcnApproval extends JeecgEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /** FK tới wh_ecn.id */
-    @Schema(description = "FK tới wh_ecn.id")
+    /** FK tới pl_ecn.id */
+    @Schema(description = "FK tới pl_ecn.id")
     private String ecnId;
 
     /** Bộ phận: production, procurement, quality, engineering */

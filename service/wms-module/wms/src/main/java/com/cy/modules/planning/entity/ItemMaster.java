@@ -19,7 +19,7 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Danh mục linh kiện điện tử (Item Master)")
-@TableName("wh_item_master")
+@TableName("pl_item_master")
 public class ItemMaster extends JeecgEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 

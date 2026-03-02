@@ -1,4 +1,4 @@
-package qms.entity;
+package com.cy.modules.qms.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -33,7 +33,7 @@ public class PqcInspection extends JeecgEntity implements Serializable {
     private String inspectionCode;
 
     /** Lệnh sản xuất */
-    @Excel(name = "Lệnh SX", width = 25, dictTable = "wh_work_order", dicText = "order_code", dicCode = "id")
+    @Excel(name = "Lệnh SX", width = 25, dictTable = "pl_work_order", dicText = "order_code", dicCode = "id")
     @Schema(description = "ID lệnh sản xuất")
     private String workOrderId;
 

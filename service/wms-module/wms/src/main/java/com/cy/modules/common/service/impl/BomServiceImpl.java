@@ -1,18 +1,18 @@
-package com.cy.modules.planning.service.impl;
+package com.cy.modules.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.cy.modules.common.service.BomService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.cy.modules.planning.entity.Bom;
-import com.cy.modules.planning.entity.BomItem;
-import com.cy.modules.planning.entity.BomItemRefDes;
-import com.cy.modules.planning.entity.BomRevision;
+import com.cy.modules.common.entity.Bom;
+import com.cy.modules.common.entity.BomItem;
+import com.cy.modules.common.entity.BomItemRefDes;
+import com.cy.modules.common.entity.BomRevision;
 import com.cy.modules.planning.mapper.BomItemMapper;
 import com.cy.modules.planning.mapper.BomItemRefDesMapper;
 import com.cy.modules.planning.mapper.BomMapper;
 import com.cy.modules.planning.mapper.BomRevisionMapper;
-import com.cy.modules.planning.service.BomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

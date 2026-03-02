@@ -20,7 +20,7 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Dây chuyền sản xuất")
-@TableName("wh_production_line")
+@TableName("pl_production_line")
 public class ProductionLine extends JeecgEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 

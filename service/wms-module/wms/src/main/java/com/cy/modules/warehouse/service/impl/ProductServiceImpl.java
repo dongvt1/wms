@@ -3,7 +3,7 @@ package com.cy.modules.warehouse.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
-import com.cy.modules.warehouse.entity.Product;
+import com.cy.modules.common.entity.Product;
 import com.cy.modules.warehouse.mapper.ProductMapper;
 import com.cy.modules.warehouse.service.ProductService;
 import org.springframework.beans.factory.annotation.Value;

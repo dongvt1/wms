@@ -3,11 +3,11 @@
 <mapper namespace="com.cy.modules.planning.mapper.EcnMapper">
 
     <select id="selectByBomId" resultType="com.cy.modules.planning.entity.Ecn">
-        SELECT * FROM wh_ecn WHERE bom_id = #{bomId} ORDER BY create_time DESC
+        SELECT * FROM pl_ecn WHERE bom_id = #{bomId} ORDER BY create_time DESC
     </select>
 
     <select id="selectByStatus" resultType="com.cy.modules.planning.entity.Ecn">
-        SELECT * FROM wh_ecn WHERE status = #{status} ORDER BY create_time DESC
+        SELECT * FROM pl_ecn WHERE status = #{status} ORDER BY create_time DESC
     </select>
 
 </mapper>

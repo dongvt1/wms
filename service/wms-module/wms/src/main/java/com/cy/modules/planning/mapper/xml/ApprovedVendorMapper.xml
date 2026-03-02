@@ -3,7 +3,7 @@
 <mapper namespace="com.cy.modules.planning.mapper.ApprovedVendorMapper">
 
     <select id="selectByItemMasterId" resultType="com.cy.modules.planning.entity.ApprovedVendor">
-        SELECT * FROM wh_approved_vendor
+        SELECT * FROM pl_approved_vendor
         WHERE item_master_id = #{itemMasterId}
         ORDER BY priority ASC, create_time DESC
     </select>

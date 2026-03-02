@@ -21,7 +21,7 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Bước trong quy trình công nghệ")
-@TableName("wh_routing_step")
+@TableName("pl_routing_step")
 public class RoutingStep implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +44,7 @@ public class RoutingStep implements Serializable {
     private String stepName;
 
     /** ID trung tâm sản xuất */
-    @Excel(name = "TTSX", width = 25, dictTable = "wh_work_center", dicText = "center_name", dicCode = "id")
+    @Excel(name = "TTSX", width = 25, dictTable = "pl_work_center", dicText = "center_name", dicCode = "id")
     @Schema(description = "ID trung tâm sản xuất thực hiện bước này")
     private String workCenterId;
 

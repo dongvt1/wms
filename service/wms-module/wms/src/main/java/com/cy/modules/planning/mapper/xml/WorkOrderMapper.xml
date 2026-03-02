@@ -3,15 +3,15 @@
 <mapper namespace="com.cy.modules.planning.mapper.WorkOrderMapper">
 
     <select id="selectByStatus" resultType="com.cy.modules.planning.entity.WorkOrder">
-        SELECT * FROM wh_work_order WHERE status = #{status} ORDER BY create_time DESC
+        SELECT * FROM pl_work_order WHERE status = #{status} ORDER BY create_time DESC
     </select>
 
     <select id="selectByProductionLineId" resultType="com.cy.modules.planning.entity.WorkOrder">
-        SELECT * FROM wh_work_order WHERE production_line_id = #{productionLineId} ORDER BY planned_start_date ASC
+        SELECT * FROM pl_work_order WHERE production_line_id = #{productionLineId} ORDER BY planned_start_date ASC
     </select>
 
     <select id="selectByBomId" resultType="com.cy.modules.planning.entity.WorkOrder">
-        SELECT * FROM wh_work_order WHERE bom_id = #{bomId} ORDER BY create_time DESC
+        SELECT * FROM pl_work_order WHERE bom_id = #{bomId} ORDER BY create_time DESC
     </select>
 
 </mapper>

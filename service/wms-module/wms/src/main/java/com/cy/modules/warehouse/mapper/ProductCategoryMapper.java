@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.cy.modules.warehouse.entity.ProductCategory;
+import com.cy.modules.common.entity.ProductCategory;
 
 /**
  * @Description: Product Category Mapper

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.modules.common.mapper.ProductMapper">
+
+    <!-- Result Map -->
+    <resultMap id="ProductResultMap" type="com.cy.modules.common.entity.Product">
+        <id     column="id"              jdbcType="VARCHAR"   property="id" />
+        <result column="create_by"       jdbcType="VARCHAR"   property="createBy" />
+        <result column="create_time"     jdbcType="TIMESTAMP" property="createTime" />
+        <result column="update_by"       jdbcType="VARCHAR"   property="updateBy" />
+        <result column="update_time"     jdbcType="TIMESTAMP" property="updateTime" />
+        <result column="sys_org_code"    jdbcType="VARCHAR"   property="sysOrgCode" />
+        <result column="code"            jdbcType="VARCHAR"   property="code" />
+        <result column="name"            jdbcType="VARCHAR"   property="name" />
+        <result column="description"     jdbcType="VARCHAR"   property="description" />
+        <result column="price"           jdbcType="DECIMAL"   property="price" />
+        <result column="category_id"     jdbcType="VARCHAR"   property="categoryId" />
+        <result column="category_name"   jdbcType="VARCHAR"   property="categoryName" />
+        <result column="min_stock_level" jdbcType="INTEGER"   property="minStockLevel" />
+        <result column="image"           jdbcType="VARCHAR"   property="image" />
+        <result column="status"          jdbcType="INTEGER"   property="status" />
+        <result column="current_stock"   jdbcType="INTEGER"   property="currentStock" />
+        <result column="type"            jdbcType="VARCHAR"   property="type" />
+    </resultMap>
+
+    <!-- Lấy sản phẩm theo danh mục -->
+    <select id="selectByCategoryId" resultMap="ProductResultMap">
+        SELECT p.*, pc.name AS category_name
+        FROM product p
+        LEFT JOIN product_category pc ON pc.id = p.category_id
+        WHERE p.category_id = #{categoryId} AND p.status = 1
+        ORDER BY p.code ASC
+    </select>
+
+    <!-- Lấy sản phẩm theo trạng thái -->
+    <select id="selectByStatus" resultMap="ProductResultMap">
+        SELECT p.*, pc.name AS category_name
+        FROM product p
+        LEFT JOIN product_category pc ON pc.id = p.category_id
+        WHERE p.status = #{status}
+        ORDER BY p.code ASC
+    </select>
+
+    <!-- Tìm kiếm theo mã hoặc tên -->
+    <select id="searchProducts" resultMap="ProductResultMap">
+        SELECT p.*, pc.name AS category_name
+        FROM product p
+        LEFT JOIN product_category pc ON pc.id = p.category_id
+        WHERE (p.code LIKE CONCAT('%', #{keyword}, '%') OR p.name LIKE CONCAT('%', #{keyword}, '%'))
+          AND p.status = 1
+        ORDER BY p.code ASC
+    </select>
+
+    <!-- Lấy sản phẩm sắp hết hàng -->
+    <select id="selectLowStockProducts" resultMap="ProductResultMap">
+        SELECT p.*, pc.name AS category_name
+        FROM product p
+        LEFT JOIN product_category pc ON pc.id = p.category_id
+        WHERE p.current_stock &lt; p.min_stock_level AND p.status = 1
+        ORDER BY p.current_stock ASC
+    </select>
+
+    <!-- Cập nhật tồn kho -->
+    <update id="updateCurrentStock">
+        UPDATE product SET current_stock = #{currentStock} WHERE id = #{id}
+    </update>
+
+    <!-- Lấy sản phẩm theo loại (product / material / semi) -->
+    <select id="selectByType" resultMap="ProductResultMap">
+        SELECT p.*, pc.name AS category_name
+        FROM product p
+        LEFT JOIN product_category pc ON pc.id = p.category_id
+        WHERE p.type = #{type} AND p.status = 1
+        ORDER BY p.code ASC
+    </select>
+
+</mapper>

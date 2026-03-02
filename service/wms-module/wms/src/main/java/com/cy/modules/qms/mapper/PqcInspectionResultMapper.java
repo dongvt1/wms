@@ -1,9 +1,9 @@
-package qms.mapper;
+package com.cy.modules.qms.mapper;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import qms.entity.PqcInspectionResult;
+import com.cy.modules.qms.entity.PqcInspectionResult;
 
 /**
  * @Description: PQC Inspection Result Mapper

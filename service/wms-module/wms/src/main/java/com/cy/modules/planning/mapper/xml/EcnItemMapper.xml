@@ -8,7 +8,7 @@
                p_old.code AS old_material_code,
                p_new.name AS new_material_name,
                p_new.code AS new_material_code
-        FROM wh_ecn_item ei
+        FROM pl_ecn_item ei
         LEFT JOIN product p_old ON p_old.id = ei.old_material_id
         LEFT JOIN product p_new ON p_new.id = ei.new_material_id
         WHERE ei.ecn_id = #{ecnId}

@@ -3,7 +3,7 @@
 <mapper namespace="com.cy.modules.planning.mapper.ProductionLineMapper">
 
     <select id="selectByStatus" resultType="com.cy.modules.planning.entity.ProductionLine">
-        SELECT * FROM wh_production_line WHERE status = #{status} ORDER BY create_time DESC
+        SELECT * FROM pl_production_line WHERE status = #{status} ORDER BY create_time DESC
     </select>
 
 </mapper>

@@ -12,7 +12,7 @@ import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import com.cy.modules.planning.entity.Ecn;
 import com.cy.modules.planning.entity.EcnItem;
-import com.cy.modules.planning.service.BomService;
+import com.cy.modules.common.service.BomService;
 import com.cy.modules.planning.service.EcnService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

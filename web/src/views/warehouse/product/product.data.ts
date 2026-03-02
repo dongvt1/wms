@@ -154,14 +154,17 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'categoryId',
-    label: 'Category',
+    label: 'Danh mục',
     component: 'Select',
     required: true,
     componentProps: {
-      placeholder: 'Please select category',
-      options: [], // Need to get category list from API
+      placeholder: 'Chọn danh mục',
+      options: [],
+      showSearch: true,
+      filterOption: (input: string, option: any) =>
+        option?.label?.toLowerCase().includes(input.toLowerCase()),
     },
-    rules: [{ required: true, message: 'Please select category' }],
+    rules: [{ required: true, message: 'Vui lòng chọn danh mục' }],
   },
   {
     field: 'description',
@@ -235,6 +238,21 @@ export async function getCategoryOptions() {
     }));
   } catch (error) {
     console.error('Failed to fetch category list:', error);
+    return [];
+  }
+}
+
+// Get BOM options (active only)
+export async function getBomOptions() {
+  try {
+    const result: any = await bomApi.listActive();
+    const list = result?.records || result || [];
+    return list.map((item: any) => ({
+      label: `${item.bomCode} - ${item.bomName}`,
+      value: item.id,
+    }));
+  } catch (error) {
+    console.error('Failed to fetch BOM list:', error);
     return [];
   }
 }

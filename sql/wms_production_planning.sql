@@ -4,7 +4,7 @@
 -- ===================================================
 
 -- Production Line (Dây chuyền sản xuất)
-CREATE TABLE IF NOT EXISTS `wh_production_line` (
+CREATE TABLE IF NOT EXISTS `pl_production_line` (
     `id`                 VARCHAR(36)     NOT NULL COMMENT 'ID',
     `line_code`          VARCHAR(50)     NOT NULL COMMENT 'Mã dây chuyền',
     `line_name`          VARCHAR(200)    NOT NULL COMMENT 'Tên dây chuyền',
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `wh_production_line` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Dây chuyền sản xuất';
 
 -- BOM Header (Định mức nguyên vật liệu)
-CREATE TABLE IF NOT EXISTS `wh_bom` (
+CREATE TABLE IF NOT EXISTS `pl_bom` (
     `id`                 VARCHAR(36)     NOT NULL COMMENT 'ID',
     `bom_code`           VARCHAR(50)     NOT NULL COMMENT 'Mã BOM',
     `bom_name`           VARCHAR(200)    NOT NULL COMMENT 'Tên BOM',
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `wh_bom` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Định mức nguyên vật liệu (BOM)';
 
 -- BOM Items (Chi tiết NVL trong BOM)
-CREATE TABLE IF NOT EXISTS `wh_bom_item` (
+CREATE TABLE IF NOT EXISTS `pl_bom_item` (
     `id`                 VARCHAR(36)     NOT NULL COMMENT 'ID',
     `bom_id`             VARCHAR(36)     NOT NULL COMMENT 'ID BOM',
     `material_id`        VARCHAR(36)     NOT NULL COMMENT 'ID nguyên vật liệu (FK product)',
@@ -54,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `wh_bom_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Chi tiết nguyên vật liệu trong BOM';
 
 -- Work Order (Lệnh sản xuất)
-CREATE TABLE IF NOT EXISTS `wh_work_order` (
+CREATE TABLE IF NOT EXISTS `pl_work_order` (
     `id`                 VARCHAR(36)     NOT NULL COMMENT 'ID',
     `order_code`         VARCHAR(50)     NOT NULL COMMENT 'Mã lệnh sản xuất',
     `bom_id`             VARCHAR(36)     NOT NULL COMMENT 'ID BOM sử dụng',
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `wh_work_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Lệnh sản xuất (Work Order)';
 
 -- Production Stage (Công đoạn sản xuất)
-CREATE TABLE IF NOT EXISTS `wh_production_stage` (
+CREATE TABLE IF NOT EXISTS `pl_production_stage` (
     `id`                      VARCHAR(36)     NOT NULL COMMENT 'ID',
     `work_order_id`           VARCHAR(36)     NOT NULL COMMENT 'ID lệnh sản xuất',
     `stage_name`              VARCHAR(200)    NOT NULL COMMENT 'Tên công đoạn',
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `wh_production_stage` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Công đoạn sản xuất';
 
 -- Production Log (Nhật ký sản xuất)
-CREATE TABLE IF NOT EXISTS `wh_production_log` (
+CREATE TABLE IF NOT EXISTS `pl_production_log` (
     `id`             VARCHAR(36)     NOT NULL COMMENT 'ID',
     `work_order_id`  VARCHAR(36)     NOT NULL COMMENT 'ID lệnh sản xuất',
     `stage_id`       VARCHAR(36)     NULL COMMENT 'ID công đoạn',

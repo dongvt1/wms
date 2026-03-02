@@ -2,12 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cy.modules.planning.mapper.BomItemRefDesMapper">
 
-    <select id="selectByBomItemId" resultType="com.cy.modules.planning.entity.BomItemRefDes">
-        SELECT * FROM wh_bom_item_refdes WHERE bom_item_id = #{bomItemId} ORDER BY ref_designator
+    <select id="selectByBomItemId" resultType="com.cy.modules.common.entity.BomItemRefDes">
+        SELECT * FROM pl_bom_item_refdes WHERE bom_item_id = #{bomItemId} ORDER BY ref_designator
     </select>
 
     <delete id="deleteByBomItemId">
-        DELETE FROM wh_bom_item_refdes WHERE bom_item_id = #{bomItemId}
+        DELETE FROM pl_bom_item_refdes WHERE bom_item_id = #{bomItemId}
     </delete>
 
 </mapper>

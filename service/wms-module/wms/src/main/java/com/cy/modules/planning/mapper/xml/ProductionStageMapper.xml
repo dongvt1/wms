@@ -3,11 +3,11 @@
 <mapper namespace="com.cy.modules.planning.mapper.ProductionStageMapper">
 
     <select id="selectByWorkOrderId" resultType="com.cy.modules.planning.entity.ProductionStage">
-        SELECT * FROM wh_production_stage WHERE work_order_id = #{workOrderId} ORDER BY stage_order ASC
+        SELECT * FROM pl_production_stage WHERE work_order_id = #{workOrderId} ORDER BY stage_order ASC
     </select>
 
     <delete id="deleteByWorkOrderId">
-        DELETE FROM wh_production_stage WHERE work_order_id = #{workOrderId}
+        DELETE FROM pl_production_stage WHERE work_order_id = #{workOrderId}
     </delete>
 
 </mapper>

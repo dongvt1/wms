@@ -3,7 +3,7 @@
 <mapper namespace="com.cy.modules.planning.mapper.EcnApprovalMapper">
 
     <select id="selectByEcnId" resultType="com.cy.modules.planning.entity.EcnApproval">
-        SELECT * FROM wh_ecn_approval WHERE ecn_id = #{ecnId} ORDER BY department
+        SELECT * FROM pl_ecn_approval WHERE ecn_id = #{ecnId} ORDER BY department
     </select>
 
 </mapper>

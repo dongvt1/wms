@@ -20,12 +20,12 @@ import org.jeecgframework.poi.excel.annotation.Excel;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Schema(description = "Nhà cung cấp được phê duyệt (AVL)")
-@TableName("wh_approved_vendor")
+@TableName("pl_approved_vendor")
 public class ApprovedVendor extends JeecgEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    /** FK tới wh_item_master.id */
-    @Schema(description = "FK tới wh_item_master.id")
+    /** FK tới pl_item_master.id */
+    @Schema(description = "FK tới pl_item_master.id")
     private String itemMasterId;
 
     /** Tên nhà cung cấp */

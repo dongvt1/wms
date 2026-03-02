@@ -3,7 +3,7 @@
 <mapper namespace="com.cy.modules.planning.mapper.ProductionLogMapper">
 
     <select id="selectByWorkOrderId" resultType="com.cy.modules.planning.entity.ProductionLog">
-        SELECT * FROM wh_production_log WHERE work_order_id = #{workOrderId} ORDER BY log_time DESC
+        SELECT * FROM pl_production_log WHERE work_order_id = #{workOrderId} ORDER BY log_time DESC
     </select>
 
 </mapper>

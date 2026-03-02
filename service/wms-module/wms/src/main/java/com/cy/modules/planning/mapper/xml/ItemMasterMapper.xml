@@ -3,19 +3,19 @@
 <mapper namespace="com.cy.modules.planning.mapper.ItemMasterMapper">
 
     <select id="searchByMpn" resultType="com.cy.modules.planning.entity.ItemMaster">
-        SELECT * FROM wh_item_master WHERE mpn LIKE CONCAT('%', #{mpn}, '%') ORDER BY create_time DESC
+        SELECT * FROM pl_item_master WHERE mpn LIKE CONCAT('%', #{mpn}, '%') ORDER BY create_time DESC
     </select>
 
     <select id="searchByIpn" resultType="com.cy.modules.planning.entity.ItemMaster">
-        SELECT * FROM wh_item_master WHERE ipn LIKE CONCAT('%', #{ipn}, '%') ORDER BY create_time DESC
+        SELECT * FROM pl_item_master WHERE ipn LIKE CONCAT('%', #{ipn}, '%') ORDER BY create_time DESC
     </select>
 
     <select id="selectByLifecycle" resultType="com.cy.modules.planning.entity.ItemMaster">
-        SELECT * FROM wh_item_master WHERE lifecycle_status = #{lifecycleStatus} ORDER BY category, ipn
+        SELECT * FROM pl_item_master WHERE lifecycle_status = #{lifecycleStatus} ORDER BY category, ipn
     </select>
 
     <select id="selectByCategory" resultType="com.cy.modules.planning.entity.ItemMaster">
-        SELECT * FROM wh_item_master WHERE category = #{category} ORDER BY ipn
+        SELECT * FROM pl_item_master WHERE category = #{category} ORDER BY ipn
     </select>
 
 </mapper>
