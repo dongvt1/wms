@@ -28,15 +28,15 @@ import java.util.Map;
  * @Date: 2026-02-25
  */
 @Slf4j
-@Tag(name = "QMS - Kiểm tra chất lượng đầu vào (IQC)")
+@Tag(name = "QMS - Input Quality Control (IQC)")
 @RestController
-@RequestMapping("/warehouse/qms/iqc")
+@RequestMapping("/qms/iqc")
 public class IqcInspectionController extends JeecgController<IqcInspection, IqcInspectionService> {
 
     @Autowired
     private IqcInspectionService iqcService;
 
-    @Operation(summary = "Danh sách phiếu IQC")
+    @Operation(summary = "List of IQC inspection forms")
     @GetMapping("/list")
     public Result<?> list(IqcInspection inspection,
                           @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
@@ -50,69 +50,69 @@ public class IqcInspectionController extends JeecgController<IqcInspection, IqcI
     }
 
     @PostMapping("/add")
-    @AutoLog(value = "Tạo phiếu IQC")
-    @Operation(summary = "Tạo phiếu kiểm tra IQC")
+    @AutoLog(value = "Create IQC inspection form")
+    @Operation(summary = "Create IQC inspection form")
     public Result<?> add(@RequestBody Map<String, Object> requestBody) {
         IqcInspection inspection = extractInspection(requestBody);
         List<IqcInspectionResult> results = extractResults(requestBody);
         if (inspection.getInspectionCode() == null || inspection.getInspectionCode().isEmpty()) {
             inspection.setInspectionCode(iqcService.generateInspectionCode());
         } else if (!iqcService.isCodeUnique(inspection.getInspectionCode(), null)) {
-            return Result.error("Mã phiếu IQC đã tồn tại!");
+            return Result.error("IQC inspection code already exists!");
         }
         if (inspection.getStatus() == null) inspection.setStatus("draft");
         iqcService.saveWithResults(inspection, results);
-        return Result.OK("Tạo phiếu IQC thành công!");
+        return Result.OK("IQC inspection form created successfully!");
     }
 
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
-    @AutoLog(value = "Sửa phiếu IQC", operateType = 3)
-    @Operation(summary = "Sửa phiếu IQC")
+    @AutoLog(value = "Edit IQC inspection form", operateType = 3)
+    @Operation(summary = "Edit IQC inspection form")
     public Result<?> edit(@RequestBody Map<String, Object> requestBody) {
         IqcInspection inspection = extractInspection(requestBody);
         List<IqcInspectionResult> results = extractResults(requestBody);
         iqcService.updateWithResults(inspection, results);
-        return Result.OK("Cập nhật phiếu IQC thành công!");
+        return Result.OK("IQC inspection form updated successfully!");
     }
 
-    @AutoLog(value = "Xóa phiếu IQC")
+    @AutoLog(value = "Delete IQC inspection form")
     @DeleteMapping("/delete")
-    @Operation(summary = "Xóa phiếu IQC")
+    @Operation(summary = "Delete IQC inspection form")
     public Result<?> delete(@RequestParam(name = "id") String id) {
         iqcService.removeById(id);
-        return Result.OK("Xóa thành công!");
+        return Result.OK("Deleted successfully!");
     }
 
     @DeleteMapping("/deleteBatch")
-    @Operation(summary = "Xóa hàng loạt phiếu IQC")
+    @Operation(summary = "Batch delete IQC inspection forms")
     public Result<?> deleteBatch(@RequestParam(name = "ids") String ids) {
         iqcService.removeByIds(Arrays.asList(ids.split(",")));
-        return Result.OK("Xóa hàng loạt thành công!");
+        return Result.OK("Batch delete successful!");
     }
 
     @GetMapping("/queryById")
-    @Operation(summary = "Xem chi tiết phiếu IQC")
+    @Operation(summary = "View IQC inspection form details")
     public Result<?> queryById(@RequestParam(name = "id") String id) {
         return Result.OK(iqcService.getDetail(id));
     }
 
     @GetMapping("/getResults")
-    @Operation(summary = "Lấy kết quả tiêu chí của phiếu IQC")
+    @Operation(summary = "Get criteria results of IQC inspection form")
     public Result<?> getResults(@RequestParam(name = "inspectionId") String inspectionId) {
         return Result.OK(iqcService.getResults(inspectionId));
     }
 
     @PutMapping("/submit/{id}")
-    @AutoLog(value = "Nộp phiếu IQC chờ phê duyệt", operateType = 3)
-    @Operation(summary = "Nộp phiếu IQC chờ phê duyệt (in_progress → pending_approval)")
+    @AutoLog(value = "Submit IQC inspection form for approval", operateType = 3)
+    @Operation(summary = "Submit IQC inspection form for approval (in_progress → pending_approval)")
     public Result<?> submit(@PathVariable("id") String id) {
         String msg = iqcService.submitForApproval(id);
         return Result.OK(msg);
     }
 
     @PutMapping("/approve/{id}")
-    @AutoLog(value = "Duyệt phiếu IQC", operateType = 3)
-    @Operation(summary = "Duyệt phiếu IQC (pending_approval → passed/failed/conditional)")
+    @AutoLog(value = "Approve IQC inspection form", operateType = 3)
+    @Operation(summary = "Approve IQC inspection form (pending_approval → passed/failed/conditional)")
     public Result<?> approve(@PathVariable("id") String id,
                              @RequestParam(name = "status") String status,
                              @RequestParam(name = "notes", required = false) String notes,
@@ -122,9 +122,14 @@ public class IqcInspectionController extends JeecgController<IqcInspection, IqcI
     }
 
     @GetMapping("/statistics")
-    @Operation(summary = "Thống kê IQC")
+    @Operation(summary = "IQC statistics")
     public Result<?> statistics() {
         return Result.OK(iqcService.getStatistics());
+    }
+
+    @RequestMapping(value = "/export")
+    public org.springframework.web.servlet.ModelAndView exportXls(jakarta.servlet.http.HttpServletRequest request, IqcInspection inspection) {
+        return super.exportXls(request, inspection, IqcInspection.class, "IQC Inspection Report");
     }
 
     @SuppressWarnings("unchecked")

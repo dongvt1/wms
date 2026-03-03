@@ -23,7 +23,7 @@ import java.util.*;
 @Slf4j
 @Tag(name = "QMS - Cấu hình Công đoạn Kiểm tra")
 @RestController
-@RequestMapping("/warehouse/qms/stage")
+@RequestMapping("/qms/stage")
 public class QcStageController extends JeecgController<QcStage, QcStageService> {
 
     @Autowired
@@ -87,6 +87,11 @@ public class QcStageController extends JeecgController<QcStage, QcStageService> 
     @Operation(summary = "Danh sách công đoạn đang hoạt động")
     public Result<?> listActive() {
         return Result.OK(stageService.listActive());
+    }
+
+    @RequestMapping(value = "/export")
+    public org.springframework.web.servlet.ModelAndView exportXls(jakarta.servlet.http.HttpServletRequest request, QcStage stage) {
+        return super.exportXls(request, stage, QcStage.class, "QC Stage Report");
     }
 
     @SuppressWarnings("unchecked")

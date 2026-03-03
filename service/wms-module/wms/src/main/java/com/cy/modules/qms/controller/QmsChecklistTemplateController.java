@@ -29,7 +29,7 @@ import java.util.Map;
 @Slf4j
 @Tag(name = "QMS - Mẫu bộ tiêu chí kiểm tra")
 @RestController
-@RequestMapping("/warehouse/qms/checklist")
+@RequestMapping("/qms/checklist")
 public class QmsChecklistTemplateController extends JeecgController<QmsChecklistTemplate, QmsChecklistTemplateService> {
 
     @Autowired
@@ -105,6 +105,11 @@ public class QmsChecklistTemplateController extends JeecgController<QmsChecklist
     @Operation(summary = "Lấy mẫu checklist đang active theo loại")
     public Result<?> listActive(@RequestParam(name = "inspectionType", required = false) String inspectionType) {
         return Result.OK(templateService.getActiveByType(inspectionType));
+    }
+
+    @RequestMapping(value = "/export")
+    public org.springframework.web.servlet.ModelAndView exportXls(jakarta.servlet.http.HttpServletRequest request, QmsChecklistTemplate template) {
+        return super.exportXls(request, template, QmsChecklistTemplate.class, "QMS Checklist Template Report");
     }
 
     @SuppressWarnings("unchecked")

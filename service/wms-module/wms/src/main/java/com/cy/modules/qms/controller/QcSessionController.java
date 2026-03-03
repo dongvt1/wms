@@ -19,16 +19,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @Slf4j
-@Tag(name = "QMS - Phiên kiểm tra công đoạn")
+@Tag(name = "QMS - Stage Inspection Session")
 @RestController
-@RequestMapping("/warehouse/qms/session")
+@RequestMapping("/qms/session")
 public class QcSessionController extends JeecgController<QcSession, QcSessionService> {
 
     @Autowired
     private QcSessionService sessionService;
 
     @GetMapping("/list")
-    @Operation(summary = "Danh sách phiên kiểm tra")
+    @Operation(summary = "List of inspection sessions")
     public Result<?> list(QcSession session,
                           @RequestParam(defaultValue = "1") Integer pageNo,
                           @RequestParam(defaultValue = "10") Integer pageSize,
@@ -40,8 +40,8 @@ public class QcSessionController extends JeecgController<QcSession, QcSessionSer
     }
 
     @PostMapping("/add")
-    @AutoLog(value = "Tạo phiên kiểm tra")
-    @Operation(summary = "Tạo phiên kiểm tra kèm giá trị tham số")
+    @AutoLog(value = "Create inspection session")
+    @Operation(summary = "Create inspection session with parameter values")
     public Result<?> add(@RequestBody Map<String, Object> body) {
         QcSession session = extractSession(body);
         List<Map<String, Object>> values = extractValues(body);
@@ -49,22 +49,22 @@ public class QcSessionController extends JeecgController<QcSession, QcSessionSer
             session.setSessionCode(sessionService.generateSessionCode());
         if (session.getStatus() == null) session.setStatus("draft");
         sessionService.saveWithValues(session, values);
-        return Result.OK("Tạo phiên kiểm tra thành công!");
+        return Result.OK("Inspection session created successfully!");
     }
 
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
-    @AutoLog(value = "Sửa phiên kiểm tra", operateType = 3)
-    @Operation(summary = "Sửa phiên kiểm tra kèm giá trị tham số")
+    @AutoLog(value = "Edit inspection session", operateType = 3)
+    @Operation(summary = "Edit inspection session with parameter values")
     public Result<?> edit(@RequestBody Map<String, Object> body) {
         QcSession session = extractSession(body);
         List<Map<String, Object>> values = extractValues(body);
         sessionService.updateWithValues(session, values);
-        return Result.OK("Cập nhật phiên kiểm tra thành công!");
+        return Result.OK("Inspection session updated successfully!");
     }
 
     @PutMapping("/complete/{id}")
-    @AutoLog(value = "Hoàn thành phiên kiểm tra", operateType = 3)
-    @Operation(summary = "Hoàn thành phiên kiểm tra (draft → completed)")
+    @AutoLog(value = "Complete inspection session", operateType = 3)
+    @Operation(summary = "Complete inspection session (draft → completed)")
     public Result<?> complete(@PathVariable String id) {
         return Result.OK(sessionService.completeSession(id));
     }
@@ -72,25 +72,30 @@ public class QcSessionController extends JeecgController<QcSession, QcSessionSer
     @DeleteMapping("/delete")
     public Result<?> delete(@RequestParam String id) {
         sessionService.removeById(id);
-        return Result.OK("Xóa thành công!");
+        return Result.OK("Deleted successfully!");
     }
 
     @GetMapping("/queryById")
-    @Operation(summary = "Chi tiết phiên kiểm tra kèm giá trị")
+    @Operation(summary = "Inspection session details with values")
     public Result<?> queryById(@RequestParam String id) {
         return Result.OK(sessionService.getDetail(id));
     }
 
     @GetMapping("/getValues")
-    @Operation(summary = "Lấy giá trị tham số của phiên kiểm tra")
+    @Operation(summary = "Get parameter values of inspection session")
     public Result<?> getValues(@RequestParam String sessionId) {
         return Result.OK(sessionService.getValues(sessionId));
     }
 
     @GetMapping("/listByWorkOrder")
-    @Operation(summary = "Danh sách phiên kiểm tra theo WO")
+    @Operation(summary = "List of inspection sessions by WO")
     public Result<?> listByWorkOrder(@RequestParam String workOrderId) {
         return Result.OK(sessionService.listByWorkOrder(workOrderId));
+    }
+
+    @RequestMapping(value = "/export")
+    public org.springframework.web.servlet.ModelAndView exportXls(jakarta.servlet.http.HttpServletRequest request, QcSession session) {
+        return super.exportXls(request, session, QcSession.class, "QC Session Report");
     }
 
     @SuppressWarnings("unchecked")

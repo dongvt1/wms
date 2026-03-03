@@ -1,6 +1,6 @@
 import { defHttp } from '/@/utils/http/axios';
 
-const BASE = '/warehouse/qms/stage';
+const BASE = '/qms/stage';
 
 export const qcStageApi = {
   list: (params?: any) => defHttp.get({ url: `${BASE}/list`, params }),

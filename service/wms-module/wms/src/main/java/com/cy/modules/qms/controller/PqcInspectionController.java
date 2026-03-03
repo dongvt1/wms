@@ -28,15 +28,15 @@ import java.util.Map;
  * @Date: 2026-02-25
  */
 @Slf4j
-@Tag(name = "QMS - Kiểm tra chất lượng sản xuất (PQC)")
+@Tag(name = "QMS - Production Quality Control (PQC)")
 @RestController
-@RequestMapping("/warehouse/qms/pqc")
+@RequestMapping("/qms/pqc")
 public class PqcInspectionController extends JeecgController<PqcInspection, PqcInspectionService> {
 
     @Autowired
     private PqcInspectionService pqcService;
 
-    @Operation(summary = "Danh sách phiếu PQC")
+    @Operation(summary = "List of PQC inspection forms")
     @GetMapping("/list")
     public Result<?> list(PqcInspection inspection,
                           @RequestParam(name = "pageNo", defaultValue = "1") Integer pageNo,
@@ -50,69 +50,69 @@ public class PqcInspectionController extends JeecgController<PqcInspection, PqcI
     }
 
     @PostMapping("/add")
-    @AutoLog(value = "Tạo phiếu PQC")
-    @Operation(summary = "Tạo phiếu kiểm tra PQC")
+    @AutoLog(value = "Create PQC inspection form")
+    @Operation(summary = "Create PQC inspection form")
     public Result<?> add(@RequestBody Map<String, Object> requestBody) {
         PqcInspection inspection = extractInspection(requestBody);
         List<PqcInspectionResult> results = extractResults(requestBody);
         if (inspection.getInspectionCode() == null || inspection.getInspectionCode().isEmpty()) {
             inspection.setInspectionCode(pqcService.generateInspectionCode());
         } else if (!pqcService.isCodeUnique(inspection.getInspectionCode(), null)) {
-            return Result.error("Mã phiếu PQC đã tồn tại!");
+            return Result.error("PQC inspection code already exists!");
         }
         if (inspection.getStatus() == null) inspection.setStatus("draft");
         pqcService.saveWithResults(inspection, results);
-        return Result.OK("Tạo phiếu PQC thành công!");
+        return Result.OK("PQC inspection form created successfully!");
     }
 
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
-    @AutoLog(value = "Sửa phiếu PQC", operateType = 3)
-    @Operation(summary = "Sửa phiếu PQC")
+    @AutoLog(value = "Edit PQC inspection form", operateType = 3)
+    @Operation(summary = "Edit PQC inspection form")
     public Result<?> edit(@RequestBody Map<String, Object> requestBody) {
         PqcInspection inspection = extractInspection(requestBody);
         List<PqcInspectionResult> results = extractResults(requestBody);
         pqcService.updateWithResults(inspection, results);
-        return Result.OK("Cập nhật phiếu PQC thành công!");
+        return Result.OK("PQC inspection form updated successfully!");
     }
 
-    @AutoLog(value = "Xóa phiếu PQC")
+    @AutoLog(value = "Delete PQC inspection form")
     @DeleteMapping("/delete")
-    @Operation(summary = "Xóa phiếu PQC")
+    @Operation(summary = "Delete PQC inspection form")
     public Result<?> delete(@RequestParam(name = "id") String id) {
         pqcService.removeById(id);
-        return Result.OK("Xóa thành công!");
+        return Result.OK("Deleted successfully!");
     }
 
     @DeleteMapping("/deleteBatch")
-    @Operation(summary = "Xóa hàng loạt phiếu PQC")
+    @Operation(summary = "Batch delete PQC inspection forms")
     public Result<?> deleteBatch(@RequestParam(name = "ids") String ids) {
         pqcService.removeByIds(Arrays.asList(ids.split(",")));
-        return Result.OK("Xóa hàng loạt thành công!");
+        return Result.OK("Batch delete successful!");
     }
 
     @GetMapping("/queryById")
-    @Operation(summary = "Xem chi tiết phiếu PQC")
+    @Operation(summary = "View PQC inspection form details")
     public Result<?> queryById(@RequestParam(name = "id") String id) {
         return Result.OK(pqcService.getDetail(id));
     }
 
     @GetMapping("/getResults")
-    @Operation(summary = "Lấy kết quả tiêu chí của phiếu PQC")
+    @Operation(summary = "Get criteria results of PQC inspection form")
     public Result<?> getResults(@RequestParam(name = "inspectionId") String inspectionId) {
         return Result.OK(pqcService.getResults(inspectionId));
     }
 
     @PutMapping("/submit/{id}")
-    @AutoLog(value = "Nộp phiếu PQC chờ phê duyệt", operateType = 3)
-    @Operation(summary = "Nộp phiếu PQC chờ phê duyệt (in_progress → pending_approval)")
+    @AutoLog(value = "Submit PQC inspection form for approval", operateType = 3)
+    @Operation(summary = "Submit PQC inspection form for approval (in_progress → pending_approval)")
     public Result<?> submit(@PathVariable("id") String id) {
         String msg = pqcService.submitForApproval(id);
         return Result.OK(msg);
     }
 
     @PutMapping("/approve/{id}")
-    @AutoLog(value = "Duyệt phiếu PQC", operateType = 3)
-    @Operation(summary = "Duyệt phiếu PQC (pending_approval → passed/failed)")
+    @AutoLog(value = "Approve PQC inspection form", operateType = 3)
+    @Operation(summary = "Approve PQC inspection form (pending_approval → passed/failed)")
     public Result<?> approve(@PathVariable("id") String id,
                              @RequestParam(name = "status") String status,
                              @RequestParam(name = "notes", required = false) String notes,
@@ -122,9 +122,14 @@ public class PqcInspectionController extends JeecgController<PqcInspection, PqcI
     }
 
     @GetMapping("/statistics")
-    @Operation(summary = "Thống kê PQC")
+    @Operation(summary = "PQC statistics")
     public Result<?> statistics() {
         return Result.OK(pqcService.getStatistics());
+    }
+
+    @RequestMapping(value = "/export")
+    public org.springframework.web.servlet.ModelAndView exportXls(jakarta.servlet.http.HttpServletRequest request, PqcInspection inspection) {
+        return super.exportXls(request, inspection, PqcInspection.class, "PQC Inspection Report");
     }
 
     @SuppressWarnings("unchecked")
