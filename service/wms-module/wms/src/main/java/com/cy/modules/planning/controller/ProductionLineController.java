@@ -10,7 +10,7 @@ import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
-import com.cy.modules.planning.entity.ProductionLine;
+import com.cy.modules.common.entity.ProductionLine;
 import com.cy.modules.planning.service.ProductionLineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

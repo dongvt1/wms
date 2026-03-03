@@ -15,63 +15,41 @@
         <result column="description"     jdbcType="VARCHAR"   property="description" />
         <result column="price"           jdbcType="DECIMAL"   property="price" />
         <result column="category_id"     jdbcType="VARCHAR"   property="categoryId" />
-        <result column="category_name"   jdbcType="VARCHAR"   property="categoryName" />
         <result column="min_stock_level" jdbcType="INTEGER"   property="minStockLevel" />
         <result column="image"           jdbcType="VARCHAR"   property="image" />
         <result column="status"          jdbcType="INTEGER"   property="status" />
         <result column="current_stock"   jdbcType="INTEGER"   property="currentStock" />
-        <result column="type"            jdbcType="VARCHAR"   property="type" />
     </resultMap>
 
-    <!-- Lấy sản phẩm theo danh mục -->
+    <!-- Get products by category ID -->
     <select id="selectByCategoryId" resultMap="ProductResultMap">
-        SELECT p.*, pc.name AS category_name
-        FROM product p
-        LEFT JOIN product_category pc ON pc.id = p.category_id
-        WHERE p.category_id = #{categoryId} AND p.status = 1
-        ORDER BY p.code ASC
+        SELECT * FROM product WHERE category_id = #{categoryId} AND status = #{status} ORDER BY create_time ASC
     </select>
 
-    <!-- Lấy sản phẩm theo trạng thái -->
+    <!-- Get products by status -->
     <select id="selectByStatus" resultMap="ProductResultMap">
-        SELECT p.*, pc.name AS category_name
-        FROM product p
-        LEFT JOIN product_category pc ON pc.id = p.category_id
-        WHERE p.status = #{status}
-        ORDER BY p.code ASC
+        SELECT * FROM product WHERE status = #{status} ORDER BY create_time ASC
     </select>
 
-    <!-- Tìm kiếm theo mã hoặc tên -->
+    <!-- Search products by code or name -->
     <select id="searchProducts" resultMap="ProductResultMap">
-        SELECT p.*, pc.name AS category_name
-        FROM product p
-        LEFT JOIN product_category pc ON pc.id = p.category_id
-        WHERE (p.code LIKE CONCAT('%', #{keyword}, '%') OR p.name LIKE CONCAT('%', #{keyword}, '%'))
-          AND p.status = 1
-        ORDER BY p.code ASC
+        SELECT * FROM product 
+        WHERE (code LIKE CONCAT('%', #{keyword}, '%') OR name LIKE CONCAT('%', #{keyword}, '%'))
+        AND status = 1
+        ORDER BY create_time DESC
     </select>
 
-    <!-- Lấy sản phẩm sắp hết hàng -->
+    <!-- Get products with low stock -->
     <select id="selectLowStockProducts" resultMap="ProductResultMap">
-        SELECT p.*, pc.name AS category_name
-        FROM product p
-        LEFT JOIN product_category pc ON pc.id = p.category_id
-        WHERE p.current_stock &lt; p.min_stock_level AND p.status = 1
-        ORDER BY p.current_stock ASC
+        SELECT * FROM product 
+        WHERE current_stock &lt; min_stock_level 
+        AND status = 1
+        ORDER BY current_stock ASC
     </select>
 
-    <!-- Cập nhật tồn kho -->
+    <!-- Update current stock -->
     <update id="updateCurrentStock">
         UPDATE product SET current_stock = #{currentStock} WHERE id = #{id}
     </update>
-
-    <!-- Lấy sản phẩm theo loại (product / material / semi) -->
-    <select id="selectByType" resultMap="ProductResultMap">
-        SELECT p.*, pc.name AS category_name
-        FROM product p
-        LEFT JOIN product_category pc ON pc.id = p.category_id
-        WHERE p.type = #{type} AND p.status = 1
-        ORDER BY p.code ASC
-    </select>
 
 </mapper>

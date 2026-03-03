@@ -1,4 +1,4 @@
-package com.cy.modules.planning.entity;
+package com.cy.modules.common.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

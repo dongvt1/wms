@@ -1,10 +1,10 @@
-package com.cy.modules.warehouse.service.impl;
+package com.cy.modules.common.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.cy.modules.common.entity.ProductHistory;
+import com.cy.modules.common.mapper.ProductHistoryMapper;
+import com.cy.modules.common.service.ProductHistoryService;
 import lombok.extern.slf4j.Slf4j;
-import com.cy.modules.warehouse.entity.ProductHistory;
-import com.cy.modules.warehouse.mapper.ProductHistoryMapper;
-import com.cy.modules.warehouse.service.ProductHistoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

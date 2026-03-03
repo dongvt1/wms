@@ -2,8 +2,8 @@ package com.cy.modules.planning.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.cy.modules.planning.entity.ProductionLine;
-import com.cy.modules.planning.mapper.ProductionLineMapper;
+import com.cy.modules.common.entity.ProductionLine;
+import com.cy.modules.common.mapper.ProductionLineMapper;
 import com.cy.modules.planning.service.ProductionLineService;
 import org.springframework.stereotype.Service;
 

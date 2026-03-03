@@ -1,4 +1,4 @@
-package com.cy.modules.warehouse.controller;
+package com.cy.modules.common.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -12,8 +12,8 @@ import org.jeecg.common.aspect.annotation.PermissionData;
 import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import com.cy.modules.common.entity.Product;
-import com.cy.modules.warehouse.service.ProductService;
-import com.cy.modules.warehouse.service.ProductHistoryService;
+import com.cy.modules.common.service.ProductService;
+import com.cy.modules.common.service.ProductHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

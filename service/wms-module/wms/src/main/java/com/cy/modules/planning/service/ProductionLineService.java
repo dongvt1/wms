@@ -1,7 +1,7 @@
 package com.cy.modules.planning.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.cy.modules.planning.entity.ProductionLine;
+import com.cy.modules.common.entity.ProductionLine;
 
 import java.util.List;
 

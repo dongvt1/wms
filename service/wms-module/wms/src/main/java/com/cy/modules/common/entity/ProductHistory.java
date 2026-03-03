@@ -1,8 +1,7 @@
-package com.cy.modules.warehouse.entity;
+package com.cy.modules.common.entity;
 
 import java.io.Serializable;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

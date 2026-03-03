@@ -1,7 +1,7 @@
-package com.cy.modules.warehouse.service;
+package com.cy.modules.common.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.cy.modules.warehouse.entity.ProductHistory;
+import com.cy.modules.common.entity.ProductHistory;
 
 import java.util.List;
 

@@ -1,11 +1,11 @@
-package com.cy.modules.warehouse.service.impl;
+package com.cy.modules.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.cy.modules.common.mapper.ProductCategoryMapper;
+import com.cy.modules.common.service.ProductCategoryService;
 import lombok.extern.slf4j.Slf4j;
 import com.cy.modules.common.entity.ProductCategory;
-import com.cy.modules.warehouse.mapper.ProductCategoryMapper;
-import com.cy.modules.warehouse.service.ProductCategoryService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +22,7 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
 
     @Override
     public List<ProductCategory> getTree() {
-        return baseMapper.selectTree();
+        return baseMapper.selectList(null);
     }
 
     @Override
@@ -46,6 +46,6 @@ public class ProductCategoryServiceImpl extends ServiceImpl<ProductCategoryMappe
     public List<ProductCategory> buildTree(List<ProductCategory> categories) {
         // Simplified implementation - in a real scenario, you might need to extend the entity
         // or use a DTO with children field for tree structure
-        return baseMapper.selectTree();
+        return baseMapper.selectList(null);
     }
 }

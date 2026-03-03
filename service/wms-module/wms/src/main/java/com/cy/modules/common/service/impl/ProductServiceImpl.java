@@ -1,11 +1,12 @@
-package com.cy.modules.warehouse.service.impl;
+package com.cy.modules.common.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.cy.modules.common.mapper.ProductMapper;
+import com.cy.modules.common.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import com.cy.modules.common.entity.Product;
-import com.cy.modules.warehouse.mapper.ProductMapper;
-import com.cy.modules.warehouse.service.ProductService;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
