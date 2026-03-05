@@ -2,7 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cy.modules.common.mapper.MaterialSubstituteMapper">
 
-    <select id="selectByMaterialId" resultType="com.cy.modules.common.entity.MaterialSubstitute">
+    <resultMap id="MaterialSubstituteRM" type="com.cy.modules.common.entity.MaterialSubstitute">
+        <id     property="id"                   column="id" />
+        <result property="materialId"            column="material_id" />
+        <result property="substituteMaterialId"  column="substitute_material_id" />
+        <result property="priority"              column="priority" />
+        <result property="notes"                 column="notes" />
+        <result property="createTime"            column="create_time" />
+        <result property="updateTime"            column="update_time" />
+        <!-- Join fields từ material -->
+        <result property="substituteName"        column="substitute_name" />
+        <result property="substituteCode"        column="substitute_code" />
+        <result property="substituteUnit"        column="substitute_unit" />
+    </resultMap>
+
+    <select id="selectByMaterialId" resultMap="MaterialSubstituteRM">
         SELECT ms.*,
                m.name  AS substitute_name,
                m.code  AS substitute_code,

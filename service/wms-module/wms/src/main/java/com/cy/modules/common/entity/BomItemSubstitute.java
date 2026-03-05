@@ -1,6 +1,7 @@
 package com.cy.modules.common.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -53,14 +54,17 @@ public class BomItemSubstitute implements Serializable {
 
     // ── Transient fields (join query) ──
     /** Tên vật tư thay thế */
+    @TableField(exist = false)
     @Schema(description = "Tên vật tư thay thế")
-    private transient String substituteName;
+    private String substituteName;
 
     /** Mã vật tư thay thế */
+    @TableField(exist = false)
     @Schema(description = "Mã vật tư thay thế")
-    private transient String substituteCode;
+    private String substituteCode;
 
     /** Đơn vị vật tư thay thế */
+    @TableField(exist = false)
     @Schema(description = "Đơn vị vật tư thay thế")
-    private transient String substituteUnit;
+    private String substituteUnit;
 }
