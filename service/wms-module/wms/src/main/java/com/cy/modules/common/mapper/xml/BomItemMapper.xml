@@ -3,21 +3,21 @@
 <mapper namespace="com.cy.modules.common.mapper.BomItemMapper">
 
     <select id="selectByBomId" resultType="com.cy.modules.common.entity.BomItem">
-        SELECT bi.*, p.name AS material_name, p.code AS material_code
+        SELECT bi.*, m.name AS material_name, m.code AS material_code
         FROM pl_bom_item bi
-        LEFT JOIN product p ON p.id = bi.material_id
+        LEFT JOIN material m ON m.id = bi.material_id
         WHERE bi.bom_id = #{bomId}
         ORDER BY bi.item_type ASC
     </select>
 
     <select id="selectBomItemsWithChildren" resultType="java.util.Map">
         SELECT bi.*,
-               p.name  AS material_name,
-               p.code  AS material_code,
+               m.name    AS material_name,
+               m.code    AS material_code,
                cb.bom_code AS child_bom_code,
                cb.bom_name AS child_bom_name
         FROM pl_bom_item bi
-        LEFT JOIN product p  ON p.id  = bi.material_id
+        LEFT JOIN material m  ON m.id  = bi.material_id
         LEFT JOIN pl_bom  cb ON cb.id = bi.child_bom_id
         WHERE bi.bom_id = #{bomId}
         ORDER BY bi.item_type ASC

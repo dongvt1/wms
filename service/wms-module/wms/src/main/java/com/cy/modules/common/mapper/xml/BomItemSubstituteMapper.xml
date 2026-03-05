@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.modules.common.mapper.BomItemSubstituteMapper">
+
+    <select id="selectByBomItemId" resultType="com.cy.modules.common.entity.BomItemSubstitute">
+        SELECT bis.*,
+               m.name  AS substitute_name,
+               m.code  AS substitute_code,
+               m.unit  AS substitute_unit
+        FROM pl_bom_item_substitute bis
+        LEFT JOIN material m ON m.id = bis.substitute_material_id
+        WHERE bis.bom_item_id = #{bomItemId}
+        ORDER BY bis.priority ASC
+    </select>
+
+    <delete id="deleteByBomItemId">
+        DELETE FROM pl_bom_item_substitute WHERE bom_item_id = #{bomItemId}
+    </delete>
+
+    <delete id="deleteByBomId">
+        DELETE FROM pl_bom_item_substitute
+        WHERE bom_item_id IN (
+            SELECT id FROM pl_bom_item WHERE bom_id = #{bomId}
+        )
+    </delete>
+
+</mapper>

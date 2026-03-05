@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.modules.common.mapper.MaterialMapper">
+
+    <select id="selectPageWithCategory" resultType="com.cy.modules.common.entity.Material">
+        SELECT m.*, pc.name AS category_name
+        FROM material m
+        LEFT JOIN product_category pc ON pc.id = m.category_id
+        <where>
+            <if test="code != null and code != ''">
+                AND m.code LIKE CONCAT('%', #{code}, '%')
+            </if>
+            <if test="name != null and name != ''">
+                AND m.name LIKE CONCAT('%', #{name}, '%')
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                AND m.category_id = #{categoryId}
+            </if>
+            <if test="status != null">
+                AND m.status = #{status}
+            </if>
+        </where>
+        ORDER BY m.create_time DESC
+    </select>
+
+    <select id="selectAllActive" resultType="com.cy.modules.common.entity.Material">
+        SELECT id, code, name, unit, current_stock, status
+        FROM material
+        WHERE status = 1
+        ORDER BY code ASC
+    </select>
+
+</mapper>

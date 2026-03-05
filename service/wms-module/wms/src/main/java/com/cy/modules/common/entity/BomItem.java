@@ -2,6 +2,7 @@ package com.cy.modules.common.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
@@ -84,4 +85,8 @@ public class BomItem implements Serializable {
     @Excel(name = "RefDes", width = 30)
     @Schema(description = "Danh sách RefDes, phân cách bởi dấu phẩy: C1,C5,C12")
     private String refDesignators;
+
+    /** Danh sách linh kiện thay thế (transient – per BOM override) */
+    @Schema(description = "Danh sách linh kiện thay thế per-BOM")
+    private transient List<BomItemSubstitute> substitutes;
 }

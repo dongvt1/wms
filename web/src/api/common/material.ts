@@ -1,32 +1,71 @@
+import { defHttp } from '/@/utils/http/axios';
+
+const BASE_URL = '/common/material';
+
+export interface MaterialModel {
+  id?: string;
+  code: string;
+  name: string;
+  description?: string;
+  unit?: string;
+  price?: number;
+  categoryId?: string;
+  categoryName?: string;
+  minStockLevel?: number;
+  currentStock?: number;
+
+  /** Chiều dài (mm) */
+  length?: number;
+  /** Chiều rộng (mm) */
+  width?: number;
+  /** Chiều cao (mm) */
+  height?: number;
+  /** 1=active, 0=inactive */
+  status?: number;
+  image?: string;
+  /** Cân nặng (kg) */
+  weight?: number;
+  createTime?: string;
+  substitutes?: MaterialSubstituteModel[];
+}
+
+export interface MaterialSubstituteModel {
+  id?: string;
+  materialId?: string;
+  substituteMaterialId?: string;
+  substituteName?: string;
+  substituteCode?: string;
+  substituteUnit?: string;
+  priority?: number;
+  notes?: string;
+}
+
 /**
- * Material (Nguyên vật liệu) API – Common Module
- *
- * Material TRONG HỆ THỐNG NÀY là Product với type = 'material'.
- * File này cung cấp alias semantic rõ ràng để các module (planning, qms)
- * import theo đúng nghĩa của dữ liệu mà mình đang làm việc với.
+ * Material API – trỏ vào /common/material (bảng material tách riêng)
  */
+export const materialApi = {
+  list: (params?: any) => defHttp.get({ url: `${BASE_URL}/list`, params }),
+  listAll: () => defHttp.get<MaterialModel[]>({ url: `${BASE_URL}/listAll` }),
+  queryById: (id: string) => defHttp.get<MaterialModel>({ url: `${BASE_URL}/queryById`, params: { id } }),
+  add: (params: { material: MaterialModel; substitutes: MaterialSubstituteModel[] }) =>
+    defHttp.post({ url: `${BASE_URL}/add`, params }),
+  edit: (params: { material: MaterialModel; substitutes: MaterialSubstituteModel[] }) =>
+    defHttp.put({ url: `${BASE_URL}/edit`, params }),
+  delete: (params: { id: string }) => defHttp.delete({ url: `${BASE_URL}/delete`, params }),
+  deleteBatch: (params: { ids: string }) => defHttp.delete({ url: `${BASE_URL}/deleteBatch`, params }),
+  getSubstitutes: (materialId: string) =>
+    defHttp.get<MaterialSubstituteModel[]>({ url: `${BASE_URL}/getSubstitutes`, params: { materialId } }),
+};
 
-import { productApi, getProductOptions, type ProductModel } from './product';
-
-/** MaterialModel = ProductModel với type = 'material' */
-export type MaterialModel = ProductModel;
-
-/** materialApi = productApi (cùng bảng, cùng endpoint) */
-export const materialApi = productApi;
-
-/**
- * Lấy danh sách options chỉ cho NVL (type = 'material')
- * label = "code - name", value = id
- */
+/** Helper: lấy options cho Select dropdown trong BOM */
 export async function getMaterialOptions() {
-  return getProductOptions('material');
+  try {
+    const list: any = await materialApi.listAll();
+    return (list || []).map((m: MaterialModel) => ({
+      label: `${m.code} - ${m.name}`,
+      value: m.id,
+    }));
+  } catch {
+    return [];
+  }
 }
-
-/**
- * Lấy danh sách tất cả NVL + thành phẩm (dùng khi BOM cần chọn cả 2 loại)
- */
-export async function getAllProductMaterialOptions() {
-  return getProductOptions(); // không lọc type → lấy tất cả active
-}
-
-export { productApi as productForBomApi };

@@ -4,7 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cy.modules.common.entity.Bom;
 import com.cy.modules.common.entity.BomItem;
+import com.cy.modules.common.entity.BomItemSubstitute;
 import com.cy.modules.common.mapper.BomItemMapper;
+import com.cy.modules.common.mapper.BomItemSubstituteMapper;
 import com.cy.modules.common.mapper.BomMapper;
 import com.cy.modules.common.service.CommonBomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -26,6 +29,9 @@ public class CommonBomServiceImpl extends ServiceImpl<BomMapper, Bom> implements
 
     @Autowired
     private BomItemMapper bomItemMapper;
+
+    @Autowired
+    private BomItemSubstituteMapper bomItemSubstituteMapper;
 
     @Override
     public List<Bom> getByProductId(String productId) {
@@ -50,9 +56,12 @@ public class CommonBomServiceImpl extends ServiceImpl<BomMapper, Bom> implements
     public boolean saveBomWithItems(Bom bom, List<BomItem> items) {
         this.save(bom);
         if (items != null && !items.isEmpty()) {
+            LocalDateTime now = LocalDateTime.now();
             for (BomItem item : items) {
                 item.setBomId(bom.getId());
                 bomItemMapper.insert(item);
+                // Save substitutes for this item
+                saveItemSubstitutes(item.getId(), item.getSubstitutes(), now);
             }
         }
         return true;
@@ -62,11 +71,15 @@ public class CommonBomServiceImpl extends ServiceImpl<BomMapper, Bom> implements
     @Transactional(rollbackFor = Exception.class)
     public boolean updateBomWithItems(Bom bom, List<BomItem> items) {
         this.updateById(bom);
+        // Delete old substitutes first (before deleting items)
+        bomItemSubstituteMapper.deleteByBomId(bom.getId());
         bomItemMapper.deleteByBomId(bom.getId());
         if (items != null && !items.isEmpty()) {
+            LocalDateTime now = LocalDateTime.now();
             for (BomItem item : items) {
                 item.setBomId(bom.getId());
                 bomItemMapper.insert(item);
+                saveItemSubstitutes(item.getId(), item.getSubstitutes(), now);
             }
         }
         return true;
@@ -74,15 +87,40 @@ public class CommonBomServiceImpl extends ServiceImpl<BomMapper, Bom> implements
 
     @Override
     public List<BomItem> getBomItems(String bomId) {
-        return bomItemMapper.selectByBomId(bomId);
+        List<BomItem> items = bomItemMapper.selectByBomId(bomId);
+        for (BomItem item : items) {
+            item.setSubstitutes(bomItemSubstituteMapper.selectByBomItemId(item.getId()));
+        }
+        return items;
     }
 
     @Override
     public Map<String, Object> getBomDetail(String bomId) {
         Map<String, Object> result = new HashMap<>();
         result.put("bom", this.getById(bomId));
-        result.put("items", bomItemMapper.selectByBomId(bomId));
+        List<BomItem> items = bomItemMapper.selectByBomId(bomId);
+        for (BomItem item : items) {
+            item.setSubstitutes(bomItemSubstituteMapper.selectByBomItemId(item.getId()));
+        }
+        result.put("items", items);
         return result;
+    }
+
+    /** Helper: lấy substitutes 1 BomItem */
+    public List<BomItemSubstitute> getSubstitutes(String bomItemId) {
+        return bomItemSubstituteMapper.selectByBomItemId(bomItemId);
+    }
+
+    /** Helper: lưu substitutes cho 1 BomItem */
+    private void saveItemSubstitutes(String bomItemId, List<BomItemSubstitute> substitutes, LocalDateTime now) {
+        if (substitutes == null || substitutes.isEmpty()) return;
+        for (BomItemSubstitute sub : substitutes) {
+            sub.setId(null);
+            sub.setBomItemId(bomItemId);
+            sub.setCreateTime(now);
+            sub.setUpdateTime(now);
+            bomItemSubstituteMapper.insert(sub);
+        }
     }
 
     @Override

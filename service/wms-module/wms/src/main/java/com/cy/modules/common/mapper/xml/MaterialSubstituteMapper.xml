@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cy.modules.common.mapper.MaterialSubstituteMapper">
+
+    <select id="selectByMaterialId" resultType="com.cy.modules.common.entity.MaterialSubstitute">
+        SELECT ms.*,
+               m.name  AS substitute_name,
+               m.code  AS substitute_code,
+               m.unit  AS substitute_unit
+        FROM material_substitute ms
+        LEFT JOIN material m ON m.id = ms.substitute_material_id
+        WHERE ms.material_id = #{materialId}
+        ORDER BY ms.priority ASC
+    </select>
+
+    <delete id="deleteByMaterialId">
+        DELETE FROM material_substitute WHERE material_id = #{materialId}
+    </delete>
+
+</mapper>

@@ -12,6 +12,7 @@ import org.jeecg.common.system.base.controller.JeecgController;
 import org.jeecg.common.system.query.QueryGenerator;
 import com.cy.modules.common.entity.Bom;
 import com.cy.modules.common.entity.BomItem;
+import com.cy.modules.common.entity.BomItemSubstitute;
 import com.cy.modules.common.service.CommonBomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -168,6 +169,12 @@ public class CommonBomController extends JeecgController<Bom, CommonBomService> 
 
     // ===== Helper methods =====
 
+    @Operation(summary = "Lấy danh sách linh kiện thay thế theo BOM Item")
+    @GetMapping("/getSubstitutes")
+    public Result<?> getSubstitutes(@RequestParam(name = "bomItemId") String bomItemId) {
+        return Result.OK(commonBomService.getBomItems(bomItemId));
+    }
+
     @SuppressWarnings("unchecked")
     private Bom extractBom(Map<String, Object> body) {
         Map<String, Object> bomMap = (Map<String, Object>) body.get("bom");
@@ -200,8 +207,24 @@ public class CommonBomController extends JeecgController<Bom, CommonBomService> 
                 item.setUnit((String) m.get("unit"));
                 item.setNotes((String) m.get("notes"));
                 item.setRefDesignators((String) m.get("refDesignators"));
+                item.setItemType((String) m.get("itemType"));
+                item.setChildBomId((String) m.get("childBomId"));
                 if (m.get("quantity") != null) item.setQuantity(new BigDecimal(m.get("quantity").toString()));
                 if (m.get("wastageRate") != null) item.setWastageRate(new BigDecimal(m.get("wastageRate").toString()));
+                if (m.get("purchaseLeadTimeDays") != null) item.setPurchaseLeadTimeDays(Integer.valueOf(m.get("purchaseLeadTimeDays").toString()));
+                // Parse substitutes
+                List<Map<String, Object>> subMaps = (List<Map<String, Object>>) m.get("substitutes");
+                if (subMaps != null) {
+                    List<BomItemSubstitute> subs = new java.util.ArrayList<>();
+                    for (Map<String, Object> s : subMaps) {
+                        BomItemSubstitute sub = new BomItemSubstitute();
+                        sub.setSubstituteMaterialId((String) s.get("substituteMaterialId"));
+                        sub.setNotes((String) s.get("notes"));
+                        if (s.get("priority") != null) sub.setPriority(Integer.valueOf(s.get("priority").toString()));
+                        subs.add(sub);
+                    }
+                    item.setSubstitutes(subs);
+                }
                 items.add(item);
             }
         }

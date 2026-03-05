@@ -53,6 +53,22 @@ const warehouse: AppRouteModule = {
         title: 'Định mức NVL (BOM)',
       },
     },
+    {
+      path: 'material',
+      name: 'MaterialManagement',
+      component: () => import('/@/views/common/material/MaterialList.vue'),
+      meta: {
+        title: 'Quản lý vật tư',
+      },
+    },
+    {
+      path: 'bom-manage',
+      name: 'BomManage',
+      component: () => import('/@/views/planning/BomManage.vue'),
+      meta: {
+        title: 'Quản lý BOM',
+      },
+    },
   ],
 };
 

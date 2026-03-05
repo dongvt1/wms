@@ -490,3 +490,140 @@ VALUES
  'Xuất báo cáo sản xuất',  NULL, NULL, 0, NULL, NULL,
  2, 'planning:report:export', '1', 2.00, 0, NULL,
  1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0);
+
+-- ===================================================
+-- MODULE: QUẢN LÝ VẬT TƯ CHUNG (COMMON MATERIAL)
+-- Date: 2026-03-05
+-- ===================================================
+
+INSERT INTO `sys_permission`
+  (`id`, `parent_id`, `name`, `url`, `component`, `is_route`, `component_name`, `redirect`,
+   `menu_type`, `perms`, `perms_type`, `sort_no`, `always_show`, `icon`,
+   `is_leaf`, `keep_alive`, `hidden`, `hide_tab`, `description`,
+   `create_by`, `create_time`, `update_by`, `update_time`,
+   `del_flag`, `rule_flag`, `status`, `internal_or_external`)
+VALUES
+-- ------------------------------------------------
+-- Common Root Menu
+-- ------------------------------------------------
+('cmn_menu_root',           NULL,
+ 'Dữ liệu chung',          '/common',
+ 'layouts/default/index', 1, '', NULL,
+ 0, NULL, '0', 1.00, 0, 'ant-design:appstore-outlined',
+ 0, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, NULL, 0),
+
+-- ------------------------------------------------
+-- Common 1. Quản lý vật tư (Material)
+-- ------------------------------------------------
+('cmn_menu_material',       'cmn_menu_root',
+ 'Quản lý vật tư',         '/common/material',
+ 'common/material/MaterialList', 1, '', NULL,
+ 1, NULL, '0', 1.00, 0, 'ant-design:gold-outlined',
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, NULL, 0),
+
+('cmn_btn_mat_add',         'cmn_menu_material',
+ 'Thêm vật tư',            NULL, NULL, 0, NULL, NULL,
+ 2, 'common:material:add', '1', 1.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_mat_edit',        'cmn_menu_material',
+ 'Sửa vật tư',             NULL, NULL, 0, NULL, NULL,
+ 2, 'common:material:edit', '1', 2.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_mat_delete',      'cmn_menu_material',
+ 'Xóa vật tư',             NULL, NULL, 0, NULL, NULL,
+ 2, 'common:material:delete', '1', 3.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_mat_export',      'cmn_menu_material',
+ 'Xuất Excel vật tư',      NULL, NULL, 0, NULL, NULL,
+ 2, 'common:material:exportXls', '1', 4.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_mat_import',      'cmn_menu_material',
+ 'Nhập Excel vật tư',      NULL, NULL, 0, NULL, NULL,
+ 2, 'common:material:importExcel', '1', 5.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+-- ------------------------------------------------
+-- Common 2. Vật tư thay thế (Material Substitute)
+-- ------------------------------------------------
+('cmn_menu_mat_sub',        'cmn_menu_root',
+ 'Vật tư thay thế',        '/common/material-substitute',
+ 'common/material/MaterialSubstituteList', 1, '', NULL,
+ 1, NULL, '0', 2.00, 0, 'ant-design:retweet-outlined',
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, NULL, 0),
+
+('cmn_btn_matsub_add',      'cmn_menu_mat_sub',
+ 'Thêm vật tư thay thế',   NULL, NULL, 0, NULL, NULL,
+ 2, 'common:materialSubstitute:add', '1', 1.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_matsub_edit',     'cmn_menu_mat_sub',
+ 'Sửa vật tư thay thế',    NULL, NULL, 0, NULL, NULL,
+ 2, 'common:materialSubstitute:edit', '1', 2.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_matsub_delete',   'cmn_menu_mat_sub',
+ 'Xóa vật tư thay thế',    NULL, NULL, 0, NULL, NULL,
+ 2, 'common:materialSubstitute:delete', '1', 3.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+-- ------------------------------------------------
+-- Common 3. Sản phẩm (Product - chung)
+-- ------------------------------------------------
+('cmn_menu_product',        'cmn_menu_root',
+ 'Sản phẩm',               '/common/product',
+ 'common/product/ProductList', 1, '', NULL,
+ 1, NULL, '0', 3.00, 0, 'ant-design:shopping-outlined',
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, NULL, 0),
+
+('cmn_btn_prd_add',         'cmn_menu_product',
+ 'Thêm sản phẩm',          NULL, NULL, 0, NULL, NULL,
+ 2, 'common:product:add', '1', 1.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_prd_edit',        'cmn_menu_product',
+ 'Sửa sản phẩm',           NULL, NULL, 0, NULL, NULL,
+ 2, 'common:product:edit', '1', 2.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_prd_delete',      'cmn_menu_product',
+ 'Xóa sản phẩm',           NULL, NULL, 0, NULL, NULL,
+ 2, 'common:product:delete', '1', 3.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_prd_export',      'cmn_menu_product',
+ 'Xuất Excel sản phẩm',    NULL, NULL, 0, NULL, NULL,
+ 2, 'common:product:exportXls', '1', 4.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+-- ------------------------------------------------
+-- Common 4. BOM (Bill of Materials - chung)
+-- ------------------------------------------------
+('cmn_menu_bom',            'cmn_menu_root',
+ 'Định mức BOM',           '/common/bom',
+ 'common/bom/BomList', 1, '', NULL,
+ 1, NULL, '0', 4.00, 0, 'ant-design:partition-outlined',
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, NULL, 0),
+
+('cmn_btn_bom_add',         'cmn_menu_bom',
+ 'Thêm BOM',               NULL, NULL, 0, NULL, NULL,
+ 2, 'common:bom:add', '1', 1.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_bom_edit',        'cmn_menu_bom',
+ 'Sửa BOM',                NULL, NULL, 0, NULL, NULL,
+ 2, 'common:bom:edit', '1', 2.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_bom_delete',      'cmn_menu_bom',
+ 'Xóa BOM',                NULL, NULL, 0, NULL, NULL,
+ 2, 'common:bom:delete', '1', 3.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('cmn_btn_bom_export',      'cmn_menu_bom',
+ 'Xuất Excel BOM',         NULL, NULL, 0, NULL, NULL,
+ 2, 'common:bom:exportXls', '1', 4.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0);
