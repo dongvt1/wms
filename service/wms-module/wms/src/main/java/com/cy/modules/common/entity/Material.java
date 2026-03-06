@@ -1,5 +1,6 @@
 package com.cy.modules.common.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -54,9 +55,10 @@ public class Material extends JeecgEntity {
     @Schema(description = "ID danh mục")
     private String categoryId;
 
-    /** Tên danh mục (transient) */
+    /** Tên danh mục (join query, không map vào DB) */
+    @TableField(exist = false)
     @Schema(description = "Tên danh mục")
-    private transient String categoryName;
+    private String categoryName;
 
     /** Tồn kho tối thiểu */
     @Excel(name = "Tồn kho tối thiểu", width = 15)
@@ -98,7 +100,8 @@ public class Material extends JeecgEntity {
     @Schema(description = "Trạng thái (1=active, 0=inactive)")
     private Integer status;
 
-    /** Danh sách linh kiện thay thế (transient – join query) */
+    /** Danh sách linh kiện thay thế (không map vào DB) */
+    @TableField(exist = false)
     @Schema(description = "Danh sách linh kiện thay thế")
-    private transient List<MaterialSubstitute> substitutes;
+    private List<MaterialSubstitute> substitutes;
 }

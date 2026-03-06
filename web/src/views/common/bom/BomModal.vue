@@ -5,8 +5,8 @@
 
     <!-- BOM Items (NVL) -->
     <a-divider>Nguyên vật liệu (NVL)</a-divider>
-    <a-table :dataSource="bomItems" :columns="itemColumns" :pagination="false" size="small" bordered
-      class="mb-2" :expandable="{ expandedRowRender }" row-key="_idx">
+    <a-table :dataSource="bomItems" :columns="itemColumns" :pagination="false" size="small" bordered class="mb-2"
+      :expandable="{ expandedRowRender }" row-key="_idx">
       <template #bodyCell="{ column, record, index }">
         <template v-if="column.key === 'materialId'">
           <a-select v-model:value="record.materialId" show-search :options="materialOptions"
@@ -16,7 +16,8 @@
           <a-input-number v-model:value="record.quantity" :min="0.001" style="width:100%" />
         </template>
         <template v-if="column.key === 'unit'">
-          <a-input v-model:value="record.unit" placeholder="cái, kg..." />
+          <a-select v-model:value="record.unit" show-search :options="UNIT_OPTIONS" :filter-option="unitFilterOption"
+            placeholder="Đơn vị" style="width:100%" allow-clear />
         </template>
         <template v-if="column.key === 'substituteCount'">
           <a-tag color="blue">{{ (record.substitutes || []).length }} TT</a-tag>
@@ -37,6 +38,7 @@ import { BasicForm, useForm } from '/@/components/Form';
 import { bomApi } from '/@/api/common/bom';
 import { materialApi } from '/@/api/common/material';
 import { Button, InputNumber, Input, Select } from 'ant-design-vue';
+import { UNIT_OPTIONS, unitFilterOption } from '/@/utils/unitOptions';
 
 const emit = defineEmits(['success', 'register']);
 const isUpdate = ref(false);
@@ -111,8 +113,8 @@ const [registerForm, { setFieldsValue, resetFields, validate, updateSchema }] = 
       componentProps: { min: 0.001, style: 'width: 100%' }, colProps: { span: 12 }
     },
     {
-      field: 'unit', label: 'Đơn vị thành phẩm', component: 'Input', colProps: { span: 12 },
-      componentProps: { placeholder: 'cái, kg, hộp...' }
+      field: 'unit', label: 'Đơn vị thành phẩm', component: 'Select', colProps: { span: 12 },
+      componentProps: { options: UNIT_OPTIONS, showSearch: true, filterOption: unitFilterOption, allowClear: true, placeholder: 'Chọn đơn vị...' }
     },
     { field: 'version', label: 'Phiên bản', component: 'Input', defaultValue: '1.0', colProps: { span: 12 } },
     {
@@ -140,7 +142,7 @@ const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data
     const mats: any = await materialApi.listAll();
     const opts = (mats || []).map((m: any) => ({ label: `${m.code} - ${m.name}`, value: m.id }));
     materialOptions.value = opts;
-  } catch (e) {}
+  } catch (e) { }
 
   // Load products cho dropdown thành phẩm
   try {
@@ -149,7 +151,7 @@ const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data
     const prods = pResult?.records || pResult || [];
     const opts = prods.map((p: any) => ({ label: `${p.code} - ${p.name}`, value: p.id }));
     updateSchema([{ field: 'productId', componentProps: { options: opts } }]);
-  } catch (e) {}
+  } catch (e) { }
 
   if (unref(isUpdate) && data.record) {
     recordId.value = data.record.id;
@@ -159,7 +161,7 @@ const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data
       bomItems.value = (items || []).map((i: any, idx: number) => ({
         ...i, _idx: idx, substitutes: i.substitutes || [],
       }));
-    } catch (e) {}
+    } catch (e) { }
   }
 });
 

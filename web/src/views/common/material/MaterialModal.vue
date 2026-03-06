@@ -31,6 +31,7 @@ import { ref, unref } from 'vue';
 import { BasicModal, useModalInner } from '/@/components/Modal';
 import { BasicForm, useForm } from '/@/components/Form';
 import { materialApi, type MaterialSubstituteModel } from '/@/api/common/material';
+import { UNIT_OPTIONS, unitFilterOption } from '/@/utils/unitOptions';
 
 const emit = defineEmits(['success', 'register']);
 const isUpdate = ref(false);
@@ -51,8 +52,8 @@ const [registerForm, { setFieldsValue, resetFields, validate }] = useForm({
     { field: 'code', label: 'Mã vật tư', component: 'Input', required: true, colProps: { span: 12 } },
     { field: 'name', label: 'Tên vật tư', component: 'Input', required: true, colProps: { span: 12 } },
     {
-      field: 'unit', label: 'Đơn vị tính', component: 'Input', colProps: { span: 12 },
-      componentProps: { placeholder: 'cái, kg, m, lit...' }
+      field: 'unit', label: 'Đơn vị tính', component: 'Select', colProps: { span: 12 },
+      componentProps: { options: UNIT_OPTIONS, showSearch: true, filterOption: unitFilterOption, allowClear: true, placeholder: 'Chọn đơn vị...' }
     },
     {
       field: 'price', label: 'Giá tham khảo', component: 'InputNumber', colProps: { span: 12 },

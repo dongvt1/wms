@@ -82,7 +82,7 @@
                                 </span>
                             </div>
                             <div v-if="selectedBom.notes" class="text-xs text-gray-400 mt-1 italic">{{ selectedBom.notes
-                                }}</div>
+                            }}</div>
                         </div>
                         <div class="flex gap-2 flex-shrink-0">
                             <a-button @click="handleEdit(selectedBom)">✏️ Sửa BOM</a-button>
@@ -136,14 +136,15 @@
                                         style="width:90px" placeholder="SL" />
 
                                     <!-- Unit -->
-                                    <a-input v-model:value="item.unit" size="small" style="width:70px"
-                                        placeholder="Đơn vị" />
+                                    <a-select v-model:value="item.unit" size="small" style="width:100px"
+                                        :options="UNIT_OPTIONS" show-search :filter-option="unitFilterOption"
+                                        placeholder="Đơn vị" allow-clear />
 
                                     <!-- Wastage -->
                                     <a-input-number v-model:value="item.wastageRate" :min="0" :max="100" size="small"
                                         style="width:80px" :placeholder="'Hao hụt%'"
                                         :formatter="(v: any) => v ? `${v}%` : ''"
-                                        :parser="(v: any) => v?.replace('%', '')" />
+                                        :parser="(v: any) => parseFloat((v || '').replace('%', '')) || 0" />
 
                                     <!-- Substitute badge -->
                                     <a-badge :count="(item.substitutes || []).length"
@@ -202,7 +203,7 @@
                     <div class="border-t border-gray-100 px-4 py-3 flex justify-between items-center bg-gray-50">
                         <span class="text-xs text-gray-400">
                             Tổng {{ bomItems.length }} NVL ·
-                            {{bomItems.reduce((s, i) => s + ((i.substitutes || []).length), 0)}} thay thế
+                            {{bomItems.reduce((s: number, i: any) => s + ((i.substitutes || []).length), 0)}} thay thế
                         </span>
                         <div class="flex gap-2">
                             <a-button @click="loadBomDetail">↩ Hoàn tác</a-button>
@@ -224,8 +225,9 @@
 import { ref, computed, onMounted } from 'vue';
 import { useModal } from '/@/components/Modal';
 import { useMessage } from '/@/hooks/web/useMessage';
-import { bomApi, type BomModel, type BomItemModel } from '/@/api/common/bom';
+import { bomApi, type BomModel } from '/@/api/common/bom';
 import { materialApi } from '/@/api/common/material';
+import { UNIT_OPTIONS, unitFilterOption } from '/@/utils/unitOptions';
 import BomModal from './BomModal.vue';
 
 const { createMessage } = useMessage();

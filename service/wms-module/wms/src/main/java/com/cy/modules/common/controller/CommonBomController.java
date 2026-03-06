@@ -172,7 +172,7 @@ public class CommonBomController extends JeecgController<Bom, CommonBomService> 
     @Operation(summary = "Lấy danh sách linh kiện thay thế theo BOM Item")
     @GetMapping("/getSubstitutes")
     public Result<?> getSubstitutes(@RequestParam(name = "bomItemId") String bomItemId) {
-        return Result.OK(commonBomService.getBomItems(bomItemId));
+        return Result.OK(commonBomService.getSubstitutes(bomItemId));
     }
 
     @SuppressWarnings("unchecked")

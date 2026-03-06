@@ -3,6 +3,7 @@ package com.cy.modules.common.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.cy.modules.common.entity.Bom;
 import com.cy.modules.common.entity.BomItem;
+import com.cy.modules.common.entity.BomItemSubstitute;
 
 import java.util.List;
 import java.util.Map;
@@ -50,4 +51,8 @@ public interface CommonBomService extends IService<Bom> {
 
     /** Lấy tất cả BOM đang active */
     List<Bom> listActive();
+
+    /** Lấy danh sách linh kiện thay thế của 1 BOM Item */
+    List<BomItemSubstitute> getSubstitutes(String bomItemId);
 }
+

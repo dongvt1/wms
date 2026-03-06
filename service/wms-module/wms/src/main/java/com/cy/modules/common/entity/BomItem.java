@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -39,13 +40,15 @@ public class BomItem implements Serializable {
     @Schema(description = "ID nguyên vật liệu")
     private String materialId;
 
-    /** Tên NVL (transient – join query) */
+    /** Tên NVL (join query, không map vào DB) */
+    @TableField(exist = false)
     @Schema(description = "Tên nguyên vật liệu")
-    private transient String materialName;
+    private String materialName;
 
-    /** Mã NVL (transient – join query) */
+    /** Mã NVL (join query, không map vào DB) */
+    @TableField(exist = false)
     @Schema(description = "Mã nguyên vật liệu")
-    private transient String materialCode;
+    private String materialCode;
 
     /** ID BOM con (nếu vật tư là bán thành phẩm) */
     @Schema(description = "ID BOM con – tham chiếu tới pl_bom.id nếu vật tư là bán thành phẩm")
@@ -86,7 +89,8 @@ public class BomItem implements Serializable {
     @Schema(description = "Danh sách RefDes, phân cách bởi dấu phẩy: C1,C5,C12")
     private String refDesignators;
 
-    /** Danh sách linh kiện thay thế (transient – per BOM override) */
+    /** Danh sách linh kiện thay thế per-BOM (không map vào DB) */
+    @TableField(exist = false)
     @Schema(description = "Danh sách linh kiện thay thế per-BOM")
-    private transient List<BomItemSubstitute> substitutes;
+    private List<BomItemSubstitute> substitutes;
 }

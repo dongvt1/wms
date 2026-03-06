@@ -48,7 +48,7 @@ const warehouse: AppRouteModule = {
     {
       path: 'bom',
       name: 'BomManagement',
-      component: () => import('/@/views/planning/BomList.vue'),
+      component: () => import('/@/views/common/bom/BomList.vue'),
       meta: {
         title: 'Định mức NVL (BOM)',
       },
@@ -64,7 +64,7 @@ const warehouse: AppRouteModule = {
     {
       path: 'bom-manage',
       name: 'BomManage',
-      component: () => import('/@/views/planning/BomManage.vue'),
+      component: () => import('/@/views/common/bom/BomManage.vue'),
       meta: {
         title: 'Quản lý BOM',
       },

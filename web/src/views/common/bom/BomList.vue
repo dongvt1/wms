@@ -77,7 +77,7 @@ function getTableAction(record: any) {
   return [
     { label: 'Sửa', onClick: () => openModal(true, { record, isUpdate: true }) },
     {
-      label: 'Xóa', color: 'error',
+      label: 'Xóa', color: 'error' as const,
       popConfirm: { title: 'Xác nhận xóa BOM?', confirm: () => handleDelete(record) },
     },
   ];

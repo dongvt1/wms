@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false">
-	<!--定义日志文件的存储地址 -->
+	<!-- Define the storage address of the log file -->
 	<property name="LOG_HOME" value="../logs" />
 
 	<!--<property name="COLOR_PATTERN" value="%black(%contextName-) %red(%d{yyyy-MM-dd HH:mm:ss}) %green([%thread]) %highlight(%-5level) %boldMagenta( %replace(%caller{1}){'\t|Caller.{1}0|\r\n', ''})- %gray(%msg%xEx%n)" />-->
-	<!-- 控制台输出 -->
+	<!-- Console Output -->
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符
+			<!-- Formatted output: %d is date, %thread is thread name, %-5level is level showing 5 characters, %msg is log message, %n is newline
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:%L - %msg%n</pattern>-->
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %highlight(%-5level) %cyan(%logger{50}:%L) - %msg%n</pattern>
 		</encoder>
 	</appender>
 
-	<!-- 按照每天生成日志文件 -->
+	<!-- Generate log file daily -->
 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<!--日志文件输出的文件名 -->
+			<!-- Log file output name -->
 			<FileNamePattern>${LOG_HOME}/jeecgboot-%d{yyyy-MM-dd}.%i.log</FileNamePattern>
-			<!--日志文件保留天数 -->
+			<!-- Log file retention days -->
 			<MaxHistory>30</MaxHistory>
 			<maxFileSize>10MB</maxFileSize>
 		</rollingPolicy>
 		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-			<!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+			<!-- Formatted output: %d is date, %thread is thread name, %-5level is level showing 5 characters, %msg is log message, %n is newline -->
 			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:%L - %msg%n</pattern>
 		</encoder>
 	</appender>
 
-	<!-- 生成 error html格式日志开始 -->
+	<!-- Start generating error HTML log -->
 	<appender name="HTML" class="ch.qos.logback.core.FileAppender">
 		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-			<!--设置日志级别,过滤掉info日志,只输入error日志-->
+			<!-- Set log level, filter out INFO, only output ERROR -->
 			<level>ERROR</level>
 		</filter>
 		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
@@ -41,14 +41,14 @@
 		</encoder>
 		<file>${LOG_HOME}/error-log.html</file>
 	</appender>
-	<!-- 生成 error html格式日志结束 -->
+	<!-- End generating error HTML log -->
 
-	<!-- 每天生成一个html格式的日志开始 -->
+	<!-- Start generating a daily HTML log -->
 	<appender name="FILE_HTML" class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-			<!--日志文件输出的文件名 -->
+			<!-- Log file output name -->
 			<FileNamePattern>${LOG_HOME}/jeecgboot-%d{yyyy-MM-dd}.%i.html</FileNamePattern>
-			<!--日志文件保留天数 -->
+			<!-- Log file retention days -->
 			<MaxHistory>30</MaxHistory>
 			<MaxFileSize>10MB</MaxFileSize>
 		</rollingPolicy>
@@ -58,19 +58,19 @@
 			</layout>
 		</encoder>
 	</appender>
-	<!-- 每天生成一个html格式的日志结束 -->
+	<!-- End generating a daily HTML log -->
 
-	<!--myibatis log configure -->
+	<!-- myibatis log configure -->
 	<logger name="com.apache.ibatis" level="TRACE" />
 	<logger name="java.sql.Connection" level="DEBUG" />
 	<logger name="java.sql.Statement" level="DEBUG" />
 	<logger name="java.sql.PreparedStatement" level="DEBUG" />
 
-	<!-- 日志输出级别 -->
+	<!-- Log output level -->
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 		
-		<!-- 开发环境关闭日志生成，项目启动快；生产环境请按需打开注释
+		<!-- Disable log file generation in dev for faster startup; uncomment for production as needed
 		<appender-ref ref="FILE" />
 		<appender-ref ref="HTML" />
 		<appender-ref ref="FILE_HTML" />-->

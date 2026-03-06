@@ -77,8 +77,9 @@ public class CommonBomServiceImpl extends ServiceImpl<BomMapper, Bom> implements
         if (items != null && !items.isEmpty()) {
             LocalDateTime now = LocalDateTime.now();
             for (BomItem item : items) {
+                item.setId(null);          // IMPORTANT: reset ID sẽ MyBatis-Plus generate mới
                 item.setBomId(bom.getId());
-                bomItemMapper.insert(item);
+                bomItemMapper.insert(item); // sau câu này item.getId() đã có ID mới
                 saveItemSubstitutes(item.getId(), item.getSubstitutes(), now);
             }
         }

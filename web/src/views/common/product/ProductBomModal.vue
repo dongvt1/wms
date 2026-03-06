@@ -52,7 +52,7 @@ import { ref } from 'vue';
 import { BasicModal, useModalInner, useModal } from '/@/components/Modal';
 import { bomApi } from '/@/api/warehouse/bom';
 import { useMessage } from '/@/hooks/web/useMessage';
-import BomModal from '/@/views/planning/BomModal.vue';
+import BomModal from '/@/views/common/bom/BomModal.vue';
 
 const emit = defineEmits(['register']);
 const { createMessage } = useMessage();
