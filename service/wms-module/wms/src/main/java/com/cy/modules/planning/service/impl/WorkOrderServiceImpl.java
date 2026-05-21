@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import com.cy.modules.common.service.BomService;
 import com.cy.modules.planning.service.WorkOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,12 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
 
     @Autowired
     private com.cy.modules.warehouse.service.InventoryService inventoryService;
+
+    @Autowired
+    private com.cy.modules.qms.service.StockBlockingService stockBlockingService;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public List<WorkOrder> getByStatus(String status) {
@@ -136,6 +143,23 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
         List<BomItem> items = (List<BomItem>) bomDetail.get("items");
 
         if (bom == null) return "Không tìm thấy thông tin BOM";
+
+        // Check stock availability — reject if any stock transaction for BOM materials is blocked (Requirement 8.4)
+        // Uses StockBlockingService.isStockAvailable() to verify materials are not QC-blocked
+        // TODO: When per-transaction material picking is implemented, check the specific
+        //       stock transaction being picked rather than querying by product.
+        if (items != null) {
+            for (BomItem item : items) {
+                List<String> blockedTransactions = getBlockedStockTransactionsForMaterial(item.getMaterialId());
+                for (String txId : blockedTransactions) {
+                    if (!stockBlockingService.isStockAvailable(txId)) {
+                        log.warn("Nguyên liệu {} có phiếu nhập kho {} bị chặn do IQC không đạt, Work Order {}",
+                                item.getMaterialId(), txId, wo.getOrderCode());
+                        return "Nguyên liệu bị chặn do IQC không đạt. Vui lòng xử lý NCR trước khi sản xuất.";
+                    }
+                }
+            }
+        }
 
         // Calculate ratio: actualQuantity / bom.outputQuantity
         BigDecimal ratio = actualQuantity.divide(bom.getOutputQuantity(), 6, java.math.RoundingMode.HALF_UP);
@@ -263,5 +287,19 @@ public class WorkOrderServiceImpl extends ServiceImpl<WorkOrderMapper, WorkOrder
         log.setOperator(operator);
         log.setNotes(notes);
         productionLogMapper.insert(log);
+    }
+
+    /**
+     * Query stock transaction IDs linked to a material (product) via IQC inspections.
+     * Returns IDs of stock transactions that have been through IQC (regardless of result).
+     * Used to check if any inbound stock for this material is QC-blocked.
+     */
+    private List<String> getBlockedStockTransactionsForMaterial(String materialId) {
+        return jdbcTemplate.queryForList(
+                "SELECT wst.id FROM wh_stock_transaction wst " +
+                "INNER JOIN qms_iqc_inspection iqc ON iqc.stock_transaction_id = wst.id " +
+                "WHERE iqc.product_id = ? AND wst.qc_status IN ('blocked', 'conditional_hold')",
+                String.class, materialId
+        );
     }
 }

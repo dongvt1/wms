@@ -12,7 +12,7 @@ public interface QcReviewService extends IService<QcReview> {
     /** Lấy hoặc tạo review cho WO, tổng hợp các sessions */
     QcReview getOrCreateByWorkOrder(String workOrderId);
 
-    /** Đồng bộ thống kê sessions vào review */
+    /** Đồng bộ thống kê sessions vào review (dựa trên QcSessionValue.result) */
     void syncStats(String reviewId);
 
     /** Nộp chờ phê duyệt: draft → pending_approval */
@@ -25,4 +25,10 @@ public interface QcReviewService extends IService<QcReview> {
     String reject(String id, String approver, String reason);
 
     Map<String, Object> getDetail(String reviewId);
+
+    /** Đề xuất kết quả tổng thể dựa trên kết quả các sessions */
+    String suggestOverallResult(String reviewId);
+
+    /** Ghi đè kết quả tổng thể với lý do (dành cho Quản_lý_QC) */
+    String overrideResult(String reviewId, String result, String reason, String operator);
 }

@@ -69,6 +69,14 @@ public class ProductionStage implements Serializable {
     @Schema(description = "Ghi chú")
     private String notes;
 
+    /** FK → qms_inspection_execution */
+    @Schema(description = "FK → qms_inspection_execution")
+    private String qcExecutionId;
+
+    /** 1=đang chờ QC hoàn thành */
+    @Schema(description = "1=đang chờ QC hoàn thành, 0=không bị chặn")
+    private Integer qcBlocked;
+
     /** Thời gian tạo */
     @Schema(description = "Thời gian tạo")
     private Date createTime;

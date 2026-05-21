@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cy.modules.qms.entity.QcReview;
 import com.cy.modules.qms.entity.QcSession;
+import com.cy.modules.qms.entity.QcSessionValue;
 import com.cy.modules.qms.mapper.QcReviewMapper;
 import com.cy.modules.qms.mapper.QcSessionMapper;
+import com.cy.modules.qms.mapper.QcSessionValueMapper;
 import com.cy.modules.qms.service.QcReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ public class QcReviewServiceImpl extends ServiceImpl<QcReviewMapper, QcReview>
         implements QcReviewService {
 
     @Autowired private QcSessionMapper sessionMapper;
+    @Autowired private QcSessionValueMapper sessionValueMapper;
 
     @Override
     public String generateReviewCode() {
@@ -60,14 +63,38 @@ public class QcReviewServiceImpl extends ServiceImpl<QcReviewMapper, QcReview>
     public void syncStats(String reviewId) {
         QcReview review = this.getById(reviewId);
         if (review == null) return;
+
         List<QcSession> sessions = sessionMapper.selectList(
             new QueryWrapper<QcSession>().eq("work_order_id", review.getWorkOrderId()));
+
         int total = sessions.size();
-        long passed = sessions.stream().filter(s -> "completed".equals(s.getStatus())).count();
-        long failed = sessions.stream().filter(s -> "draft".equals(s.getStatus())).count(); // unfinished
+        int passed = 0;
+        int failed = 0;
+
+        for (QcSession session : sessions) {
+            List<QcSessionValue> values = sessionValueMapper.selectList(
+                new QueryWrapper<QcSessionValue>().eq("session_id", session.getId()));
+
+            if (values.isEmpty()) {
+                // Session with no values is not counted as passed or failed
+                continue;
+            }
+
+            boolean hasFailedValue = values.stream()
+                .anyMatch(v -> "failed".equals(v.getResult()));
+            boolean allPassed = values.stream()
+                .allMatch(v -> "passed".equals(v.getResult()) || "na".equals(v.getResult()));
+
+            if (hasFailedValue) {
+                failed++;
+            } else if (allPassed) {
+                passed++;
+            }
+        }
+
         review.setTotalSessions(total);
-        review.setPassedSessions((int) passed);
-        review.setFailedSessions(total - (int) passed);
+        review.setPassedSessions(passed);
+        review.setFailedSessions(failed);
         this.updateById(review);
     }
 
@@ -129,5 +156,80 @@ public class QcReviewServiceImpl extends ServiceImpl<QcReviewMapper, QcReview>
             result.put("sessions", sessions);
         }
         return result;
+    }
+
+    @Override
+    public String suggestOverallResult(String reviewId) {
+        QcReview review = this.getById(reviewId);
+        if (review == null) return null;
+
+        // Ensure stats are up-to-date
+        syncStats(reviewId);
+        review = this.getById(reviewId);
+
+        List<QcSession> sessions = sessionMapper.selectList(
+            new QueryWrapper<QcSession>().eq("work_order_id", review.getWorkOrderId()));
+
+        if (sessions.isEmpty()) {
+            return "conditional";
+        }
+
+        boolean anyFailed = false;
+        boolean allPassed = true;
+
+        for (QcSession session : sessions) {
+            List<QcSessionValue> values = sessionValueMapper.selectList(
+                new QueryWrapper<QcSessionValue>().eq("session_id", session.getId()));
+
+            if (values.isEmpty()) {
+                allPassed = false;
+                continue;
+            }
+
+            boolean sessionHasFailed = values.stream()
+                .anyMatch(v -> "failed".equals(v.getResult()));
+            boolean sessionAllPassed = values.stream()
+                .allMatch(v -> "passed".equals(v.getResult()) || "na".equals(v.getResult()));
+
+            if (sessionHasFailed) {
+                anyFailed = true;
+            }
+            if (!sessionAllPassed) {
+                allPassed = false;
+            }
+        }
+
+        if (anyFailed) {
+            return "failed";
+        } else if (allPassed) {
+            return "passed";
+        } else {
+            return "conditional";
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public String overrideResult(String reviewId, String result, String reason, String operator) {
+        QcReview review = this.getById(reviewId);
+        if (review == null) return "Không tìm thấy review";
+
+        if (result == null || result.isEmpty()) {
+            return "Kết quả không được để trống";
+        }
+        if (reason == null || reason.isEmpty()) {
+            return "Lý do ghi đè không được để trống";
+        }
+
+        review.setOverallResult(result);
+        // Store override reason in notes field with prefix to distinguish from regular notes
+        String overrideNote = "[Override by " + (operator != null ? operator : "unknown") + "] " + reason;
+        if (review.getNotes() != null && !review.getNotes().isEmpty()) {
+            review.setNotes(review.getNotes() + "\n" + overrideNote);
+        } else {
+            review.setNotes(overrideNote);
+        }
+        this.updateById(review);
+        return "Đã ghi đè kết quả tổng thể thành công";
     }
 }

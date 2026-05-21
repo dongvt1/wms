@@ -30,6 +30,12 @@
                 </template>
             </a-table>
 
+            <QmsAttachmentPanel
+              v-if="detail.inspection?.id"
+              entity-type="pqc"
+              :entity-id="detail.inspection.id"
+            />
+
             <div class="mt-4 flex gap-2" v-if="detail.inspection?.status === 'in_progress'">
                 <a-button type="primary" @click="submitForApproval">📋 Nộp phê duyệt</a-button>
             </div>
@@ -47,6 +53,7 @@ import { ref } from 'vue';
 import { BasicModal, useModalInner } from '/@/components/Modal';
 import { pqcApi } from '/@/api/warehouse/pqcInspection';
 import { useMessage } from '/@/hooks/web/useMessage';
+import QmsAttachmentPanel from './components/QmsAttachmentPanel.vue';
 
 const emit = defineEmits(['success', 'register']);
 const { createMessage } = useMessage();

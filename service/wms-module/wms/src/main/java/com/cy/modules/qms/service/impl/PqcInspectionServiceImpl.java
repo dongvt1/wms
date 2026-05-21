@@ -8,11 +8,12 @@ import com.cy.modules.qms.entity.PqcInspectionResult;
 import com.cy.modules.qms.mapper.PqcInspectionMapper;
 import com.cy.modules.qms.mapper.PqcInspectionResultMapper;
 import com.cy.modules.qms.service.PqcInspectionService;
+import com.cy.modules.qms.service.QmsNotificationService;
+import com.cy.modules.qms.util.QmsCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -28,23 +29,12 @@ public class PqcInspectionServiceImpl extends ServiceImpl<PqcInspectionMapper, P
     @Autowired
     private PqcInspectionResultMapper resultMapper;
 
+    @Autowired
+    private QmsNotificationService notificationService;
+
     @Override
     public String generateInspectionCode() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String dateStr = sdf.format(new Date());
-        QueryWrapper<PqcInspection> qw = new QueryWrapper<>();
-        qw.likeRight("inspection_code", "PQC" + dateStr).orderByDesc("inspection_code").last("LIMIT 1");
-        PqcInspection last = this.getOne(qw);
-        int seq = 1;
-        if (last != null) {
-            try {
-                String code = last.getInspectionCode();
-                seq = Integer.parseInt(code.substring(code.length() - 3)) + 1;
-            } catch (NumberFormatException e) {
-                seq = 1;
-            }
-        }
-        return "PQC" + dateStr + String.format("%03d", seq);
+        return QmsCodeGenerator.generateCode("PQC", "inspection_code", this.baseMapper);
     }
 
     @Override
@@ -82,6 +72,15 @@ public class PqcInspectionServiceImpl extends ServiceImpl<PqcInspectionMapper, P
         }
         inspection.setStatus("pending_approval");
         this.updateById(inspection);
+
+        // Send approval request notification (failure must not roll back main operation)
+        try {
+            String title = "Phiếu PQC " + inspection.getInspectionCode() + " cần phê duyệt";
+            notificationService.sendApprovalRequest("pqc", id, title, null);
+        } catch (Exception e) {
+            log.warn("Failed to send approval notification: {}", e.getMessage());
+        }
+
         return "Nộp phiếu PQC chờ phê duyệt thành công";
     }
 
@@ -99,6 +98,14 @@ public class PqcInspectionServiceImpl extends ServiceImpl<PqcInspectionMapper, P
         }
         inspection.setUpdateBy(operator);
         this.updateById(inspection);
+
+        // Send approval result notification (failure must not roll back main operation)
+        try {
+            notificationService.sendApprovalResult("pqc", id, status, inspection.getCreateBy());
+        } catch (Exception e) {
+            log.warn("Failed to send approval result notification: {}", e.getMessage());
+        }
+
         return "Duyệt phiếu PQC thành công: " + status;
     }
 

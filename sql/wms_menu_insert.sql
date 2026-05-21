@@ -308,6 +308,40 @@ VALUES
  1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
 
 -- ------------------------------------------------
+-- QMS 3b. Kiểm tra thành phẩm (FQC)
+-- ------------------------------------------------
+('qms_menu_fqc',            'qms_menu_root',
+ 'Kiểm tra thành phẩm (FQC)', '/qms/fqc-inspection',
+ 'qms/FqcInspectionList', 1, '', NULL,
+ 1, NULL, '0', 3.50, 0, 'ant-design:export-outlined',
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, NULL, 0),
+
+('qms_btn_fqc_add',         'qms_menu_fqc',
+ 'Tạo phiếu FQC',          NULL, NULL, 0, NULL, NULL,
+ 2, 'qms:fqcInspection:add', '1', 1.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('qms_btn_fqc_edit',        'qms_menu_fqc',
+ 'Sửa phiếu FQC',          NULL, NULL, 0, NULL, NULL,
+ 2, 'qms:fqcInspection:edit', '1', 2.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('qms_btn_fqc_delete',      'qms_menu_fqc',
+ 'Xóa phiếu FQC',          NULL, NULL, 0, NULL, NULL,
+ 2, 'qms:fqcInspection:delete', '1', 3.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('qms_btn_fqc_approve',     'qms_menu_fqc',
+ 'Duyệt phiếu FQC',        NULL, NULL, 0, NULL, NULL,
+ 2, 'qms:inspection:approve', '1', 4.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+('qms_btn_fqc_export',      'qms_menu_fqc',
+ 'Xuất Excel FQC',          NULL, NULL, 0, NULL, NULL,
+ 2, 'qms:fqcInspection:exportXls', '1', 5.00, 0, NULL,
+ 1, 0, 0, 0, NULL, 'admin', NOW(), NULL, NULL, 0, 0, '1', 0),
+
+-- ------------------------------------------------
 -- QMS 4. Báo cáo chất lượng
 -- ------------------------------------------------
 ('qms_menu_report',         'qms_menu_root',

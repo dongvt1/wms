@@ -77,4 +77,12 @@ public class RoutingStep implements Serializable {
     @Excel(name = "Mô tả", width = 40)
     @Schema(description = "Mô tả")
     private String description;
+
+    /** FK → qms_qc_stage (trigger QC khi hoàn thành bước này) */
+    @Schema(description = "FK → qms_qc_stage (trigger QC khi hoàn thành bước này)")
+    private String qcStageId;
+
+    /** Loại QC: iqc, pqc, fqc */
+    @Schema(description = "Loại QC: iqc, pqc, fqc")
+    private String qcStageType;
 }

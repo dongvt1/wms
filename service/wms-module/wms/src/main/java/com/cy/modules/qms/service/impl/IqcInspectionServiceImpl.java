@@ -8,11 +8,13 @@ import com.cy.modules.qms.entity.IqcInspectionResult;
 import com.cy.modules.qms.mapper.IqcInspectionMapper;
 import com.cy.modules.qms.mapper.IqcInspectionResultMapper;
 import com.cy.modules.qms.service.IqcInspectionService;
+import com.cy.modules.qms.service.QmsNotificationService;
+import com.cy.modules.qms.service.StockBlockingService;
+import com.cy.modules.qms.util.QmsCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -28,23 +30,15 @@ public class IqcInspectionServiceImpl extends ServiceImpl<IqcInspectionMapper, I
     @Autowired
     private IqcInspectionResultMapper resultMapper;
 
+    @Autowired
+    private QmsNotificationService notificationService;
+
+    @Autowired
+    private StockBlockingService stockBlockingService;
+
     @Override
     public String generateInspectionCode() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String dateStr = sdf.format(new Date());
-        QueryWrapper<IqcInspection> qw = new QueryWrapper<>();
-        qw.likeRight("inspection_code", "IQC" + dateStr).orderByDesc("inspection_code").last("LIMIT 1");
-        IqcInspection last = this.getOne(qw);
-        int seq = 1;
-        if (last != null) {
-            try {
-                String code = last.getInspectionCode();
-                seq = Integer.parseInt(code.substring(code.length() - 3)) + 1;
-            } catch (NumberFormatException e) {
-                seq = 1;
-            }
-        }
-        return "IQC" + dateStr + String.format("%03d", seq);
+        return QmsCodeGenerator.generateCode("IQC", "inspection_code", this.baseMapper);
     }
 
     @Override
@@ -83,6 +77,15 @@ public class IqcInspectionServiceImpl extends ServiceImpl<IqcInspectionMapper, I
         }
         inspection.setStatus("pending_approval");
         this.updateById(inspection);
+
+        // Send approval request notification (failure must not roll back main operation)
+        try {
+            String title = "Phiếu IQC " + inspection.getInspectionCode() + " cần phê duyệt";
+            notificationService.sendApprovalRequest("iqc", id, title, null);
+        } catch (Exception e) {
+            log.warn("Failed to send approval notification: {}", e.getMessage());
+        }
+
         return "Nộp phiếu IQC chờ phê duyệt thành công";
     }
 
@@ -100,6 +103,18 @@ public class IqcInspectionServiceImpl extends ServiceImpl<IqcInspectionMapper, I
         }
         inspection.setUpdateBy(operator);
         this.updateById(inspection);
+
+        // Update stock transaction qc_status based on IQC result (Requirements 8.1, 8.2, 8.3)
+        // This must be atomic with the status update — if it fails, the whole transaction rolls back
+        stockBlockingService.handleIqcApproval(id, status);
+
+        // Send approval result notification (failure must not roll back main operation)
+        try {
+            notificationService.sendApprovalResult("iqc", id, status, inspection.getCreateBy());
+        } catch (Exception e) {
+            log.warn("Failed to send approval result notification: {}", e.getMessage());
+        }
+
         return "Duyệt phiếu IQC thành công: " + status;
     }
 

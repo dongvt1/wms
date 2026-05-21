@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
@@ -42,6 +43,7 @@ public class QcStageController extends JeecgController<QcStage, QcStageService> 
     }
 
     @PostMapping("/add")
+    @RequiresPermissions("qms:template:manage")
     @AutoLog(value = "Tạo công đoạn kiểm tra")
     @Operation(summary = "Tạo công đoạn kiểm tra kèm tham số")
     public Result<?> add(@RequestBody Map<String, Object> body) {
@@ -55,6 +57,7 @@ public class QcStageController extends JeecgController<QcStage, QcStageService> 
     }
 
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
+    @RequiresPermissions("qms:template:manage")
     @AutoLog(value = "Sửa công đoạn kiểm tra", operateType = 3)
     @Operation(summary = "Sửa công đoạn kiểm tra kèm tham số")
     public Result<?> edit(@RequestBody Map<String, Object> body) {
@@ -65,6 +68,7 @@ public class QcStageController extends JeecgController<QcStage, QcStageService> 
     }
 
     @DeleteMapping("/delete")
+    @RequiresPermissions("qms:template:manage")
     @AutoLog(value = "Xóa công đoạn kiểm tra")
     public Result<?> delete(@RequestParam String id) {
         stageService.removeById(id);

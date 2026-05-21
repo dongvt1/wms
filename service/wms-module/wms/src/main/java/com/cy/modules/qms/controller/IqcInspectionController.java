@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
@@ -50,6 +51,7 @@ public class IqcInspectionController extends JeecgController<IqcInspection, IqcI
     }
 
     @PostMapping("/add")
+    @RequiresPermissions("qms:inspection:add")
     @AutoLog(value = "Create IQC inspection form")
     @Operation(summary = "Create IQC inspection form")
     public Result<?> add(@RequestBody Map<String, Object> requestBody) {
@@ -66,6 +68,7 @@ public class IqcInspectionController extends JeecgController<IqcInspection, IqcI
     }
 
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
+    @RequiresPermissions("qms:inspection:edit")
     @AutoLog(value = "Edit IQC inspection form", operateType = 3)
     @Operation(summary = "Edit IQC inspection form")
     public Result<?> edit(@RequestBody Map<String, Object> requestBody) {
@@ -111,6 +114,7 @@ public class IqcInspectionController extends JeecgController<IqcInspection, IqcI
     }
 
     @PutMapping("/approve/{id}")
+    @RequiresPermissions("qms:inspection:approve")
     @AutoLog(value = "Approve IQC inspection form", operateType = 3)
     @Operation(summary = "Approve IQC inspection form (pending_approval → passed/failed/conditional)")
     public Result<?> approve(@PathVariable("id") String id,

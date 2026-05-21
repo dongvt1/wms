@@ -29,6 +29,8 @@
 
       <Notify v-if="getShowNotice" :class="`${prefixCls}-action__item notify-item`" />
 
+      <QmsNotificationBadge :class="`${prefixCls}-action__item`" />
+
       <FullScreen v-if="getShowFullScreen" :class="`${prefixCls}-action__item fullscreen-item`" />
 
       <LockScreen v-if="getUseLockPage" />
@@ -75,6 +77,7 @@
   import { useUserStore } from '/@/store/modules/user';
   import { useI18n } from '/@/hooks/web/useI18n';
   import Aide from "@/views/dashboard/ai/components/aide/index.vue"
+  import QmsNotificationBadge from '/@/views/qms/components/NotificationBadge.vue';
   const { t } = useI18n();
 
   export default defineComponent({
@@ -93,6 +96,7 @@
       ErrorAction,
       LockScreen,
       LoginSelect,
+      QmsNotificationBadge,
       SettingDrawer: createAsyncComponent(() => import('/@/layouts/default/setting/index.vue'), {
         loading: true,
       }),

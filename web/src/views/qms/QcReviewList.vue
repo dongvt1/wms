@@ -34,20 +34,41 @@
                     </a-descriptions-item>
                     <a-descriptions-item label="Tổng phiên KT">{{ reviewDetail.review?.totalSessions
                         }}</a-descriptions-item>
-                    <a-descriptions-item label="Hoàn thành">{{ reviewDetail.review?.passedSessions
+                    <a-descriptions-item label="Phiên đạt">{{ reviewDetail.review?.passedSessions
                         }}</a-descriptions-item>
-                    <a-descriptions-item label="Chưa hoàn thành">{{ reviewDetail.review?.failedSessions
+                    <a-descriptions-item label="Phiên không đạt">{{ reviewDetail.review?.failedSessions
                         }}</a-descriptions-item>
                     <a-descriptions-item label="Kết quả tổng" :span="3">
                         <a-tag v-if="reviewDetail.review?.overallResult"
-                            :color="reviewDetail.review?.overallResult === 'passed' ? 'green' : 'red'">
-                            {{ reviewDetail.review?.overallResult }}
+                            :color="reviewDetail.review?.overallResult === 'passed' ? 'green' : reviewDetail.review?.overallResult === 'failed' ? 'red' : 'orange'">
+                            {{ reviewDetail.review?.overallResult === 'passed' ? '✅ Đạt' :
+                               reviewDetail.review?.overallResult === 'failed' ? '❌ Không đạt' : '⚠️ Có điều kiện' }}
                         </a-tag>
                         <span v-else class="text-gray-400">Chưa phê duyệt</span>
                     </a-descriptions-item>
+
+                    <!-- Suggested Result Section -->
+                    <a-descriptions-item label="Kết quả đề xuất" :span="3">
+                        <a-spin v-if="suggestLoading" size="small" />
+                        <template v-else-if="suggestedResult">
+                            <a-tag :color="suggestedResult === 'passed' ? 'green' : suggestedResult === 'failed' ? 'red' : 'orange'">
+                                {{ suggestedResult === 'passed' ? '✅ Đề xuất: Đạt' :
+                                   suggestedResult === 'failed' ? '❌ Đề xuất: Không đạt' : '⚠️ Đề xuất: Có điều kiện' }}
+                            </a-tag>
+                        </template>
+                        <span v-else class="text-gray-400">Không có đề xuất</span>
+                    </a-descriptions-item>
+
                     <a-descriptions-item label="Ghi chú" :span="3">{{ reviewDetail.review?.rejectionReason
                         }}</a-descriptions-item>
                 </a-descriptions>
+
+                <!-- Override Result Button (Quản_lý_QC only) -->
+                <div class="mt-3" v-if="reviewDetail.review?.status === 'approved' || reviewDetail.review?.status === 'pending_approval'">
+                    <a-button v-auth="'qms:inspection:approve'" type="default" @click="showOverrideModal = true">
+                        🔄 Ghi đè kết quả
+                    </a-button>
+                </div>
 
                 <a-divider>Danh sách phiên kiểm tra</a-divider>
                 <a-table :dataSource="reviewDetail.sessions || []" :columns="sessionCols" :pagination="false"
@@ -80,11 +101,29 @@
                 </div>
             </template>
         </BasicModal>
+
+        <!-- Override Result Modal -->
+        <BasicModal v-model:open="showOverrideModal" title="Ghi đè kết quả Review" width="480px"
+            @ok="handleOverride" @cancel="resetOverrideForm" :confirmLoading="overrideLoading">
+            <a-form layout="vertical">
+                <a-form-item label="Kết quả mới" required>
+                    <a-select v-model:value="overrideForm.result" placeholder="Chọn kết quả">
+                        <a-select-option value="passed">✅ Đạt</a-select-option>
+                        <a-select-option value="failed">❌ Không đạt</a-select-option>
+                        <a-select-option value="conditional">⚠️ Có điều kiện</a-select-option>
+                    </a-select>
+                </a-form-item>
+                <a-form-item label="Lý do ghi đè" required>
+                    <a-textarea v-model:value="overrideForm.reason" :rows="3"
+                        placeholder="Nhập lý do ghi đè kết quả..." />
+                </a-form-item>
+            </a-form>
+        </BasicModal>
     </div>
 </template>
 
 <script lang="ts" name="qc-review-list" setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import { BasicTable, TableAction, useTable } from '/@/components/Table';
 import { BasicModal } from '/@/components/Modal';
 import { useMessage } from '/@/hooks/web/useMessage';
@@ -97,6 +136,18 @@ const reviewDetail = ref<any>(null);
 const approveResult = ref('');
 const rejectReason = ref('');
 const showRejectForm = ref(false);
+
+// Suggestion state
+const suggestedResult = ref<string | null>(null);
+const suggestLoading = ref(false);
+
+// Override state
+const showOverrideModal = ref(false);
+const overrideLoading = ref(false);
+const overrideForm = reactive({
+    result: '' as string,
+    reason: '' as string,
+});
 
 const sessionCols = [
     { title: 'Mã phiên', dataIndex: 'sessionCode', width: 160 },
@@ -113,7 +164,8 @@ const [registerTable, { reload }] = useTable({
         { title: 'Mã Review', dataIndex: 'reviewCode', width: 160 },
         { title: 'Mã WO', dataIndex: 'workOrderId', width: 160 },
         { title: 'Tổng phiên', dataIndex: 'totalSessions', width: 100 },
-        { title: 'Hoàn thành', dataIndex: 'passedSessions', width: 100 },
+        { title: 'Phiên đạt', dataIndex: 'passedSessions', width: 100 },
+        { title: 'Phiên không đạt', dataIndex: 'failedSessions', width: 120 },
         { title: 'Kết quả', key: 'overallResult', slots: { customRender: 'overallResult' }, width: 140 },
         { title: 'Trạng thái', dataIndex: 'status', slots: { customRender: 'status' }, width: 140 },
         { title: 'Người duyệt', dataIndex: 'approver', width: 130 },
@@ -137,9 +189,24 @@ function getActions(record: any) {
                 rejectReason.value = '';
                 showRejectForm.value = false;
                 showDetail.value = true;
+                await loadSuggestion(record.id);
             },
         },
     ];
+}
+
+/** Load the auto-calculated suggestion for the review */
+async function loadSuggestion(reviewId: string) {
+    suggestedResult.value = null;
+    suggestLoading.value = true;
+    try {
+        const res: any = await qcReviewApi.suggest(reviewId);
+        suggestedResult.value = res?.result || res || null;
+    } catch (e) {
+        suggestedResult.value = null;
+    } finally {
+        suggestLoading.value = false;
+    }
 }
 
 async function handleWoSearch(wo: string) {
@@ -154,6 +221,7 @@ async function handleWoSearch(wo: string) {
         rejectReason.value = '';
         showRejectForm.value = false;
         showDetail.value = true;
+        await loadSuggestion(res.id);
     } catch (e) {
         createMessage.error('Không tìm thấy WO hoặc chưa có Review');
     }
@@ -182,9 +250,45 @@ async function handleReject() {
     reload();
 }
 
+/** Handle override result submission */
+async function handleOverride() {
+    if (!overrideForm.result) {
+        createMessage.warning('Vui lòng chọn kết quả mới!');
+        return;
+    }
+    if (!overrideForm.reason?.trim()) {
+        createMessage.warning('Vui lòng nhập lý do ghi đè!');
+        return;
+    }
+    overrideLoading.value = true;
+    try {
+        await qcReviewApi.override(reviewDetail.value.review.id, {
+            result: overrideForm.result,
+            reason: overrideForm.reason.trim(),
+        });
+        createMessage.success('Ghi đè kết quả thành công!');
+        showOverrideModal.value = false;
+        resetOverrideForm();
+        await refreshDetail();
+        reload();
+    } catch (e: any) {
+        createMessage.error(e?.message || 'Ghi đè kết quả thất bại!');
+    } finally {
+        overrideLoading.value = false;
+    }
+}
+
+function resetOverrideForm() {
+    overrideForm.result = '';
+    overrideForm.reason = '';
+    showOverrideModal.value = false;
+}
+
 async function refreshDetail() {
     const res: any = await qcReviewApi.queryById(reviewDetail.value.review.id);
     reviewDetail.value = res;
+    // Reload suggestion after refresh
+    await loadSuggestion(reviewDetail.value.review.id);
 }
 
 function statusColor(s: string) {

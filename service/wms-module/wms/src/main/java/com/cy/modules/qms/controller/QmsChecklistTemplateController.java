@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
@@ -49,6 +50,7 @@ public class QmsChecklistTemplateController extends JeecgController<QmsChecklist
     }
 
     @PostMapping("/add")
+    @RequiresPermissions("qms:template:manage")
     @AutoLog(value = "Thêm mẫu checklist QMS")
     @Operation(summary = "Thêm mẫu checklist")
     public Result<?> add(@RequestBody Map<String, Object> requestBody) {
@@ -62,6 +64,7 @@ public class QmsChecklistTemplateController extends JeecgController<QmsChecklist
     }
 
     @RequestMapping(value = "/edit", method = {RequestMethod.PUT, RequestMethod.POST})
+    @RequiresPermissions("qms:template:manage")
     @AutoLog(value = "Sửa mẫu checklist QMS", operateType = 3)
     @Operation(summary = "Sửa mẫu checklist")
     public Result<?> edit(@RequestBody Map<String, Object> requestBody) {
@@ -75,6 +78,7 @@ public class QmsChecklistTemplateController extends JeecgController<QmsChecklist
     }
 
     @AutoLog(value = "Xóa mẫu checklist QMS")
+    @RequiresPermissions("qms:template:manage")
     @DeleteMapping("/delete")
     @Operation(summary = "Xóa mẫu checklist")
     public Result<?> delete(@RequestParam(name = "id") String id) {
@@ -83,6 +87,7 @@ public class QmsChecklistTemplateController extends JeecgController<QmsChecklist
     }
 
     @DeleteMapping("/deleteBatch")
+    @RequiresPermissions("qms:template:manage")
     @Operation(summary = "Xóa hàng loạt mẫu checklist")
     public Result<?> deleteBatch(@RequestParam(name = "ids") String ids) {
         templateService.removeByIds(Arrays.asList(ids.split(",")));

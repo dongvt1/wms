@@ -1,6 +1,1 @@
-/**
- * @deprecated Vui lòng import từ '/@/api/common/product' thay thế.
- * File này giữ lại để backward-compatible.
- */
-export { productApi, type ProductModel, type ProductListResult } from '/@/api/common/product';
-
+export { wmsProductApi as productApi, type ProductModel, type PageResult as ProductListResult } from '/@/api/wms';

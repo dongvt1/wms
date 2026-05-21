@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.common.aspect.annotation.AutoLog;
 import org.jeecg.common.system.base.controller.JeecgController;
@@ -58,6 +59,7 @@ public class QcReviewController extends JeecgController<QcReview, QcReviewServic
     }
 
     @PutMapping("/approve/{id}")
+    @RequiresPermissions("qms:inspection:approve")
     @AutoLog(value = "Approve review", operateType = 3)
     @Operation(summary = "Approve review (pending_approval → approved)")
     public Result<?> approve(@PathVariable String id,
@@ -68,6 +70,7 @@ public class QcReviewController extends JeecgController<QcReview, QcReviewServic
     }
 
     @PutMapping("/reject/{id}")
+    @RequiresPermissions("qms:inspection:approve")
     @AutoLog(value = "Reject review", operateType = 3)
     @Operation(summary = "Reject review (pending_approval → rejected)")
     public Result<?> reject(@PathVariable String id,
@@ -81,6 +84,31 @@ public class QcReviewController extends JeecgController<QcReview, QcReviewServic
     public Result<?> syncStats(@PathVariable String id) {
         reviewService.syncStats(id);
         return Result.OK("Statistics synchronized successfully!");
+    }
+
+    @GetMapping("/suggest/{id}")
+    @Operation(summary = "Get suggested overall result based on session outcomes")
+    public Result<?> suggestOverallResult(@PathVariable String id) {
+        String suggestion = reviewService.suggestOverallResult(id);
+        if (suggestion == null) {
+            return Result.error("Không tìm thấy review");
+        }
+        return Result.OK(suggestion);
+    }
+
+    @PutMapping("/override/{id}")
+    @RequiresPermissions("qms:inspection:approve")
+    @AutoLog(value = "Override review result", operateType = 3)
+    @Operation(summary = "Override overall result with reason (manager only)")
+    public Result<?> overrideResult(@PathVariable String id,
+                                    @RequestParam String result,
+                                    @RequestParam String reason,
+                                    @RequestParam(required = false) String operator) {
+        String msg = reviewService.overrideResult(id, result, reason, operator);
+        if (msg.contains("thành công")) {
+            return Result.OK(msg);
+        }
+        return Result.error(msg);
     }
 
     @RequestMapping(value = "/export")
