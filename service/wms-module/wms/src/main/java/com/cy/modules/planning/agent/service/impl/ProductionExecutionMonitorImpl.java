@@ -11,6 +11,7 @@ import com.cy.modules.planning.agent.entity.WeeklyPlanBatch;
 import com.cy.modules.planning.agent.enums.BatchStatus;
 import com.cy.modules.planning.agent.enums.NotificationType;
 import com.cy.modules.planning.agent.enums.PlanStatus;
+import com.cy.modules.planning.agent.event.DeviationDetectedEvent;
 import com.cy.modules.planning.agent.mapper.ProductionProgressMapper;
 import com.cy.modules.planning.agent.mapper.WeeklyPlanBatchMapper;
 import com.cy.modules.planning.agent.mapper.WeeklyPlanMapper;
@@ -20,6 +21,7 @@ import com.cy.modules.planning.agent.service.ProductionExecutionMonitor;
 import com.cy.modules.planning.agent.service.ReschedulingService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,6 +76,9 @@ public class ProductionExecutionMonitorImpl implements ProductionExecutionMonito
 
     @Autowired
     private PlanningNotificationService planningNotificationService;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     // ==================== collectProgress ====================
 
@@ -202,6 +207,14 @@ public class ProductionExecutionMonitorImpl implements ProductionExecutionMonito
                 productionProgressMapper.insert(existing);
             } else {
                 productionProgressMapper.updateById(existing);
+            }
+
+            // Publish DeviationDetectedEvent nếu sai lệch vượt ngưỡng 10%
+            if (deviationPct.abs().compareTo(BigDecimal.TEN) > 0) {
+                log.warn("[ExecutionMonitor] Phát hiện sai lệch {}% cho batch={} trong weeklyPlanId={}",
+                        deviationPct, batch.getId(), weeklyPlanId);
+                eventPublisher.publishEvent(new DeviationDetectedEvent(
+                        this, weeklyPlanId, batch.getId(), deviationPct.abs()));
             }
 
             log.debug("[ExecutionMonitor] Batch={}: actualQty={}, defectRate={}, completionPct={}, deviationPct={}",

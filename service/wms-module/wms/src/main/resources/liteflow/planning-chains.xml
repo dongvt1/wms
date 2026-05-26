@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow>
+    <!-- Main Planning Chain: Order ingestion → Material check → Procurement → Planning → Optimization -->
+    <chain name="planningChain">
+        THEN(orderIngestion, materialCheck, procurementCheck);
+        THEN(quarterlyPlan, monthlyPlan, weeklyPlan);
+        THEN(optimizeAndRank);
+    </chain>
+
+    <!-- Rescheduling Chain: Deviation detection → Impact assessment → Alternatives → Notify -->
+    <chain name="reschedulingChain">
+        THEN(deviationDetection, impactAssessment, alternativeGeneration, notifyStakeholders);
+    </chain>
+
+    <!-- Execution Chain: Issue orders → Material issuance; Monitor (parallel); Record → Dispatch -->
+    <chain name="executionChain">
+        THEN(issueProductionOrders, triggerMaterialIssuance);
+        WHEN(monitorProgress, monitorQuality);
+        THEN(recordFinishedGoods, dispatchNotification);
+    </chain>
+</flow>

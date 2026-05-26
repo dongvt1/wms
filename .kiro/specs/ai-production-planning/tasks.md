@@ -64,7 +64,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Implement full data reconciliation within 10 minutes of sync restoration
     - _Requirements: 12.4, 12.5, 12.6_
 
-  - [ ]* 2.6 Write property test for data staleness blocking (Property 27)
+  - [x] 2.6 Write property test for data staleness blocking (Property 27)
     - **Property 27: Data staleness blocking**
     - Verify system prevents planning decisions when cache staleness > 60 minutes
     - Verify system allows planning decisions when staleness ≤ 60 minutes with warning
@@ -84,7 +84,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Trigger notification within 5 minutes for incomplete/invalid orders
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-  - [ ]* 4.2 Write property tests for order ingestion (Properties 1, 2, 3)
+  - [x] 4.2 Write property tests for order ingestion (Properties 1, 2, 3)
     - **Property 1: Order data extraction preserves all fields**
     - **Property 2: Order queue maintains sorting invariant**
     - **Property 3: Invalid orders are excluded from the queue**
@@ -102,7 +102,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Notify production manager after 3 failed retries
     - _Requirements: 2.1, 2.2, 2.3, 2.5, 2.6, 2.7_
 
-  - [ ]* 5.2 Write property tests for material calculations (Properties 4, 5)
+  - [x] 5.2 Write property tests for material calculations (Properties 4, 5)
     - **Property 4: Material deficit calculation correctness**
     - **Property 5: Material reservation and deadline validation**
     - Use jqwik generators for BomRequirement and InventoryLevel
@@ -118,7 +118,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Notify production manager with earliest feasible date if no alternative meets deadline
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-  - [ ]* 5.4 Write property tests for procurement (Properties 6, 7)
+  - [x] 5.4 Write property tests for procurement (Properties 6, 7)
     - **Property 6: Purchase Request date calculation**
     - **Property 7: Alternative scenarios generation on deadline breach**
     - **Validates: Requirements 2.4, 3.1, 3.2**
@@ -138,7 +138,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Store options in ap_monthly_plan with option_rank
     - _Requirements: 4.2_
 
-  - [ ]* 6.3 Write property tests for quarterly/monthly planning (Properties 8, 9)
+  - [x] 6.3 Write property tests for quarterly/monthly planning (Properties 8, 9)
     - **Property 8: Quarterly plan demand aggregation**
     - **Property 9: Monthly plan capacity validation**
     - **Validates: Requirements 4.1, 4.3, 4.4**
@@ -153,7 +153,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Flag affected batches and suggest rescheduling or PR generation when material verification fails
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6_
 
-  - [ ]* 7.2 Write property tests for weekly plan (Properties 10, 11, 12, 13)
+  - [x] 7.2 Write property tests for weekly plan (Properties 10, 11, 12, 13)
     - **Property 10: Weekly plan preserves monthly totals**
     - **Property 11: Production line utilization cap**
     - **Property 12: Changeover time minimization**
@@ -170,7 +170,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - When no plan satisfies all deadlines, present plan with fewest violations and delay estimates
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6_
 
-  - [ ]* 7.4 Write property tests for optimization (Properties 14, 15, 16)
+  - [x] 7.4 Write property tests for optimization (Properties 14, 15, 16)
     - **Property 14: Optimization score calculation and bounds**
     - **Property 15: Plan ranking by optimization score**
     - **Property 16: Minimum-violation plan selection**
@@ -192,7 +192,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Create new plan version (immutable snapshot pattern) linked to original via parent_plan_id
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6_
 
-  - [ ]* 9.2 Write property tests for rescheduling (Properties 17, 18)
+  - [x] 9.2 Write property tests for rescheduling (Properties 17, 18)
     - **Property 17: Deviation detection threshold**
     - **Property 18: Rescheduling options with downstream impact**
     - **Validates: Requirements 7.2, 7.4, 7.5**
@@ -209,7 +209,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Record issuance timestamp
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6_
 
-  - [ ]* 10.2 Write property tests for production orders (Properties 19, 20)
+  - [x] 10.2 Write property tests for production orders (Properties 19, 20)
     - **Property 19: Production order completeness**
     - **Property 20: Plan status transition on full acknowledgment**
     - **Validates: Requirements 8.2, 8.3, 8.6**
@@ -225,7 +225,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Retry warehouse receipt up to 3 times, notify manager on failure
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
 
-  - [ ]* 11.2 Write property tests for execution monitoring (Properties 21, 22)
+  - [x] 11.2 Write property tests for execution monitoring (Properties 21, 22)
     - **Property 21: Daily production metrics calculation**
     - **Property 22: Material return threshold**
     - **Validates: Requirements 9.2, 9.4**
@@ -241,7 +241,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Use most recent historical yield rate when QMS data unavailable >30 minutes
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5_
 
-  - [ ]* 11.4 Write property tests for quality integration (Properties 23, 24, 25)
+  - [x] 11.4 Write property tests for quality integration (Properties 23, 24, 25)
     - **Property 23: Quality alert threshold**
     - **Property 24: Gross production quantity calculation**
     - **Property 25: Defect impact on net output**
@@ -257,15 +257,15 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Retry warehouse receipt/dispatch notification up to 3 times, notify manager on failure
     - _Requirements: 11.1, 11.2, 11.3, 11.4, 11.5_
 
-  - [ ]* 12.2 Write property test for fulfillment status (Property 26)
+  - [x] 12.2 Write property test for fulfillment status (Property 26)
     - **Property 26: Order fulfillment status determination**
     - **Validates: Requirements 11.1, 11.2, 11.5**
 
 - [x] 13. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 14. Implement REST Controllers and LiteFlow Orchestration
-  - [ ] 14.1 Implement PlanningAgentController
+- [x] 14. Implement REST Controllers and LiteFlow Orchestration
+  - [x] 14.1 Implement PlanningAgentController
     - `POST /api/planning-agent/orders/sync` — Trigger manual order sync
     - `GET /api/planning-agent/orders/queue` — Get prioritized order queue with pagination
     - `GET /api/planning-agent/orders/{id}/material-check` — Check material availability for order
@@ -274,7 +274,7 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Apply JeecgBoot security annotations and sys_org_code data isolation
     - _Requirements: 1.1, 2.1, 3.1, 3.2_
 
-  - [ ] 14.2 Implement PlanController
+  - [x] 14.2 Implement PlanController
     - `POST /api/planning-agent/plans/quarterly` — Generate quarterly plan
     - `GET /api/planning-agent/plans/quarterly/{id}` — Get quarterly plan details
     - `POST /api/planning-agent/plans/monthly` — Generate monthly plan options
@@ -285,22 +285,22 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - `GET /api/planning-agent/plans/weekly/{id}/reschedule-options` — Get rescheduling options
     - _Requirements: 4.1, 4.2, 5.1, 6.2, 7.5_
 
-  - [ ] 14.3 Implement ExecutionController
+  - [x] 14.3 Implement ExecutionController
     - `POST /api/planning-agent/execution/production-orders/{weeklyPlanId}` — Issue production orders
     - `GET /api/planning-agent/execution/progress/{weeklyPlanId}` — Get execution progress
     - `GET /api/planning-agent/execution/daily-results/{date}` — Get daily production results
     - `GET /api/planning-agent/execution/fulfillment/dashboard` — Get fulfillment dashboard
     - _Requirements: 8.1, 9.2, 11.3_
 
-  - [ ] 14.4 Implement LiteFlow chains and node components
+  - [x] 14.4 Implement LiteFlow chains and node components
     - Create LiteFlow node components: `OrderIngestionCmp`, `MaterialCheckCmp`, `ProcurementCheckCmp`, `QuarterlyPlanCmp`, `MonthlyPlanCmp`, `WeeklyPlanCmp`, `OptimizeAndRankCmp`
     - Create `DeviationDetectionCmp`, `ImpactAssessmentCmp`, `AlternativeGenerationCmp`, `NotifyStakeholdersCmp`
     - Create `IssueProductionOrdersCmp`, `TriggerMaterialIssuanceCmp`, `MonitorProgressCmp`, `MonitorQualityCmp`, `RecordFinishedGoodsCmp`, `DispatchNotificationCmp`
     - Define chain XML: planningChain, reschedulingChain, executionChain
     - _Requirements: All (orchestration layer)_
 
-- [ ] 15. Implement Spring Events and Notification Wiring
-  - [ ] 15.1 Implement event-driven architecture and notifications
+- [x] 15. Implement Spring Events and Notification Wiring
+  - [x] 15.1 Implement event-driven architecture and notifications
     - Create Spring Events: `OrdersReceivedEvent`, `MaterialShortageEvent`, `MachineBreakdownEvent`, `DeviationDetectedEvent`, `PlanApprovedEvent`, `QualityAlertEvent`, `SyncFailureEvent`
     - Create event listeners that trigger appropriate service methods
     - Implement `PlanningNotificationService` with WebSocket push for real-time alerts
@@ -308,14 +308,14 @@ This implementation plan breaks down the AI Production Planning Agent into incre
     - Wire all services to publish events at appropriate lifecycle points
     - _Requirements: 1.3, 1.5, 2.6, 2.7, 3.5, 7.4, 9.5, 10.2, 12.4_
 
-  - [ ]* 15.2 Write integration tests for LiteFlow chains and event flow
+  - [x] 15.2 Write integration tests for LiteFlow chains and event flow
     - Test planningChain end-to-end with mocked external clients
     - Test reschedulingChain with deviation detection triggering
     - Test executionChain with production order issuance flow
     - Test event propagation between services
     - _Requirements: All (integration verification)_
 
-- [ ] 16. Final checkpoint - Ensure all tests pass
+- [x] 16. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

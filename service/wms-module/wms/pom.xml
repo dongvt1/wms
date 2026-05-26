@@ -21,6 +21,13 @@
             <artifactId>jeecg-system-biz</artifactId>
         </dependency>
 
+        <!-- LiteFlow AI orchestration -->
+        <dependency>
+            <groupId>com.yomahub</groupId>
+            <artifactId>liteflow-spring-boot-starter</artifactId>
+            <version>${liteflow.version}</version>
+        </dependency>
+
         <!-- Test dependencies -->
         <dependency>
             <groupId>net.jqwik</groupId>

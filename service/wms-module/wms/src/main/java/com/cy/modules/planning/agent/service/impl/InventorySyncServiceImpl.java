@@ -7,6 +7,7 @@ import com.cy.modules.planning.agent.dto.InventorySnapshot;
 import com.cy.modules.planning.agent.dto.SupplierLeadTime;
 import com.cy.modules.planning.agent.entity.ApSyncStatus;
 import com.cy.modules.planning.agent.enums.SyncStatus;
+import com.cy.modules.planning.agent.event.SyncFailureEvent;
 import com.cy.modules.planning.agent.mapper.ApSyncStatusMapper;
 import com.cy.modules.planning.agent.service.InventorySyncService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -54,6 +56,9 @@ public class InventorySyncServiceImpl implements InventorySyncService {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     /**
      * Scheduled task: đồng bộ dữ liệu tồn kho mỗi 15 phút (900000ms).
@@ -239,6 +244,13 @@ public class InventorySyncServiceImpl implements InventorySyncService {
         } else {
             apSyncStatusMapper.updateById(syncStatus);
         }
+
+        // Publish SyncFailureEvent
+        java.time.Instant lastSuccess = syncStatus.getLastSyncTime() != null
+                ? syncStatus.getLastSyncTime().toInstant() : null;
+        eventPublisher.publishEvent(new SyncFailureEvent(
+                this, SYSTEM_NAME, syncStatus.getConsecutiveFailures(),
+                e != null ? e.getMessage() : "Unknown error", lastSuccess));
     }
 
     /**

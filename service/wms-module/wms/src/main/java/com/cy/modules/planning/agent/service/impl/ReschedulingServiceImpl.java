@@ -15,7 +15,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -67,8 +67,8 @@ public class ReschedulingServiceImpl implements ReschedulingService {
      */
     @EventListener
     public void onMachineBreakdown(MachineBreakdownEvent event) {
-        log.info("[Rescheduling] Nhận sự kiện máy hỏng: lineId={}, machineId={}, timestamp={}",
-                event.getLineId(), event.getMachineId(), event.getTimestamp());
+        log.info("[Rescheduling] Nhận sự kiện máy hỏng: lineId={}, machineId={}, detectedAt={}",
+                event.getLineId(), event.getMachineId(), event.getDetectedAt());
         handleMachineBreakdown(event.getLineId(), event.getMachineId());
     }
 

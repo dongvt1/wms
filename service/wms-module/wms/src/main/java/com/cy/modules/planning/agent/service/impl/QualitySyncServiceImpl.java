@@ -7,16 +7,18 @@ import com.cy.modules.planning.agent.entity.ApSyncStatus;
 import com.cy.modules.planning.agent.entity.WeeklyPlanBatch;
 import com.cy.modules.planning.agent.enums.NotificationType;
 import com.cy.modules.planning.agent.enums.SyncStatus;
+import com.cy.modules.planning.agent.event.SyncFailureEvent;
 import com.cy.modules.planning.agent.mapper.ApSyncStatusMapper;
 import com.cy.modules.planning.agent.mapper.WeeklyPlanBatchMapper;
 import com.cy.modules.planning.agent.service.PlanningNotificationService;
 import com.cy.modules.planning.agent.service.QualitySyncService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -70,6 +72,9 @@ public class QualitySyncServiceImpl implements QualitySyncService {
 
     @Resource
     private PlanningNotificationService planningNotificationService;
+
+    @Resource
+    private ApplicationEventPublisher eventPublisher;
 
     @Override
     @Scheduled(fixedRate = 900000) // 15 phút = 900,000 ms
@@ -454,6 +459,12 @@ public class QualitySyncServiceImpl implements QualitySyncService {
             }
 
             apSyncStatusMapper.updateById(syncStatus);
+
+            // Publish SyncFailureEvent
+            java.time.Instant lastSuccess = syncStatus.getLastSyncTime() != null
+                    ? syncStatus.getLastSyncTime().toInstant() : null;
+            eventPublisher.publishEvent(new SyncFailureEvent(
+                    this, SYSTEM_NAME, failures, truncateError(e.getMessage()), lastSuccess));
 
             // Gửi thông báo lỗi đồng bộ
             Map<String, Object> data = new HashMap<>();

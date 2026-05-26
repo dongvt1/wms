@@ -7,6 +7,7 @@ import com.cy.modules.planning.agent.dto.QualityReport;
 import com.cy.modules.planning.agent.entity.PlanningOrder;
 import com.cy.modules.planning.agent.entity.WeeklyPlanBatch;
 import com.cy.modules.planning.agent.enums.NotificationType;
+import com.cy.modules.planning.agent.event.QualityAlertEvent;
 import com.cy.modules.planning.agent.mapper.PlanningOrderMapper;
 import com.cy.modules.planning.agent.mapper.WeeklyPlanBatchMapper;
 import com.cy.modules.planning.agent.service.PlanningNotificationService;
@@ -14,6 +15,7 @@ import com.cy.modules.planning.agent.service.QualityIntegrationService;
 import com.cy.modules.planning.agent.service.QualitySyncService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,6 +50,9 @@ public class QualityIntegrationServiceImpl implements QualityIntegrationService 
 
     @Autowired
     private PlanningNotificationService planningNotificationService;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Override
     public void checkQualityAlerts(String batchId) {
@@ -84,6 +89,10 @@ public class QualityIntegrationServiceImpl implements QualityIntegrationService 
         if (difference.compareTo(DEFECT_RATE_THRESHOLD) > 0) {
             log.warn("[QualityIntegration] Tỷ lệ lỗi vượt ngưỡng: hiện tại={}%, TB 30 ngày={}%, chênh lệch={}%",
                     currentDefectRate, avg30DayDefectRate, difference);
+
+            // Publish QualityAlertEvent
+            eventPublisher.publishEvent(new QualityAlertEvent(
+                    this, batchId, productId, lineId, currentDefectRate, avg30DayDefectRate));
 
             Map<String, Object> alertData = new HashMap<>();
             alertData.put("batchId", batchId);

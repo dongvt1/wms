@@ -10,11 +10,13 @@ import com.cy.modules.planning.agent.enums.NotificationType;
 import com.cy.modules.planning.agent.mapper.MaterialAvailabilityMapper;
 import com.cy.modules.planning.agent.mapper.PlanningOrderMapper;
 import com.cy.modules.planning.agent.mapper.SupplierLeadTimeMapper;
+import com.cy.modules.planning.agent.event.MaterialShortageEvent;
 import com.cy.modules.planning.agent.service.InventorySyncService;
 import com.cy.modules.planning.agent.service.MaterialAvailabilityService;
 import com.cy.modules.planning.agent.service.PlanningNotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +56,9 @@ public class MaterialAvailabilityServiceImpl implements MaterialAvailabilityServ
 
     @Autowired
     private PlanningNotificationService planningNotificationService;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -194,6 +199,15 @@ public class MaterialAvailabilityServiceImpl implements MaterialAvailabilityServ
         } else {
             log.info("[MaterialAvailability] Đơn hàng {} - Thiếu {} nguyên vật liệu",
                     orderId, shortages.size());
+
+            // Publish MaterialShortageEvent
+            Map<String, BigDecimal> materialDeficits = shortages.stream()
+                    .collect(Collectors.toMap(
+                            MaterialAvailability::getMaterialId,
+                            MaterialAvailability::getDeficitQty,
+                            (existing, replacement) -> existing
+                    ));
+            eventPublisher.publishEvent(new MaterialShortageEvent(this, orderId, materialDeficits));
         }
 
         // Thông báo nếu at-risk

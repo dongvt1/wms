@@ -19,12 +19,12 @@ public class MachineBreakdownEvent extends ApplicationEvent {
     private final String machineId;
 
     /** Thời điểm phát hiện sự cố */
-    private final Instant timestamp;
+    private final Instant detectedAt;
 
-    public MachineBreakdownEvent(Object source, String lineId, String machineId, Instant timestamp) {
+    public MachineBreakdownEvent(Object source, String lineId, String machineId, Instant detectedAt) {
         super(source);
         this.lineId = lineId;
         this.machineId = machineId;
-        this.timestamp = timestamp;
+        this.detectedAt = detectedAt;
     }
 }

@@ -7,6 +7,7 @@ import com.cy.modules.planning.agent.entity.ApSyncStatus;
 import com.cy.modules.planning.agent.enums.NotificationType;
 import com.cy.modules.planning.agent.enums.SyncStatus;
 import com.cy.modules.planning.agent.event.MachineBreakdownEvent;
+import com.cy.modules.planning.agent.event.SyncFailureEvent;
 import com.cy.modules.planning.agent.mapper.ApSyncStatusMapper;
 import com.cy.modules.planning.agent.service.MachineSyncService;
 import com.cy.modules.planning.agent.service.PlanningNotificationService;
@@ -175,6 +176,13 @@ public class MachineSyncServiceImpl implements MachineSyncService {
             data.put("lastError", e.getMessage());
 
             notificationService.notifyProductionManager(NotificationType.SYNC_FAILURE, message, data);
+
+            // Publish SyncFailureEvent
+            java.time.Instant lastSuccess = syncStatus.getLastSyncTime() != null
+                    ? syncStatus.getLastSyncTime().toInstant() : null;
+            eventPublisher.publishEvent(new SyncFailureEvent(
+                    this, SYSTEM_NAME, failures, e.getMessage(), lastSuccess));
+
             log.warn("[MachineSyncService] Đã thông báo quản lý: {}", message);
         }
     }

@@ -7,6 +7,7 @@ import com.cy.modules.planning.agent.entity.ApSyncStatus;
 import com.cy.modules.planning.agent.entity.PlanningOrder;
 import com.cy.modules.planning.agent.enums.SyncStatus;
 import com.cy.modules.planning.agent.event.OrdersReceivedEvent;
+import com.cy.modules.planning.agent.event.SyncFailureEvent;
 import com.cy.modules.planning.agent.mapper.ApSyncStatusMapper;
 import com.cy.modules.planning.agent.mapper.PlanningOrderMapper;
 import com.cy.modules.planning.agent.service.OrderSyncService;
@@ -16,7 +17,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -192,6 +193,13 @@ public class OrderSyncServiceImpl implements OrderSyncService {
             }
 
             apSyncStatusMapper.updateById(syncStatus);
+
+            // Publish SyncFailureEvent
+            java.time.Instant lastSuccess = syncStatus.getLastSyncTime() != null
+                    ? syncStatus.getLastSyncTime().toInstant() : null;
+            eventPublisher.publishEvent(new SyncFailureEvent(
+                    this, SYSTEM_NAME, failures, e.getMessage(), lastSuccess));
+
             log.warn("[OrderSync] Ghi nhận thất bại lần thứ {} cho {}", failures, SYSTEM_NAME);
         } catch (Exception ex) {
             log.error("[OrderSync] Không thể cập nhật trạng thái thất bại: {}", ex.getMessage(), ex);

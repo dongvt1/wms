@@ -1,0 +1,8 @@
+# LiteFlow configuration for AI Production Planning Agent
+liteflow:
+  rule-source: liteflow/planning-chains.xml
+  # Enable monitoring for debugging
+  monitor:
+    enable-log: true
+  # Print execution log
+  print-execution-log: true
